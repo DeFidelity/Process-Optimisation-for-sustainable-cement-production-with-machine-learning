@@ -1,0 +1,122 @@
+{
+  "controllable_features": [
+    "Power (Kw)",
+    "Power Consumption (MWH)",
+    "Power Consumed (KWt/h)",
+    "Absorbed Power (Kw)",
+    "Power Consumption (Kw) Max",
+    "Power (rotary drive) Kw",
+    "Kiln Temperature (\u00b0C)",
+    "Fuel Consumption (kg/h)",
+    "Raw Meal Composition (% Limestone)",
+    "Clinker Production Rate (tons/h)",
+    "Oxygen Levels (%)",
+    "Kiln Pressure (bar)",
+    "Air Flow Rate (m\u00b3/h)",
+    "Fuel_Coal",
+    "Fuel_Gas",
+    "Fuel_Oil"
+  ],
+  "feature_bounds": {
+    "Power (Kw)": {
+      "min": 4056.1,
+      "max": 5953.36,
+      "median": 5176.4
+    },
+    "Power Consumption (MWH)": {
+      "min": 325128.6,
+      "max": 455500.8,
+      "median": 379900.425
+    },
+    "Power Consumed (KWt/h)": {
+      "min": 4062.84,
+      "max": 5618.01,
+      "median": 4692.825
+    },
+    "Absorbed Power (Kw)": {
+      "min": 3980.41,
+      "max": 5079.33,
+      "median": 4375.625
+    },
+    "Power Consumption (Kw) Max": {
+      "min": 6518.09,
+      "max": 7815.66,
+      "median": 7217.07
+    },
+    "Power (rotary drive) Kw": {
+      "min": 548.3,
+      "max": 756.31,
+      "median": 657.03
+    },
+    "Kiln Temperature (\u00b0C)": {
+      "min": 1341.85,
+      "max": 1375.35,
+      "median": 1354.51
+    },
+    "Fuel Consumption (kg/h)": {
+      "min": 182.95,
+      "max": 230.2,
+      "median": 199.24
+    },
+    "Raw Meal Composition (% Limestone)": {
+      "min": 81.8,
+      "max": 87.65,
+      "median": 85.14
+    },
+    "Clinker Production Rate (tons/h)": {
+      "min": 80.24,
+      "max": 102.0,
+      "median": 91.8
+    },
+    "Oxygen Levels (%)": {
+      "min": 3.3,
+      "max": 4.15,
+      "median": 3.665
+    },
+    "Kiln Pressure (bar)": {
+      "min": 13.71,
+      "max": 17.2,
+      "median": 14.51
+    },
+    "Air Flow Rate (m\u00b3/h)": {
+      "min": 1750.94,
+      "max": 2250.1,
+      "median": 2031.74
+    },
+    "Fuel_Coal": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "Fuel_Gas": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "Fuel_Oil": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    }
+  },
+  "energy_metrics": {
+    "target": "Energy Consumption (kWh/t-clinker)",
+    "r2_test": 0.9757014906373649,
+    "rmse_test": 11.936487246935318,
+    "mae_test": 8.651032857142207,
+    "cv_r2_mean": 0.984306711764346,
+    "cv_r2_std": 0.004710570338258895,
+    "n_train": 80,
+    "n_test": 20
+  },
+  "co2_metrics": {
+    "target": "CO2 Emissions (kg/h)",
+    "r2_test": 0.976171105836303,
+    "rmse_test": 11.677530682036119,
+    "mae_test": 5.753711133393807,
+    "cv_r2_mean": 0.9473519928868264,
+    "cv_r2_std": 0.0702608576221384,
+    "n_train": 80,
+    "n_test": 20
+  }
+}
