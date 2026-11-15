@@ -1,0 +1,33 @@
+paths:
+  energy_csv: "data/raw/kiln_energy_dataset.csv"
+  co2_csv: "data/raw/kiln_co2_dataset.csv"
+  processed_csv: "data/processed/kiln_merged_processed.csv"
+  models_dir: "models"
+  figures_dir: "outputs/figures"
+  tables_dir: "outputs/tables"
+
+data:
+  join_column: "SN"
+  deduplicate: false
+  include_fuel_encoding: true
+  energy_target: "Energy Consumption (kWh/t-clinker)"
+  co2_target: "CO2 Emissions (kg/h)"
+  production_column: "Clinker Production Rate (tons/h)"
+
+thermodynamics:
+  stoichiometric_co2_factor: 0.44      # Eq. 3.13: CaCO3 -> CaO + CO2
+  calcination_enthalpy_kj_per_kg: 1780.0  # Eq. 3.14: kJ/kg-clinker
+  optimal_o2_percent: 4.0              # Eq. 3.17: optimal O2% target
+
+model:
+  n_estimators: 100
+  max_depth: 8
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+
+optimization:
+  pop_size: 50
+  n_gen: 100
+  seed: 42
+  eliminate_duplicates: true
