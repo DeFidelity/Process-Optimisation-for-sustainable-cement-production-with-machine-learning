@@ -30,7 +30,7 @@ A modular machine learning and multi-objective optimization framework for sustai
 │   └── default.yaml                 # Thermodynamic constants, RF & NSGA-II hyperparameters
 ├── data/
 │   ├── raw/                         # Immutable Ashaka Cement Plant datasets
-│   └── processed/                   # Merged & cleaned modeling dataset (SN leakage removed)
+│   └── processed/                   # Merged & cleaned modeling dataset
 ├── docs/
 │   └── thesis_report.md             # Full B.Eng thesis documentation
 ├── models/                          # Serialized Random Forest pipelines & metadata (.joblib/.json)
