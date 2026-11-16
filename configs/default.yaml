@@ -5,6 +5,7 @@ paths:
   models_dir: "models"
   figures_dir: "outputs/figures"
   tables_dir: "outputs/tables"
+  dashboard_html: "outputs/visual_explainer.html"
 
 data:
   join_column: "SN"

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sustainable Cement Kiln Optimization — Visual Explainer</title>
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    color: var(--foreground, inherit);
+    line-height: 1.45;
+  }
+  .explainer-root {
+    width: 100%;
+    max-width: 728px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .panel {
+    background: var(--card, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--border, rgba(127, 127, 127, 0.25));
+    border-radius: var(--radius, 10px);
+    padding: 16px;
+  }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .section-sub {
+    font-size: 12px;
+    color: var(--muted-foreground, #8892a0);
+    margin: 2px 0 0 0;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .regime-btn {
+    appearance: none;
+    border: 1px solid var(--border, rgba(127, 127, 127, 0.35));
+    background: var(--secondary, rgba(127, 127, 127, 0.12));
+    color: var(--foreground, inherit);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .regime-btn:hover {
+    border-color: var(--primary, #38bdf8);
+  }
+  .regime-btn.active {
+    background: var(--primary, #0284c7);
+    color: var(--primary-foreground, #ffffff);
+    border-color: var(--primary, #0284c7);
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  @media (max-width: 560px) {
+    .kpi-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .kpi-card {
+    background: var(--muted, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--border, rgba(127, 127, 127, 0.2));
+    border-radius: calc(var(--radius, 10px) - 2px);
+    padding: 12px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-foreground, #8892a0);
+    margin-bottom: 4px;
+  }
+  .kpi-val-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .kpi-value {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .kpi-unit {
+    font-size: 11px;
+    color: var(--muted-foreground, #8892a0);
+  }
+  .kpi-delta {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+  }
+  .delta-good {
+    background: rgba(16, 185, 129, 0.16);
+    color: var(--success, #10b981);
+  }
+  .delta-neutral {
+    background: rgba(148, 163, 184, 0.18);
+    color: var(--muted-foreground, #8892a0);
+  }
+  .flow-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .flow-svg {
+    width: 100%;
+    min-width: 560px;
+    height: 170px;
+    display: block;
+  }
+  .pareto-svg {
+    width: 100%;
+    height: 290px;
+    display: block;
+  }
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted-foreground, #8892a0);
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .knobs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .knob-row {
+    display: grid;
+    grid-template-columns: 118px 1fr 145px;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+  }
+  @media (max-width: 560px) {
+    .knob-row {
+      grid-template-columns: 96px 1fr 110px;
+      font-size: 11px;
+    }
+  }
+  .knob-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .knob-track {
+    position: relative;
+    height: 14px;
+    background: var(--muted, rgba(127, 127, 127, 0.14));
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .knob-center {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border, rgba(127, 127, 127, 0.5));
+  }
+  .knob-bar {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+  }
+  .knob-vals {
+    text-align: right;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .pill-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--muted, rgba(127, 127, 127, 0.14));
+    color: var(--foreground, inherit);
+  }
+</style>
+</head>
+<body>
+<div class="explainer-root">
+
+  <!-- 1. Regime Switcher & KPI Scorecard -->
+  <section class="panel">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">1. Choose an Operating Strategy (vs. Current Plant Median)</h2>
+        <p class="section-sub">Click a Pareto regime below or any point on the trade-off curve to inspect live plant adjustments.</p>
+      </div>
+      <div class="btn-group" id="regime-buttons">
+        <button class="regime-btn" data-regime="Low Energy">Low Energy</button>
+        <button class="regime-btn active" data-regime="Balanced">Balanced</button>
+        <button class="regime-btn" data-regime="Low CO2">Low CO₂</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Energy Consumption</div>
+        <div class="kpi-val-row">
+          <span class="kpi-value" id="kpi-energy">--</span>
+          <span class="kpi-unit">kWh/t-clinker</span>
+        </div>
+        <span class="kpi-delta delta-good" id="kpi-energy-delta">--</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CO₂ Emissions</div>
+        <div class="kpi-val-row">
+          <span class="kpi-value" id="kpi-co2">--</span>
+          <span class="kpi-unit">kg/h</span>
+        </div>
+        <span class="kpi-delta delta-good" id="kpi-co2-delta">--</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Clinker Output (g ≤ 0)</div>
+        <div class="kpi-val-row">
+          <span class="kpi-value" id="kpi-prod">--</span>
+          <span class="kpi-unit">tons/h</span>
+        </div>
+        <span class="kpi-delta delta-good" id="kpi-prod-delta">--</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. How It Works: Rotary Kiln -> Thermodynamics -> ML -> NSGA-II -->
+  <section class="panel">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">2. How the System Works: From Rotary Kiln Physics to AI Setpoints</h2>
+        <p class="section-sub">Every candidate setpoint respects chemical engineering mass &amp; energy balances before scoring.</p>
+      </div>
+      <span class="pill-tag" id="flow-fuel-tag">Fuel: Oil</span>
+    </div>
+    <div class="flow-wrap">
+      <svg class="flow-svg" viewBox="0 0 696 170" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="currentColor" opacity="0.65"/>
+          </marker>
+        </defs>
+
+        <!-- Step 1: Inputs -->
+        <rect x="4" y="14" width="148" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--border, rgba(127,127,127,0.35))" />
+        <text x="16" y="34" font-size="11" font-weight="700" fill="currentColor">1. Kiln Inputs</text>
+        <text x="16" y="56" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-temp">Kiln Temp: 1375.2°C</text>
+        <text x="16" y="76" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-fuel">Fuel Rate: 194.3 kg/h</text>
+        <text x="16" y="96" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-limestone">Limestone: 85.4%</text>
+        <text x="16" y="116" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-o2">O₂ Level: 4.06%</text>
+        <text x="16" y="136" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-power">Power: 4277 kW</text>
+
+        <line x1="154" y1="85" x2="178" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
+
+        <!-- Step 2: Rotary Kiln + Thermodynamics -->
+        <rect x="182" y="14" width="166" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-2, #f59e0b)" stroke-width="1.4" />
+        <text x="194" y="34" font-size="11" font-weight="700" fill="currentColor">2. Rotary Kiln Physics</text>
+        <g transform="translate(198,48) rotate(-4)">
+          <rect x="0" y="0" width="132" height="32" rx="6" fill="rgba(245, 158, 11, 0.18)" stroke="#f59e0b" stroke-width="1.3"/>
+          <circle cx="24" cy="16" r="8" fill="#ef4444" opacity="0.7"/>
+          <text x="40" y="20" font-size="10" font-weight="700" fill="currentColor">1450°C Zone</text>
+        </g>
+        <text x="194" y="106" font-size="10" fill="currentColor" opacity="0.82">Eq 3.13: CaCO₃ → CaO + CO₂</text>
+        <text x="194" y="124" font-size="10" fill="currentColor" opacity="0.82" id="svg-he">Heat Eff: 236.2</text>
+        <text x="194" y="142" font-size="10" fill="currentColor" opacity="0.82" id="svg-o2dev">|O₂ - 4%|: 0.057%</text>
+
+        <line x1="350" y1="85" x2="374" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
+
+        <!-- Step 3: Random Forest Surrogates -->
+        <rect x="378" y="14" width="144" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-1, #38bdf8)" stroke-width="1.4" />
+        <text x="390" y="34" font-size="11" font-weight="700" fill="currentColor">3. ML Digital Twin</text>
+        <text x="390" y="56" font-size="10.5" fill="currentColor" opacity="0.85">Random Forest (100 trees)</text>
+        <text x="390" y="80" font-size="10.5" font-weight="700" fill="var(--chart-1, #38bdf8)">Energy R² = __ENERGY_R2__</text>
+        <text x="390" y="100" font-size="10.5" font-weight="700" fill="var(--success, #10b981)">CO₂ R² = __CO2_R2__</text>
+        <text x="390" y="126" font-size="9.5" fill="currentColor" opacity="0.72">No SN leakage; fuel-aware</text>
+        <text x="390" y="142" font-size="9.5" fill="currentColor" opacity="0.72">Instant virtual kiln test</text>
+
+        <line x1="524" y1="85" x2="548" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
+
+        <!-- Step 4: NSGA-II Output -->
+        <rect x="552" y="14" width="140" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--success, #10b981)" stroke-width="1.4" />
+        <text x="564" y="34" font-size="11" font-weight="700" fill="currentColor">4. NSGA-II Search</text>
+        <text x="564" y="56" font-size="10.5" fill="currentColor" opacity="0.85">50 Pareto candidates</text>
+        <text x="564" y="76" font-size="10.5" fill="currentColor" opacity="0.85">100 generations</text>
+        <text x="564" y="102" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-e">1031.3 kWh/t</text>
+        <text x="564" y="120" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-c">960.3 kg/h CO₂</text>
+        <text x="564" y="140" font-size="10" fill="currentColor" opacity="0.8" id="svg-out-p">Output ≥ 91.8 tph ✓</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 3. Interactive Pareto Frontier Explorer -->
+  <section class="panel">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">3. Interactive Pareto Trade-off Curve (Energy vs. CO₂)</h2>
+        <p class="section-sub">Moving down-left cuts both Energy and CO₂. Click any blue/green Pareto dot to inspect it.</p>
+      </div>
+      <button class="regime-btn" id="toggle-gen1">Show Gen 1 vs Gen 100</button>
+    </div>
+
+    <svg class="pareto-svg" id="pareto-svg" viewBox="0 0 680 290" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <div class="legend-row">
+      <span class="legend-item"><span class="dot" style="background:#ef4444;"></span>Plant Median (Before)</span>
+      <span class="legend-item"><span class="dot" style="background:#94a3b8;"></span>Historical Plant Data</span>
+      <span class="legend-item"><span class="dot" style="background:#38bdf8;"></span>Pareto Front (Gen 100)</span>
+      <span class="legend-item"><span class="dot" style="background:#10b981;"></span>Selected Regime</span>
+      <span class="legend-item" id="gen1-legend" style="display:none;"><span class="dot" style="background:#f59e0b;"></span>NSGA-II Gen 1</span>
+    </div>
+  </section>
+
+  <!-- 4. Operator Control-Knob Delta Bars -->
+  <section class="panel">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">4. Operator Setpoint Adjustments (Plant Median → Selected Optimum)</h2>
+        <p class="section-sub">Blue bars = turn parameter down; Green bars = turn parameter up.</p>
+      </div>
+      <span class="pill-tag" id="selected-label">Regime: Balanced</span>
+    </div>
+    <div class="knobs-grid" id="knobs-grid"></div>
+  </section>
+
+</div>
+
+<script>
+const DATA = __PAYLOAD_JSON__;
+
+let showGen1 = false;
+let selectedIdx = DATA.regimes["Balanced"];
+
+function pctDelta(val, base) {
+  if (!base) return 0;
+  return ((val - base) / base) * 100;
+}
+
+function formatDelta(pct) {
+  const sign = pct >= 0 ? "+" : "";
+  return `${sign}${pct.toFixed(2)}% vs. Plant Median`;
+}
+
+function renderSelection(idx) {
+  selectedIdx = idx;
+  const pt = DATA.pareto[idx];
+  const base = DATA.baseline;
+
+  document.querySelectorAll("#regime-buttons .regime-btn").forEach(btn => {
+    const r = btn.getAttribute("data-regime");
+    btn.classList.toggle("active", pt.regime === r);
+  });
+
+  const eDelta = pctDelta(pt.energy, base.energy);
+  const cDelta = pctDelta(pt.co2, base.co2);
+  const pDelta = pctDelta(pt.production, base.production);
+
+  document.getElementById("kpi-energy").textContent = pt.energy.toFixed(2);
+  document.getElementById("kpi-co2").textContent = pt.co2.toFixed(2);
+  document.getElementById("kpi-prod").textContent = pt.production.toFixed(2);
+
+  const eEl = document.getElementById("kpi-energy-delta");
+  eEl.textContent = formatDelta(eDelta);
+  eEl.className = "kpi-delta " + (eDelta <= 0 ? "delta-good" : "delta-neutral");
+
+  const cEl = document.getElementById("kpi-co2-delta");
+  cEl.textContent = formatDelta(cDelta);
+  cEl.className = "kpi-delta " + (cDelta <= 0 ? "delta-good" : "delta-neutral");
+
+  const pEl = document.getElementById("kpi-prod-delta");
+  pEl.textContent = formatDelta(pDelta);
+  pEl.className = "kpi-delta " + (pDelta >= 0 ? "delta-good" : "delta-neutral");
+
+  const label = pt.regime ? pt.regime : `Pareto #${pt.id + 1}`;
+  document.getElementById("selected-label").textContent = `Selected: ${label}`;
+  document.getElementById("flow-fuel-tag").textContent = `Optimal Fuel: ${pt.fuel}`;
+
+  document.getElementById("svg-temp").textContent = `Kiln Temp: ${pt.knobs["Kiln Temperature (°C)"].toFixed(1)}°C`;
+  document.getElementById("svg-fuel").textContent = `Fuel Rate: ${pt.knobs["Fuel Consumption (kg/h)"].toFixed(1)} kg/h`;
+  document.getElementById("svg-limestone").textContent = `Limestone: ${pt.knobs["Raw Meal Composition (% Limestone)"].toFixed(1)}%`;
+  document.getElementById("svg-o2").textContent = `O₂ Level: ${pt.knobs["Oxygen Levels (%)"].toFixed(2)}%`;
+  document.getElementById("svg-power").textContent = `Power: ${Math.round(pt.knobs["Power (Kw)"])} kW`;
+  document.getElementById("svg-he").textContent = `Heat Eff: ${pt.heat_eff.toFixed(1)}`;
+  document.getElementById("svg-o2dev").textContent = `|O₂ - 4%|: ${pt.o2_dev.toFixed(3)}%`;
+  document.getElementById("svg-out-e").textContent = `${pt.energy.toFixed(1)} kWh/t`;
+  document.getElementById("svg-out-c").textContent = `${pt.co2.toFixed(1)} kg/h CO₂`;
+  document.getElementById("svg-out-p").textContent = `Output: ${pt.production.toFixed(1)} tph ✓`;
+
+  const grid = document.getElementById("knobs-grid");
+  grid.innerHTML = "";
+  const maxAbsPct = 22;
+  DATA.knob_meta.forEach(k => {
+    const bVal = base.knobs[k.col];
+    const oVal = pt.knobs[k.col];
+    const pct = pctDelta(oVal, bVal);
+    const widthPct = Math.min(48, (Math.abs(pct) / maxAbsPct) * 48);
+    const leftPct = pct < 0 ? 50 - widthPct : 50;
+    const barColor = pct < 0 ? "var(--chart-1, #0ea5e9)" : "var(--success, #10b981)";
+    const sign = pct >= 0 ? "+" : "";
+
+    const row = document.createElement("div");
+    row.className = "knob-row";
+    row.innerHTML = `
+      <div class="knob-name" title="${k.col}">${k.label}</div>
+      <div class="knob-track">
+        <div class="knob-center"></div>
+        <div class="knob-bar" style="left:${leftPct}%; width:${Math.max(widthPct, 1.5)}%; background:${barColor};"></div>
+      </div>
+      <div class="knob-vals">${bVal.toFixed(1)} → <b>${oVal.toFixed(1)}</b> (${sign}${pct.toFixed(1)}%)</div>
+    `;
+    grid.appendChild(row);
+  });
+
+  renderParetoChart();
+}
+
+function renderParetoChart() {
+  const svg = document.getElementById("pareto-svg");
+  const W = 680, H = 290;
+  const pad = { l: 58, r: 22, t: 18, b: 42 };
+
+  let allPts = [...DATA.historical, ...DATA.pareto, DATA.baseline];
+  if (showGen1 && DATA.gen1.length) {
+    allPts = allPts.concat(DATA.gen1);
+  }
+
+  const xs = allPts.map(p => p.energy);
+  const ys = allPts.map(p => p.co2);
+  const xMin = Math.min(...xs) - 8;
+  const xMax = Math.max(...xs) + 8;
+  const yMin = Math.min(...ys) - 10;
+  const yMax = Math.max(...ys) + 10;
+
+  const sx = x => pad.l + ((x - xMin) / (xMax - xMin)) * (W - pad.l - pad.r);
+  const sy = y => H - pad.b - ((y - yMin) / (yMax - yMin)) * (H - pad.t - pad.b);
+
+  let html = "";
+
+  for (let i = 0; i <= 4; i++) {
+    const xv = xMin + (i / 4) * (xMax - xMin);
+    const yv = yMin + (i / 4) * (yMax - yMin);
+    const px = sx(xv);
+    const py = sy(yv);
+    html += `<line x1="${px}" y1="${pad.t}" x2="${px}" y2="${H - pad.b}" stroke="currentColor" opacity="0.1" />`;
+    html += `<line x1="${pad.l}" y1="${py}" x2="${W - pad.r}" y2="${py}" stroke="currentColor" opacity="0.1" />`;
+    html += `<text x="${px}" y="${H - pad.b + 16}" font-size="10" text-anchor="middle" fill="currentColor" opacity="0.7">${Math.round(xv)}</text>`;
+    html += `<text x="${pad.l - 8}" y="${py + 3}" font-size="10" text-anchor="end" fill="currentColor" opacity="0.7">${Math.round(yv)}</text>`;
+  }
+
+  html += `<text x="${(pad.l + W - pad.r) / 2}" y="${H - 6}" font-size="11" font-weight="600" text-anchor="middle" fill="currentColor">Energy Consumption (kWh/t-clinker)</text>`;
+  html += `<text x="15" y="${(pad.t + H - pad.b) / 2}" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90 15 ${(pad.t + H - pad.b) / 2})" fill="currentColor">CO₂ Emissions (kg/h)</text>`;
+
+  DATA.historical.forEach(p => {
+    html += `<circle cx="${sx(p.energy).toFixed(1)}" cy="${sy(p.co2).toFixed(1)}" r="3.2" fill="#94a3b8" opacity="0.45" />`;
+  });
+
+  if (showGen1) {
+    DATA.gen1.forEach(p => {
+      html += `<circle cx="${sx(p.energy).toFixed(1)}" cy="${sy(p.co2).toFixed(1)}" r="4" fill="#f59e0b" opacity="0.65" />`;
+    });
+  }
+
+  const poly = DATA.pareto.map(p => `${sx(p.energy).toFixed(1)},${sy(p.co2).toFixed(1)}`).join(" ");
+  html += `<polyline points="${poly}" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.75" />`;
+
+  const sel = DATA.pareto[selectedIdx];
+  const bx = sx(DATA.baseline.energy), by = sy(DATA.baseline.co2);
+  const ox = sx(sel.energy), oy = sy(sel.co2);
+  html += `<line x1="${bx}" y1="${by}" x2="${ox}" y2="${oy}" stroke="#10b981" stroke-width="1.6" stroke-dasharray="4 3" opacity="0.85" />`;
+
+  DATA.pareto.forEach((p, i) => {
+    const isSel = i === selectedIdx;
+    const isReg = Boolean(p.regime);
+    const r = isSel ? 7.5 : (isReg ? 5.5 : 4.2);
+    const fill = isSel ? "#10b981" : "#38bdf8";
+    const stroke = isSel ? "#ffffff" : "#0f172a";
+    html += `<circle cx="${sx(p.energy).toFixed(1)}" cy="${sy(p.co2).toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${isSel ? 2 : 0.8}" style="cursor:pointer;" data-idx="${i}" />`;
+  });
+
+  html += `<g transform="translate(${bx},${by})">
+    <circle r="7" fill="#ef4444" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="10" y="-6" font-size="10.5" font-weight="700" fill="#ef4444">Plant Median</text>
+  </g>`;
+
+  const selLabel = sel.regime ? sel.regime : `#${sel.id + 1}`;
+  html += `<text x="${ox + 10}" y="${oy + 4}" font-size="10.5" font-weight="700" fill="#10b981">${selLabel} (${sel.energy.toFixed(1)}, ${sel.co2.toFixed(1)})</text>`;
+
+  svg.innerHTML = html;
+
+  svg.querySelectorAll("circle[data-idx]").forEach(el => {
+    el.addEventListener("click", () => {
+      renderSelection(Number(el.getAttribute("data-idx")));
+    });
+  });
+}
+
+document.querySelectorAll("#regime-buttons .regime-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const r = btn.getAttribute("data-regime");
+    if (r in DATA.regimes) {
+      renderSelection(DATA.regimes[r]);
+    }
+  });
+});
+
+document.getElementById("toggle-gen1").addEventListener("click", (e) => {
+  showGen1 = !showGen1;
+  e.target.classList.toggle("active", showGen1);
+  document.getElementById("gen1-legend").style.display = showGen1 ? "inline-flex" : "none";
+  renderParetoChart();
+});
+
+renderSelection(selectedIdx);
+</script>
+</body>
+</html>
