@@ -75,4 +75,42 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "live-stream-btn" in arch_text
     assert "baseline-compare-btn" in arch_text
     assert "inspector-panel" in arch_text
+    assert "whatif-panel" in arch_text
+    assert "whatif-sliders-grid" in arch_text
+    assert "disturb-overburn" in arch_text
+    assert "disturb-draft" in arch_text
+    assert "disturb-cpr" in arch_text
+    assert "ai-optimize-btn" in arch_text
+    assert "ablation-toggle-btn" in arch_text
+    assert "impact-strip" in arch_text
+    assert "play-evolution-btn" in arch_text
+    assert "tradeoff-zones-btn" in arch_text
+    assert "pareto-zoom-btn" in arch_text
+    assert "evolution-legend" in arch_text
+    assert "zone-callout-bar" in arch_text
+    assert "\"cal_anchors\":" in arch_text
+    assert "1029.18" in arch_text
+    assert "1030.42" in arch_text
+    assert "920.42" in arch_text
+    assert "1049.82" in arch_text
+    assert "913.51" in arch_text
+    assert "1168.21" in arch_text
+    assert "1005.78" in arch_text
+    assert "\"forests\":" in arch_text
+    assert "\"ablation\":" in arch_text
+    assert '"forest_features":' in arch_text
+    assert "start-tour-btn" in arch_text
+    assert "tour-hud" in arch_text
+    assert "tour-prev-btn" in arch_text
+    assert "tour-next-btn" in arch_text
+    assert "tour-autoplay-btn" in arch_text
+    assert "tour-exit-btn" in arch_text
+    assert "validation-table-btn" in arch_text
+    assert "act-fuel" in arch_text
+    assert "act-idfan" in arch_text
+    assert "act-rawmeal" in arch_text
+    assert "act-drive" in arch_text
+    assert "feedback-pulses-layer" in arch_text
+    assert "TOUR_STOPS" in arch_text
+    assert "triggerFeedbackPulse" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")

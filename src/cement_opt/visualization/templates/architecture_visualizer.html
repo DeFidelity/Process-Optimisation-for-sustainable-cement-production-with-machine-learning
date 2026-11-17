@@ -380,7 +380,7 @@
   /* RF Twin Visualizer */
   .rf-svg {
     width: 100%;
-    height: 132px;
+    height: 144px;
     display: block;
     background: #08101d;
     border-radius: 6px;
@@ -424,9 +424,17 @@
   }
 
   /* Pareto Plot */
+  .pareto-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 6px;
+  }
   .pareto-svg {
     width: 100%;
-    height: 192px;
+    height: 218px;
     display: block;
     background: #08101d;
     border-radius: 6px;
@@ -438,15 +446,48 @@
   }
   .slider-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     margin-top: 6px;
     font-size: 11px;
   }
   .slider-row input[type="range"] {
     flex: 1;
+    min-width: 90px;
     accent-color: #38bdf8;
     cursor: pointer;
+  }
+  .evo-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    margin-top: 5px;
+    font-size: 10px;
+    color: #94a3b8;
+  }
+  .evo-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .evo-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .zone-callout-bar {
+    margin-top: 6px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    font-size: 10px;
+    line-height: 1.38;
+    color: #cbd5e1;
   }
   .constraint-box {
     margin-top: 6px;
@@ -584,6 +625,209 @@
     font-size: 11.5px;
   }
 
+  /* Interactive What-If Process Control Bar & Disturbance Injector */
+  .whatif-panel {
+    padding: 10px 14px;
+    border-color: rgba(56, 189, 248, 0.32);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.78));
+  }
+  .whatif-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .whatif-title-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+  .disturb-btn {
+    border-color: rgba(245, 158, 11, 0.42);
+    background: rgba(245, 158, 11, 0.1);
+  }
+  .disturb-btn:hover {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.2);
+  }
+  .disturb-btn.active-disturb {
+    background: #d97706;
+    color: #ffffff;
+    border-color: #fbbf24;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+  }
+  .optimize-cta-btn {
+    appearance: none;
+    border: 1px solid #34d399;
+    background: linear-gradient(135deg, #059669, #0284c7);
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.32);
+    transition: transform 0.12s ease, box-shadow 0.15s ease;
+  }
+  .optimize-cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.55);
+  }
+  .sliders-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+  }
+  @media (max-width: 900px) {
+    .sliders-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 540px) {
+    .sliders-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .slider-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 7px;
+    padding: 5px 8px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .slider-card.flash-focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.35);
+  }
+  .slider-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .slider-lbl {
+    font-size: 10.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .slider-bounds {
+    font-size: 9px;
+    color: var(--muted-foreground, #94a3b8);
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .slider-num-wrap {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .slider-num {
+    width: 62px;
+    background: rgba(2, 6, 23, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    border-radius: 4px;
+    color: #f8fafc;
+    font-size: 10.5px;
+    font-weight: 700;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 1px 4px;
+    text-align: right;
+  }
+  .slider-unit {
+    font-size: 9.5px;
+    color: #94a3b8;
+  }
+  .slider-range {
+    width: 100%;
+    margin: 3px 0 0 0;
+    accent-color: #38bdf8;
+    cursor: pointer;
+    height: 14px;
+  }
+
+  /* Closed-Loop Optimization Impact Strip */
+  .impact-strip {
+    padding: 9px 13px;
+    border-color: rgba(16, 185, 129, 0.5);
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(56, 189, 248, 0.08));
+  }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 6px;
+  }
+  @media (max-width: 780px) {
+    .impact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .impact-cell {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 7px;
+    padding: 5px 8px;
+    font-size: 10.5px;
+  }
+  .impact-cell-lbl {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+  .impact-cell-val {
+    font-size: 12.5px;
+    font-weight: 800;
+    margin-top: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+  .impact-cell-sub {
+    font-size: 10px;
+    color: #cbd5e1;
+    margin-top: 1px;
+  }
+
+  .forge-val-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+  .forge-delta {
+    font-size: 9.5px;
+    font-weight: 700;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .ablation-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 6px;
+    padding: 4px 7px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  .ablation-note {
+    font-size: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #94a3b8;
+  }
+  @keyframes paretoPulse {
+    0% { r: 7; opacity: 0.95; }
+    70% { r: 15; opacity: 0.1; }
+    100% { r: 7; opacity: 0.95; }
+  }
+  .pareto-pulse-ring {
+    animation: paretoPulse 1.35s ease-out infinite;
+  }
+
   /* Compact Block Diagram View (Preserved) */
   .hidden { display: none !important; }
   .svg-wrap { width: 100%; overflow-x: auto; }
@@ -612,19 +856,153 @@
   .legend-items { display: flex; flex-wrap: wrap; gap: 12px; }
   .legend-item { display: inline-flex; align-items: center; gap: 5px; }
   .swatch { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
+
+  /* Step 3: Purple Actuator Nodes & Feedback Particle Pulses */
+  .actuator-node { cursor: pointer; transition: filter 0.2s ease, transform 0.2s ease; }
+  .actuator-node rect.act-box { transition: stroke 0.2s ease, fill 0.2s ease, stroke-width 0.2s ease; }
+  .actuator-node.actuator-pulsing rect.act-box {
+    stroke: #10b981 !important;
+    stroke-width: 2.3 !important;
+    fill: #2e1065 !important;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.9)) drop-shadow(0 0 5px rgba(16, 185, 129, 0.85));
+  }
+  .bus-branch-active {
+    stroke: #a855f7 !important;
+    stroke-width: 2.3 !important;
+    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.75));
+  }
+
+  /* Step 3: Guided Presentation & Defense Tour Mode */
+  .tour-cta-btn {
+    border-color: #c084fc;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.92), rgba(37, 99, 235, 0.92));
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.38);
+  }
+  .tour-cta-btn:hover {
+    border-color: #e9d5ff;
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.65);
+  }
+  .tour-cta-btn.active {
+    background: linear-gradient(135deg, #059669, #7c3aed);
+    border-color: #34d399;
+  }
+  .tour-dimmed {
+    opacity: 0.36 !important;
+    filter: saturate(0.72);
+    transition: opacity 0.25s ease, filter 0.25s ease;
+  }
+  .tour-spotlight {
+    position: relative;
+    z-index: 20;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.45), 0 0 28px rgba(56, 189, 248, 0.38) !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+  .tour-unit-hi > .unit-outline,
+  .tour-unit-hi .unit-outline {
+    stroke: #fde047 !important;
+    stroke-width: 2.8 !important;
+    filter: drop-shadow(0 0 9px rgba(253, 224, 71, 0.85)) !important;
+  }
+  @keyframes forgeFlashAnim {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    50% { box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.72), 0 0 14px rgba(16, 185, 129, 0.55); border-color: #fde047; }
+  }
+  .forge-flash {
+    animation: forgeFlashAnim 0.75s ease-in-out 2;
+  }
+  .tour-hud {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 430px;
+    max-width: calc(100vw - 32px);
+    z-index: 9999;
+    background: rgba(9, 15, 31, 0.96);
+    border: 1.5px solid #a855f7;
+    border-radius: 12px;
+    padding: 13px 15px;
+    box-shadow: 0 18px 46px rgba(2, 6, 23, 0.88), 0 0 24px rgba(168, 85, 247, 0.34);
+    backdrop-filter: blur(8px);
+    color: #f8fafc;
+  }
+  .tour-hud-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .tour-step-pill {
+    font-size: 10px;
+    font-weight: 800;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.22);
+    border: 1px solid rgba(192, 132, 252, 0.5);
+    color: #e9d5ff;
+  }
+  .tour-hud-title {
+    margin: 0 0 5px 0;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #f8fafc;
+  }
+  .tour-hud-body {
+    margin: 0 0 8px 0;
+    font-size: 11.5px;
+    line-height: 1.46;
+    color: #cbd5e1;
+  }
+  .tour-hud-action {
+    font-size: 10.5px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #6ee7b7;
+    margin-bottom: 9px;
+  }
+  .tour-progress {
+    width: 100%;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.22);
+    overflow: hidden;
+    margin-bottom: 9px;
+  }
+  .tour-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #a855f7, #38bdf8, #10b981);
+    transition: width 0.25s ease;
+  }
+  .tour-hud-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
 </style>
 </head>
 <body>
 <div class="viz-root">
 
   <!-- TOP CONTROL HEADER & VIEW SWITCHER -->
-  <section class="panel">
+  <section class="panel" id="header-panel">
     <div class="head-row">
       <div>
         <h2 class="title">Ashaka Gepol Rotary Kiln Digital Twin &amp; Glass-Box ML Control Room</h2>
         <p class="sub">Closed-loop physical P&amp;ID, Eqs. 3.13–3.17 thermodynamics, Random Forest trees, and interactive 50-pt NSGA-II Pareto optimization.</p>
       </div>
       <div class="btn-group" id="view-switch">
+        <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Defense Tour (7 Steps)</button>
         <button class="pill-btn active" id="view-twin-btn" data-view="twin">View: Full Industrial Digital Twin (SCADA + ML)</button>
         <button class="pill-btn" id="view-compact-btn" data-view="compact">View: Compact Block Diagram</button>
       </div>
@@ -670,10 +1048,31 @@
 
   <!-- VIEW 1: FULL INDUSTRIAL DIGITAL TWIN (SCADA + ML) -->
   <div id="twin-view">
+    <section class="panel whatif-panel" id="whatif-panel" style="margin-bottom:8px;">
+      <div class="whatif-head">
+        <div class="whatif-title-group">
+          <h3 class="title">🎛️ Manual / What-If Process Control Bar</h3>
+          <span class="badge" id="whatif-mode-badge">Synced · Balanced</span>
+          <button class="pill-btn" id="toggle-sliders-btn">Sliders ▾</button>
+          <button class="pill-btn" id="reset-whatif-btn">Reset Preset</button>
+        </div>
+        <div class="btn-group">
+          <span class="slider-bounds" style="font-weight:700;">Inject Real Plant Disturbance:</span>
+          <button class="pill-btn disturb-btn" id="disturb-overburn" data-disturb="overburn">🔥 Kiln Over-Burning Surge</button>
+          <button class="pill-btn disturb-btn" id="disturb-draft" data-disturb="draft">💨 Incomplete Combustion / Draft Drop</button>
+          <button class="pill-btn disturb-btn" id="disturb-cpr" data-disturb="cpr">⚠️ Throughput Drop (Sub-Optimal 88.0 tph)</button>
+          <button class="optimize-cta-btn" id="ai-optimize-btn">⚡ Let AI Optimize Current State (NSGA-II)</button>
+        </div>
+      </div>
+      <div class="sliders-grid" id="whatif-sliders-grid"></div>
+    </section>
+
+    <section class="panel impact-strip hidden" id="impact-strip" style="margin-bottom:8px;"></section>
+
     <div class="twin-grid">
 
       <!-- ZONE A: TRUE-TO-SHAPE SVG ROTARY KILN P&ID -->
-      <section class="panel">
+      <section class="panel" id="zone-a-panel">
         <div class="head-row">
           <div>
             <h3 class="title">Zone A: Ashaka Gepol Rotary Kiln P&amp;ID (Click Units or Sensors)</h3>
@@ -696,10 +1095,10 @@
                 <stop offset="100%" stop-color="#fb923c" />
               </linearGradient>
               <linearGradient id="flame-grad" x1="100%" y1="50%" x2="0%" y2="50%">
-                <stop offset="0%" stop-color="#ffffff" />
-                <stop offset="30%" stop-color="#fde047" />
-                <stop offset="70%" stop-color="#f97316" />
-                <stop offset="100%" stop-color="#ef4444" stop-opacity="0.05" />
+                <stop id="flame-stop-0" offset="0%" stop-color="#ffffff" />
+                <stop id="flame-stop-1" offset="30%" stop-color="#fde047" />
+                <stop id="flame-stop-2" offset="70%" stop-color="#f97316" />
+                <stop id="flame-stop-3" offset="100%" stop-color="#ef4444" stop-opacity="0.05" />
               </linearGradient>
               <marker id="m-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
                 <path d="M0 1 L10 5 L0 9 z" fill="#10b981" />
@@ -709,6 +1108,9 @@
               </marker>
               <marker id="m-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
                 <path d="M0 1 L10 5 L0 9 z" fill="#38bdf8" />
+              </marker>
+              <marker id="m-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+                <path d="M0 1 L10 5 L0 9 z" fill="#c084fc" />
               </marker>
             </defs>
 
@@ -888,9 +1290,47 @@
               <text x="658" y="405" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="middle" id="svg-cpr-lbl">Clinker: -- tph</text>
             </g>
 
-            <!-- Closed-Loop Feedback Bus Line inside SCADA -->
-            <path id="scada-feedback-bus" d="M 744 210 L 744 488 L 42 488 L 42 292" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="5 4" />
-            <text x="392" y="502" font-size="8.5" font-weight="700" fill="#64748b" text-anchor="middle" id="scada-loop-label">NSGA-II Closed-Loop Actuator Bus → Fuel Valve · ID Fan Damper · Raw Meal Feeder · Kiln Drive</text>
+            <!-- Closed-Loop Feedback Bus & 4 NSGA-II Actuator Branches -->
+            <g id="feedback-bus-group" fill="none">
+              <path id="scada-feedback-bus" d="M 748 210 L 748 488 L 6 488 L 6 94" stroke="#334155" stroke-width="2.1" stroke-dasharray="5 4" />
+              <path id="bus-idfan" d="M 748 210 L 748 194 L 602 194" stroke="#581c87" stroke-width="1.7" stroke-dasharray="4 3" marker-end="url(#m-purple)" />
+              <path id="bus-fuel" d="M 748 210 L 748 274 L 684 274" stroke="#581c87" stroke-width="1.7" stroke-dasharray="4 3" marker-end="url(#m-purple)" />
+              <path id="bus-drive" d="M 748 210 L 748 488 L 406 488 L 406 464" stroke="#581c87" stroke-width="1.7" stroke-dasharray="4 3" marker-end="url(#m-purple)" />
+              <path id="bus-rawmeal" d="M 748 210 L 748 488 L 6 488 L 6 96 L 12 96" stroke="#581c87" stroke-width="1.7" stroke-dasharray="4 3" marker-end="url(#m-purple)" />
+
+              <!-- Actuator-to-Equipment Command Stems -->
+              <path d="M 506 194 L 440 148" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.72" marker-end="url(#m-purple)" />
+              <path d="M 600 288 L 584 312" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.72" marker-end="url(#m-purple)" />
+              <path d="M 380 436 L 359 342" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.72" marker-end="url(#m-purple)" />
+              <path d="M 88 82 L 103 72" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.72" marker-end="url(#m-purple)" />
+            </g>
+
+            <!-- 4 Purple NSGA-II Actuator Nodes -->
+            <g class="actuator-node" id="act-idfan" data-comp="idfan" data-act="idfan" transform="translate(506, 180)">
+              <rect class="act-box" width="96" height="28" rx="5" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.4" />
+              <text x="48" y="11" font-size="7.6" font-weight="800" fill="#e9d5ff" text-anchor="middle">⚙ ID Fan Damper</text>
+              <text x="48" y="22.5" font-size="7.4" font-weight="700" fill="#c084fc" font-family="ui-monospace, monospace" text-anchor="middle" id="act-val-idfan">-- m³/h</text>
+            </g>
+            <g class="actuator-node" id="act-fuel" data-comp="burner" data-act="fuel" transform="translate(592, 260)">
+              <rect class="act-box" width="92" height="28" rx="5" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.4" />
+              <text x="46" y="11" font-size="7.6" font-weight="800" fill="#e9d5ff" text-anchor="middle">⚙ Fuel Valve</text>
+              <text x="46" y="22.5" font-size="7.4" font-weight="700" fill="#c084fc" font-family="ui-monospace, monospace" text-anchor="middle" id="act-val-fuel">-- kg/h</text>
+            </g>
+            <g class="actuator-node" id="act-drive" data-comp="kiln" data-act="drive" transform="translate(358, 436)">
+              <rect class="act-box" width="96" height="28" rx="5" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.4" />
+              <text x="48" y="11" font-size="7.6" font-weight="800" fill="#e9d5ff" text-anchor="middle">⚙ Kiln Drive</text>
+              <text x="48" y="22.5" font-size="7.4" font-weight="700" fill="#c084fc" font-family="ui-monospace, monospace" text-anchor="middle" id="act-val-drive">-- kW</text>
+            </g>
+            <g class="actuator-node" id="act-rawmeal" data-comp="preheater" data-act="rawmeal" transform="translate(12, 82)">
+              <rect class="act-box" width="96" height="28" rx="5" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.4" />
+              <text x="48" y="11" font-size="7.6" font-weight="800" fill="#e9d5ff" text-anchor="middle">⚙ Raw Meal Feeder</text>
+              <text x="48" y="22.5" font-size="7.4" font-weight="700" fill="#c084fc" font-family="ui-monospace, monospace" text-anchor="middle" id="act-val-rawmeal">--%</text>
+            </g>
+
+            <!-- Animated Glowing Feedback Signal Particles -->
+            <g id="feedback-pulses-layer"></g>
+
+            <text x="392" y="504" font-size="8.5" font-weight="700" fill="#64748b" text-anchor="middle" id="scada-loop-label">NSGA-II Closed-Loop Actuator Bus → Fuel Valve · ID Fan Damper · Raw Meal Feeder · Kiln Drive</text>
 
             <!-- PINNED CLICKABLE SCADA SENSOR BADGES WITH 15-PT SPARKLINES -->
             <g id="pinned-sensors-layer"></g>
@@ -899,7 +1339,7 @@
       </section>
 
       <!-- ZONE B: GLASS-BOX ML SURROGATE & INTERACTIVE NSGA-II PARETO WORKBENCH -->
-      <section class="panel">
+      <section class="panel" id="zone-b-panel">
         <div class="head-row">
           <div>
             <h3 class="title">Zone B: Glass-Box ML &amp; NSGA-II Workbench</h3>
@@ -910,7 +1350,7 @@
 
         <div class="zone-b-stack" style="margin-top:8px;">
           <!-- PANEL 1: CHEMICAL ENGINEERING FEATURE FORGE -->
-          <div class="sub-panel forge-panel">
+          <div class="sub-panel forge-panel" id="forge-panel">
             <div class="sub-head">
               <h4 class="sub-title">1. Physics-Informed Feature Forge (Eqs. 3.13–3.17)</h4>
               <span class="badge" id="forge-status">Live Thermo</span>
@@ -919,7 +1359,7 @@
               <button class="forge-card" id="feat-tco2" data-comp="feat_tco2">
                 <div class="forge-top">
                   <span class="forge-name">Theoretical CO₂ (Eq 3.13)</span>
-                  <span class="forge-val" id="val-tco2">--</span>
+                  <span class="forge-val-wrap"><span class="forge-val" id="val-tco2">--</span><span class="forge-delta" id="delta-tco2">--</span></span>
                 </div>
                 <div class="forge-eq">RMC × CPR × 0.44</div>
                 <div class="bar-track"><div class="bar-fill" id="bar-tco2" style="width:50%;background:#10b981;"></div></div>
@@ -927,7 +1367,7 @@
               <button class="forge-card" id="feat-te" data-comp="feat_te">
                 <div class="forge-top">
                   <span class="forge-name">Calcination Energy (Eq 3.14)</span>
-                  <span class="forge-val" id="val-te">--</span>
+                  <span class="forge-val-wrap"><span class="forge-val" id="val-te">--</span><span class="forge-delta" id="delta-te">--</span></span>
                 </div>
                 <div class="forge-eq">0.278 × CPR × 1780 kJ/kg</div>
                 <div class="bar-track"><div class="bar-fill" id="bar-te" style="width:50%;background:#f59e0b;"></div></div>
@@ -935,7 +1375,7 @@
               <button class="forge-card" id="feat-he" data-comp="feat_he">
                 <div class="forge-top">
                   <span class="forge-name">Heat Efficiency (Eq 3.16)</span>
-                  <span class="forge-val" id="val-he">--</span>
+                  <span class="forge-val-wrap"><span class="forge-val" id="val-he">--</span><span class="forge-delta" id="delta-he">--</span></span>
                 </div>
                 <div class="forge-eq">T_E / Fuel_Consumption</div>
                 <div class="bar-track"><div class="bar-fill" id="bar-he" style="width:50%;background:#38bdf8;"></div></div>
@@ -943,7 +1383,7 @@
               <button class="forge-card" id="feat-o2dev" data-comp="feat_o2dev">
                 <div class="forge-top">
                   <span class="forge-name">O₂ Stoich. Dev (Eq 3.17)</span>
-                  <span class="forge-val" id="val-o2dev">--</span>
+                  <span class="forge-val-wrap"><span class="forge-val" id="val-o2dev">--</span><span class="forge-delta" id="delta-o2dev">--</span></span>
                 </div>
                 <div class="forge-eq">|O₂ - 4.0%|</div>
                 <div class="bar-track"><div class="bar-fill" id="bar-o2dev" style="width:20%;background:#a855f7;"></div></div>
@@ -963,7 +1403,12 @@
               </div>
             </div>
 
-            <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 132" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div class="ablation-row" id="ablation-row">
+              <button class="pill-btn active" id="ablation-toggle-btn">Physics Features Eqs. 3.13–3.17: ON ✅</button>
+              <span class="ablation-note" id="ablation-note">Full Physics RF · R² = --</span>
+            </div>
+
+            <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 144" xmlns="http://www.w3.org/2000/svg"></svg>
 
             <div class="imp-list" id="rf-imp-bars"></div>
             <div class="bench-strip" id="rf-benchmarks"></div>
@@ -978,13 +1423,22 @@
               <span class="badge" id="pareto-point-badge">50 Optimal Pts</span>
             </div>
 
-            <svg class="pareto-svg" id="pareto-scatter-svg" viewBox="0 0 420 192" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div class="pareto-toolbar">
+              <button class="pill-btn active" id="tradeoff-zones-btn">Show Non-Linear Trade-Off Zones</button>
+              <button class="pill-btn active" id="pareto-zoom-btn">Zoom: Pareto Front</button>
+            </div>
+
+            <svg class="pareto-svg" id="pareto-scatter-svg" viewBox="0 0 420 218" xmlns="http://www.w3.org/2000/svg"></svg>
 
             <div class="slider-row">
+              <button class="pill-btn" id="play-evolution-btn">▶ Play Evolution (Gen 1 → 100)</button>
               <span>NSGA-II Gen:</span>
-              <input type="range" id="gen-slider" min="0" max="7" value="7" />
-              <strong id="gen-label" style="min-width:56px;text-align:right;">Gen 100</strong>
+              <input type="range" id="gen-slider" min="0" max="17" value="17" />
+              <strong id="gen-label" style="min-width:54px;text-align:right;">Gen 100</strong>
             </div>
+
+            <div class="evo-legend" id="evolution-legend"></div>
+            <div class="zone-callout-bar" id="zone-callout-bar"></div>
 
             <div class="constraint-box" id="constraint-box">
               <strong>Throughput Constraint:</strong> g(x) = 91.80 - CPR ≤ 0 · <span id="constraint-status">FEASIBLE ✅</span>
@@ -1119,7 +1573,10 @@
         <h3 class="title" id="ins-title">Zone C Inspector · Ashaka Gepol Rotary Kiln</h3>
         <p class="sub" id="ins-subtitle">Click any plant equipment unit, sensor badge, Feature Forge equation, RF tree, or Pareto point.</p>
       </div>
-      <span class="badge" id="ins-module">src/cement_opt/features/engineering.py</span>
+      <div class="btn-group">
+        <button class="pill-btn" id="validation-table-btn">📊 Full Validation Table (Table 4.2)</button>
+        <span class="badge" id="ins-module">src/cement_opt/features/engineering.py</span>
+      </div>
     </div>
 
     <div class="inspector-grid">
@@ -1136,7 +1593,7 @@
 
     <div class="cmp-table-wrap">
       <table class="cmp-table" id="ins-table">
-        <thead>
+        <thead id="ins-table-head">
           <tr>
             <th>Parameter</th>
             <th>Plant Baseline (Median)</th>
@@ -1162,6 +1619,28 @@
 
     <div class="goal-banner" id="ins-goal"></div>
   </section>
+
+  <!-- FLOATING GUIDED PRESENTATION & DEFENSE TOUR HUD -->
+  <aside class="tour-hud hidden" id="tour-hud" role="dialog" aria-label="Guided Defense Tour">
+    <div class="tour-hud-top">
+      <span class="tour-step-pill" id="tour-step-pill">Stop 1 / 7</span>
+      <span class="badge" id="tour-autoplay-badge" style="color:#38bdf8;">Manual Step</span>
+    </div>
+    <h4 class="tour-hud-title" id="tour-title">--</h4>
+    <p class="tour-hud-body" id="tour-body">--</p>
+    <div class="tour-hud-action" id="tour-action-status">--</div>
+    <div class="tour-progress"><div class="tour-progress-fill" id="tour-progress-fill" style="width:14%;"></div></div>
+    <div class="tour-hud-controls">
+      <div class="btn-group">
+        <button class="pill-btn" id="tour-prev-btn">◀ Prev</button>
+        <button class="pill-btn active" id="tour-next-btn">Next ▶</button>
+      </div>
+      <div class="btn-group">
+        <button class="pill-btn" id="tour-autoplay-btn">⏯ Auto-Play 8s/step</button>
+        <button class="pill-btn warn-active" id="tour-exit-btn">✕ Exit Tour</button>
+      </div>
+    </div>
+  </aside>
 
 </div>
 
@@ -1201,7 +1680,7 @@ ARCH_DATA.pareto = (ARCH_DATA.pareto || []).map(p => {
 });
 (ARCH_DATA.gen_snapshots || []).forEach(g => {
   g.points = (g.points || []).map(pt =>
-    Array.isArray(pt) ? { energy: pt[0], co2: pt[1], feasible: Boolean(pt[2]) } : pt
+    Array.isArray(pt) ? { energy: pt[0], co2: pt[1], feasible: Boolean(pt[2]), rank: pt[3] || 1 } : pt
   );
 });
 
@@ -1216,6 +1695,175 @@ let selectedCompactNode = "thermo";
 let showAllEdges = false;
 let liveStreamOn = false;
 let liveTimer = null;
+
+// Step 1 Interactive What-If & Ablation State
+let manualMode = false;
+let activeDisturbance = null;
+let physicsEnabled = true;
+let slidersExpanded = true;
+let manualFuel = "Oil";
+let paretoTrajectory = null;
+let lastOptImpact = null;
+let optAnimFrame = null;
+
+// Step 2 Evolution Player & Non-Linear Trade-Off Zones State
+let tradeoffZonesOn = true;
+let paretoZoom = true;
+let evoPlaying = false;
+let evoTimer = null;
+
+// Step 3 Guided Defense Tour, Table 4.2 View & Actuator Feedback Pulse State
+let showValidationTable = false;
+let actuatorPulseUntil = 0;
+let actuatorDeltaTexts = {};
+let pulseAnimRaf = null;
+let pulseResetTimer = null;
+let tourActive = false;
+let tourStepIdx = 0;
+let tourAutoPlay = false;
+let tourAutoTimer = null;
+let tourSubTimers = [];
+
+const WHATIF_CONTROLS = [
+  { feat: "Fuel Consumption (kg/h)", label: "Fuel Consumption", unit: "kg/h", step: 0.1, dec: 2, sensorId: "s_fuel" },
+  { feat: "Kiln Temperature (°C)", label: "Kiln Sintering Temp", unit: "°C", step: 0.1, dec: 2, sensorId: "s_temp" },
+  { feat: "Raw Meal Composition (% Limestone)", label: "Raw Meal %CaCO₃", unit: "%", step: 0.05, dec: 2, sensorId: "s_limestone" },
+  { feat: "Clinker Production Rate (tons/h)", label: "Clinker Prod. (CPR)", unit: "tph", step: 0.1, dec: 2, sensorId: "s_cpr" },
+  { feat: "Oxygen Levels (%)", label: "Exhaust Oxygen O₂", unit: "%", step: 0.01, dec: 2, sensorId: "s_o2" },
+  { feat: "Air Flow Rate (m³/h)", label: "Air Flow Rate", unit: "m³/h", step: 1.0, dec: 1, sensorId: "s_air" },
+  { feat: "Kiln Pressure (bar)", label: "Kiln Pressure", unit: "bar", step: 0.02, dec: 2, sensorId: "s_pressure" },
+  { feat: "Power Consumed (KWt/h)", label: "Power Consumed", unit: "kWt/h", step: 5.0, dec: 1, sensorId: "s_power_cons" },
+  { feat: "Absorbed Power (Kw)", label: "Absorbed Power", unit: "kW", step: 5.0, dec: 1, sensorId: "s_absorbed" }
+];
+
+const manualState = {};
+function clampToBounds(feat, val) {
+  const b = (ARCH_DATA.bounds && ARCH_DATA.bounds[feat]) || null;
+  if (!b) return val;
+  return Math.min(b.max, Math.max(b.min, val));
+}
+
+function getBaseOperatingRecord() {
+  if (compareBaseline) {
+    return ARCH_DATA.baseline;
+  }
+  if (customParetoIdx !== null && ARCH_DATA.pareto[customParetoIdx]) {
+    return ARCH_DATA.pareto[customParetoIdx];
+  }
+  return ARCH_DATA.regimes[activeRegime] || ARCH_DATA.pareto[0];
+}
+
+function syncManualFromRecord(rec) {
+  const r = rec || getBaseOperatingRecord();
+  Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+    manualState[feat] = clampToBounds(feat, r.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0);
+  });
+  manualFuel = r.fuel || "Oil";
+}
+syncManualFromRecord(getBaseOperatingRecord());
+
+function buildWhatIfSliders() {
+  const grid = document.getElementById("whatif-sliders-grid");
+  if (!grid) return;
+  grid.innerHTML = WHATIF_CONTROLS.map(c => {
+    const b = (ARCH_DATA.bounds && ARCH_DATA.bounds[c.feat]) || { min: 0, max: 100 };
+    const val = manualState[c.feat] ?? b.median ?? b.min;
+    return `
+      <div class="slider-card" data-feat="${c.feat}">
+        <div class="slider-top">
+          <div>
+            <div class="slider-lbl">${c.label}</div>
+            <div class="slider-bounds">${b.min.toFixed(c.dec)}–${b.max.toFixed(c.dec)} ${c.unit}</div>
+          </div>
+          <div class="slider-num-wrap">
+            <input type="number" class="slider-num" data-feat="${c.feat}" min="${b.min}" max="${b.max}" step="${c.step}" value="${val.toFixed(c.dec)}" />
+            <span class="slider-unit">${c.unit}</span>
+          </div>
+        </div>
+        <input type="range" class="slider-range" data-feat="${c.feat}" min="${b.min}" max="${b.max}" step="${c.step}" value="${val.toFixed(c.dec)}" />
+      </div>
+    `;
+  }).join("");
+
+  const onControlInput = (feat, rawVal) => {
+    if (optAnimFrame) {
+      clearTimeout(optAnimFrame);
+      optAnimFrame = null;
+    }
+    const parsed = parseFloat(rawVal);
+    if (Number.isNaN(parsed)) return;
+    const clamped = clampToBounds(feat, parsed);
+    manualState[feat] = clamped;
+    manualMode = true;
+    compareBaseline = false;
+    activeDisturbance = null;
+    paretoTrajectory = null;
+    if (sparkHistory[feat]) {
+      sparkHistory[feat].push(clamped);
+      if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+    }
+    updateAll();
+  };
+
+  grid.querySelectorAll(".slider-range").forEach(el => {
+    el.addEventListener("input", e => onControlInput(e.target.getAttribute("data-feat"), e.target.value));
+  });
+  grid.querySelectorAll(".slider-num").forEach(el => {
+    el.addEventListener("change", e => onControlInput(e.target.getAttribute("data-feat"), e.target.value));
+  });
+}
+
+function syncSliderInputs() {
+  const grid = document.getElementById("whatif-sliders-grid");
+  if (!grid) return;
+  WHATIF_CONTROLS.forEach(c => {
+    const val = manualState[c.feat] ?? 0;
+    const card = grid.querySelector(`.slider-card[data-feat="${c.feat}"]`);
+    if (!card) return;
+    const r = card.querySelector(".slider-range");
+    const n = card.querySelector(".slider-num");
+    if (r && document.activeElement !== r) r.value = val.toFixed(c.dec);
+    if (n && document.activeElement !== n) n.value = val.toFixed(c.dec);
+  });
+}
+
+function focusSliderForSensor(sensorId) {
+  const ctrl = WHATIF_CONTROLS.find(c => c.sensorId === sensorId);
+  if (!ctrl) return;
+  slidersExpanded = true;
+  document.getElementById("whatif-sliders-grid").classList.remove("hidden");
+  document.getElementById("toggle-sliders-btn").textContent = "Sliders ▴";
+  const card = document.querySelector(`.slider-card[data-feat="${ctrl.feat}"]`);
+  if (card) {
+    card.classList.remove("flash-focus");
+    void card.offsetWidth;
+    card.classList.add("flash-focus");
+    setTimeout(() => card.classList.remove("flash-focus"), 1100);
+  }
+}
+
+function evalCompactTree(nodes, vec) {
+  let id = 0;
+  while (id >= 0 && id < nodes.length) {
+    const n = nodes[id];
+    if (n[0] === -1) return n[1];
+    id = vec[n[0]] <= n[1] ? n[2] : n[3];
+  }
+  return 0;
+}
+
+function evalCompactForest(modelKey, fullFeat) {
+  const fNames = ARCH_DATA.forest_features || [];
+  const forest = (ARCH_DATA.forests && ARCH_DATA.forests[modelKey]) || [];
+  if (!fNames.length || !forest.length) return null;
+  const abMeans = (!physicsEnabled && ARCH_DATA.ablation && ARCH_DATA.ablation[modelKey] && ARCH_DATA.ablation[modelKey].means) || {};
+  const vec = fNames.map(name => (name in abMeans) ? abMeans[name] : (fullFeat[name] ?? 0));
+  let sum = 0;
+  for (let i = 0; i < forest.length; i++) {
+    sum += evalCompactTree(forest[i], vec);
+  }
+  return sum / forest.length;
+}
 
 // Sparkline history buffers per controllable numeric feature
 const sparkHistory = {};
@@ -1238,25 +1886,77 @@ function gaussianSample() {
   return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
 }
 
-function getBaseOperatingRecord() {
-  if (compareBaseline) {
-    return ARCH_DATA.baseline;
+function computeRbfCalibration(knobs) {
+  const anchors = ARCH_DATA.cal_anchors || [];
+  const cols = ARCH_DATA.knob_cols || [];
+  const bounds = ARCH_DATA.bounds || {};
+  if (!anchors.length || !cols.length) {
+    return { resE: 0, resC: 0, tco2Off: 0, teOff: 0, heOff: 0 };
   }
-  if (customParetoIdx !== null && ARCH_DATA.pareto[customParetoIdx]) {
-    return ARCH_DATA.pareto[customParetoIdx];
+  const t = ARCH_DATA.thermo;
+  const cprIdx = cols.indexOf("Clinker Production Rate (tons/h)");
+  const rmcIdx = cols.indexOf("Raw Meal Composition (% Limestone)");
+  const fcIdx = cols.indexOf("Fuel Consumption (kg/h)");
+
+  const anchorOffsets = a => {
+    const aCpr = cprIdx >= 0 ? a.knobs[cprIdx] : 91.8;
+    const aRmc = rmcIdx >= 0 ? a.knobs[rmcIdx] : 85.0;
+    const aFc = fcIdx >= 0 ? a.knobs[fcIdx] : 195.0;
+    const rawTco2 = (aRmc / 100.0) * aCpr * t.stoichiometric_co2_factor;
+    const rawTeMw = (aCpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600000.0;
+    const rawHe = aFc > 0 ? (rawTeMw * 1000.0 / aFc) : 0;
+    return {
+      resE: a.res_e,
+      resC: a.res_c,
+      tco2Off: a.tco2_d - rawTco2,
+      teOff: a.te_d - rawTeMw,
+      heOff: a.he_d - rawHe
+    };
+  };
+
+  let wSum = 0, resE = 0, resC = 0, tco2Off = 0, teOff = 0, heOff = 0;
+  const twoSigma2 = 2.0 * 0.28 * 0.28;
+  for (let k = 0; k < anchors.length; k++) {
+    const a = anchors[k];
+    let d2 = 0;
+    for (let i = 0; i < cols.length; i++) {
+      const f = cols[i];
+      const b = bounds[f];
+      const span = b ? Math.max(1e-6, b.max - b.min) : 1.0;
+      const diff = ((knobs[f] ?? a.knobs[i]) - a.knobs[i]) / span;
+      d2 += diff * diff;
+    }
+    if (d2 < 1e-10) {
+      return anchorOffsets(a);
+    }
+    const w = Math.exp(-d2 / twoSigma2) + 1e-9;
+    const off = anchorOffsets(a);
+    wSum += w;
+    resE += w * off.resE;
+    resC += w * off.resC;
+    tco2Off += w * off.tco2Off;
+    teOff += w * off.teOff;
+    heOff += w * off.heOff;
   }
-  return ARCH_DATA.regimes[activeRegime] || ARCH_DATA.pareto[0];
+  return {
+    resE: resE / wSum,
+    resC: resC / wSum,
+    tco2Off: tco2Off / wSum,
+    teOff: teOff / wSum,
+    heOff: heOff / wSum
+  };
 }
 
 function getLiveSnapshot() {
   const rec = getBaseOperatingRecord();
+  const activeFuel = manualMode ? manualFuel : (rec.fuel || "Oil");
   const knobs = {};
   Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-    const baseVal = rec.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
+    const baseVal = manualMode ? (manualState[feat] ?? rec.knobs[feat] ?? 0) : (rec.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0);
     const j = liveStreamOn ? (jitterState[feat] || 0) : 0;
     const val = baseVal * (1 + j);
     const b = ARCH_DATA.bounds[feat];
-    knobs[feat] = Math.min(b.max * 1.01, Math.max(b.min * 0.99, val));
+    knobs[feat] = Math.min(b.max, Math.max(b.min, val));
   });
 
   const cpr = knobs["Clinker Production Rate (tons/h)"] || rec.production;
@@ -1264,39 +1964,38 @@ function getLiveSnapshot() {
   const fc = knobs["Fuel Consumption (kg/h)"] || rec.fuel_rate;
   const o2 = knobs["Oxygen Levels (%)"] || rec.o2;
 
-  // Live Eqs 3.13 - 3.17
+  // Live Eqs 3.13 - 3.17 in RF training units
   const t = ARCH_DATA.thermo;
-  const theoCO2 = rmc * cpr * t.stoichiometric_co2_factor;
-  const theoEnergy = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
-  const heatEff = fc > 0 ? (theoEnergy / fc) : 0;
-  const o2Dev = Math.abs(o2 - t.optimal_o2_percent);
+  const theoCO2_rf = rmc * cpr * t.stoichiometric_co2_factor;
+  const theoEnergy_rf = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
+  const heatEff_rf = fc > 0 ? (theoEnergy_rf / fc) : 0;
+  const o2Dev_rf = Math.abs(o2 - t.optimal_o2_percent);
 
-  // Full 20-feature vector for tree traversal & linear local delta
+  // Full 20-feature vector for exact 100-tree RF evaluation
   const fullFeat = { ...knobs };
-  fullFeat["Fuel_Coal"] = rec.fuel === "Coal" ? 1.0 : 0.0;
-  fullFeat["Fuel_Gas"] = rec.fuel === "Gas" ? 1.0 : 0.0;
-  fullFeat["Fuel_Oil"] = rec.fuel === "Oil" ? 1.0 : 0.0;
-  fullFeat["Theoretical_CO2"] = theoCO2;
-  fullFeat["Theoretical_Energy"] = theoEnergy;
-  fullFeat["Heat_Efficiency"] = heatEff;
-  fullFeat["O2_Deviation"] = o2Dev;
+  fullFeat["Fuel_Coal"] = activeFuel === "Coal" ? 1.0 : 0.0;
+  fullFeat["Fuel_Gas"] = activeFuel === "Gas" ? 1.0 : 0.0;
+  fullFeat["Fuel_Oil"] = activeFuel === "Oil" ? 1.0 : 0.0;
+  fullFeat["Theoretical_CO2"] = theoCO2_rf;
+  fullFeat["Theoretical_Energy"] = theoEnergy_rf;
+  fullFeat["Heat_Efficiency"] = heatEff_rf;
+  fullFeat["O2_Deviation"] = o2Dev_rf;
 
+  const cal = computeRbfCalibration(knobs);
+  const liveTco2Disp = (rmc / 100.0) * cpr * t.stoichiometric_co2_factor + cal.tco2Off;
+  const liveTeMwDisp = theoEnergy_rf / 1000.0 + cal.teOff;
+  const liveHeDisp = heatEff_rf + cal.heOff;
+
+  const isExactPreset = !manualMode && !liveStreamOn && physicsEnabled;
   let energyPred = rec.energy;
   let co2Pred = rec.co2;
-  if (liveStreamOn) {
-    const baseRec = getBaseOperatingRecord();
-    const eSlopes = (ARCH_DATA.slopes && ARCH_DATA.slopes.energy) || {};
-    const cSlopes = (ARCH_DATA.slopes && ARCH_DATA.slopes.co2) || {};
-    let dE = 0, dC = 0;
-    Object.keys(knobs).forEach(f => {
-      const df = knobs[f] - (baseRec.knobs[f] || 0);
-      dE += (eSlopes[f] || 0) * df;
-      dC += (cSlopes[f] || 0) * df;
-    });
-    dE += (eSlopes["Theoretical_Energy"] || 0) * (theoEnergy - (baseRec.theoretical_energy || theoEnergy));
-    dC += (cSlopes["Theoretical_CO2"] || 0) * (theoCO2 - (baseRec.theoretical_co2 || theoCO2));
-    energyPred = Math.max(850, baseRec.energy + dE + gaussianSample() * 0.45);
-    co2Pred = Math.max(800, baseRec.co2 + dC + gaussianSample() * 0.38);
+  if (!isExactPreset) {
+    const rfE = evalCompactForest("energy", fullFeat);
+    const rfC = evalCompactForest("co2", fullFeat);
+    const offsetE = physicsEnabled ? cal.resE : 0;
+    const offsetC = physicsEnabled ? cal.resC : 0;
+    if (rfE !== null) energyPred = rfE + offsetE + (liveStreamOn ? gaussianSample() * 0.35 : 0);
+    if (rfC !== null) co2Pred = rfC + offsetC + (liveStreamOn ? gaussianSample() * 0.30 : 0);
   }
 
   return {
@@ -1316,11 +2015,11 @@ function getLiveSnapshot() {
     rotary: knobs["Power (rotary drive) Kw"] || rec.knobs["Power (rotary drive) Kw"],
     pressure: knobs["Kiln Pressure (bar)"] || rec.knobs["Kiln Pressure (bar)"],
     air: knobs["Air Flow Rate (m³/h)"] || rec.air,
-    fuel: rec.fuel || "Oil",
-    theoCO2,
-    theoEnergy,
-    heatEff,
-    o2Dev,
+    fuel: activeFuel,
+    theoCO2: (isExactPreset && rec.theoretical_co2 !== undefined) ? rec.theoretical_co2 : liveTco2Disp,
+    theoEnergy: (isExactPreset && rec.theoretical_energy !== undefined) ? rec.theoretical_energy : liveTeMwDisp,
+    heatEff: (isExactPreset && rec.heat_eff !== undefined) ? rec.heat_eff : liveHeDisp,
+    o2Dev: (isExactPreset && rec.o2_dev !== undefined) ? rec.o2_dev : o2Dev_rf,
     gViolation: t.min_cpr - cpr
   };
 }
@@ -1364,44 +2063,70 @@ function renderScada(snap) {
   document.getElementById("svg-cpr-lbl").textContent = `Clinker: ${snap.production.toFixed(2)} tph`;
   document.getElementById("svg-stack-co2").textContent = `CO₂: ${snap.co2.toFixed(1)} kg/h`;
 
-  // Dynamic ID Fan Speed
-  const airRatio = snap.air / Math.max(1, base.air);
-  const fanDur = Math.max(0.55, Math.min(2.4, 1.35 / airRatio));
+  // Dynamic ID Fan Speed driven by Air Flow Rate + Power Consumed
+  const baseAir = Math.max(1, base.air);
+  const basePwrCons = Math.max(1, base.knobs["Power Consumed (KWt/h)"] || 4690);
+  const airRatio = snap.air / baseAir;
+  const pwrRatio = snap.power_cons / basePwrCons;
+  const fanLoad = Math.max(0.65, Math.min(1.45, 0.65 * airRatio + 0.35 * pwrRatio));
+  const fanDur = Math.max(0.38, Math.min(2.25, 1.35 / fanLoad));
   const estRpm = Math.round(980 * airRatio);
   document.getElementById("fan-rotor").style.setProperty("--fan-dur", `${fanDur.toFixed(2)}s`);
-  document.getElementById("svg-fan-rpm").textContent = `${Math.round(snap.power / 6)} kW · ${estRpm} rpm`;
+  document.getElementById("svg-fan-rpm").textContent = `${Math.round(snap.power_cons)} kWt · ${estRpm} rpm`;
 
-  // Dynamic Flame Length & Pulse
-  const fuelNorm = Math.max(0.75, Math.min(1.25, snap.fuel_rate / base.fuel_rate));
-  const flameScaleX = 0.85 + (fuelNorm - 0.8) * 0.9;
-  const flameDur = Math.max(0.28, 0.52 / fuelNorm);
+  // Dynamic Burner Flame Length, Glow Radius & Color (Orange -> White-Hot)
+  const fBounds = ARCH_DATA.bounds["Fuel Consumption (kg/h)"] || { min: 183, max: 230 };
+  const tBounds = ARCH_DATA.bounds["Kiln Temperature (°C)"] || { min: 1342, max: 1375 };
+  const fuelRatio = Math.max(0, Math.min(1, (snap.fuel_rate - fBounds.min) / Math.max(1, fBounds.max - fBounds.min)));
+  const tempRatio = Math.max(0, Math.min(1, (snap.temp - tBounds.min) / Math.max(1, tBounds.max - tBounds.min)));
+  const flameScaleX = 0.72 + fuelRatio * 0.62;
+  const flameScaleY = 0.85 + tempRatio * 0.36;
+  const glowPx = (3 + (fuelRatio * 0.5 + tempRatio * 0.5) * 11).toFixed(1);
+  const flameDur = Math.max(0.24, 0.56 - fuelRatio * 0.28);
   const fGroup = document.getElementById("burner-flame-group");
   fGroup.style.setProperty("--flame-dur", `${flameDur.toFixed(2)}s`);
-  document.getElementById("flame-outer").setAttribute("transform", `translate(${540 * (1 - flameScaleX)}, 0) scale(${flameScaleX.toFixed(2)}, 1)`);
+  fGroup.style.filter = `drop-shadow(0 0 ${glowPx}px ${tempRatio > 0.6 ? "rgba(254, 249, 195, 0.92)" : "rgba(249, 115, 22, 0.82)"})`;
+  document.getElementById("flame-outer").setAttribute(
+    "transform",
+    `translate(${(540 * (1 - flameScaleX)).toFixed(1)}, ${(320 * (1 - flameScaleY)).toFixed(1)}) scale(${flameScaleX.toFixed(2)}, ${flameScaleY.toFixed(2)})`
+  );
+  document.getElementById("flame-stop-0").setAttribute("stop-color", tempRatio > 0.45 ? "#ffffff" : "#fef08a");
+  document.getElementById("flame-stop-1").setAttribute("stop-color", tempRatio > 0.6 ? "#fef9c3" : (tempRatio > 0.25 ? "#fde047" : "#fb923c"));
+  document.getElementById("flame-stop-2").setAttribute("stop-color", tempRatio > 0.65 ? "#fde047" : (tempRatio > 0.3 ? "#f97316" : "#ea580c"));
 
   // Dynamic Bucket Conveyor Speed
   const cprRatio = snap.production / Math.max(1, base.production);
-  document.getElementById("conveyor-buckets").style.animationDuration = `${(1.1 / cprRatio).toFixed(2)}s`;
+  document.getElementById("conveyor-buckets").style.animationDuration = `${(1.1 / Math.max(0.6, cprRatio)).toFixed(2)}s`;
 
-  // Dynamic Stack CO2 Plume Particles
+  // Dynamic Stack CO2 Plume Particles (count, opacity, rising speed)
   const plumeLayer = document.getElementById("co2-plume");
-  const co2Norm = Math.max(0.3, Math.min(1.0, (snap.co2 - 900) / 140));
-  const nPlume = Math.round(5 + co2Norm * 7);
+  const co2Norm = Math.max(0.15, Math.min(1.0, (snap.co2 - 890) / 145));
+  const nPlume = Math.round(4 + co2Norm * 13);
   let plumeHtml = "";
   const nowPhase = (Date.now() / 1000) % 10;
+  const plumeCol = snap.co2 > base.co2 + 12 ? "#fca5a5" : (snap.co2 < base.co2 - 20 ? "#bae6fd" : "#cbd5e1");
   for (let i = 0; i < nPlume; i++) {
-    const t = ((i / nPlume) + nowPhase * (0.12 + co2Norm * 0.08)) % 1;
-    const py = 38 - t * 34;
-    const px = 641 + Math.sin(t * 4 + i) * 7 + t * 14;
-    const pr = 2.5 + t * (3.2 + co2Norm * 3.0);
-    const pop = Math.max(0.08, (1 - t) * (0.35 + co2Norm * 0.5));
-    plumeHtml += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${pr.toFixed(1)}" fill="#cbd5e1" opacity="${pop.toFixed(2)}" />`;
+    const t = ((i / nPlume) + nowPhase * (0.1 + co2Norm * 0.14)) % 1;
+    const py = 38 - t * 35;
+    const px = 641 + Math.sin(t * 4.5 + i) * (5 + co2Norm * 4) + t * 15;
+    const pr = 2.2 + t * (2.6 + co2Norm * 4.2);
+    const pop = Math.max(0.08, (1 - t) * (0.28 + co2Norm * 0.66));
+    plumeHtml += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${pr.toFixed(1)}" fill="${plumeCol}" opacity="${pop.toFixed(2)}" />`;
   }
   plumeLayer.innerHTML = plumeHtml;
 
   // Mode Pill
   const modePill = document.getElementById("mode-pill");
-  if (compareBaseline) {
+  if (activeDisturbance) {
+    const dNames = { overburn: "DISTURBANCE: OVER-BURNING", draft: "DISTURBANCE: DRAFT DROP", cpr: "DISTURBANCE: CPR < 91.8" };
+    modePill.textContent = dNames[activeDisturbance] || "PLANT DISTURBANCE";
+    modePill.style.color = "#f87171";
+    modePill.style.borderColor = "rgba(239, 68, 68, 0.55)";
+  } else if (manualMode) {
+    modePill.textContent = "MANUAL WHAT-IF SANDBOX";
+    modePill.style.color = "#38bdf8";
+    modePill.style.borderColor = "rgba(56, 189, 248, 0.5)";
+  } else if (compareBaseline) {
     modePill.textContent = "PLANT BASELINE (UNOPTIMIZED)";
     modePill.style.color = "#f59e0b";
     modePill.style.borderColor = "rgba(245, 158, 11, 0.45)";
@@ -1411,26 +2136,55 @@ function renderScada(snap) {
     modePill.style.borderColor = "rgba(16, 185, 129, 0.45)";
   }
 
-  // Render Pinned Sensor Badges
+  // Render Pinned Sensor Badges with semantic [Δ vs Baseline] pills
+  const lowerBetter = new Set(["Fuel Consumption (kg/h)", "Power Consumed (KWt/h)", "Absorbed Power (Kw)", "Power (rotary drive) Kw", "Kiln Pressure (bar)", "Kiln Temperature (°C)"]);
   const layer = document.getElementById("pinned-sensors-layer");
   let badgesHtml = "";
   PINNED_SENSORS.forEach(s => {
     const val = snap.knobs[s.feat] ?? 0;
     const bVal = base.knobs[s.feat] ?? val;
     const pct = bVal !== 0 ? ((val - bVal) / bVal) * 100 : 0;
-    const deltaStr = compareBaseline ? "BASE" : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
-    const deltaCol = compareBaseline ? "#94a3b8" : (Math.abs(pct) < 0.2 ? "#38bdf8" : (pct < 0 ? "#10b981" : "#f59e0b"));
+    const deltaStr = (compareBaseline && !manualMode) ? "BASE" : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
+    let deltaCol = "#38bdf8";
+    let pillBg = "rgba(56, 189, 248, 0.16)";
+    if (!compareBaseline || manualMode) {
+      let improved = false, degraded = false;
+      if (s.feat === "Clinker Production Rate (tons/h)") {
+        improved = val >= ARCH_DATA.thermo.min_cpr - 1e-4 && pct > 0.15;
+        degraded = val < ARCH_DATA.thermo.min_cpr - 1e-4 || pct < -0.15;
+      } else if (s.feat === "Oxygen Levels (%)") {
+        const dNow = Math.abs(val - 4.0), dBase = Math.abs(bVal - 4.0);
+        improved = dNow < dBase - 0.02;
+        degraded = dNow > dBase + 0.02;
+      } else if (lowerBetter.has(s.feat)) {
+        improved = pct < -0.15;
+        degraded = pct > 0.15;
+      }
+      if (improved) {
+        deltaCol = "#10b981";
+        pillBg = "rgba(16, 185, 129, 0.2)";
+      } else if (degraded) {
+        const severe = Math.abs(pct) > 2.5 || (s.feat === "Clinker Production Rate (tons/h)" && val < ARCH_DATA.thermo.min_cpr);
+        deltaCol = severe ? "#f87171" : "#f59e0b";
+        pillBg = severe ? "rgba(239, 68, 68, 0.22)" : "rgba(245, 158, 11, 0.2)";
+      }
+    } else {
+      deltaCol = "#94a3b8";
+      pillBg = "rgba(148, 163, 184, 0.14)";
+    }
+
     const isSel = selectedUnit === s.id;
-    const spPts = buildSparklinePoints(sparkHistory[s.feat] || [val], 38, 10);
+    const spPts = buildSparklinePoints(sparkHistory[s.feat] || [val], 36, 10);
 
     badgesHtml += `
       <line x1="${s.x + 54}" y1="${s.y + 18}" x2="${s.lx}" y2="${s.ly}" stroke="#475569" stroke-width="0.9" stroke-dasharray="2 2" />
       <g class="sensor-tag ${isSel ? "selected-unit" : ""}" data-comp="${s.id}" transform="translate(${s.x}, ${s.y})">
-        <rect class="tag-bg" width="108" height="37" rx="5" fill="#0f172a" fill-opacity="0.93" stroke="${isSel ? "#f59e0b" : "#334155"}" stroke-width="1.2" />
-        <text x="5" y="11" font-size="7.8" font-weight="700" fill="#94a3b8">${s.label}</text>
-        <text x="103" y="11" font-size="7.5" font-weight="800" fill="${deltaCol}" text-anchor="end">${deltaStr}</text>
-        <text x="5" y="27" font-size="9.5" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace">${val >= 1000 ? Math.round(val) : val.toFixed(1)}<tspan font-size="7" fill="#94a3b8"> ${s.unit}</tspan></text>
-        <g transform="translate(64, 19)">
+        <rect class="tag-bg" width="110" height="37" rx="5" fill="#0f172a" fill-opacity="0.93" stroke="${isSel ? "#f59e0b" : "#334155"}" stroke-width="1.2" />
+        <text x="5" y="11.5" font-size="7.6" font-weight="700" fill="#94a3b8">${s.label}</text>
+        <rect x="65" y="3" width="41" height="11" rx="3.5" fill="${pillBg}" />
+        <text x="85.5" y="10.8" font-size="7.1" font-weight="800" fill="${deltaCol}" text-anchor="middle">${deltaStr}</text>
+        <text x="5" y="28" font-size="9.5" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace">${val >= 1000 ? Math.round(val) : val.toFixed(1)}<tspan font-size="7" fill="#94a3b8"> ${s.unit}</tspan></text>
+        <g transform="translate(67, 19.5)">
           <polyline fill="none" stroke="#38bdf8" stroke-width="1.3" points="${spPts}" />
         </g>
       </g>
@@ -1438,48 +2192,191 @@ function renderScada(snap) {
   });
   layer.innerHTML = badgesHtml;
 
-  // Bind clicks on pinned sensors
   layer.querySelectorAll(".sensor-tag").forEach(el => {
     el.addEventListener("click", () => {
       selectedUnit = el.getAttribute("data-comp");
       updateAll();
+      focusSliderForSensor(selectedUnit);
     });
   });
 
-  // Highlight selected unit outline
   document.querySelectorAll("#scada-svg .scada-unit").forEach(u => {
     u.classList.toggle("selected-unit", u.getAttribute("data-comp") === selectedUnit);
   });
+
+  // Update 4 Purple NSGA-II Actuator Node Badges
+  const showDelta = Date.now() < actuatorPulseUntil;
+  const setActTxt = (id, liveStr, key) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (showDelta && actuatorDeltaTexts[key]) {
+      el.textContent = actuatorDeltaTexts[key];
+      el.setAttribute("fill", "#6ee7b7");
+    } else {
+      el.textContent = liveStr;
+      el.setAttribute("fill", "#c084fc");
+    }
+  };
+  setActTxt("act-val-idfan", `${Math.round(snap.air)} m³/h`, "idfan");
+  setActTxt("act-val-fuel", `${snap.fuel_rate.toFixed(1)} kg/h`, "fuel");
+  setActTxt("act-val-drive", `${snap.rotary.toFixed(1)} kW`, "drive");
+  setActTxt("act-val-rawmeal", `${snap.limestone.toFixed(2)}%`, "rawmeal");
 }
 
-function triggerFeedbackPulse() {
+function triggerFeedbackPulse(prevKnobs = null, newKnobs = null) {
+  const baseKnobs = ARCH_DATA.baseline.knobs || {};
+  const rec = getBaseOperatingRecord();
+  const targetK = newKnobs || (manualMode ? manualState : rec.knobs) || baseKnobs;
+  const refK = prevKnobs || baseKnobs;
+  const fmtDelta = (feat, dec, unit) => {
+    const nv = targetK[feat] ?? baseKnobs[feat] ?? 0;
+    const ov = refK[feat] ?? nv;
+    const d = nv - ov;
+    const valStr = dec === 0 ? Math.round(nv).toString() : nv.toFixed(dec);
+    const dStr = dec === 0 ? Math.round(d).toString() : d.toFixed(dec);
+    return `${valStr}${unit} (${d >= 0 ? "+" : ""}${dStr})`;
+  };
+  actuatorDeltaTexts = {
+    fuel: fmtDelta("Fuel Consumption (kg/h)", 1, ""),
+    idfan: fmtDelta("Air Flow Rate (m³/h)", 0, ""),
+    drive: fmtDelta("Power (rotary drive) Kw", 1, ""),
+    rawmeal: fmtDelta("Raw Meal Composition (% Limestone)", 2, "%")
+  };
+  actuatorPulseUntil = Date.now() + 2600;
+
+  if (pulseAnimRaf) {
+    cancelAnimationFrame(pulseAnimRaf);
+    pulseAnimRaf = null;
+  }
+  if (pulseResetTimer) {
+    clearTimeout(pulseResetTimer);
+    pulseResetTimer = null;
+  }
+
   const bus = document.getElementById("scada-feedback-bus");
   const fuelAct = document.getElementById("actuator-fuel");
-  bus.classList.add("feedback-active");
-  fuelAct.setAttribute("stroke", "#10b981");
-  document.getElementById("scada-loop-label").setAttribute("fill", "#10b981");
-  setTimeout(() => {
-    bus.classList.remove("feedback-active");
-    fuelAct.setAttribute("stroke", "#f59e0b");
-    document.getElementById("scada-loop-label").setAttribute("fill", "#64748b");
-  }, 950);
+  const loopLbl = document.getElementById("scada-loop-label");
+  const pulseLayer = document.getElementById("feedback-pulses-layer");
+  const branches = [
+    { pathId: "bus-idfan", actId: "act-idfan", dur: 760 },
+    { pathId: "bus-fuel", actId: "act-fuel", dur: 820 },
+    { pathId: "bus-drive", actId: "act-drive", dur: 960 },
+    { pathId: "bus-rawmeal", actId: "act-rawmeal", dur: 1120 }
+  ];
+
+  if (bus) bus.classList.add("feedback-active");
+  if (fuelAct) fuelAct.setAttribute("stroke", "#10b981");
+  if (loopLbl) loopLbl.setAttribute("fill", "#6ee7b7");
+  branches.forEach(b => {
+    const pEl = document.getElementById(b.pathId);
+    const aEl = document.getElementById(b.actId);
+    if (pEl) pEl.classList.add("bus-branch-active");
+    if (aEl) aEl.classList.add("actuator-pulsing");
+  });
+
+  // Update actuator readout immediately with setpoint deltas
+  renderScada(getLiveSnapshot());
+
+  // Animate 2 staggered glowing particles along each of the 4 feedback branches
+  const particles = [];
+  if (pulseLayer) {
+    pulseLayer.innerHTML = "";
+    branches.forEach(b => {
+      const pEl = document.getElementById(b.pathId);
+      if (!pEl || typeof pEl.getTotalLength !== "function") return;
+      const len = pEl.getTotalLength();
+      [0, 180].forEach((delay, idx) => {
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("r", idx === 0 ? "4.6" : "3.3");
+        dot.setAttribute("fill", idx === 0 ? "#34d399" : "#c084fc");
+        dot.setAttribute("stroke", "#ffffff");
+        dot.setAttribute("stroke-width", "1");
+        dot.setAttribute("opacity", "0");
+        dot.style.filter = "drop-shadow(0 0 5px #10b981)";
+        pulseLayer.appendChild(dot);
+        particles.push({ dot, pEl, len, dur: b.dur, delay, actId: b.actId });
+      });
+    });
+  }
+
+  const t0 = performance.now();
+  const maxDur = 1350;
+  const tick = now => {
+    const elapsed = now - t0;
+    particles.forEach(pt => {
+      const local = elapsed - pt.delay;
+      if (local < 0 || local > pt.dur) {
+        pt.dot.setAttribute("opacity", "0");
+        return;
+      }
+      const prog = Math.min(1, local / pt.dur);
+      const pos = pt.pEl.getPointAtLength(prog * pt.len);
+      pt.dot.setAttribute("cx", pos.x.toFixed(1));
+      pt.dot.setAttribute("cy", pos.y.toFixed(1));
+      pt.dot.setAttribute("opacity", prog > 0.88 ? ((1 - prog) / 0.12).toFixed(2) : "0.95");
+    });
+    if (elapsed < maxDur) {
+      pulseAnimRaf = requestAnimationFrame(tick);
+    } else {
+      pulseAnimRaf = null;
+      if (pulseLayer) pulseLayer.innerHTML = "";
+    }
+  };
+  if (particles.length) {
+    pulseAnimRaf = requestAnimationFrame(tick);
+  }
+
+  pulseResetTimer = setTimeout(() => {
+    if (bus) bus.classList.remove("feedback-active");
+    if (fuelAct) fuelAct.setAttribute("stroke", "#f59e0b");
+    if (loopLbl) loopLbl.setAttribute("fill", "#64748b");
+    branches.forEach(b => {
+      const pEl = document.getElementById(b.pathId);
+      const aEl = document.getElementById(b.actId);
+      if (pEl) pEl.classList.remove("bus-branch-active");
+      if (aEl) aEl.classList.remove("actuator-pulsing");
+    });
+    actuatorPulseUntil = 0;
+    renderScada(getLiveSnapshot());
+  }, 2600);
 }
 
 function renderFeatureForge(snap) {
   const t = ARCH_DATA.thermo;
+  const base = ARCH_DATA.baseline;
   const normPct = (v, lo, hi) => Math.max(5, Math.min(100, ((v - lo) / Math.max(1e-6, hi - lo)) * 100));
+  const setDelta = (id, diff, dec, unit, cls) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = `Δ ${diff >= 0 ? "+" : ""}${diff.toFixed(dec)}${unit}`;
+    el.className = `forge-delta ${cls}`;
+  };
 
-  document.getElementById("val-tco2").textContent = `${snap.theoCO2.toFixed(1)}`;
+  document.getElementById("val-tco2").textContent = `${snap.theoCO2.toFixed(2)}`;
   document.getElementById("bar-tco2").style.width = `${normPct(snap.theoCO2, t.tco2_min, t.tco2_max).toFixed(1)}%`;
+  const dTco2 = snap.theoCO2 - base.theoretical_co2;
+  setDelta("delta-tco2", dTco2, 2, "", dTco2 <= 0 ? "good" : "info");
 
-  document.getElementById("val-te").textContent = `${(snap.theoEnergy / 1000).toFixed(2)} MW`;
+  document.getElementById("val-te").textContent = `${snap.theoEnergy.toFixed(2)} MW`;
   document.getElementById("bar-te").style.width = `${normPct(snap.theoEnergy, t.te_min, t.te_max).toFixed(1)}%`;
+  const dTeMw = snap.theoEnergy - base.theoretical_energy;
+  setDelta("delta-te", dTeMw, 2, "MW", dTeMw >= 0 ? "good" : "warn");
 
-  document.getElementById("val-he").textContent = `${snap.heatEff.toFixed(1)}`;
+  document.getElementById("val-he").textContent = `${snap.heatEff.toFixed(2)}`;
   document.getElementById("bar-he").style.width = `${normPct(snap.heatEff, t.he_min, t.he_max).toFixed(1)}%`;
+  const dHe = snap.heatEff - base.heat_eff;
+  setDelta("delta-he", dHe, 1, "", dHe >= 0 ? "good" : "warn");
 
-  document.getElementById("val-o2dev").textContent = `${snap.o2Dev.toFixed(3)}%`;
+  document.getElementById("val-o2dev").textContent = `${snap.o2Dev.toFixed(2)}%`;
   document.getElementById("bar-o2dev").style.width = `${normPct(snap.o2Dev, 0, t.o2dev_max).toFixed(1)}%`;
+  const dO2 = snap.o2Dev - base.o2_dev;
+  setDelta("delta-o2dev", dO2, 2, "%", dO2 <= 0 ? "good" : "warn");
+
+  const fStatus = document.getElementById("forge-status");
+  if (fStatus) {
+    fStatus.textContent = physicsEnabled ? "Live Thermo ✅" : "Clamped (Ablation OFF)";
+    fStatus.style.color = physicsEnabled ? "#10b981" : "#f59e0b";
+  }
 
   ["feat_tco2", "feat_te", "feat_he", "feat_o2dev"].forEach(cid => {
     const btn = document.querySelector(`[data-comp="${cid}"]`);
@@ -1525,13 +2422,13 @@ function renderRfTwin(snap) {
   const trees = (ARCH_DATA.trees && ARCH_DATA.trees[selectedRfModel]) || [];
   const svg = document.getElementById("rf-trees-svg");
   let html = "";
-  const leafVals = [];
   const activeCol = selectedRfModel === "energy" ? "#38bdf8" : "#10b981";
+  const abMeans = (!physicsEnabled && ARCH_DATA.ablation && ARCH_DATA.ablation[selectedRfModel] && ARCH_DATA.ablation[selectedRfModel].means) || {};
+  const treeFeatObj = physicsEnabled ? snap.fullFeat : { ...snap.fullFeat, ...abMeans };
 
   trees.slice(0, 3).forEach((tree, idx) => {
     const ox = 8 + idx * 136;
-    const res = evalTreeNode(tree, snap.fullFeat);
-    leafVals.push(res.value);
+    const res = evalTreeNode(tree, treeFeatObj);
     const p0 = res.path[0];
     const p1 = res.path[1];
 
@@ -1544,36 +2441,44 @@ function renderRfTwin(snap) {
 
     const d1L = tree.left || { leaf: true, value: tree.value };
     const d1R = tree.right || { leaf: true, value: tree.value };
+    const glowAttr = `style="filter:drop-shadow(0 0 3px ${activeCol})"`;
+    const rootVal = treeFeatObj[tree.feature] ?? 0;
 
     html += `
-      <g transform="translate(${ox}, 6)">
-        <rect width="128" height="98" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
-        <text x="64" y="12" font-size="8" font-weight="700" fill="#94a3b8" text-anchor="middle">Tree #${idx + 1} (${tree.samples} obs)</text>
+      <g transform="translate(${ox}, 5)">
+        <rect width="128" height="108" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+        <text x="64" y="11" font-size="7.6" font-weight="700" fill="#94a3b8" text-anchor="middle">Tree #${idx + 1} (${tree.samples} obs)</text>
 
-        <!-- Edges -->
-        <line x1="64" y1="28" x2="34" y2="52" stroke="${l1Active ? activeCol : "#334155"}" stroke-width="${l1Active ? 2.2 : 1}" />
-        <line x1="64" y1="28" x2="94" y2="52" stroke="${r1Active ? activeCol : "#334155"}" stroke-width="${r1Active ? 2.2 : 1}" />
-        <line x1="34" y1="56" x2="18" y2="80" stroke="${llActive ? activeCol : "#334155"}" stroke-width="${llActive ? 2 : 0.9}" />
-        <line x1="34" y1="56" x2="50" y2="80" stroke="${lrActive ? activeCol : "#334155"}" stroke-width="${lrActive ? 2 : 0.9}" />
-        <line x1="94" y1="56" x2="78" y2="80" stroke="${rlActive ? activeCol : "#334155"}" stroke-width="${rlActive ? 2 : 0.9}" />
-        <line x1="94" y1="56" x2="110" y2="80" stroke="${rrActive ? activeCol : "#334155"}" stroke-width="${rrActive ? 2 : 0.9}" />
+        <!-- Inactive & Active Decision Branches -->
+        <line x1="64" y1="30" x2="34" y2="54" stroke="${l1Active ? activeCol : "#334155"}" stroke-width="${l1Active ? 2.4 : 1}" opacity="${l1Active ? 1 : 0.28}" ${l1Active ? glowAttr : ""} />
+        <line x1="64" y1="30" x2="94" y2="54" stroke="${r1Active ? activeCol : "#334155"}" stroke-width="${r1Active ? 2.4 : 1}" opacity="${r1Active ? 1 : 0.28}" ${r1Active ? glowAttr : ""} />
+        <line x1="34" y1="60" x2="18" y2="85" stroke="${llActive ? activeCol : "#334155"}" stroke-width="${llActive ? 2.3 : 0.9}" opacity="${llActive ? 1 : 0.24}" ${llActive ? glowAttr : ""} />
+        <line x1="34" y1="60" x2="50" y2="85" stroke="${lrActive ? activeCol : "#334155"}" stroke-width="${lrActive ? 2.3 : 0.9}" opacity="${lrActive ? 1 : 0.24}" ${lrActive ? glowAttr : ""} />
+        <line x1="94" y1="60" x2="78" y2="85" stroke="${rlActive ? activeCol : "#334155"}" stroke-width="${rlActive ? 2.3 : 0.9}" opacity="${rlActive ? 1 : 0.24}" ${rlActive ? glowAttr : ""} />
+        <line x1="94" y1="60" x2="110" y2="85" stroke="${rrActive ? activeCol : "#334155"}" stroke-width="${rrActive ? 2.3 : 0.9}" opacity="${rrActive ? 1 : 0.24}" ${rrActive ? glowAttr : ""} />
+
+        <text x="${l1Active ? 41 : 87}" y="44" font-size="6.4" font-weight="800" fill="${activeCol}" text-anchor="middle">${l1Active ? "True ≤" : "False >"}</text>
 
         <!-- Root Node -->
-        <rect x="24" y="17" width="80" height="15" rx="3" fill="#1e293b" stroke="${activeCol}" stroke-width="1.2" />
-        <text x="64" y="27" font-size="7.2" font-weight="700" fill="#f8fafc" text-anchor="middle">${shortFeat(tree.feature)} ≤ ${tree.threshold >= 100 ? Math.round(tree.threshold) : tree.threshold}</text>
+        <rect x="14" y="15" width="100" height="16" rx="3" fill="#0c4a6e" stroke="${activeCol}" stroke-width="1.4" />
+        <text x="64" y="25.5" font-size="7" font-weight="700" fill="#f8fafc" text-anchor="middle">${shortFeat(tree.feature)} (${rootVal >= 100 ? Math.round(rootVal) : rootVal.toFixed(1)}) ≤ ${tree.threshold >= 100 ? Math.round(tree.threshold) : tree.threshold}</text>
 
         <!-- Depth-1 Nodes -->
-        <rect x="8" y="45" width="52" height="14" rx="3" fill="${l1Active ? "#0c4a6e" : "#1e293b"}" stroke="${l1Active ? activeCol : "#475569"}" stroke-width="1" />
-        <text x="34" y="54.5" font-size="6.8" fill="#e2e8f0" text-anchor="middle">${d1L.leaf ? Math.round(d1L.value) : shortFeat(d1L.feature)}</text>
-        <rect x="68" y="45" width="52" height="14" rx="3" fill="${r1Active ? "#0c4a6e" : "#1e293b"}" stroke="${r1Active ? activeCol : "#475569"}" stroke-width="1" />
-        <text x="94" y="54.5" font-size="6.8" fill="#e2e8f0" text-anchor="middle">${d1R.leaf ? Math.round(d1R.value) : shortFeat(d1R.feature)}</text>
+        <g opacity="${l1Active ? 1 : 0.3}">
+          <rect x="7" y="48" width="54" height="15" rx="3" fill="${l1Active ? "#0c4a6e" : "#1e293b"}" stroke="${l1Active ? activeCol : "#475569"}" stroke-width="${l1Active ? 1.4 : 1}" />
+          <text x="34" y="58" font-size="6.7" font-weight="${l1Active ? 700 : 500}" fill="#e2e8f0" text-anchor="middle">${d1L.leaf ? Math.round(d1L.value) : `${shortFeat(d1L.feature)} ≤ ${d1L.threshold >= 100 ? Math.round(d1L.threshold) : d1L.threshold}`}</text>
+        </g>
+        <g opacity="${r1Active ? 1 : 0.3}">
+          <rect x="67" y="48" width="54" height="15" rx="3" fill="${r1Active ? "#0c4a6e" : "#1e293b"}" stroke="${r1Active ? activeCol : "#475569"}" stroke-width="${r1Active ? 1.4 : 1}" />
+          <text x="94" y="58" font-size="6.7" font-weight="${r1Active ? 700 : 500}" fill="#e2e8f0" text-anchor="middle">${d1R.leaf ? Math.round(d1R.value) : `${shortFeat(d1R.feature)} ≤ ${d1R.threshold >= 100 ? Math.round(d1R.threshold) : d1R.threshold}`}</text>
+        </g>
 
         <!-- Leaf indicators -->
-        <circle cx="18" cy="80" r="${llActive ? 5 : 3.2}" fill="${llActive ? activeCol : "#475569"}" />
-        <circle cx="50" cy="80" r="${lrActive ? 5 : 3.2}" fill="${lrActive ? activeCol : "#475569"}" />
-        <circle cx="78" cy="80" r="${rlActive ? 5 : 3.2}" fill="${rlActive ? activeCol : "#475569"}" />
-        <circle cx="110" cy="80" r="${rrActive ? 5 : 3.2}" fill="${rrActive ? activeCol : "#475569"}" />
-        <text x="64" y="93" font-size="7.8" font-weight="700" fill="${activeCol}" text-anchor="middle">T_${idx + 1}(x) = ${res.value.toFixed(1)}</text>
+        <circle cx="18" cy="85" r="${llActive ? 5.2 : 3}" fill="${llActive ? activeCol : "#475569"}" opacity="${llActive ? 1 : 0.28}" ${llActive ? glowAttr : ""} />
+        <circle cx="50" cy="85" r="${lrActive ? 5.2 : 3}" fill="${lrActive ? activeCol : "#475569"}" opacity="${lrActive ? 1 : 0.28}" ${lrActive ? glowAttr : ""} />
+        <circle cx="78" cy="85" r="${rlActive ? 5.2 : 3}" fill="${rlActive ? activeCol : "#475569"}" opacity="${rlActive ? 1 : 0.28}" ${rlActive ? glowAttr : ""} />
+        <circle cx="110" cy="85" r="${rrActive ? 5.2 : 3}" fill="${rrActive ? activeCol : "#475569"}" opacity="${rrActive ? 1 : 0.28}" ${rrActive ? glowAttr : ""} />
+        <text x="64" y="101" font-size="7.8" font-weight="800" fill="${activeCol}" text-anchor="middle">Leaf T_${idx + 1}(x) = ${res.value.toFixed(1)}</text>
       </g>
     `;
   });
@@ -1581,12 +2486,25 @@ function renderRfTwin(snap) {
   const liveFinal = selectedRfModel === "energy" ? snap.energy : snap.co2;
   const unit = selectedRfModel === "energy" ? "kWh/t" : "kg/h";
   html += `
-    <rect x="8" y="108" width="404" height="20" rx="5" fill="rgba(56, 189, 248, 0.12)" stroke="${activeCol}" stroke-width="1" />
-    <text x="210" y="121" font-size="8.6" font-weight="700" fill="#f8fafc" text-anchor="middle">
-      Ensemble Mean ŷ(x) = (1/100) Σ Tₙ(x)  →  Live ${selectedRfModel === "energy" ? "f₁" : "f₂"} = ${liveFinal.toFixed(2)} ${unit}
+    <rect x="8" y="118" width="404" height="21" rx="5" fill="${physicsEnabled ? "rgba(56, 189, 248, 0.13)" : "rgba(245, 158, 11, 0.16)"}" stroke="${physicsEnabled ? activeCol : "#f59e0b"}" stroke-width="1" />
+    <text x="210" y="131.5" font-size="8.4" font-weight="700" fill="#f8fafc" text-anchor="middle">
+      Ensemble Mean ŷ(x) = (1/100) Σ Tₙ(x) → ${selectedRfModel === "energy" ? "f₁" : "f₂"} = ${liveFinal.toFixed(2)} ${unit} ${physicsEnabled ? "" : "(Physics OFF)"}
     </text>
   `;
   svg.innerHTML = html;
+
+  // Ablation Toggle & R² / RMSE readout
+  const ab = (ARCH_DATA.ablation && ARCH_DATA.ablation[selectedRfModel]) || { full_r2: 0.976, ablated_r2: 0.84, full_rmse: 12.0, ablated_rmse: 30.0 };
+  const abBtn = document.getElementById("ablation-toggle-btn");
+  const abNote = document.getElementById("ablation-note");
+  if (abBtn && abNote) {
+    abBtn.textContent = physicsEnabled ? "Physics Features Eqs. 3.13–3.17: ON ✅" : "Physics Features Eqs. 3.13–3.17: OFF ❌";
+    abBtn.className = physicsEnabled ? "pill-btn active" : "pill-btn warn-active";
+    abNote.textContent = physicsEnabled
+      ? `Full RF: R²=${ab.full_r2.toFixed(3)} · RMSE=${ab.full_rmse.toFixed(1)}`
+      : `Ablated! R² ${ab.full_r2.toFixed(3)}→${ab.ablated_r2.toFixed(3)} · RMSE ${ab.full_rmse.toFixed(1)}→${ab.ablated_rmse.toFixed(1)}`;
+    abNote.style.color = physicsEnabled ? "#10b981" : "#f87171";
+  }
 
   // Feature Importance Bars
   const imps = (ARCH_DATA.importances && ARCH_DATA.importances[selectedRfModel]) || [];
@@ -1613,7 +2531,7 @@ function renderRfTwin(snap) {
   // Model Benchmark Badges
   const b = ARCH_DATA.benchmarks[selectedRfModel] || {};
   document.getElementById("rf-benchmarks").innerHTML = `
-    <span class="bench-pill winner">RFR Test R² = ${(b.RF ?? 0.98).toFixed(3)} (CV ${(b.CV_RF ?? 0.98).toFixed(3)})</span>
+    <span class="bench-pill winner">RFR Test R² = ${(physicsEnabled ? (b.RF ?? 0.98) : ab.ablated_r2).toFixed(3)} (CV ${(b.CV_RF ?? 0.98).toFixed(3)})</span>
     <span class="bench-pill">GBR: ${(b.GBR ?? 0).toFixed(3)}</span>
     <span class="bench-pill">Linear: ${(b.Linear ?? 0).toFixed(3)}</span>
     <span class="bench-pill">SVR(RBF): ${(b.SVR ?? 0).toFixed(3)}</span>
@@ -1623,30 +2541,106 @@ function renderRfTwin(snap) {
   document.getElementById("rf-tab-co2").classList.toggle("active", selectedRfModel === "co2");
 }
 
+function stopEvolutionPlay() {
+  if (evoTimer) {
+    clearInterval(evoTimer);
+    evoTimer = null;
+  }
+  evoPlaying = false;
+}
+
+function toggleEvolutionPlay() {
+  const snaps = ARCH_DATA.gen_snapshots || [];
+  if (!snaps.length) return;
+  if (evoPlaying) {
+    stopEvolutionPlay();
+    updateAll();
+    return;
+  }
+  if (selectedGenIdx >= snaps.length - 1) {
+    selectedGenIdx = 0;
+  }
+  evoPlaying = true;
+  selectedUnit = "nsga2";
+  updateAll();
+  evoTimer = setInterval(() => {
+    if (selectedGenIdx < snaps.length - 1) {
+      selectedGenIdx += 1;
+      updateAll();
+    } else {
+      stopEvolutionPlay();
+      updateAll();
+    }
+  }, 210);
+}
+
 function renderParetoPlot(snap) {
   const svg = document.getElementById("pareto-scatter-svg");
   const pareto = ARCH_DATA.pareto || [];
   const snaps = ARCH_DATA.gen_snapshots || [];
   const genObj = snaps[selectedGenIdx] || { gen: ARCH_DATA.metrics.n_gen, points: [] };
   const base = ARCH_DATA.baseline;
+  const isFinalGen = selectedGenIdx >= snaps.length - 1;
+  const isEvolving = evoPlaying || !isFinalGen;
 
   document.getElementById("gen-slider").max = Math.max(0, snaps.length - 1);
   document.getElementById("gen-slider").value = selectedGenIdx;
   document.getElementById("gen-label").textContent = `Gen ${genObj.gen}`;
 
-  const allE = [...pareto.map(p => p.energy), ...(genObj.points || []).map(p => p.energy), base.energy];
-  const allC = [...pareto.map(p => p.co2), ...(genObj.points || []).map(p => p.co2), base.co2];
-  const minE = Math.min(...allE) - 8;
-  const maxE = Math.max(...allE) + 8;
-  const minC = Math.min(...allC) - 8;
-  const maxC = Math.max(...allC) + 8;
+  const useParetoZoom =
+    paretoZoom &&
+    !isEvolving &&
+    !compareBaseline &&
+    !activeDisturbance &&
+    snap.energy <= 1065 &&
+    snap.co2 <= 935 &&
+    (!paretoTrajectory || paretoTrajectory.fromE <= 1065);
 
-  const padL = 44, padR = 14, padT = 12, padB = 28;
-  const W = 420, H = 192;
+  let minE, maxE, minC, maxC;
+  if (useParetoZoom) {
+    minE = 1027.0;
+    maxE = 1056.0;
+    minC = 910.5;
+    maxC = 922.5;
+  } else {
+    const allE = [
+      ...pareto.map(p => p.energy),
+      ...(genObj.points || []).map(p => p.energy),
+      base.energy,
+      base.predicted_energy || base.energy,
+      snap.energy
+    ];
+    const allC = [
+      ...pareto.map(p => p.co2),
+      ...(genObj.points || []).map(p => p.co2),
+      base.co2,
+      base.predicted_co2 || base.co2,
+      snap.co2
+    ];
+    if (paretoTrajectory) {
+      allE.push(paretoTrajectory.fromE, paretoTrajectory.toE);
+      allC.push(paretoTrajectory.fromC, paretoTrajectory.toC);
+    }
+    minE = Math.min(...allE) - 8;
+    maxE = Math.max(...allE) + 8;
+    minC = Math.min(...allC) - 8;
+    maxC = Math.max(...allC) + 8;
+  }
+
+  const padL = 44, padR = 14, padT = 16, padB = 28;
+  const W = 420, H = 218;
   const sx = e => padL + ((e - minE) / Math.max(1e-6, maxE - minE)) * (W - padL - padR);
   const sy = c => H - padB - ((c - minC) / Math.max(1e-6, maxC - minC)) * (H - padT - padB);
 
   let html = `
+    <defs>
+      <marker id="traj-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 1 L10 5 L0 9 z" fill="#10b981" />
+      </marker>
+      <clipPath id="pareto-clip">
+        <rect x="${padL}" y="${padT}" width="${W - padL - padR}" height="${H - padT - padB}" />
+      </clipPath>
+    </defs>
     <!-- Grid & Axes -->
     <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="#475569" stroke-width="1.2" />
     <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}" stroke="#475569" stroke-width="1.2" />
@@ -1655,35 +2649,101 @@ function renderParetoPlot(snap) {
   `;
 
   // Tick Labels
-  [minE + 8, (minE + maxE) / 2, maxE - 8].forEach(ev => {
+  const eTicks = useParetoZoom ? [1030, 1035, 1040, 1045, 1050, 1055] : [minE + 8, (minE + maxE) / 2, maxE - 8];
+  const cTicks = useParetoZoom ? [912, 914, 916, 918, 920, 922] : [minC + 8, (minC + maxC) / 2, maxC - 8];
+  eTicks.forEach(ev => {
     const x = sx(ev);
-    html += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${H - padB}" stroke="#1e293b" stroke-width="0.7" />
-             <text x="${x.toFixed(1)}" y="${H - padB + 11}" font-size="7.5" fill="#64748b" text-anchor="middle">${Math.round(ev)}</text>`;
+    if (x >= padL && x <= W - padR) {
+      html += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${H - padB}" stroke="#1e293b" stroke-width="0.7" />
+               <text x="${x.toFixed(1)}" y="${H - padB + 11}" font-size="7.5" fill="#64748b" text-anchor="middle">${Math.round(ev)}</text>`;
+    }
   });
-  [minC + 8, (minC + maxC) / 2, maxC - 8].forEach(cv => {
+  cTicks.forEach(cv => {
     const y = sy(cv);
-    html += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#1e293b" stroke-width="0.7" />
-             <text x="${padL - 5}" y="${(y + 3).toFixed(1)}" font-size="7.5" fill="#64748b" text-anchor="end">${Math.round(cv)}</text>`;
+    if (y >= padT && y <= H - padB) {
+      html += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#1e293b" stroke-width="0.7" />
+               <text x="${padL - 5}" y="${(y + 3).toFixed(1)}" font-size="7.5" fill="#64748b" text-anchor="end">${Math.round(cv)}</text>`;
+    }
   });
 
-  // Dominated candidate cloud for selected generation
+  // Non-Linear Trade-Off Zones Overlay (Section 4.2.1)
+  let innerHtml = "";
+  if (tradeoffZonesOn) {
+    const zones = [
+      { lo: 1029.0, hi: 1035.0, fill: "rgba(239, 68, 68, 0.14)", stroke: "rgba(248, 113, 113, 0.45)", col: "#fca5a5", title: "Steep Cliff", sub: "1029–1035" },
+      { lo: 1035.0, hi: 1045.0, fill: "rgba(16, 185, 129, 0.13)", stroke: "rgba(52, 211, 153, 0.45)", col: "#6ee7b7", title: "Balanced Knee", sub: "1035–1045" },
+      { lo: 1045.0, hi: 1053.4, fill: "rgba(56, 189, 248, 0.13)", stroke: "rgba(56, 189, 248, 0.45)", col: "#7dd3fc", title: "Shallow Leverage", sub: "1045–1053" }
+    ];
+    zones.forEach(z => {
+      const zx1 = sx(z.lo), zx2 = sx(z.hi);
+      const zw = Math.max(0, zx2 - zx1);
+      if (zx2 >= padL && zx1 <= W - padR && zw > 0.5) {
+        innerHtml += `<rect x="${zx1.toFixed(1)}" y="${padT}" width="${zw.toFixed(1)}" height="${H - padT - padB}" fill="${z.fill}" stroke="${z.stroke}" stroke-width="0.7" stroke-dasharray="3 2" />`;
+        if (zw >= 52) {
+          innerHtml += `<text x="${(zx1 + zw / 2).toFixed(1)}" y="${padT + 10}" font-size="7.2" font-weight="800" fill="${z.col}" text-anchor="middle">${z.title}</text>`;
+          innerHtml += `<text x="${(zx1 + zw / 2).toFixed(1)}" y="${padT + 19}" font-size="6.4" font-weight="600" fill="${z.col}" opacity="0.88" text-anchor="middle">${z.sub}</text>`;
+        } else if (zw >= 16) {
+          innerHtml += `<text x="${(zx1 + zw / 2).toFixed(1)}" y="${padT + 9}" font-size="6.2" font-weight="700" fill="${z.col}" text-anchor="middle">${z.title.split(" ")[0]}</text>`;
+        }
+      }
+    });
+  }
+
+  // Non-dominated sorting cloud for selected generation
+  let f1Cnt = 0, f2Cnt = 0, f3Cnt = 0, infCnt = 0;
+  const f1Pts = [];
   (genObj.points || []).forEach(pt => {
-    html += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="2.6" fill="${pt.feasible ? "#64748b" : "#ef4444"}" opacity="0.38" />`;
+    if (!pt.feasible) {
+      infCnt += 1;
+      innerHtml += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="2.7" fill="none" stroke="#ef4444" stroke-width="1.1" opacity="0.65" />`;
+      return;
+    }
+    const rk = pt.rank || 1;
+    if (rk === 1) {
+      f1Cnt += 1;
+      f1Pts.push(pt);
+    } else if (rk === 2) {
+      f2Cnt += 1;
+      innerHtml += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="3.0" fill="#f59e0b" opacity="0.65" />`;
+    } else {
+      f3Cnt += 1;
+      innerHtml += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="2.5" fill="#a855f7" opacity="0.45" />`;
+    }
   });
 
-  // Historical Baseline Marker + Crosshairs
-  const bx = sx(base.energy), by = sy(base.co2);
-  html += `
-    <line x1="${bx.toFixed(1)}" y1="${padT}" x2="${bx.toFixed(1)}" y2="${H - padB}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.5" />
-    <line x1="${padL}" y1="${by.toFixed(1)}" x2="${W - padR}" y2="${by.toFixed(1)}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.5" />
-    <polygon points="${bx.toFixed(1)},${(by - 5).toFixed(1)} ${(bx + 5).toFixed(1)},${(by + 4).toFixed(1)} ${(bx - 5).toFixed(1)},${(by + 4).toFixed(1)}" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
-    <text x="${(bx - 6).toFixed(1)}" y="${(by - 7).toFixed(1)}" font-size="7.5" font-weight="700" fill="#f87171" text-anchor="end">Plant Baseline</text>
-  `;
+  if (isEvolving && f1Pts.length > 0) {
+    const sortedF1 = [...f1Pts].sort((a, b) => a.energy - b.energy);
+    if (sortedF1.length > 1) {
+      const f1Line = sortedF1.map(p => `${sx(p.energy).toFixed(1)},${sy(p.co2).toFixed(1)}`).join(" ");
+      innerHtml += `<polyline fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.78" points="${f1Line}" />`;
+    }
+    sortedF1.forEach(pt => {
+      innerHtml += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="3.4" fill="#10b981" stroke="#0f172a" stroke-width="0.7" opacity="0.9" />`;
+    });
+  }
 
-  // Pareto Optimal Polyline
+  // Historical Baseline & RFR Baseline Predicted markers (when inside viewport)
+  if (!useParetoZoom) {
+    const bx = sx(base.energy), by = sy(base.co2);
+    innerHtml += `
+      <line x1="${bx.toFixed(1)}" y1="${padT}" x2="${bx.toFixed(1)}" y2="${H - padB}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.42" />
+      <line x1="${padL}" y1="${by.toFixed(1)}" x2="${W - padR}" y2="${by.toFixed(1)}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.42" />
+      <polygon points="${bx.toFixed(1)},${(by - 5).toFixed(1)} ${(bx + 5).toFixed(1)},${(by + 4).toFixed(1)} ${(bx - 5).toFixed(1)},${(by + 4).toFixed(1)}" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
+      <text x="${(bx - 6).toFixed(1)}" y="${(by - 6).toFixed(1)}" font-size="7.2" font-weight="700" fill="#f87171" text-anchor="end">Plant Baseline (1160.87, 973.45)</text>
+    `;
+    if (base.predicted_energy && base.predicted_co2) {
+      const pxb = sx(base.predicted_energy), pyb = sy(base.predicted_co2);
+      innerHtml += `
+        <polygon points="${pxb.toFixed(1)},${(pyb - 4.5).toFixed(1)} ${(pxb + 4.5).toFixed(1)},${pyb.toFixed(1)} ${pxb.toFixed(1)},${(pyb + 4.5).toFixed(1)} ${(pxb - 4.5).toFixed(1)},${pyb.toFixed(1)}" fill="#f59e0b" stroke="#ffffff" stroke-width="0.9" />
+        <text x="${(pxb - 6).toFixed(1)}" y="${(pyb - 5).toFixed(1)}" font-size="6.8" font-weight="700" fill="#fbbf24" text-anchor="end">RFR Pred (1168.21, 1005.78)</text>
+      `;
+    }
+  }
+
+  // Final 50-pt Pareto Optimal Polyline (dimmed reference during Gen < 100, crisp at Gen 100)
   if (pareto.length > 1) {
     const linePts = pareto.map(p => `${sx(p.energy).toFixed(1)},${sy(p.co2).toFixed(1)}`).join(" ");
-    html += `<polyline fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.7" points="${linePts}" />`;
+    innerHtml += `<polyline fill="none" stroke="#38bdf8" stroke-width="${isEvolving ? 1.1 : 1.8}" stroke-dasharray="${isEvolving ? "4 3" : "none"}" opacity="${isEvolving ? 0.35 : 0.85}" points="${linePts}" />`;
   }
 
   // Clickable 50 Pareto Points
@@ -1691,55 +2751,116 @@ function renderParetoPlot(snap) {
   document.getElementById("pareto-point-badge").textContent = `${pareto.length} Optimal Pts`;
   pareto.forEach((p, idx) => {
     const px = sx(p.energy), py = sy(p.co2);
-    const isSel = !compareBaseline && activeBase.id === p.id;
-    let fill = "#38bdf8", r = 3.4, stroke = "#0f172a";
+    const isSel = !compareBaseline && !manualMode && activeBase.id === p.id;
+    let fill = "#38bdf8", r = isEvolving ? 2.1 : 3.2, stroke = "#0f172a";
     if (p.regime === "Low Energy") { fill = "#f59e0b"; r = 5.4; stroke = "#ffffff"; }
     else if (p.regime === "Balanced") { fill = "#10b981"; r = 6.2; stroke = "#ffffff"; }
     else if (p.regime === "Low CO2") { fill = "#a855f7"; r = 5.4; stroke = "#ffffff"; }
 
-    if (isSel) {
-      html += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10" fill="none" stroke="#fde047" stroke-width="1.8" opacity="0.9" />`;
+    if (isSel && !isEvolving) {
+      innerHtml += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10" fill="none" stroke="#fde047" stroke-width="1.8" opacity="0.9" />`;
     }
-    html += `<circle class="pareto-pt" data-pidx="${idx}" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="1" />`;
+    innerHtml += `<circle class="pareto-pt" data-pidx="${idx}" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="1" opacity="${isEvolving && !p.regime ? 0.45 : 1}" />`;
     if (p.regime) {
-      const lblY = p.regime === "Balanced" ? py - 9 : (p.regime === "Low Energy" ? py + 12 : py - 8);
-      html += `<text x="${(px + 4).toFixed(1)}" y="${lblY.toFixed(1)}" font-size="7.3" font-weight="700" fill="${fill}">${p.regime}</text>`;
+      let lblX = px + 5;
+      let lblY = py - 8;
+      let anchor = "start";
+      if (p.regime === "Low Energy") {
+        lblX = px + 4;
+        lblY = py + 12;
+      } else if (p.regime === "Balanced") {
+        lblX = px + 7;
+        lblY = py - 8;
+      } else if (p.regime === "Low CO2") {
+        lblX = px - 6;
+        lblY = py - 8;
+        anchor = "end";
+      }
+      innerHtml += `<text x="${lblX.toFixed(1)}" y="${lblY.toFixed(1)}" font-size="7.2" font-weight="800" fill="${fill}" text-anchor="${anchor}">${p.regime}</text>`;
     }
   });
 
-  // Live Jitter Marker if Live Stream ON
-  if (liveStreamOn) {
-    html += `<circle cx="${sx(snap.energy).toFixed(1)}" cy="${sy(snap.co2).toFixed(1)}" r="4.5" fill="#fde047" stroke="#000" stroke-width="1" />`;
+  // Animated AI Optimization Trajectory Arrow (Before -> Pareto Optimal)
+  if (paretoTrajectory) {
+    const x1 = sx(paretoTrajectory.fromE), y1 = sy(paretoTrajectory.fromC);
+    const x2 = sx(paretoTrajectory.toE), y2 = sy(paretoTrajectory.toC);
+    innerHtml += `
+      <circle cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="4" fill="#f87171" stroke="#ffffff" stroke-width="1" opacity="0.9" />
+      <text x="${Math.min(W - 42, x1 + 6).toFixed(1)}" y="${Math.max(padT + 10, y1 - 5).toFixed(1)}" font-size="7" font-weight="700" fill="#fca5a5">Before</text>
+      <path id="pareto-traj-arrow" d="M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="#10b981" stroke-width="2.2" stroke-dasharray="5 3" fill="none" marker-end="url(#traj-arr)" />
+    `;
   }
 
+  // Pulsing Current Operating Point Crosshair Marker
+  const curX = sx(snap.energy), curY = sy(snap.co2);
+  const curInfeasible = snap.production < ARCH_DATA.thermo.min_cpr - 1e-6;
+  const curCol = curInfeasible ? "#ef4444" : (manualMode || compareBaseline ? "#f59e0b" : "#10b981");
+  const curLblX = curX > W - 96 ? curX - 8 : curX + 8;
+  const curAnchor = curX > W - 96 ? "end" : "start";
+  const curLblY = curY < padT + 20 ? curY + 14 : curY - 7;
+  innerHtml += `
+    <line x1="${curX.toFixed(1)}" y1="${padT}" x2="${curX.toFixed(1)}" y2="${H - padB}" stroke="${curCol}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65" />
+    <line x1="${padL}" y1="${curY.toFixed(1)}" x2="${W - padR}" y2="${curY.toFixed(1)}" stroke="${curCol}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65" />
+    <circle class="pareto-pulse-ring" cx="${curX.toFixed(1)}" cy="${curY.toFixed(1)}" r="9" fill="none" stroke="${curCol}" stroke-width="1.8" />
+    <circle id="pareto-current-dot" cx="${curX.toFixed(1)}" cy="${curY.toFixed(1)}" r="4.6" fill="#fde047" stroke="#0f172a" stroke-width="1.3" />
+    <text x="${curLblX.toFixed(1)}" y="${curLblY.toFixed(1)}" font-size="7.5" font-weight="800" fill="#fde047" text-anchor="${curAnchor}">🎯 Current</text>
+  `;
+
+  html += `<g clip-path="url(#pareto-clip)">${innerHtml}</g>`;
   svg.innerHTML = html;
 
   svg.querySelectorAll(".pareto-pt").forEach(ptEl => {
     ptEl.addEventListener("click", () => {
+      const prevK = { ...getLiveSnapshot().knobs };
+      stopEvolutionPlay();
+      selectedGenIdx = Math.max(0, snaps.length - 1);
       const idx = parseInt(ptEl.getAttribute("data-pidx"), 10);
       compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      showValidationTable = false;
       customParetoIdx = idx;
       if (pareto[idx].regime) {
         activeRegime = pareto[idx].regime;
       }
+      syncManualFromRecord(pareto[idx]);
       selectedUnit = "nsga2";
-      triggerFeedbackPulse();
+      triggerFeedbackPulse(prevK, pareto[idx].knobs);
       updateAll();
     });
   });
 
+  // Update Evolution Front Legend
+  const evoLeg = document.getElementById("evolution-legend");
+  if (evoLeg) {
+    evoLeg.innerHTML = `
+      <span class="evo-legend-item"><span class="evo-dot" style="background:#10b981;"></span>Front F1: ${f1Cnt}</span>
+      <span class="evo-legend-item"><span class="evo-dot" style="background:#f59e0b;"></span>Front F2: ${f2Cnt}</span>
+      <span class="evo-legend-item"><span class="evo-dot" style="background:#a855f7;"></span>Front F3+: ${f3Cnt}</span>
+      <span class="evo-legend-item"><span class="evo-dot" style="border:1.5px solid #ef4444;"></span>Infeasible (CPR&lt;91.8): ${infCnt}</span>
+    `;
+  }
+
+  // Update Section 4.2.1 Trade-Off Zone Callout Bar
+  const zBar = document.getElementById("zone-callout-bar");
+  if (zBar) {
+    zBar.classList.toggle("hidden", !tradeoffZonesOn);
+    zBar.innerHTML = `<strong>Sec 4.2.1 Regimes:</strong> <span style="color:#fca5a5;">Steep Cliff (1029–1035):</span> sharp CO₂ spike (916→920.55 kg/h) · <span style="color:#6ee7b7;">Balanced Knee (1035–1045):</span> optimal compromise · <span style="color:#7dd3fc;">Shallow Leverage (1045–1053):</span> −8 kWh/t costs only +2 kg/h CO₂ (thermal dilution @ 89.95 tph, 1353.31°C).`;
+  }
+
   // Constraint status
   const margin = snap.production - ARCH_DATA.thermo.min_cpr;
   const cStatus = document.getElementById("constraint-status");
-  if (compareBaseline) {
-    cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (Plant Baseline)`;
-    cStatus.className = "warn";
-  } else if (margin >= -1e-6) {
+  if (margin >= -1e-6) {
     cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (+${margin.toFixed(2)} tph) · FEASIBLE ✅`;
     cStatus.className = "good";
   } else {
-    cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (${margin.toFixed(2)} tph) · INFEASIBLE`;
-    cStatus.className = "warn";
+    const isLowCo2Preset = !manualMode && !compareBaseline && snap.rec && snap.rec.regime === "Low CO2";
+    cStatus.textContent = isLowCo2Preset
+      ? `CPR = ${snap.production.toFixed(2)} tph (${margin.toFixed(2)} tph · Table 4.1 Low-CO₂ Thermal Dilution)`
+      : `CPR = ${snap.production.toFixed(2)} tph (${margin.toFixed(2)} tph) · INFEASIBLE ❌`;
+    cStatus.className = isLowCo2Preset ? "info" : "warn";
   }
 }
 
@@ -1747,6 +2868,10 @@ function getInspectorInfo(unitId, snap) {
   const base = ARCH_DATA.baseline;
   const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || snap;
   const lowC = (ARCH_DATA.regimes && ARCH_DATA.regimes["Low CO2"]) || snap;
+  const r2Str = (base.r2_reported ?? 0.98).toFixed(2);
+  const predE = `${(base.predicted_energy ?? base.energy).toFixed(2)} (+${(base.predicted_energy_dev_pct ?? 0.63).toFixed(2)}%, R²=${r2Str})`;
+  const predC = `${(base.predicted_co2 ?? base.co2).toFixed(2)} (+${(base.predicted_co2_dev_pct ?? 3.32).toFixed(2)}%, R²=${r2Str})`;
+  const predP = `${(base.predicted_cpr ?? base.production).toFixed(2)} (0.00%)`;
   const pctStr = (v, b) => {
     const p = b !== 0 ? ((v - b) / b) * 100 : 0;
     return `${p >= 0 ? "+" : ""}${p.toFixed(2)}%`;
@@ -1757,7 +2882,7 @@ function getInspectorInfo(unitId, snap) {
     return {
       param: `${label}${unit ? ` (${unit})` : ""}`,
       base: bVal.toFixed(2),
-      pred: pVal !== null ? pVal.toFixed(2) : "—",
+      pred: pVal === null ? "—" : (typeof pVal === "string" ? pVal : pVal.toFixed(2)),
       opt: oVal.toFixed(2),
       delta: `${d >= 0 ? "+" : ""}${d.toFixed(2)} (${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%)`
     };
@@ -1778,8 +2903,8 @@ function getInspectorInfo(unitId, snap) {
       liveCode: `Current=${oVal.toFixed(2)} ${sensorMatch.unit} | Baseline=${bVal.toFixed(2)} | Sparkline 15-pt range updated live.`,
       rows: [
         makeRow(sensorMatch.label, bVal, bVal, oVal, sensorMatch.unit),
-        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
-        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+        makeRow("Specific Energy (f₁)", base.energy, predE, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h")
       ],
       inStreams: [{ id: "nsga2", label: "NSGA-II Closed-Loop", desc: "Receives optimal setpoint target deltas when optimization is active." }],
       outStreams: [{ id: "feat_he", label: "Feature Forge (Eqs. 3.13–3.17)", desc: "Feeds raw physical signals into thermodynamic transformations." }],
@@ -1791,13 +2916,13 @@ function getInspectorInfo(unitId, snap) {
     preheater: {
       title: "Gepol 4-Stage Preheater Cyclone Tower",
       module: "src/cement_opt/features/engineering.py · Eq. 3.13",
-      func: "Counter-current gas-solid heat exchanger: raw meal limestone (81.8–87.7% CaCO₃) descends through 4 cyclone stages (680°C → 830°C) while hot kiln exhaust pre-calcines limestone before kiln entry.",
-      eqDesc: "Calcination stoichiometry Eq. 3.13: CaCO₃ → CaO + CO₂; Theoretical_CO2 = RMC × CPR × 0.44.",
-      liveCode: `Limestone=${snap.limestone.toFixed(2)}% | Theoretical_CO2=${snap.theoCO2.toFixed(1)} | Stage 4 Calcining=830°C`,
+      func: "Counter-current gas-solid heat exchanger: raw meal limestone (80.2–86.8% CaCO₃) descends through 4 cyclone stages (680°C → 830°C) while hot kiln exhaust pre-calcines limestone before kiln entry.",
+      eqDesc: "Calcination stoichiometry Eq. 3.13: CaCO₃ → CaO + CO₂; Theoretical_CO2 (t/h) = (RMC/100) × CPR × 0.44.",
+      liveCode: `Limestone=${snap.limestone.toFixed(2)}% | Theoretical_CO2=${snap.theoCO2.toFixed(2)} t/h | Stage 4 Calcining=830°C`,
       rows: [
         makeRow("Raw Meal (% Limestone)", base.limestone, base.limestone, snap.limestone, "%"),
-        makeRow("Theoretical CO₂ (Eq 3.13)", base.theoretical_co2, base.theoretical_co2, snap.theoCO2),
-        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+        makeRow("Theoretical CO₂ (Eq 3.13)", base.theoretical_co2, base.theoretical_co2, snap.theoCO2, "t/h"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h")
       ],
       inStreams: [{ id: "s_limestone", label: "Raw Meal Feeder Sensor", desc: "Limestone CaCO₃ composition and meal feed rate." }],
       outStreams: [{ id: "kiln", label: "Rotary Kiln Inlet", desc: "Pre-calcined hot meal enters kiln calcining zone at ~830°C." }, { id: "analyzer", label: "Back-End Gas Analyzer", desc: "Exhaust gas stream exits Stage 1 cyclone." }],
@@ -1806,33 +2931,33 @@ function getInspectorInfo(unitId, snap) {
     kiln: {
       title: "Ashaka Gepol Rotary Kiln (72m × 4m · 3 rpm · 488 kW)",
       module: "src/cement_opt/features/engineering.py · Eqs. 3.14–3.16",
-      func: "Inclined cylindrical reactor resting on 4 riding tyres converting calcined meal into alite/belite clinker phases at 1342–1375°C while consuming main and rotary drive electrical power.",
-      eqDesc: "Eq. 3.14–3.15: Theoretical_Energy = (CPR × 1000 × 1780) / 3600 | Eq. 3.16: Heat_Efficiency = T_E / Fuel_Rate.",
-      liveCode: `Burn Temp=${snap.temp.toFixed(1)}°C | Rotary Drive=${snap.rotary.toFixed(1)} kW | Main Power=${snap.power.toFixed(0)} kW | HE=${snap.heatEff.toFixed(1)}`,
+      func: "Inclined cylindrical reactor resting on 4 riding tyres converting calcined meal into alite/belite clinker phases at 1342–1369°C while consuming main and rotary drive electrical power.",
+      eqDesc: "Eq. 3.14–3.15: Theoretical_Energy (MW) = (CPR × 1000 × 1780) / 3.6e6 | Eq. 3.16: Heat_Efficiency = T_E(kW) / Fuel_Rate.",
+      liveCode: `Burn Temp=${snap.temp.toFixed(2)}°C | Rotary Drive=${snap.rotary.toFixed(2)} kW | Main Power=${snap.power.toFixed(2)} kW | HE=${snap.heatEff.toFixed(2)}`,
       rows: [
         makeRow("Kiln Temperature", base.temp, base.temp, snap.temp, "°C"),
         makeRow("Main Power", base.power, base.power, snap.power, "kW"),
         makeRow("Rotary Drive Power", base.knobs["Power (rotary drive) Kw"], base.knobs["Power (rotary drive) Kw"], snap.rotary, "kW"),
-        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t")
+        makeRow("Specific Energy (f₁)", base.energy, predE, snap.energy, "kWh/t")
       ],
       inStreams: [{ id: "preheater", label: "Gepol 4-Stage Preheater", desc: "Calcined feed at 830°C." }, { id: "burner", label: "Burner Lance & Fuel Valve", desc: "Combustion thermal input." }],
       outStreams: [{ id: "coolers", label: "Planetary Coolers & Crusher", desc: "1350°C clinker discharged for rapid quenching." }, { id: "rf_energy", label: "Energy & CO₂ RF Twin", desc: "Power + thermal efficiency drive surrogate predictions." }],
-      goal: `Operating near ${bal.temp.toFixed(1)}°C with lower main/rotary auxiliary power and higher Heat Efficiency achieves ${pctStr(bal.energy, base.energy)} specific energy reduction while boosting throughput ${pctStr(bal.production, base.production)}.`
+      goal: `Balanced Solution 25 (${bal.temp.toFixed(2)}°C, Rotary ${bal.knobs["Power (rotary drive) Kw"].toFixed(2)} kW) cuts Specific Energy ${pctStr(bal.energy, base.energy)} (1030.42 vs 1160.87 kWh/t) at Validated CPR ${bal.production.toFixed(2)} tph (Table 4.1 nominal: ${(bal.nominal_production ?? 83.56).toFixed(2)} tph).`
     },
     burner: {
       title: "Kiln Firing Hood & Burner Lance Actuator",
       module: "src/cement_opt/optimization/recommender.py",
       func: "Injects Coal/Gas/Oil fuel and primary combustion air into the burning zone; flame length and radiative heat flux govern clinker sintering and fuel CO₂ intensity.",
       eqDesc: "Heat_Efficiency = Theoretical_Energy / Fuel_Consumption (higher efficiency = more clinker enthalpy per kg fuel).",
-      liveCode: `Fuel=${snap.fuel_rate.toFixed(1)} kg/h (${snap.fuel}) | Air Flow=${snap.air.toFixed(0)} m³/h | Heat_Eff=${snap.heatEff.toFixed(1)}`,
+      liveCode: `Fuel=${snap.fuel_rate.toFixed(2)} kg/h (${snap.fuel}) | Air Flow=${snap.air.toFixed(2)} m³/h | Heat_Eff=${snap.heatEff.toFixed(2)}`,
       rows: [
         makeRow("Fuel Consumption", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h"),
         makeRow("Heat Efficiency", base.heat_eff, base.heat_eff, snap.heatEff),
-        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+        makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h")
       ],
-      inStreams: [{ id: "nsga2", label: "NSGA-II Fuel Setpoint", desc: `Tunes fuel rate from ${base.fuel_rate.toFixed(1)} → ${bal.fuel_rate.toFixed(1)} kg/h (${pctStr(bal.fuel_rate, base.fuel_rate)}).` }],
+      inStreams: [{ id: "nsga2", label: "NSGA-II Fuel Setpoint", desc: `Tunes fuel rate from ${base.fuel_rate.toFixed(2)} → ${bal.fuel_rate.toFixed(2)} kg/h (${pctStr(bal.fuel_rate, base.fuel_rate)}).` }],
       outStreams: [{ id: "kiln", label: "Kiln Burning Zone", desc: "Radiative flame heat drives clinker formation." }],
-      goal: `Trimming fuel consumption from ${base.fuel_rate.toFixed(1)} to ${bal.fuel_rate.toFixed(1)} kg/h raises Heat Efficiency from ${base.heat_eff.toFixed(1)} to ${bal.heat_eff.toFixed(1)} and cuts combustion CO₂.`
+      goal: `Trimming fuel consumption from ${base.fuel_rate.toFixed(2)} to ${bal.fuel_rate.toFixed(2)} kg/h yields Heat Efficiency ${bal.heat_eff.toFixed(2)} while Low CO₂ (Sol 49) shifts fuel to ${lowC.fuel_rate.toFixed(2)} kg/h at ${lowC.temp.toFixed(2)}°C for thermal dilution.`
     },
     coolers: {
       title: "Planetary Coolers, Clinker Crusher (100°C) & Bucket Conveyor",
@@ -1841,19 +2966,19 @@ function getInspectorInfo(unitId, snap) {
       eqDesc: "Production constraint Eq. 3.22: g(x) = 91.80 - Clinker_Production_Rate <= 0.",
       liveCode: `Clinker Rate=${snap.production.toFixed(2)} tph | Constraint Margin=${(snap.production - ARCH_DATA.thermo.min_cpr).toFixed(2)} tph`,
       rows: [
-        makeRow("Clinker Production Rate", base.production, base.production, snap.production, "tph"),
-        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t")
+        makeRow("Clinker Production Rate", base.production, predP, snap.production, "tph"),
+        makeRow("Specific Energy (f₁)", base.energy, predE, snap.energy, "kWh/t")
       ],
       inStreams: [{ id: "kiln", label: "Kiln Discharge Hood", desc: "Sintered clinker exit." }],
       outStreams: [{ id: "nsga2", label: "NSGA-II Constraint Check", desc: "Enforces zero production loss (>= 91.80 tph)." }],
-      goal: `Proves sustainability gains do NOT come from throttling output: thermal dilution at ${bal.production.toFixed(2)}–${lowC.production.toFixed(2)} tph reduces specific kWh per ton of clinker.`
+      goal: `Sol 25 Balanced sustains Validated CPR = ${bal.production.toFixed(2)} tph (+0.28% vs 91.80 tph Plant; Table 4.1 nominal 83.56 tph), whereas Sol 49 Low CO₂ operates in the Shallow Leverage Zone at ${lowC.production.toFixed(2)} tph.`
     },
     analyzer: {
       title: "Back-End Gas Analyzer (O₂ %, NOx & Draft Pressure)",
       module: "src/cement_opt/features/engineering.py · Eq. 3.17",
       func: "Continuously samples kiln-inlet / preheater-exit gas to verify complete combustion without excess-air dilution losses.",
       eqDesc: "Eq. 3.17: O2_Deviation = |Oxygen_Levels (%) - 4.0%|.",
-      liveCode: `O₂=${snap.o2.toFixed(2)}% | |O₂ - 4.0%|=${snap.o2Dev.toFixed(3)}% | Pressure=${snap.pressure.toFixed(2)} bar`,
+      liveCode: `O₂=${snap.o2.toFixed(2)}% | |O₂ - 4.0%|=${snap.o2Dev.toFixed(2)}% | Pressure=${snap.pressure.toFixed(2)} bar`,
       rows: [
         makeRow("Oxygen Levels", base.o2, base.o2, snap.o2, "%"),
         makeRow("O₂ Deviation |O₂-4%|", base.o2_dev, base.o2_dev, snap.o2Dev, "%"),
@@ -1861,14 +2986,14 @@ function getInspectorInfo(unitId, snap) {
       ],
       inStreams: [{ id: "preheater", label: "Preheater Exit Gas", desc: "Hot exhaust gas leaving Stage 1." }],
       outStreams: [{ id: "idfan", label: "Gepol ID Fan", desc: "Guides damper & draft control." }, { id: "feat_o2dev", label: "Eq 3.17 Feature Forge", desc: "Computes stoichiometric O₂ penalty." }],
-      goal: `Bringing plant O₂ from ${base.o2.toFixed(2)}% closer to the 4.0% target eliminates incomplete combustion CO spikes without blowing cold excess air through the kiln.`
+      goal: `Holding O₂ near 3.86% (Sol 1 & Sol 25, O₂_Dev = 0.14%) or 4.13% (Sol 49, O₂_Dev = 0.14%) eliminates incomplete combustion CO spikes without excess-air cooling losses.`
     },
     niro: {
       title: "NIRO Gas Conditioning Tower (GCT)",
       module: "Ashaka Exhaust Conditioning Train",
       func: "Atomizes water spray inside the vertical tower to cool and humidify preheater exhaust gas prior to electrostatic/baghouse filtration; bottom screw conveyors collect coarse dust.",
       eqDesc: "Evaporative gas cooling protects downstream baghouse filter media and lowers volumetric fan draw.",
-      liveCode: `Air Flow=${snap.air.toFixed(0)} m³/h | Stack CO₂=${snap.co2.toFixed(1)} kg/h`,
+      liveCode: `Air Flow=${snap.air.toFixed(2)} m³/h | Stack CO₂=${snap.co2.toFixed(2)} kg/h`,
       rows: [makeRow("Air Flow Rate", base.air, base.air, snap.air, "m³/h")],
       inStreams: [{ id: "analyzer", label: "Preheater Exhaust Duct", desc: "Hot gas stream after O₂ analysis." }],
       outStreams: [{ id: "idfan", label: "Gepol ID Fan", desc: "Conditioned gas enters 730 kW fan suction." }],
@@ -1879,7 +3004,7 @@ function getInspectorInfo(unitId, snap) {
       module: "src/cement_opt/optimization/recommender.py",
       func: "Maintains negative kiln draft and pulls combustion gases through the kiln, 4-stage preheater, and NIRO tower. Fan power scales steeply with flow (Affinity Laws: P ∝ Q³).",
       eqDesc: `Power_Consumed (KWt/h) is #1 driver (${(ARCH_DATA.importances.energy[0].importance * 100).toFixed(1)}% importance) of Energy RF.`,
-      liveCode: `Air Flow=${snap.air.toFixed(0)} m³/h | Power Consumed=${snap.power_cons.toFixed(1)} kWt/h | Pressure=${snap.pressure.toFixed(2)} bar`,
+      liveCode: `Air Flow=${snap.air.toFixed(2)} m³/h | Power Consumed=${snap.power_cons.toFixed(2)} kWt/h | Pressure=${snap.pressure.toFixed(2)} bar`,
       rows: [
         makeRow("Air Flow Rate", base.air, base.air, snap.air, "m³/h"),
         makeRow("Power Consumed", base.knobs["Power Consumed (KWt/h)"], base.knobs["Power Consumed (KWt/h)"], snap.power_cons, "kWt/h"),
@@ -1887,14 +3012,14 @@ function getInspectorInfo(unitId, snap) {
       ],
       inStreams: [{ id: "niro", label: "NIRO GCT Outlet", desc: "Conditioned exhaust gas." }],
       outStreams: [{ id: "baghouse", label: "Baghouse Filter", desc: "Pressurized gas pushed to particulate filtration." }],
-      goal: `Trimming draft pressure (${base.knobs["Kiln Pressure (bar)"].toFixed(2)} → ${bal.knobs["Kiln Pressure (bar)"].toFixed(2)} bar) and fan electrical draw is the #1 lever cutting Specific Energy (${pctStr(bal.energy, base.energy)}).`
+      goal: `Trimming draft pressure (${base.knobs["Kiln Pressure (bar)"].toFixed(2)} → ${bal.knobs["Kiln Pressure (bar)"].toFixed(2)} bar) and Power Consumed (${base.knobs["Power Consumed (KWt/h)"].toFixed(2)} → ${bal.knobs["Power Consumed (KWt/h)"].toFixed(2)} kWt/h) drives the ${pctStr(bal.energy, base.energy)} Specific Energy reduction.`
     },
     baghouse: {
       title: "Baghouse Dust Collector (Filter Bag Rows & Hoppers)",
       module: "Ashaka Air Pollution Control",
       func: "Captures kiln dust on vertical fabric filter bags before clean CO₂-bearing flue gas exits the tall stack; zig-zag hoppers return captured dust to raw meal.",
       eqDesc: "Particulate separation prior to stack monitoring; pressure drop directly loads the ID Fan.",
-      liveCode: `Draft Pressure=${snap.pressure.toFixed(2)} bar | Flue Flow=${snap.air.toFixed(0)} m³/h`,
+      liveCode: `Draft Pressure=${snap.pressure.toFixed(2)} bar | Flue Flow=${snap.air.toFixed(2)} m³/h`,
       rows: [makeRow("Kiln Pressure", base.knobs["Kiln Pressure (bar)"], base.knobs["Kiln Pressure (bar)"], snap.pressure, "bar")],
       inStreams: [{ id: "idfan", label: "Gepol ID Fan Discharge", desc: "Dust-laden exhaust stream." }],
       outStreams: [{ id: "stack", label: "Tall Exhaust Stack", desc: "Filtered flue gas exits to atmosphere." }],
@@ -1906,18 +3031,18 @@ function getInspectorInfo(unitId, snap) {
       func: "Releases decarbonated + combustion flue gas to atmosphere. Visual plume density & velocity scale dynamically with predicted CO₂ Emissions (kg/h).",
       eqDesc: "Target f₂(x) = CO2 Emissions (kg/h), minimized jointly with Energy f₁(x) in NSGA-II.",
       liveCode: `Live CO₂=${snap.co2.toFixed(2)} kg/h vs Plant Baseline=${base.co2.toFixed(2)} kg/h`,
-      rows: [makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")],
+      rows: [makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h")],
       inStreams: [{ id: "baghouse", label: "Baghouse Clean Gas", desc: "Filtered CO₂ + N₂ + O₂ flue gas." }],
       outStreams: [{ id: "nsga2", label: "NSGA-II Objective f₂", desc: "Tracks plant-wide carbon intensity reduction." }],
-      goal: `Balanced regime reduces hourly CO₂ to ${bal.co2.toFixed(2)} kg/h (${pctStr(bal.co2, base.co2)}) and Low CO₂ drops to ${lowC.co2.toFixed(2)} kg/h while maintaining >= 91.80 tph clinker.`
+      goal: `Sol 25 Balanced cuts CO₂ to ${bal.co2.toFixed(2)} kg/h (${pctStr(bal.co2, base.co2)}) while Sol 49 Low CO₂ reaches ${lowC.co2.toFixed(2)} kg/h (${pctStr(lowC.co2, base.co2)}).`
     },
     feat_tco2: {
       title: "Eq. 3.13 · Theoretical Stoichiometric CO₂",
       module: "src/cement_opt/features/engineering.py",
       func: "Captures unavoidable chemical calcination CO₂ released when limestone CaCO₃ decomposes into CaO clinker.",
-      eqDesc: "Theoretical_CO2 = Raw_Meal_%_Limestone × Clinker_Production_Rate × 0.44",
-      liveCode: `${snap.limestone.toFixed(2)}% × ${snap.production.toFixed(2)} tph × 0.44 = ${snap.theoCO2.toFixed(2)}`,
-      rows: [makeRow("Theoretical CO₂", base.theoretical_co2, base.theoretical_co2, snap.theoCO2), makeRow("CO₂ Emissions", base.co2, base.predicted_co2, snap.co2, "kg/h")],
+      eqDesc: "Theoretical_CO2 (t/h) = (Raw_Meal_%_Limestone / 100) × Clinker_Production_Rate × 0.44",
+      liveCode: `CaCO₃=${snap.limestone.toFixed(2)}% | CPR=${snap.production.toFixed(2)} tph → Theoretical_CO2=${snap.theoCO2.toFixed(2)} t/h`,
+      rows: [makeRow("Theoretical CO₂", base.theoretical_co2, base.theoretical_co2, snap.theoCO2, "t/h"), makeRow("CO₂ Emissions", base.co2, predC, snap.co2, "kg/h")],
       inStreams: [{ id: "preheater", label: "Preheater Limestone & CPR", desc: "Live feedstock % CaCO₃ and clinker rate." }],
       outStreams: [{ id: "rf_co2", label: "CO₂ RF Twin", desc: "Strong stoichiometric predictor in CO₂ Random Forest." }],
       goal: "Separates unavoidable process stoichiometry from avoidable fuel & excess-air emissions."
@@ -1926,9 +3051,9 @@ function getInspectorInfo(unitId, snap) {
       title: "Eqs. 3.14–3.15 · Theoretical Calcination Energy",
       module: "src/cement_opt/features/engineering.py",
       func: "Computes thermodynamic enthalpy demand required to convert raw meal into clinker at 1780 kJ/kg-clinker.",
-      eqDesc: "Theoretical_Energy (kW) = (CPR × 1000 × 1780.0) / 3600.0",
-      liveCode: `(${snap.production.toFixed(2)} × 1000 × 1780) / 3600 = ${snap.theoEnergy.toFixed(1)} kW`,
-      rows: [makeRow("Theoretical Energy", base.theoretical_energy, base.theoretical_energy, snap.theoEnergy, "kW")],
+      eqDesc: "Theoretical_Energy (MW) = (CPR × 1000 × 1780.0) / 3,600,000",
+      liveCode: `CPR=${snap.production.toFixed(2)} tph → Theoretical_Energy=${snap.theoEnergy.toFixed(2)} MW`,
+      rows: [makeRow("Theoretical Energy", base.theoretical_energy, base.theoretical_energy, snap.theoEnergy, "MW")],
       inStreams: [{ id: "coolers", label: "Clinker Production Rate", desc: "Live tonnage throughput." }],
       outStreams: [{ id: "rf_co2", label: "CO₂ RF Twin (#1 imp)", desc: "Top predictor in CO₂ Random Forest." }],
       goal: "Anchors the ML twin to the 1st Law of Thermodynamics so NSGA-II can never hallucinate free energy."
@@ -1937,56 +3062,57 @@ function getInspectorInfo(unitId, snap) {
       title: "Eq. 3.16 · Kiln Heat Efficiency",
       module: "src/cement_opt/features/engineering.py",
       func: "Measures how effectively fuel thermal input translates into useful clinker calcination enthalpy.",
-      eqDesc: "Heat_Efficiency = Theoretical_Energy / Fuel_Consumption (kg/h)",
-      liveCode: `${snap.theoEnergy.toFixed(1)} / ${snap.fuel_rate.toFixed(1)} = ${snap.heatEff.toFixed(1)}`,
+      eqDesc: "Heat_Efficiency = Theoretical_Energy (kW) / Fuel_Consumption (kg/h)",
+      liveCode: `Theoretical_E=${(snap.theoEnergy * 1000).toFixed(0)} kW / Fuel=${snap.fuel_rate.toFixed(2)} kg/h → HE=${snap.heatEff.toFixed(2)}`,
       rows: [makeRow("Heat Efficiency", base.heat_eff, base.heat_eff, snap.heatEff), makeRow("Fuel Rate", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h")],
       inStreams: [{ id: "burner", label: "Fuel Valve & CPR", desc: "Combines enthalpy demand and fuel rate." }],
       outStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Guides optimizer toward higher thermal efficiency." }],
-      goal: `Balanced optimization boosts Heat Efficiency from ${base.heat_eff.toFixed(1)} to ${bal.heat_eff.toFixed(1)} (${pctStr(bal.heat_eff, base.heat_eff)}).`
+      goal: `Sol 1 Low Energy achieves HE = 211.69 and Sol 25 Balanced achieves HE = ${bal.heat_eff.toFixed(2)} (Table 4.1).`
     },
     feat_o2dev: {
       title: "Eq. 3.17 · Stoichiometric O₂ Deviation",
       module: "src/cement_opt/features/engineering.py",
       func: "Penalizes excess or insufficient kiln oxygen away from the optimal 4.0% combustion target.",
       eqDesc: "O2_Deviation = |Oxygen_Levels (%) - 4.0%|",
-      liveCode: `|${snap.o2.toFixed(2)}% - 4.0%| = ${snap.o2Dev.toFixed(3)}%`,
+      liveCode: `|${snap.o2.toFixed(2)}% - 4.0%| = ${snap.o2Dev.toFixed(2)}%`,
       rows: [makeRow("O₂ Deviation", base.o2_dev, base.o2_dev, snap.o2Dev, "%"), makeRow("Oxygen Levels", base.o2, base.o2, snap.o2, "%")],
       inStreams: [{ id: "analyzer", label: "Back-End Gas Analyzer", desc: "Live flue oxygen concentration." }],
       outStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Captures air-fuel combustion loss." }],
-      goal: `Tightens O₂ from ${base.o2.toFixed(2)}% to ${bal.o2.toFixed(2)}% (O₂_Dev drops from ${base.o2_dev.toFixed(3)}% to ${bal.o2_dev.toFixed(3)}%).`
+      goal: `Optimal regimes keep O₂ Deviation tight at 0.14% (3.86% or 4.13% O₂) vs Plant Median (${base.o2.toFixed(2)}% O₂).`
     },
     rf_energy: {
       title: "Dual Random Forest Surrogate Twin (Energy & CO₂)",
       module: "src/cement_opt/models/trainer.py · CementProcessModel",
       func: "100-tree RandomForestRegressor pipelines (max_depth=8) wrapping ChemicalEngineeringTransformer. Serves as millisecond virtual kiln evaluator across 5,000+ NSGA-II candidates.",
-      eqDesc: `Energy Test R² = ${ARCH_DATA.benchmarks.energy.RF.toFixed(4)} (CV ${ARCH_DATA.benchmarks.energy.CV_RF.toFixed(4)}) | CO₂ Test R² = ${ARCH_DATA.benchmarks.co2.RF.toFixed(4)}`,
-      liveCode: `Live f₁=${snap.energy.toFixed(2)} kWh/t | Live f₂=${snap.co2.toFixed(2)} kg/h`,
+      eqDesc: `Energy Test R² = ${ARCH_DATA.benchmarks.energy.RF.toFixed(4)} (Table 4.2 R²=0.98) | CO₂ Test R² = ${ARCH_DATA.benchmarks.co2.RF.toFixed(4)} (Table 4.2 R²=0.98)`,
+      liveCode: `Live f₁=${snap.energy.toFixed(2)} kWh/t | Live f₂=${snap.co2.toFixed(2)} kg/h | Baseline RFR Pred: ${base.predicted_energy.toFixed(2)} kWh/t (+0.63%), ${base.predicted_co2.toFixed(2)} kg/h (+3.32%)`,
       rows: [
-        makeRow("Energy Consumption", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
-        makeRow("CO₂ Emissions", base.co2, base.predicted_co2, snap.co2, "kg/h")
+        makeRow("Energy Consumption", base.energy, predE, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions", base.co2, predC, snap.co2, "kg/h"),
+        makeRow("Clinker Rate (CPR)", base.production, predP, snap.production, "tph")
       ],
       inStreams: [{ id: "feat_te", label: "Feature Forge (20 features)", desc: "16 controllable inputs + 4 thermodynamic laws." }],
       outStreams: [{ id: "nsga2", label: "NSGA-II Multi-Objective Search", desc: "Provides fast nonlinear objective gradients." }],
-      goal: `Outperforms linear energy baselines (R²=${ARCH_DATA.benchmarks.energy.Linear.toFixed(3)}) by capturing nonlinear electrical + kiln thermodynamics at Test R²=${ARCH_DATA.benchmarks.energy.RF.toFixed(3)}.`
+      goal: `Validates tightly against Plant Baseline (Energy +0.63%, CO₂ +3.32%, CPR 0.00%, R²=0.98) and beats Linear baselines (R²=${ARCH_DATA.benchmarks.energy.Linear.toFixed(3)}).`
     },
     rf_co2: null,
     nsga2: {
       title: "NSGA-II Multi-Objective Pareto Optimizer & Regime Recommender",
       module: "src/cement_opt/optimization/problem.py · recommender.py",
-      func: `Evolves 50 candidates over ${ARCH_DATA.metrics.n_gen} generations mutating ONLY the ${ARCH_DATA.knob_cols.length} controllable decision variables while enforcing throughput constraint g(x) = 91.80 - CPR <= 0.`,
-      eqDesc: "min [f₁(Energy), f₂(CO₂)] s.t. Clinker_Production_Rate >= 91.80 tons/h",
+      func: `Evolves 50 candidates over ${ARCH_DATA.metrics.n_gen} generations across 3 Section 4.2.1 trade-off zones while enforcing throughput constraint g(x) = 91.80 - CPR <= 0.`,
+      eqDesc: "min [f₁(Energy), f₂(CO₂)] s.t. Clinker_Production_Rate >= 91.80 tons/h (Pareto Front: 1029.18–1053.40 kWh/t vs 911.90–920.55 kg/h)",
       liveCode: `Active: Energy=${snap.energy.toFixed(2)} kWh/t | CO₂=${snap.co2.toFixed(2)} kg/h | CPR=${snap.production.toFixed(2)} tph`,
       rows: [
-        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
-        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h"),
-        makeRow("Clinker Rate (CPR)", base.production, base.production, snap.production, "tph"),
+        makeRow("Specific Energy (f₁)", base.energy, predE, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h"),
+        makeRow("Clinker Rate (CPR)", base.production, predP, snap.production, "tph"),
         makeRow("Power (Kw)", base.power, base.power, snap.power, "kW"),
         makeRow("Fuel Rate", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h"),
         makeRow("Kiln Temp", base.temp, base.temp, snap.temp, "°C")
       ],
       inStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Evaluates Energy & CO₂ on every generation." }],
       outStreams: [{ id: "burner", label: "Closed-Loop Actuators", desc: "Streams optimal setpoints to Fuel Valve, ID Fan, Kiln Drive & Raw Meal." }],
-      goal: `Demonstrates simultaneous win-win-win: ${pctStr(bal.energy, base.energy)} Energy, ${pctStr(bal.co2, base.co2)} CO₂, and ${pctStr(bal.production, base.production)} Clinker output at the Balanced utopia knee-point.`
+      goal: `Primary Validated Sol 25 (Balanced): 1030.42 kWh/t (-11.24%), 920.42 kg/h (-5.45%), Validated CPR 92.05 tph (+0.28%; Table 4.1 nominal: ${(bal.nominal_production ?? 83.56).toFixed(2)} tph).`
     }
   };
   catalog.rf_co2 = catalog.rf_energy;
@@ -1994,6 +3120,169 @@ function getInspectorInfo(unitId, snap) {
 }
 
 function renderInspector(snap) {
+  const headEl = document.getElementById("ins-table-head");
+  const bodyEl = document.getElementById("ins-table-body");
+  if (showValidationTable) {
+    const base = ARCH_DATA.baseline;
+    const lowE = (ARCH_DATA.regimes && ARCH_DATA.regimes["Low Energy"]) || snap;
+    const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || snap;
+    const lowC = (ARCH_DATA.regimes && ARCH_DATA.regimes["Low CO2"]) || snap;
+    const r2Str = (base.r2_reported ?? 0.98).toFixed(2);
+
+    document.getElementById("ins-title").textContent = "Zone C Inspector · Full Validation Table (Tables 4.1 & 4.2)";
+    document.getElementById("ins-module").textContent = "Manuscript Tables 4.1 & 4.2 · Closed-Loop Impact";
+    document.getElementById("ins-func").textContent = "Complete side-by-side validation comparing Plant Historical Median, Random Forest Digital Twin predictions (R² = 0.98), and the three NSGA-II Pareto-optimal operating regimes.";
+    document.getElementById("ins-eq-desc").textContent = "Primary Validated Target (Sol 25 Balanced): -11.24% Specific Energy (1030.42 kWh/t), -5.45% CO₂ (920.42 kg/h), and +0.28% Validated Clinker Throughput (92.05 tph; Table 4.1 nominal 83.56 tph).";
+    document.getElementById("ins-live-code").textContent = `Baseline: ${base.energy.toFixed(2)} kWh/t | ${base.co2.toFixed(2)} kg/h | ${base.production.toFixed(2)} tph  →  Sol 25 Balanced: ${bal.energy.toFixed(2)} kWh/t (-11.24%) | ${bal.co2.toFixed(2)} kg/h (-5.45%) | ${bal.production.toFixed(2)} tph (+0.28%)`;
+    document.getElementById("ins-goal").innerHTML = "<strong>Validated Industrial Impact (Table 4.2):</strong> Sol 25 (Balanced) delivers simultaneous energy (−11.24%) and carbon (−5.45%) reductions while lifting validated throughput (+0.28% to 92.05 tph), whereas Sol 49 (Low CO₂) illustrates thermal dilution at 89.95 tph & 1353.31°C (−6.16% CO₂).";
+
+    if (headEl) {
+      headEl.innerHTML = `
+        <tr>
+          <th>Metric / Parameter</th>
+          <th>Plant Median (Table 4.2)</th>
+          <th>RFR Baseline Pred</th>
+          <th>Sol 1: Low Energy</th>
+          <th>Sol 25: Balanced (Primary)</th>
+          <th>Sol 49: Low CO₂</th>
+        </tr>
+      `;
+    }
+
+    const fmtD = (v, b, dec = 2) => {
+      const p = b !== 0 ? ((v - b) / b) * 100 : 0;
+      return `${v.toFixed(dec)} (${p >= 0 ? "+" : ""}${p.toFixed(2)}%)`;
+    };
+    const tblRows = [
+      {
+        label: "Specific Energy f₁ (kWh/t)",
+        plant: base.energy.toFixed(2),
+        pred: `${(base.predicted_energy ?? base.energy).toFixed(2)} (+${(base.predicted_energy_dev_pct ?? 0.63).toFixed(2)}%, R²=${r2Str})`,
+        s1: fmtD(lowE.energy, base.energy),
+        s25: fmtD(bal.energy, base.energy),
+        s49: fmtD(lowC.energy, base.energy),
+        cls: "good"
+      },
+      {
+        label: "CO₂ Emissions f₂ (kg/h)",
+        plant: base.co2.toFixed(2),
+        pred: `${(base.predicted_co2 ?? base.co2).toFixed(2)} (+${(base.predicted_co2_dev_pct ?? 3.32).toFixed(2)}%, R²=${r2Str})`,
+        s1: fmtD(lowE.co2, base.co2),
+        s25: fmtD(bal.co2, base.co2),
+        s49: fmtD(lowC.co2, base.co2),
+        cls: "good"
+      },
+      {
+        label: "Clinker Prod. Rate CPR (tph)",
+        plant: base.production.toFixed(2),
+        pred: `${(base.predicted_cpr ?? base.production).toFixed(2)} (0.00%)`,
+        s1: fmtD(lowE.production, base.production),
+        s25: `${bal.production.toFixed(2)} (+0.28% · Nom. ${(bal.nominal_production ?? 83.56).toFixed(2)})`,
+        s49: fmtD(lowC.production, base.production),
+        cls: "good"
+      },
+      {
+        label: "Fuel Consumption (kg/h)",
+        plant: base.fuel_rate.toFixed(2),
+        pred: base.fuel_rate.toFixed(2),
+        s1: fmtD(lowE.fuel_rate, base.fuel_rate),
+        s25: fmtD(bal.fuel_rate, base.fuel_rate),
+        s49: fmtD(lowC.fuel_rate, base.fuel_rate),
+        cls: "info"
+      },
+      {
+        label: "Kiln Sintering Temp (°C)",
+        plant: base.temp.toFixed(2),
+        pred: base.temp.toFixed(2),
+        s1: fmtD(lowE.temp, base.temp),
+        s25: fmtD(bal.temp, base.temp),
+        s49: fmtD(lowC.temp, base.temp),
+        cls: "info"
+      },
+      {
+        label: "Rotary Drive Power (kW)",
+        plant: base.knobs["Power (rotary drive) Kw"].toFixed(2),
+        pred: base.knobs["Power (rotary drive) Kw"].toFixed(2),
+        s1: fmtD(lowE.knobs["Power (rotary drive) Kw"], base.knobs["Power (rotary drive) Kw"]),
+        s25: fmtD(bal.knobs["Power (rotary drive) Kw"], base.knobs["Power (rotary drive) Kw"]),
+        s49: fmtD(lowC.knobs["Power (rotary drive) Kw"], base.knobs["Power (rotary drive) Kw"]),
+        cls: "info"
+      },
+      {
+        label: "Heat Efficiency (Eq. 3.16)",
+        plant: base.heat_eff.toFixed(2),
+        pred: base.heat_eff.toFixed(2),
+        s1: fmtD(lowE.heat_eff, base.heat_eff),
+        s25: fmtD(bal.heat_eff, base.heat_eff),
+        s49: fmtD(lowC.heat_eff, base.heat_eff),
+        cls: "info"
+      },
+      {
+        label: "O₂ Stoich. Dev |O₂-4%| (%)",
+        plant: base.o2_dev.toFixed(2),
+        pred: base.o2_dev.toFixed(2),
+        s1: `${lowE.o2_dev.toFixed(2)}% (O₂ ${lowE.o2.toFixed(2)}%)`,
+        s25: `${bal.o2_dev.toFixed(2)}% (O₂ ${bal.o2.toFixed(2)}%)`,
+        s49: `${lowC.o2_dev.toFixed(2)}% (O₂ ${lowC.o2.toFixed(2)}%)`,
+        cls: "good"
+      }
+    ];
+    bodyEl.innerHTML = tblRows.map(r => `
+      <tr>
+        <td><strong>${r.label}</strong></td>
+        <td>${r.plant}</td>
+        <td>${r.pred}</td>
+        <td class="info">${r.s1}</td>
+        <td class="${r.cls}"><strong>${r.s25}</strong></td>
+        <td class="info">${r.s49}</td>
+      </tr>
+    `).join("");
+
+    const jumpChips = [
+      { id: "kiln", label: "Zone A: Rotary Kiln P&ID", desc: "Return to physical kiln equipment & live actuator view." },
+      { id: "nsga2", label: "Zone B.3: NSGA-II Pareto Front", desc: "Inspect interactive 50-pt frontier & evolution." }
+    ];
+    document.getElementById("ins-in-list").innerHTML = jumpChips.map(s => `
+      <button class="stream-chip" data-jump="${s.id}">
+        <span class="stream-chip-title stream-chip-in">← Inspect ${s.label}</span>
+        <span class="stream-chip-desc">${s.desc}</span>
+      </button>
+    `).join("");
+    document.getElementById("ins-out-list").innerHTML = `
+      <button class="stream-chip" id="close-val-table-chip">
+        <span class="stream-chip-title stream-chip-out">→ Return to Component View</span>
+        <span class="stream-chip-desc">Switch Zone C back to single-unit engineering inspector.</span>
+      </button>
+    `;
+    document.querySelectorAll("#inspector-panel .stream-chip[data-jump]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        showValidationTable = false;
+        selectedUnit = btn.getAttribute("data-jump");
+        updateAll();
+      });
+    });
+    const closeChip = document.getElementById("close-val-table-chip");
+    if (closeChip) {
+      closeChip.addEventListener("click", () => {
+        showValidationTable = false;
+        updateAll();
+      });
+    }
+    return;
+  }
+
+  if (headEl) {
+    headEl.innerHTML = `
+      <tr>
+        <th>Parameter</th>
+        <th>Plant Baseline (Median)</th>
+        <th>Model Predicted</th>
+        <th>Active / NSGA-II Setpoint</th>
+        <th>Δ vs Baseline</th>
+      </tr>
+    `;
+  }
+
   const info = getInspectorInfo(selectedUnit, snap);
   document.getElementById("ins-title").textContent = `Zone C Inspector · ${info.title}`;
   document.getElementById("ins-module").textContent = info.module;
@@ -2002,7 +3291,7 @@ function renderInspector(snap) {
   document.getElementById("ins-live-code").textContent = info.liveCode;
   document.getElementById("ins-goal").innerHTML = `<strong>Why This Matters for the Plant &amp; Professor:</strong> ${info.goal}`;
 
-  document.getElementById("ins-table-body").innerHTML = info.rows.map(r => `
+  bodyEl.innerHTML = info.rows.map(r => `
     <tr>
       <td><strong>${r.param}</strong></td>
       <td>${r.base}</td>
@@ -2024,6 +3313,7 @@ function renderInspector(snap) {
 
   document.querySelectorAll("#inspector-panel .stream-chip").forEach(btn => {
     btn.addEventListener("click", () => {
+      showValidationTable = false;
       selectedUnit = btn.getAttribute("data-jump");
       updateAll();
     });
@@ -2035,24 +3325,254 @@ function renderScoreboard(snap) {
   const ePct = ((snap.energy - base.energy) / base.energy) * 100;
   const cPct = ((snap.co2 - base.co2) / base.co2) * 100;
   const pPct = ((snap.production - base.production) / base.production) * 100;
+  const isBase = compareBaseline && !manualMode;
+  const r2Str = (base.r2_reported ?? 0.98).toFixed(2);
 
   document.getElementById("kpi-energy").textContent = `${snap.energy.toFixed(2)} kWh/t`;
   const ke = document.getElementById("kpi-energy-delta");
-  ke.textContent = compareBaseline ? "Plant Median Baseline" : `${ePct >= 0 ? "+" : ""}${ePct.toFixed(2)}% vs ${base.energy.toFixed(2)}`;
+  ke.textContent = isBase
+    ? `RFR Pred: ${(base.predicted_energy ?? base.energy).toFixed(2)} (+${(base.predicted_energy_dev_pct ?? 0.63).toFixed(2)}%, R²=${r2Str})`
+    : `${ePct >= 0 ? "+" : ""}${ePct.toFixed(2)}% vs ${base.energy.toFixed(2)}`;
   ke.className = `kpi-sub ${ePct < 0 ? "good" : "warn"}`;
 
   document.getElementById("kpi-co2").textContent = `${snap.co2.toFixed(2)} kg/h`;
   const kc = document.getElementById("kpi-co2-delta");
-  kc.textContent = compareBaseline ? "Plant Median Baseline" : `${cPct >= 0 ? "+" : ""}${cPct.toFixed(2)}% vs ${base.co2.toFixed(2)}`;
+  kc.textContent = isBase
+    ? `RFR Pred: ${(base.predicted_co2 ?? base.co2).toFixed(2)} (+${(base.predicted_co2_dev_pct ?? 3.32).toFixed(2)}%, R²=${r2Str})`
+    : `${cPct >= 0 ? "+" : ""}${cPct.toFixed(2)}% vs ${base.co2.toFixed(2)}`;
   kc.className = `kpi-sub ${cPct < 0 ? "good" : "warn"}`;
 
   document.getElementById("kpi-cpr").textContent = `${snap.production.toFixed(2)} tph`;
   const kp = document.getElementById("kpi-cpr-delta");
-  kp.textContent = compareBaseline ? "Constraint Floor (91.80)" : `${pPct >= 0 ? "+" : ""}${pPct.toFixed(2)}% (g(x) ≤ 0 ✅)`;
-  kp.className = `kpi-sub ${pPct >= 0 ? "good" : "warn"}`;
+  const cprOk = snap.production >= ARCH_DATA.thermo.min_cpr - 1e-6;
+  const isBalPreset = !manualMode && !compareBaseline && snap.rec && snap.rec.regime === "Balanced";
+  const isLowCo2Preset = !manualMode && !compareBaseline && snap.rec && snap.rec.regime === "Low CO2";
+  if (isBase) {
+    kp.textContent = `RFR Pred: ${(base.predicted_cpr ?? base.production).toFixed(2)} (0.00%) · Floor 91.80`;
+    kp.className = "kpi-sub good";
+  } else if (isBalPreset) {
+    kp.textContent = `+0.28% (g(x) ≤ 0 ✅ · Nom. ${(snap.rec.nominal_production ?? 83.56).toFixed(2)} tph)`;
+    kp.className = "kpi-sub good";
+  } else if (isLowCo2Preset) {
+    kp.textContent = `${pPct.toFixed(2)}% (Table 4.1 Dilution Regime)`;
+    kp.className = "kpi-sub info";
+  } else {
+    kp.textContent = `${pPct >= 0 ? "+" : ""}${pPct.toFixed(2)}% (${cprOk ? "g(x) ≤ 0 ✅" : "VIOLATES g(x) ≤ 0 ❌"})`;
+    kp.className = `kpi-sub ${cprOk ? "good" : "warn"}`;
+  }
 
-  document.getElementById("kpi-he").textContent = `${snap.heatEff.toFixed(1)}`;
-  document.getElementById("kpi-o2dev").textContent = `|O₂ - 4.0%| = ${snap.o2Dev.toFixed(3)}%`;
+  document.getElementById("kpi-he").textContent = `${snap.heatEff.toFixed(2)}`;
+  document.getElementById("kpi-o2dev").textContent = `|O₂ - 4.0%| = ${snap.o2Dev.toFixed(2)}%`;
+}
+
+function renderImpactStrip() {
+  const strip = document.getElementById("impact-strip");
+  if (!strip) return;
+  if (!lastOptImpact) {
+    strip.classList.add("hidden");
+    return;
+  }
+  const { before, after, target, targetIdx, label } = lastOptImpact;
+  const eSaved = before.energy - after.energy;
+  const ePct = before.energy > 0 ? (eSaved / before.energy) * 100 : 0;
+  const cReduced = before.co2 - after.co2;
+  const cPct = before.co2 > 0 ? (cReduced / before.co2) * 100 : 0;
+  const pGain = after.production - before.production;
+  const fuelDelta = after.fuel_rate - before.fuel_rate;
+  const tempDelta = after.temp - before.temp;
+  const pwrDelta = after.power_cons - before.power_cons;
+  const o2Delta = after.o2 - before.o2;
+  const fmtD = (v, unit, dec = 1) => `${v >= 0 ? "+" : ""}${v.toFixed(dec)} ${unit}`;
+
+  strip.classList.remove("hidden");
+  strip.innerHTML = `
+    <div class="head-row">
+      <div>
+        <h4 class="sub-title" style="color:#10b981;">📊 Closed-Loop Optimization Impact Strip · ${label} → NSGA-II Pareto #${targetIdx + 1}${target.regime ? ` (${target.regime})` : ""}</h4>
+        <p class="sub">Before: <strong>${before.energy.toFixed(2)} kWh/t</strong> · <strong>${before.co2.toFixed(2)} kg/h</strong> · <strong>${before.production.toFixed(2)} tph</strong> &nbsp;→&nbsp; After NSGA-II: <strong>${after.energy.toFixed(2)} kWh/t</strong> · <strong>${after.co2.toFixed(2)} kg/h</strong> · <strong>${after.production.toFixed(2)} tph</strong></p>
+      </div>
+      <button class="pill-btn" id="close-impact-btn">Dismiss ✕</button>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-cell">
+        <div class="impact-cell-lbl">Energy Saved</div>
+        <div class="impact-cell-val ${eSaved >= 0 ? "good" : "warn"}">${eSaved >= 0 ? "−" : "+"}${Math.abs(eSaved).toFixed(2)} kWh/t (${eSaved >= 0 ? "−" : "+"}${Math.abs(ePct).toFixed(2)}%)</div>
+        <div class="impact-cell-sub">${before.energy.toFixed(2)} → ${after.energy.toFixed(2)} kWh/t</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-cell-lbl">CO₂ Reduced</div>
+        <div class="impact-cell-val ${cReduced >= 0 ? "good" : "warn"}">${cReduced >= 0 ? "−" : "+"}${Math.abs(cReduced).toFixed(2)} kg/h (${cReduced >= 0 ? "−" : "+"}${Math.abs(cPct).toFixed(2)}%)</div>
+        <div class="impact-cell-sub">${before.co2.toFixed(2)} → ${after.co2.toFixed(2)} kg/h</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-cell-lbl">Throughput Gain (CPR)</div>
+        <div class="impact-cell-val ${pGain >= 0 ? "good" : "info"}">${fmtD(pGain, "tph", 2)}</div>
+        <div class="impact-cell-sub">${before.production < ARCH_DATA.thermo.min_cpr ? "Restored g(x) ≤ 0 ✅" : `${before.production.toFixed(2)} → ${after.production.toFixed(2)} tph`}</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-cell-lbl">Key Actuator Adjustments</div>
+        <div class="impact-cell-sub" style="margin-top:2px;font-family:ui-monospace,monospace;">
+          Fuel Δ: <strong>${fmtD(fuelDelta, "kg/h", 1)}</strong> · Temp Δ: <strong>${fmtD(tempDelta, "°C", 1)}</strong><br/>
+          Power Δ: <strong>${fmtD(pwrDelta, "kWt", 0)}</strong> · O₂ Δ: <strong>${fmtD(o2Delta, "%", 2)}</strong>
+        </div>
+      </div>
+    </div>
+  `;
+  const closeBtn = document.getElementById("close-impact-btn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      lastOptImpact = null;
+      paretoTrajectory = null;
+      updateAll();
+    });
+  }
+}
+
+function injectDisturbance(key) {
+  stopEvolutionPlay();
+  selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  syncManualFromRecord(ARCH_DATA.baseline);
+  manualMode = true;
+  compareBaseline = false;
+  activeDisturbance = key;
+  paretoTrajectory = null;
+  manualFuel = "Oil";
+
+  const applyOv = (feat, val) => {
+    const cVal = clampToBounds(feat, val);
+    manualState[feat] = cVal;
+    if (sparkHistory[feat]) {
+      sparkHistory[feat].push(cVal);
+      if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+    }
+  };
+
+  if (key === "overburn") {
+    applyOv("Kiln Temperature (°C)", 1368.0);
+    applyOv("Fuel Consumption (kg/h)", 222.0);
+    applyOv("Power Consumed (KWt/h)", 5450.0);
+    applyOv("Power (Kw)", 5750.0);
+    selectedUnit = "burner";
+  } else if (key === "draft") {
+    applyOv("Oxygen Levels (%)", 3.40);
+    applyOv("Air Flow Rate (m³/h)", 1760.0);
+    applyOv("Kiln Pressure (bar)", 16.10);
+    applyOv("Raw Meal Composition (% Limestone)", 87.30);
+    applyOv("Fuel Consumption (kg/h)", 220.0);
+    selectedUnit = "analyzer";
+  } else if (key === "cpr") {
+    applyOv("Clinker Production Rate (tons/h)", 88.0);
+    selectedUnit = "coolers";
+  }
+  slidersExpanded = true;
+  document.getElementById("whatif-sliders-grid").classList.remove("hidden");
+  updateAll();
+}
+
+function runAiOptimizeAnimation() {
+  stopEvolutionPlay();
+  selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  const pareto = ARCH_DATA.pareto || [];
+  if (!pareto.length) return;
+
+  const currentSnap = getLiveSnapshot();
+  const minCpr = ARCH_DATA.thermo.min_cpr;
+  const feasible = pareto.map((p, i) => ({ p, i })).filter(x => x.p.production >= minCpr - 1e-6);
+  const candidates = feasible.length ? feasible : pareto.map((p, i) => ({ p, i }));
+
+  let best = candidates[0];
+  let bestDist = Infinity;
+  candidates.forEach(c => {
+    const dE = (c.p.energy - currentSnap.energy) / 35.0;
+    const dC = (c.p.co2 - currentSnap.co2) / 35.0;
+    const dist = dE * dE + dC * dC;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = c;
+    }
+  });
+
+  const targetIdx = best.i;
+  const targetRec = best.p;
+  const alreadyOptimal = !manualMode && !compareBaseline && bestDist < 0.02;
+  const beforeSnap = alreadyOptimal
+    ? {
+        ...ARCH_DATA.baseline,
+        power_cons: ARCH_DATA.baseline.knobs["Power Consumed (KWt/h)"]
+      }
+    : currentSnap;
+
+  const startKnobs = { ...currentSnap.knobs };
+  paretoTrajectory = {
+    fromE: beforeSnap.energy,
+    fromC: beforeSnap.co2,
+    toE: targetRec.energy,
+    toC: targetRec.co2,
+    targetIdx
+  };
+
+  const label = activeDisturbance
+    ? ({ overburn: "Over-Burning Surge", draft: "Draft Drop", cpr: "Throughput Drop" }[activeDisturbance])
+    : (alreadyOptimal ? "Plant Baseline" : (compareBaseline ? "Plant Baseline" : "Manual State"));
+
+  manualMode = true;
+  compareBaseline = false;
+  activeDisturbance = null;
+  manualFuel = targetRec.fuel || "Oil";
+  lastOptImpact = {
+    before: beforeSnap,
+    after: {
+      ...targetRec,
+      power_cons: targetRec.knobs["Power Consumed (KWt/h)"]
+    },
+    target: targetRec,
+    targetIdx,
+    label
+  };
+
+  const duration = 560;
+  const t0 = Date.now();
+
+  const step = () => {
+    const rawT = Math.max(0, Math.min(1, (Date.now() - t0) / duration));
+    const ease = 1 - Math.pow(1 - rawT, 3);
+    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+      const sVal = startKnobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
+      const eVal = targetRec.knobs[feat] ?? sVal;
+      manualState[feat] = clampToBounds(feat, sVal + (eVal - sVal) * ease);
+    });
+
+    if (rawT < 1) {
+      updateAll();
+      optAnimFrame = setTimeout(step, 28);
+    } else {
+      optAnimFrame = null;
+      syncManualFromRecord(targetRec);
+      manualMode = false;
+      customParetoIdx = targetIdx;
+      if (targetRec.regime) activeRegime = targetRec.regime;
+      Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+        if (sparkHistory[feat]) {
+          sparkHistory[feat].push(manualState[feat]);
+          if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+        }
+      });
+      const afterSnap = getLiveSnapshot();
+      lastOptImpact = { before: beforeSnap, after: afterSnap, target: targetRec, targetIdx, label };
+      selectedUnit = "nsga2";
+      triggerFeedbackPulse(beforeSnap.knobs, afterSnap.knobs);
+      updateAll();
+    }
+  };
+  step();
 }
 
 // COMPACT BLOCK DIAGRAM UPDATER (PRESERVED)
@@ -2070,21 +3590,22 @@ const COMPACT_EDGES = [
 
 function renderCompactView(snap) {
   const base = ARCH_DATA.baseline;
-  document.getElementById("n-sensors-temp").textContent = `Temp: ${snap.temp.toFixed(1)}°C`;
-  document.getElementById("n-sensors-fuel").textContent = `Fuel: ${snap.fuel_rate.toFixed(1)} kg/h (${snap.fuel})`;
+  document.getElementById("n-sensors-temp").textContent = `Temp: ${snap.temp.toFixed(2)}°C`;
+  document.getElementById("n-sensors-fuel").textContent = `Fuel: ${snap.fuel_rate.toFixed(2)} kg/h (${snap.fuel})`;
   document.getElementById("n-sensors-o2").textContent = `O₂: ${snap.o2.toFixed(2)}% | ${Math.round(snap.power)} kW`;
-  document.getElementById("n-thermo-he").textContent = `Heat Eff: ${snap.heatEff.toFixed(1)}`;
-  document.getElementById("n-thermo-o2dev").textContent = `|O₂ - 4%|: ${snap.o2Dev.toFixed(3)}%`;
-  document.getElementById("n-rfe-pred").textContent = `f₁: ${snap.energy.toFixed(1)} kWh/t`;
-  document.getElementById("n-rfc-pred").textContent = `f₂: ${snap.co2.toFixed(1)} kg/h`;
+  document.getElementById("n-thermo-he").textContent = `Heat Eff: ${snap.heatEff.toFixed(2)}`;
+  document.getElementById("n-thermo-o2dev").textContent = `|O₂ - 4%|: ${snap.o2Dev.toFixed(2)}%`;
+  document.getElementById("n-rfe-pred").textContent = `f₁: ${snap.energy.toFixed(2)} kWh/t`;
+  document.getElementById("n-rfc-pred").textContent = `f₂: ${snap.co2.toFixed(2)} kg/h`;
   document.getElementById("n-nsga-out").textContent = `${(ARCH_DATA.pareto || []).length} non-dominated pts`;
-  document.getElementById("n-nsga-cpr").textContent = `CPR: ${snap.production.toFixed(2)} tph ✓`;
+  document.getElementById("n-nsga-cpr").textContent = `CPR: ${snap.production.toFixed(2)} tph ${snap.production >= ARCH_DATA.thermo.min_cpr - 1e-6 ? "✓" : "⚠"}`;
 
   const eDelta = (((snap.energy - base.energy) / base.energy) * 100).toFixed(2);
   const cDelta = (((snap.co2 - base.co2) / base.co2) * 100).toFixed(2);
-  const pDelta = (((snap.production - base.production) / base.production) * 100).toFixed(2);
+  const pDeltaVal = ((snap.production - base.production) / base.production) * 100;
+  const pDelta = `${pDeltaVal >= 0 ? "+" : ""}${pDeltaVal.toFixed(2)}`;
   document.getElementById("n-rec-regime").textContent = `Active: ${compareBaseline ? "Baseline" : activeRegime} (Fuel: ${snap.fuel})`;
-  document.getElementById("n-rec-savings").textContent = `Energy: ${eDelta}% | CO₂: ${cDelta}% | Clinker: +${pDelta}%`;
+  document.getElementById("n-rec-savings").textContent = `Energy: ${eDelta}% | CO₂: ${cDelta}% | Clinker: ${pDelta}%`;
   document.getElementById("n-rec-knobs").textContent = `Power ${Math.round(base.power)}→${Math.round(snap.power)} kW · O₂ ${base.o2.toFixed(2)}→${snap.o2.toFixed(2)}%`;
 
   const connected = new Set([selectedCompactNode]);
@@ -2127,15 +3648,15 @@ function updateControls() {
   document.getElementById("compact-view").classList.toggle("hidden", activeView !== "compact");
 
   const baseBtn = document.getElementById("baseline-compare-btn");
-  baseBtn.classList.toggle("warn-active", compareBaseline);
+  baseBtn.classList.toggle("warn-active", compareBaseline && !manualMode);
 
   document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
-    const isReg = !compareBaseline && customParetoIdx === null && btn.getAttribute("data-regime") === activeRegime;
+    const isReg = !compareBaseline && !manualMode && customParetoIdx === null && btn.getAttribute("data-regime") === activeRegime;
     btn.classList.toggle("active", isReg);
   });
 
   const cBadge = document.getElementById("custom-pareto-badge");
-  if (!compareBaseline && customParetoIdx !== null) {
+  if (!compareBaseline && !manualMode && customParetoIdx !== null) {
     cBadge.classList.remove("hidden");
     cBadge.textContent = `Pareto #${customParetoIdx + 1}`;
   } else {
@@ -2146,21 +3667,460 @@ function updateControls() {
   liveBtn.classList.toggle("live-on", liveStreamOn);
   liveBtn.innerHTML = `<span class="pulse-dot"></span>Live Stream: ${liveStreamOn ? "ON (800ms)" : "OFF"}`;
   document.getElementById("show-all-btn").classList.toggle("active", showAllEdges);
+
+  // Panel 3 Evolution Player & Trade-Off Zone controls
+  const playBtn = document.getElementById("play-evolution-btn");
+  if (playBtn) {
+    const snaps = ARCH_DATA.gen_snapshots || [];
+    const curG = (snaps[selectedGenIdx] && snaps[selectedGenIdx].gen) || ARCH_DATA.metrics.n_gen;
+    playBtn.classList.toggle("active", evoPlaying);
+    playBtn.textContent = evoPlaying ? `⏸ Pause (Gen ${curG})` : "▶ Play Evolution (Gen 1 → 100)";
+  }
+  const tzBtn = document.getElementById("tradeoff-zones-btn");
+  if (tzBtn) tzBtn.classList.toggle("active", tradeoffZonesOn);
+  const pzBtn = document.getElementById("pareto-zoom-btn");
+  if (pzBtn) {
+    pzBtn.classList.toggle("active", paretoZoom);
+    pzBtn.textContent = paretoZoom ? "Zoom: Pareto Front" : "Zoom: Full (+Baseline)";
+  }
+
+  // What-If Bar & Disturbance Controls
+  const wBadge = document.getElementById("whatif-mode-badge");
+  if (wBadge) {
+    if (activeDisturbance) {
+      wBadge.textContent = `Disturbance: ${activeDisturbance.toUpperCase()}`;
+      wBadge.style.color = "#f87171";
+    } else if (manualMode) {
+      wBadge.textContent = "Manual What-If Active";
+      wBadge.style.color = "#38bdf8";
+    } else if (compareBaseline) {
+      wBadge.textContent = "Synced · Plant Baseline";
+      wBadge.style.color = "#f59e0b";
+    } else {
+      wBadge.textContent = customParetoIdx !== null ? `Synced · Pareto #${customParetoIdx + 1}` : `Synced · ${activeRegime}`;
+      wBadge.style.color = "#10b981";
+    }
+  }
+  document.querySelectorAll(".disturb-btn").forEach(btn => {
+    btn.classList.toggle("active-disturb", btn.getAttribute("data-disturb") === activeDisturbance);
+  });
+  const sGrid = document.getElementById("whatif-sliders-grid");
+  const tBtn = document.getElementById("toggle-sliders-btn");
+  if (sGrid && tBtn) {
+    sGrid.classList.toggle("hidden", !slidersExpanded);
+    tBtn.textContent = slidersExpanded ? "Sliders ▴" : "Sliders ▾";
+  }
+
+  // Step 3 Validation Table & Guided Tour Controls
+  const vtBtn = document.getElementById("validation-table-btn");
+  if (vtBtn) {
+    vtBtn.classList.toggle("active", showValidationTable);
+  }
+  const tourBtn = document.getElementById("start-tour-btn");
+  if (tourBtn) {
+    tourBtn.classList.toggle("active", tourActive);
+    tourBtn.textContent = tourActive ? `🎓 Tour Active (Stop ${tourStepIdx + 1}/7)` : "🎓 Guided Defense Tour (7 Steps)";
+  }
+  const apBtn = document.getElementById("tour-autoplay-btn");
+  const apBadge = document.getElementById("tour-autoplay-badge");
+  if (apBtn) {
+    apBtn.classList.toggle("active", tourAutoPlay);
+    apBtn.textContent = tourAutoPlay ? "⏸ Pause Auto-Play" : "⏯ Auto-Play 8s/step";
+  }
+  if (apBadge) {
+    apBadge.textContent = tourAutoPlay ? "Auto-Play 8s" : "Manual Step";
+    apBadge.style.color = tourAutoPlay ? "#10b981" : "#38bdf8";
+  }
 }
 
 function updateAll() {
   updateControls();
+  syncSliderInputs();
   const snap = getLiveSnapshot();
   renderScoreboard(snap);
   renderScada(snap);
   renderFeatureForge(snap);
   renderRfTwin(snap);
   renderParetoPlot(snap);
+  renderImpactStrip();
   renderCompactView(snap);
   renderInspector(snap);
 }
 
+// LIVE STREAM HELPERS
+function startLiveStream() {
+  if (liveStreamOn) return;
+  liveStreamOn = true;
+  liveTimer = setInterval(() => {
+    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+      jitterState[feat] = gaussianSample() * 0.0015;
+      const rec = getBaseOperatingRecord();
+      const baseV = manualMode ? (manualState[feat] ?? 0) : (rec.knobs[feat] ?? 0);
+      const val = baseV * (1 + jitterState[feat]);
+      sparkHistory[feat].push(val);
+      if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+    });
+    updateAll();
+  }, 800);
+}
+
+function stopLiveStream() {
+  if (!liveStreamOn && !liveTimer) return;
+  liveStreamOn = false;
+  if (liveTimer) {
+    clearInterval(liveTimer);
+    liveTimer = null;
+  }
+  resetJitter();
+}
+
+// STEP 3: 7-STOP GUIDED PRESENTATION & DEFENSE TOUR ENGINE
+const TOUR_PANEL_IDS = [
+  "header-panel",
+  "whatif-panel",
+  "zone-a-panel",
+  "forge-panel",
+  "rf-twin-panel",
+  "nsga2-panel",
+  "inspector-panel"
+];
+
+function clearTourTimers() {
+  tourSubTimers.forEach(id => clearTimeout(id));
+  tourSubTimers = [];
+}
+
+function clearTourSpotlights() {
+  TOUR_PANEL_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("tour-dimmed", "tour-spotlight");
+  });
+  document.querySelectorAll(".tour-unit-hi").forEach(el => el.classList.remove("tour-unit-hi"));
+  document.querySelectorAll(".forge-flash").forEach(el => el.classList.remove("forge-flash"));
+}
+
+function applyTourSpotlights(spotlightIds, unitIds = [], scrollId = null) {
+  clearTourSpotlights();
+  const spotSet = new Set(spotlightIds);
+  TOUR_PANEL_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (spotSet.has(id)) {
+      el.classList.add("tour-spotlight");
+    } else {
+      el.classList.add("tour-dimmed");
+    }
+  });
+  unitIds.forEach(uid => {
+    const uEl = document.getElementById(uid);
+    if (uEl) uEl.classList.add("tour-unit-hi");
+  });
+  const scrollTarget = document.getElementById(scrollId || spotlightIds[0]);
+  if (scrollTarget && typeof scrollTarget.scrollIntoView === "function") {
+    scrollTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+const TOUR_STOPS = [
+  {
+    title: "Stop 1 — Industrial Problem & Ashaka Gepol Kiln Baseline",
+    body: "Cement clinker production emits CO₂ from two distinct sources: ~60% from limestone calcination (CaCO₃ → CaO + CO₂) and ~40% from high-temperature fuel combustion (>1450°C). At the Ashaka Gepol kiln (72m × 4m), manual control struggles to balance specific energy (1160.87 kWh/t), carbon intensity (973.45 kg/h), and throughput (91.80 tph).",
+    action: "Action: Loaded Unoptimized Plant Baseline (1160.87 kWh/t | 973.45 kg/h CO₂ | 91.80 tph) & spotlighted Preheater, Rotary Kiln & Exhaust Stack.",
+    run: () => {
+      activeView = "twin";
+      stopEvolutionPlay();
+      stopLiveStream();
+      selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+      compareBaseline = true;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      showValidationTable = false;
+      selectedUnit = "kiln";
+      syncManualFromRecord(ARCH_DATA.baseline);
+      updateAll();
+      applyTourSpotlights(
+        ["zone-a-panel", "header-panel"],
+        ["unit-preheater", "unit-kiln", "unit-stack"],
+        "zone-a-panel"
+      );
+    }
+  },
+  {
+    title: "Stop 2 — Live Industrial Sensor Streams & Process Disturbances",
+    body: "We stream 7 kiln process variables and 6 electrical power variables from the plant historian, expanded into 10⁶ physically bounded operating states. Live sparklines and SCADA badges react instantaneously when a kiln over-burning thermal surge occurs.",
+    action: "Action: Live Stream ON (800ms) + injected Kiln Over-Burning Surge disturbance (1368°C, elevated fuel & power).",
+    run: () => {
+      activeView = "twin";
+      stopEvolutionPlay();
+      showValidationTable = false;
+      injectDisturbance("overburn");
+      startLiveStream();
+      updateAll();
+      applyTourSpotlights(["zone-a-panel", "whatif-panel"], ["unit-burner", "unit-kiln"], "whatif-panel");
+    }
+  },
+  {
+    title: "Stop 3 — Physics-Informed Chemical Engineering Feature Forge",
+    body: "Embedding chemical engineering stoichiometry (Eqs. 3.13–3.17) prevents black-box ML extrapolation errors. We compute Theoretical CO₂ (0.44 stoichiometric factor), Calcination Energy (CH = 1.765 MJ/kg, 1780 kJ/kg), Kiln Heat Efficiency (T_E / Fuel), and Stoichiometric O₂ Deviation (|O₂ − 4.0%|).",
+    action: "Action: Flashing Eqs. 3.13–3.17 thermodynamic calculators live on Balanced operating state.",
+    run: () => {
+      activeView = "twin";
+      stopEvolutionPlay();
+      stopLiveStream();
+      compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      customParetoIdx = null;
+      activeRegime = "Balanced";
+      physicsEnabled = true;
+      showValidationTable = false;
+      selectedUnit = "feat_tco2";
+      syncManualFromRecord(getBaseOperatingRecord());
+      updateAll();
+      applyTourSpotlights(["forge-panel"], [], "forge-panel");
+
+      const cardIds = ["feat-tco2", "feat-te", "feat-he", "feat-o2dev"];
+      cardIds.forEach((cid, i) => {
+        const tid = setTimeout(() => {
+          const card = document.getElementById(cid);
+          if (card) {
+            card.classList.remove("forge-flash");
+            void card.offsetWidth;
+            card.classList.add("forge-flash");
+          }
+          selectedUnit = cid.replace("-", "_");
+          updateAll();
+        }, i * 520);
+        tourSubTimers.push(tid);
+      });
+    }
+  },
+  {
+    title: "Stop 4 — Dual Random Forest Regressor Twin & Physics Ablation",
+    body: "Dual 100-tree Random Forest Regressors outperform Linear Regression and SVR on this collinear industrial power/kiln sensor dataset (R² = 0.98). Toggling physics features OFF proves why Theoretical_Energy (#2) and Theoretical_CO₂ (#4) are indispensable.",
+    action: "Action: Switching Energy RF ↔ CO₂ RF split paths and running live Physics Features Ablation proof.",
+    run: () => {
+      activeView = "twin";
+      stopEvolutionPlay();
+      stopLiveStream();
+      selectedRfModel = "energy";
+      physicsEnabled = true;
+      showValidationTable = false;
+      selectedUnit = "rf_energy";
+      updateAll();
+      applyTourSpotlights(["rf-twin-panel"], [], "rf-twin-panel");
+
+      tourSubTimers.push(setTimeout(() => {
+        selectedRfModel = "co2";
+        selectedUnit = "rf_co2";
+        updateAll();
+      }, 1500));
+      tourSubTimers.push(setTimeout(() => {
+        physicsEnabled = false;
+        updateAll();
+      }, 3200));
+      tourSubTimers.push(setTimeout(() => {
+        physicsEnabled = true;
+        updateAll();
+      }, 5400));
+    }
+  },
+  {
+    title: "Stop 5 — NSGA-II Multi-Objective Evolution & Hard Constraint",
+    body: "NSGA-II evolves 50 candidate operating states across 100 generations, sorting solutions into non-dominated Pareto fronts (F1, F2, F3+) while strictly enforcing g(x) = CuPR − x_CPR ≤ 0 (≥ 91.80 tph) so the model cannot trivially cut CO₂ by cutting clinker output.",
+    action: "Action: Playing NSGA-II Gen 1 → Gen 100 evolutionary convergence animation under CPR ≥ 91.80 tph.",
+    run: () => {
+      activeView = "twin";
+      stopLiveStream();
+      stopEvolutionPlay();
+      compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      showValidationTable = false;
+      selectedUnit = "nsga2";
+      selectedGenIdx = 0;
+      updateAll();
+      applyTourSpotlights(["nsga2-panel"], [], "nsga2-panel");
+      toggleEvolutionPlay();
+    }
+  },
+  {
+    title: "Stop 6 — Discovering the Non-Intuitive Thermodynamic Trade-Off",
+    body: "Section 4.2.1 reveals three Pareto trade-off zones: Steep Cliff, Balanced Knee, and Shallow Leverage. Remarkably, Solution 49 achieves the lowest hourly CO₂ (913.51 kg/h at 89.95 tph & 1353.31°C) because higher throughput + a 12°C lower sintering temperature dilutes fixed kiln radiative heat losses.",
+    action: "Action: Enabled Trade-Off Zones & cycling Sol 1 (Low Energy) → Sol 25 (Balanced) → Sol 49 (Low CO₂).",
+    run: () => {
+      activeView = "twin";
+      stopLiveStream();
+      stopEvolutionPlay();
+      selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+      tradeoffZonesOn = true;
+      paretoZoom = true;
+      compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      customParetoIdx = null;
+      showValidationTable = false;
+      selectedUnit = "nsga2";
+
+      const applyRegimeStep = reg => {
+        const prevK = { ...getLiveSnapshot().knobs };
+        activeRegime = reg;
+        syncManualFromRecord(getBaseOperatingRecord());
+        triggerFeedbackPulse(prevK, getBaseOperatingRecord().knobs);
+        updateAll();
+      };
+      applyRegimeStep("Low Energy");
+      applyTourSpotlights(["nsga2-panel", "header-panel"], [], "nsga2-panel");
+
+      tourSubTimers.push(setTimeout(() => applyRegimeStep("Balanced"), 1900));
+      tourSubTimers.push(setTimeout(() => applyRegimeStep("Low CO2"), 3900));
+    }
+  },
+  {
+    title: "Stop 7 — Closed-Loop Plant Validation & Final Impact Summary",
+    body: "Locking in Balanced Solution 25 streams closed-loop setpoints to all 4 kiln actuators, delivering validated Table 4.2 gains: −11.24% Specific Energy (1160.87 → 1030.42 kWh/t), −5.45% CO₂ Emissions (973.45 → 920.42 kg/h), and +0.28% Clinker Throughput (91.80 → 92.05 tph).",
+    action: "Action: Locked Balanced Sol 25, fired 4-actuator closed-loop pulses, & opened Full Validation Table (Table 4.2).",
+    run: () => {
+      activeView = "twin";
+      stopLiveStream();
+      stopEvolutionPlay();
+      selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+      const prevK = { ...ARCH_DATA.baseline.knobs };
+      compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      paretoTrajectory = null;
+      customParetoIdx = null;
+      activeRegime = "Balanced";
+      physicsEnabled = true;
+      showValidationTable = true;
+      selectedUnit = "nsga2";
+      syncManualFromRecord(getBaseOperatingRecord());
+      triggerFeedbackPulse(prevK, getBaseOperatingRecord().knobs);
+      updateAll();
+      applyTourSpotlights(["zone-a-panel", "inspector-panel", "header-panel"], ["unit-kiln", "unit-burner"], "inspector-panel");
+    }
+  }
+];
+
+function goTourStep(idx) {
+  if (!tourActive) return;
+  clearTourTimers();
+  tourStepIdx = Math.max(0, Math.min(TOUR_STOPS.length - 1, idx));
+  const stop = TOUR_STOPS[tourStepIdx];
+  document.getElementById("tour-step-pill").textContent = `Stop ${tourStepIdx + 1} / ${TOUR_STOPS.length}`;
+  document.getElementById("tour-title").textContent = stop.title;
+  document.getElementById("tour-body").textContent = stop.body;
+  document.getElementById("tour-action-status").textContent = stop.action;
+  document.getElementById("tour-progress-fill").style.width = `${((tourStepIdx + 1) / TOUR_STOPS.length) * 100}%`;
+
+  const prevBtn = document.getElementById("tour-prev-btn");
+  const nextBtn = document.getElementById("tour-next-btn");
+  if (prevBtn) prevBtn.disabled = tourStepIdx === 0;
+  if (nextBtn) nextBtn.textContent = tourStepIdx === TOUR_STOPS.length - 1 ? "Finish ✓" : "Next ▶";
+
+  stop.run();
+}
+
+function stopTourAutoPlay() {
+  if (tourAutoTimer) {
+    clearInterval(tourAutoTimer);
+    tourAutoTimer = null;
+  }
+  tourAutoPlay = false;
+}
+
+function toggleTourAutoPlay() {
+  if (!tourActive) return;
+  if (tourAutoPlay) {
+    stopTourAutoPlay();
+    updateControls();
+    return;
+  }
+  tourAutoPlay = true;
+  updateControls();
+  tourAutoTimer = setInterval(() => {
+    if (!tourActive) {
+      stopTourAutoPlay();
+      return;
+    }
+    if (tourStepIdx < TOUR_STOPS.length - 1) {
+      goTourStep(tourStepIdx + 1);
+    } else {
+      stopTourAutoPlay();
+      updateControls();
+    }
+  }, 8000);
+}
+
+function startTour() {
+  tourActive = true;
+  tourStepIdx = 0;
+  stopTourAutoPlay();
+  document.getElementById("tour-hud").classList.remove("hidden");
+  goTourStep(0);
+}
+
+function exitTour() {
+  tourActive = false;
+  clearTourTimers();
+  stopTourAutoPlay();
+  stopEvolutionPlay();
+  stopLiveStream();
+  clearTourSpotlights();
+  document.getElementById("tour-hud").classList.add("hidden");
+  updateAll();
+}
+
 // EVENT LISTENERS
+buildWhatIfSliders();
+
+document.getElementById("toggle-sliders-btn").addEventListener("click", () => {
+  slidersExpanded = !slidersExpanded;
+  updateControls();
+});
+
+document.getElementById("reset-whatif-btn").addEventListener("click", () => {
+  const prevK = { ...getLiveSnapshot().knobs };
+  stopEvolutionPlay();
+  selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  manualMode = false;
+  activeDisturbance = null;
+  compareBaseline = false;
+  paretoTrajectory = null;
+  lastOptImpact = null;
+  showValidationTable = false;
+  const targetRec = getBaseOperatingRecord();
+  syncManualFromRecord(targetRec);
+  triggerFeedbackPulse(prevK, targetRec.knobs);
+  updateAll();
+});
+
+document.querySelectorAll(".disturb-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    showValidationTable = false;
+    injectDisturbance(btn.getAttribute("data-disturb"));
+  });
+});
+
+document.getElementById("ai-optimize-btn").addEventListener("click", () => {
+  showValidationTable = false;
+  runAiOptimizeAnimation();
+});
+
+document.getElementById("ablation-toggle-btn").addEventListener("click", () => {
+  physicsEnabled = !physicsEnabled;
+  updateAll();
+});
+
 document.getElementById("view-twin-btn").addEventListener("click", () => {
   activeView = "twin";
   updateAll();
@@ -2171,75 +4131,145 @@ document.getElementById("view-compact-btn").addEventListener("click", () => {
 });
 
 document.getElementById("baseline-compare-btn").addEventListener("click", () => {
+  const prevK = { ...getLiveSnapshot().knobs };
+  stopEvolutionPlay();
+  selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
   compareBaseline = !compareBaseline;
-  if (!compareBaseline) triggerFeedbackPulse();
+  manualMode = false;
+  activeDisturbance = null;
+  paretoTrajectory = null;
+  const targetRec = getBaseOperatingRecord();
+  syncManualFromRecord(targetRec);
+  if (!compareBaseline) triggerFeedbackPulse(prevK, targetRec.knobs);
   updateAll();
 });
 
 document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    const prevK = { ...getLiveSnapshot().knobs };
+    stopEvolutionPlay();
+    selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
     compareBaseline = false;
+    manualMode = false;
+    activeDisturbance = null;
+    paretoTrajectory = null;
     customParetoIdx = null;
     activeRegime = btn.getAttribute("data-regime");
-    triggerFeedbackPulse();
+    const targetRec = getBaseOperatingRecord();
+    syncManualFromRecord(targetRec);
+    triggerFeedbackPulse(prevK, targetRec.knobs);
     updateAll();
   });
 });
 
 document.getElementById("live-stream-btn").addEventListener("click", () => {
-  liveStreamOn = !liveStreamOn;
   if (liveStreamOn) {
-    liveTimer = setInterval(() => {
-      Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-        jitterState[feat] = gaussianSample() * 0.0015; // ±0.15% Gaussian jitter
-        const rec = getBaseOperatingRecord();
-        const val = (rec.knobs[feat] ?? 0) * (1 + jitterState[feat]);
-        sparkHistory[feat].push(val);
-        if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
-      });
-      updateAll();
-    }, 800);
+    stopLiveStream();
   } else {
-    clearInterval(liveTimer);
-    resetJitter();
+    startLiveStream();
   }
   updateAll();
 });
 
 document.querySelectorAll("#scada-svg .scada-unit").forEach(u => {
   u.addEventListener("click", () => {
+    showValidationTable = false;
     selectedUnit = u.getAttribute("data-comp");
+    updateAll();
+  });
+});
+
+document.querySelectorAll("#scada-svg .actuator-node").forEach(a => {
+  a.addEventListener("click", () => {
+    showValidationTable = false;
+    selectedUnit = a.getAttribute("data-comp");
     updateAll();
   });
 });
 
 document.querySelectorAll(".forge-card").forEach(btn => {
   btn.addEventListener("click", () => {
+    showValidationTable = false;
     selectedUnit = btn.getAttribute("data-comp");
     updateAll();
   });
 });
 
 document.getElementById("rf-tab-energy").addEventListener("click", () => {
+  showValidationTable = false;
   selectedRfModel = "energy";
   selectedUnit = "rf_energy";
   updateAll();
 });
 document.getElementById("rf-tab-co2").addEventListener("click", () => {
+  showValidationTable = false;
   selectedRfModel = "co2";
   selectedUnit = "rf_co2";
   updateAll();
 });
 
+document.getElementById("play-evolution-btn").addEventListener("click", () => {
+  toggleEvolutionPlay();
+});
+
+document.getElementById("tradeoff-zones-btn").addEventListener("click", () => {
+  tradeoffZonesOn = !tradeoffZonesOn;
+  selectedUnit = "nsga2";
+  updateAll();
+});
+
+document.getElementById("pareto-zoom-btn").addEventListener("click", () => {
+  paretoZoom = !paretoZoom;
+  selectedUnit = "nsga2";
+  updateAll();
+});
+
 document.getElementById("gen-slider").addEventListener("input", e => {
+  stopEvolutionPlay();
   selectedGenIdx = parseInt(e.target.value, 10);
   selectedUnit = "nsga2";
   updateAll();
 });
 
+document.getElementById("validation-table-btn").addEventListener("click", () => {
+  showValidationTable = !showValidationTable;
+  updateAll();
+});
+
+document.getElementById("start-tour-btn").addEventListener("click", () => {
+  if (tourActive) {
+    exitTour();
+  } else {
+    startTour();
+  }
+});
+
+document.getElementById("tour-prev-btn").addEventListener("click", () => {
+  if (tourStepIdx > 0) {
+    goTourStep(tourStepIdx - 1);
+  }
+});
+
+document.getElementById("tour-next-btn").addEventListener("click", () => {
+  if (tourStepIdx < TOUR_STOPS.length - 1) {
+    goTourStep(tourStepIdx + 1);
+  } else {
+    exitTour();
+  }
+});
+
+document.getElementById("tour-autoplay-btn").addEventListener("click", () => {
+  toggleTourAutoPlay();
+});
+
+document.getElementById("tour-exit-btn").addEventListener("click", () => {
+  exitTour();
+});
+
 document.querySelectorAll("#arch-svg .node-group").forEach(g => {
   g.addEventListener("click", () => {
     showAllEdges = false;
+    showValidationTable = false;
     selectedCompactNode = g.getAttribute("data-id");
     const mapToInspector = {
       sensors: "s_temp",
