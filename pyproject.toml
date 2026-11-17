@@ -37,7 +37,7 @@ cement-opt = "cement_opt.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-cement_opt = ["visualization/templates/*.html"]
+cement_opt = ["visualization/templates/*.html", "visualization/templates/*.svg"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

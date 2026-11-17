@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 350" font-family="Inter,Segoe UI,Arial,sans-serif">
+  <rect width="760" height="350" rx="12" fill="#0f172a"/>
+  <defs>
+    <marker id="a-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1 L10 5 L0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="a-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1 L10 5 L0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="a-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 1 L10 5 L0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="26" font-size="14" font-weight="700" fill="#f8fafc">Closed-Loop Sustainable Cement Kiln Optimization Architecture</text>
+
+  <!-- Bounds arc -->
+  <path d="M 94 56 L 94 40 L 664 40 L 664 54" fill="none" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#a-blue)"/>
+  <text x="379" y="36" font-size="9.5" text-anchor="middle" fill="#94a3b8">Controllable bounds [xl, xu] &amp; median CPR ≥ 91.80 tph</text>
+
+  <!-- Forward arrows -->
+  <path d="M 174 118 L 200 118" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#a-blue)"/>
+  <path d="M 382 100 L 410 84" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#a-blue)"/>
+  <path d="M 382 136 L 410 152" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#a-blue)"/>
+  <path d="M 556 84 L 584 84" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#a-green)"/>
+  <path d="M 556 152 L 584 152" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#a-green)"/>
+
+  <!-- Closed-loop physics feedback -->
+  <path d="M 624 182 L 624 205 L 292 205 L 292 184" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#a-amber)"/>
+  <text x="458" y="200" font-size="9.5" font-weight="600" text-anchor="middle" fill="#fbbf24">NSGA-II Loop: mutate 14 vars → recompute Eqs. 3.13–3.17 every gen</text>
+
+  <!-- Pareto to Recommender & Control loop -->
+  <path d="M 692 182 L 692 278 L 552 278" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#a-green)"/>
+  <text x="624" y="271" font-size="9.5" text-anchor="middle" fill="#34d399">50 Pareto rows</text>
+  <path d="M 208 278 L 94 278 L 94 184" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#a-green)"/>
+  <text x="150" y="271" font-size="9.5" text-anchor="middle" fill="#34d399">Setpoint deltas</text>
+
+  <!-- Node 1: Sensors -->
+  <rect x="16" y="56" width="158" height="126" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="26" y="76" font-size="11" font-weight="700" fill="#f8fafc">1. Sensors &amp; Merger</text>
+  <text x="26" y="94" font-size="9.5" fill="#cbd5e1">Join on SN; drop SN</text>
+  <text x="26" y="112" font-size="9.5" fill="#38bdf8">Temp: 1374.9°C</text>
+  <text x="26" y="128" font-size="9.5" fill="#38bdf8">Fuel: 183.1 kg/h (Oil)</text>
+  <text x="26" y="144" font-size="9.5" fill="#38bdf8">O2: 4.06% | 4201 kW</text>
+  <text x="26" y="164" font-size="8.8" fill="#94a3b8">13 knobs + Fuel one-hot</text>
+
+  <!-- Node 2: Kiln & Thermo -->
+  <rect x="202" y="56" width="180" height="126" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="212" y="76" font-size="11" font-weight="700" fill="#f8fafc">2. Kiln &amp; Thermodynamics</text>
+  <g transform="translate(218,86) rotate(-3)">
+    <rect width="144" height="27" rx="6" fill="#451a03" stroke="#f59e0b" stroke-width="1.2"/>
+    <circle cx="20" cy="13.5" r="6" fill="#ef4444"/>
+    <text x="34" y="17" font-size="9.5" font-weight="700" fill="#fef3c7">Rotary Kiln 1450°C</text>
+  </g>
+  <text x="212" y="132" font-size="9.5" fill="#cbd5e1">Eq 3.13: CaCO3 → CaO + CO2</text>
+  <text x="212" y="148" font-size="9.5" fill="#fbbf24">Heat Eff: 250.7 | |O2-4%|: 0.060</text>
+  <text x="212" y="166" font-size="8.8" fill="#94a3b8">ChemicalEngineeringTransformer</text>
+
+  <!-- Node 3a: Energy RF -->
+  <rect x="412" y="56" width="144" height="56" rx="9" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="422" y="74" font-size="10.5" font-weight="700" fill="#f8fafc">3a. Energy RF Twin</text>
+  <text x="422" y="90" font-size="9.5" font-weight="700" fill="#38bdf8">Test R² = 0.9757</text>
+  <text x="422" y="104" font-size="9" fill="#cbd5e1">f1: 1040.2 kWh/t</text>
+
+  <!-- Node 3b: CO2 RF -->
+  <rect x="412" y="126" width="144" height="56" rx="9" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="422" y="144" font-size="10.5" font-weight="700" fill="#f8fafc">3b. CO2 RF Twin</text>
+  <text x="422" y="160" font-size="9.5" font-weight="700" fill="#10b981">Test R² = 0.9762</text>
+  <text x="422" y="174" font-size="9" fill="#cbd5e1">f2: 959.4 kg/h</text>
+
+  <!-- Node 4: NSGA-II -->
+  <rect x="586" y="56" width="156" height="126" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="596" y="76" font-size="11" font-weight="700" fill="#f8fafc">4. NSGA-II Search</text>
+  <text x="596" y="94" font-size="9.5" fill="#cbd5e1">Pop 50 × 100 Generations</text>
+  <text x="596" y="112" font-size="9.5" fill="#cbd5e1">min (Energy, CO2)</text>
+  <text x="596" y="130" font-size="9.5" fill="#c084fc">g(x) = 91.80 - CPR ≤ 0</text>
+  <text x="596" y="148" font-size="9.5" font-weight="700" fill="#10b981">50 Pareto solutions</text>
+  <text x="596" y="166" font-size="9" fill="#cbd5e1">CPR: 92.81 tph ✓</text>
+
+  <!-- Node 5: Recommender -->
+  <rect x="210" y="230" width="340" height="96" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.6"/>
+  <text x="224" y="252" font-size="11" font-weight="700" fill="#f8fafc">5. Regime Recommender &amp; Operator Setpoints</text>
+  <text x="224" y="270" font-size="9.5" fill="#cbd5e1">Balanced Knee-Point vs. Plant Median (Fuel: Oil)</text>
+  <text x="224" y="289" font-size="10.5" font-weight="700" fill="#10b981">Energy: -10.40%  |  CO2: -1.44%  |  Clinker: +1.10%</text>
+  <text x="224" y="309" font-size="9" fill="#94a3b8">Power 5176→4201 kW · O2 3.67→4.06% · Air 2032→2202 m³/h</text>
+</svg>

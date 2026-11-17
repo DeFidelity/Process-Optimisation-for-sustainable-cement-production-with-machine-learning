@@ -15,6 +15,8 @@ from cement_opt.visualization import (
     plot_physics_sensitivity,
     plot_regime_comparison,
     plot_setpoint_deltas,
+    save_architecture_visualizer,
+    save_system_architecture_svg,
     save_visual_explainer,
 )
 
@@ -49,11 +51,28 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     html_file = save_visual_explainer(
         energy_model, co2_model, opt_result, optimizer, df, tmp_path / "explainer.html"
     )
+    arch_html = save_architecture_visualizer(
+        energy_model, co2_model, opt_result, optimizer, df, tmp_path / "arch.html"
+    )
+    arch_svg = save_system_architecture_svg(
+        energy_model, co2_model, opt_result, optimizer, df, tmp_path / "arch.svg"
+    )
 
-    for artifact in (p1, p2, p3, p4, html_file):
+    for artifact in (p1, p2, p3, p4, html_file, arch_html, arch_svg):
         assert artifact.exists()
         assert artifact.stat().st_size > 1000
 
     html_text = html_file.read_text(encoding="utf-8")
     assert "explainer-root" in html_text
     assert "pareto-svg" in html_text
+    assert "stage-drawer" in html_text
+
+    arch_text = arch_html.read_text(encoding="utf-8")
+    assert "arch-svg" in arch_text
+    assert "scada-svg" in arch_text
+    assert "pareto-scatter-svg" in arch_text
+    assert "view-switch" in arch_text
+    assert "live-stream-btn" in arch_text
+    assert "baseline-compare-btn" in arch_text
+    assert "inspector-panel" in arch_text
+    assert "<svg" in arch_svg.read_text(encoding="utf-8")

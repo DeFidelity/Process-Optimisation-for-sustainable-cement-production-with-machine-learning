@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ashaka Kiln Digital Twin — Glass-Box ML &amp; NSGA-II Control Room</title>
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    color: var(--foreground, #e2e8f0);
+    line-height: 1.42;
+  }
+  .viz-root {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .panel {
+    background: var(--card, rgba(15, 23, 42, 0.82));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.24));
+    border-radius: var(--radius, 10px);
+    padding: 16px;
+  }
+  .head-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    font-size: 11.5px;
+    color: var(--muted-foreground, #94a3b8);
+    margin: 2px 0 0 0;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .pill-btn {
+    appearance: none;
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.34));
+    background: var(--secondary, rgba(30, 41, 59, 0.7));
+    color: var(--foreground, inherit);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .pill-btn:hover {
+    border-color: var(--primary, #38bdf8);
+  }
+  .pill-btn.active {
+    background: var(--primary, #0284c7);
+    color: var(--primary-foreground, #ffffff);
+    border-color: var(--primary, #0284c7);
+  }
+  .pill-btn.warn-active {
+    background: #d97706;
+    color: #ffffff;
+    border-color: #f59e0b;
+  }
+  .pill-btn.live-on {
+    background: rgba(16, 185, 129, 0.18);
+    color: #10b981;
+    border-color: #10b981;
+  }
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #64748b;
+    display: inline-block;
+  }
+  .live-on .pulse-dot {
+    background: #10b981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: livePulse 1.4s infinite;
+  }
+  @keyframes livePulse {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  .controls-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border, rgba(148, 163, 184, 0.2));
+  }
+
+  /* Impact Scoreboard */
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  @media (max-width: 640px) {
+    .scoreboard {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .kpi-card {
+    background: var(--muted, rgba(15, 23, 42, 0.5));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
+    border-radius: 8px;
+    padding: 6px 9px;
+  }
+  .kpi-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-foreground, #94a3b8);
+  }
+  .kpi-val {
+    font-size: 15px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+  }
+  .kpi-sub {
+    font-size: 10.5px;
+    margin-top: 1px;
+    font-weight: 600;
+  }
+  .good { color: #10b981; }
+  .warn { color: #f59e0b; }
+  .info { color: #38bdf8; }
+
+  /* Dual Zone Grid: 55% Left / 45% Right on wide screens; Top/Bottom at <=1019px */
+  .twin-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+  }
+  @media (min-width: 1020px) {
+    .twin-grid {
+      grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+    }
+  }
+
+  .zone-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  /* SCADA SVG Styles */
+  .scada-wrap {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    background: #08101d;
+  }
+  .scada-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+  }
+  .scada-unit {
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .scada-unit:hover {
+    filter: brightness(1.12);
+  }
+  .scada-unit.selected-unit > .unit-outline,
+  .scada-unit.selected-unit .unit-outline {
+    stroke: #38bdf8 !important;
+    stroke-width: 2.4 !important;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.65));
+  }
+  .sensor-tag {
+    cursor: pointer;
+    transition: transform 0.12s ease;
+  }
+  .sensor-tag:hover rect.tag-bg {
+    stroke: #38bdf8;
+    stroke-width: 1.8;
+  }
+  .sensor-tag.selected-unit rect.tag-bg {
+    stroke: #f59e0b;
+    stroke-width: 2.1;
+  }
+  @keyframes flowDown {
+    to { stroke-dashoffset: -24; }
+  }
+  @keyframes flowUp {
+    to { stroke-dashoffset: 24; }
+  }
+  .flow-green {
+    stroke-dasharray: 6 6;
+    animation: flowDown 1.1s linear infinite;
+  }
+  .flow-hot {
+    stroke-dasharray: 6 6;
+    animation: flowUp 0.9s linear infinite;
+  }
+  @keyframes fanSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .fan-rotor {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fanSpin var(--fan-dur, 1.4s) linear infinite;
+  }
+  @keyframes flamePulse {
+    0%, 100% { transform: scaleX(1) scaleY(1); opacity: 0.92; }
+    50% { transform: scaleX(1.09) scaleY(0.92); opacity: 1; }
+  }
+  .flame-anim {
+    transform-box: fill-box;
+    transform-origin: right center;
+    animation: flamePulse var(--flame-dur, 0.45s) ease-in-out infinite;
+  }
+  @keyframes feedbackPulse {
+    0% { stroke-dashoffset: 48; opacity: 0.25; }
+    50% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0.25; }
+  }
+  .feedback-active {
+    stroke: #10b981 !important;
+    stroke-width: 2.6 !important;
+    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.85));
+  }
+
+  /* Zone B ML & Pareto Workbench */
+  .zone-b-stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  @media (min-width: 660px) and (max-width: 1019px) {
+    .zone-b-stack {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .zone-b-stack > .forge-panel {
+      grid-column: 1 / -1;
+    }
+    .zone-b-stack > .stream-connector {
+      display: none;
+    }
+    .forge-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+  }
+  .sub-panel {
+    background: var(--muted, rgba(15, 23, 42, 0.55));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.22));
+    border-radius: 8px;
+    padding: 10px 11px;
+  }
+  .sub-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .sub-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .forge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+  @media (max-width: 480px) {
+    .forge-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .forge-card {
+    background: var(--card, rgba(15, 23, 42, 0.75));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.25));
+    border-radius: 7px;
+    padding: 7px 9px;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .forge-card:hover, .forge-card.selected-card {
+    border-color: #38bdf8;
+  }
+  .forge-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .forge-name {
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .forge-eq {
+    font-size: 9.5px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: var(--muted-foreground, #94a3b8);
+    margin-top: 2px;
+  }
+  .forge-val {
+    font-size: 12px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #38bdf8;
+  }
+  .bar-track {
+    width: 100%;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.2);
+    overflow: hidden;
+    margin-top: 5px;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  /* Stream Connector Bar */
+  .stream-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #38bdf8;
+    padding: 2px 0;
+  }
+
+  /* RF Twin Visualizer */
+  .rf-svg {
+    width: 100%;
+    height: 132px;
+    display: block;
+    background: #08101d;
+    border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.18);
+  }
+  .imp-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 10px;
+    margin-top: 8px;
+  }
+  .imp-row {
+    cursor: pointer;
+    font-size: 10.5px;
+  }
+  .imp-row-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  .bench-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+  }
+  .bench-pill {
+    font-size: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: rgba(148, 163, 184, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+  }
+  .bench-pill.winner {
+    background: rgba(16, 185, 129, 0.16);
+    border-color: rgba(16, 185, 129, 0.45);
+    color: #10b981;
+    font-weight: 700;
+  }
+
+  /* Pareto Plot */
+  .pareto-svg {
+    width: 100%;
+    height: 192px;
+    display: block;
+    background: #08101d;
+    border-radius: 6px;
+    border: 1px solid rgba(168, 85, 247, 0.28);
+  }
+  .pareto-pt {
+    cursor: pointer;
+    transition: r 0.12s ease;
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    accent-color: #38bdf8;
+    cursor: pointer;
+  }
+  .constraint-box {
+    margin-top: 6px;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    font-size: 11px;
+  }
+
+  /* Zone C Inspector */
+  .inspector-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+  .badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--muted, rgba(148, 163, 184, 0.15));
+    color: var(--foreground, inherit);
+  }
+  .inspector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+  @media (max-width: 600px) {
+    .inspector-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .info-box {
+    background: var(--muted, rgba(15, 23, 42, 0.5));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
+    border-radius: 8px;
+    padding: 8px 11px;
+  }
+  .info-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-foreground, #94a3b8);
+    margin-bottom: 3px;
+  }
+  .info-text {
+    font-size: 11.5px;
+    margin: 0;
+  }
+  .code-line {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10.5px;
+    margin: 4px 0 0 0;
+    color: var(--chart-1, #38bdf8);
+    word-break: break-word;
+  }
+  .cmp-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 7px;
+  }
+  table.cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.cmp-table th, table.cmp-table td {
+    padding: 4px 7px;
+    border-bottom: 1px solid var(--border, rgba(148, 163, 184, 0.18));
+    text-align: left;
+  }
+  table.cmp-table th {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-foreground, #94a3b8);
+  }
+  .streams-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 600px) {
+    .streams-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .stream-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .stream-chip {
+    text-align: left;
+    appearance: none;
+    width: 100%;
+    background: var(--muted, rgba(15, 23, 42, 0.55));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.24));
+    border-radius: 7px;
+    padding: 5px 9px;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .stream-chip:hover {
+    border-color: #38bdf8;
+  }
+  .stream-chip-title {
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+  }
+  .stream-chip-in { color: #38bdf8; }
+  .stream-chip-out { color: #10b981; }
+  .stream-chip-desc {
+    font-size: 10.5px;
+    color: var(--muted-foreground, #94a3b8);
+    display: block;
+    margin-top: 2px;
+  }
+  .goal-banner {
+    margin-top: 7px;
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: rgba(16, 185, 129, 0.11);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    font-size: 11.5px;
+  }
+
+  /* Compact Block Diagram View (Preserved) */
+  .hidden { display: none !important; }
+  .svg-wrap { width: 100%; overflow-x: auto; }
+  .arch-svg {
+    width: 100%;
+    min-width: 560px;
+    height: 306px;
+    display: block;
+    user-select: none;
+  }
+  .node-group { cursor: pointer; transition: opacity 0.18s ease; }
+  .node-box { transition: all 0.18s ease; }
+  .edge-path { fill: none; transition: opacity 0.18s ease, stroke 0.18s ease, stroke-width 0.18s ease; }
+  @keyframes flowDash { to { stroke-dashoffset: -24; } }
+  .edge-animated { stroke-dasharray: 6 4; animation: flowDash 0.9s linear infinite; }
+  .legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted-foreground, #94a3b8);
+  }
+  .legend-items { display: flex; flex-wrap: wrap; gap: 12px; }
+  .legend-item { display: inline-flex; align-items: center; gap: 5px; }
+  .swatch { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+
+  <!-- TOP CONTROL HEADER & VIEW SWITCHER -->
+  <section class="panel">
+    <div class="head-row">
+      <div>
+        <h2 class="title">Ashaka Gepol Rotary Kiln Digital Twin &amp; Glass-Box ML Control Room</h2>
+        <p class="sub">Closed-loop physical P&amp;ID, Eqs. 3.13–3.17 thermodynamics, Random Forest trees, and interactive 50-pt NSGA-II Pareto optimization.</p>
+      </div>
+      <div class="btn-group" id="view-switch">
+        <button class="pill-btn active" id="view-twin-btn" data-view="twin">View: Full Industrial Digital Twin (SCADA + ML)</button>
+        <button class="pill-btn" id="view-compact-btn" data-view="compact">View: Compact Block Diagram</button>
+      </div>
+    </div>
+
+    <div class="controls-strip">
+      <div class="btn-group">
+        <button class="pill-btn" id="live-stream-btn"><span class="pulse-dot"></span>Live Stream: OFF</button>
+        <button class="pill-btn" id="baseline-compare-btn">Compare vs. Plant Baseline (91.80 tph | 1160.87 kWh/t | 973.45 kg/h)</button>
+      </div>
+      <div class="btn-group" id="regime-switch">
+        <button class="pill-btn" data-regime="Low Energy">Low Energy</button>
+        <button class="pill-btn active" data-regime="Balanced">Balanced</button>
+        <button class="pill-btn" data-regime="Low CO2">Low CO₂</button>
+        <span class="badge hidden" id="custom-pareto-badge">Pareto #0</span>
+      </div>
+    </div>
+
+    <!-- Live Plant Impact Scoreboard -->
+    <div class="scoreboard" id="scoreboard">
+      <div class="kpi-card">
+        <div class="kpi-label">Specific Energy (f₁)</div>
+        <div class="kpi-val" id="kpi-energy">-- kWh/t</div>
+        <div class="kpi-sub" id="kpi-energy-delta">-- vs baseline</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CO₂ Emissions (f₂)</div>
+        <div class="kpi-val" id="kpi-co2">-- kg/h</div>
+        <div class="kpi-sub" id="kpi-co2-delta">-- vs baseline</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Clinker Output (CPR)</div>
+        <div class="kpi-val" id="kpi-cpr">-- tph</div>
+        <div class="kpi-sub" id="kpi-cpr-delta">-- constraint g(x)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Heat Eff. / O₂ Dev</div>
+        <div class="kpi-val" id="kpi-he">--</div>
+        <div class="kpi-sub" id="kpi-o2dev">|O₂ - 4.0%| = --</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 1: FULL INDUSTRIAL DIGITAL TWIN (SCADA + ML) -->
+  <div id="twin-view">
+    <div class="twin-grid">
+
+      <!-- ZONE A: TRUE-TO-SHAPE SVG ROTARY KILN P&ID -->
+      <section class="panel">
+        <div class="head-row">
+          <div>
+            <h3 class="title">Zone A: Ashaka Gepol Rotary Kiln P&amp;ID (Click Units or Sensors)</h3>
+            <p class="sub">72m × 4m kiln · 4-stage preheater · 488 kW drive · 730 kW ID fan · NIRO tower &amp; baghouse.</p>
+          </div>
+          <span class="zone-badge" id="mode-pill">NSGA-II CLOSED-LOOP</span>
+        </div>
+
+        <div class="scada-wrap">
+          <svg class="scada-svg" id="scada-svg" viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="scada-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#132238" stroke-width="0.7" />
+              </pattern>
+              <linearGradient id="kiln-heat-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#c2410c" />
+                <stop offset="48%" stop-color="#ea580c" />
+                <stop offset="78%" stop-color="#f59e0b" />
+                <stop offset="94%" stop-color="#fde047" />
+                <stop offset="100%" stop-color="#fb923c" />
+              </linearGradient>
+              <linearGradient id="flame-grad" x1="100%" y1="50%" x2="0%" y2="50%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="30%" stop-color="#fde047" />
+                <stop offset="70%" stop-color="#f97316" />
+                <stop offset="100%" stop-color="#ef4444" stop-opacity="0.05" />
+              </linearGradient>
+              <marker id="m-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0 1 L10 5 L0 9 z" fill="#10b981" />
+              </marker>
+              <marker id="m-hot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0 1 L10 5 L0 9 z" fill="#f97316" />
+              </marker>
+              <marker id="m-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0 1 L10 5 L0 9 z" fill="#38bdf8" />
+              </marker>
+            </defs>
+
+            <rect width="760" height="520" fill="#08101d" />
+            <rect width="760" height="520" fill="url(#scada-grid)" />
+
+            <!-- Exhaust Ductwork Routing -->
+            <g id="exhaust-ducts" fill="none" stroke="#334155" stroke-width="10" stroke-linejoin="round">
+              <path d="M 155 48 L 155 24 L 298 24 L 298 52" />
+              <path d="M 332 158 L 368 158 L 392 140" />
+              <path d="M 432 118 L 465 92 L 496 92" />
+              <path d="M 594 128 L 638 128 L 638 164" />
+            </g>
+            <!-- Animated Gas Flow Inside Ducts -->
+            <g fill="none" stroke="#f97316" stroke-width="2.2" opacity="0.85">
+              <path class="flow-down-duct flow-green" stroke="#fb923c" d="M 155 48 L 155 24 L 298 24 L 298 52" marker-end="url(#m-hot)" />
+              <path class="flow-green" stroke="#fb923c" d="M 332 158 L 368 158 L 392 140" />
+              <path class="flow-green" stroke="#38bdf8" d="M 432 118 L 465 92 L 496 92" marker-end="url(#m-cyan)" />
+              <path class="flow-green" stroke="#94a3b8" d="M 594 128 L 638 128" />
+            </g>
+
+            <!-- 1. GEPOL 4-STAGE PREHEATER CYCLONE TOWER -->
+            <g class="scada-unit" id="unit-preheater" data-comp="preheater">
+              <rect class="unit-outline" x="78" y="42" width="114" height="236" rx="8" fill="rgba(15, 23, 42, 0.45)" stroke="#334155" stroke-width="1.3" />
+              <text x="135" y="56" font-size="9.5" font-weight="700" fill="#cbd5e1" text-anchor="middle">GEPOL 4-STAGE PREHEATER</text>
+
+              <!-- Raw meal feed arrow -->
+              <path d="M 32 70 L 106 70" stroke="#10b981" stroke-width="2.6" fill="none" class="flow-green" marker-end="url(#m-green)" />
+              <text x="20" y="61" font-size="8.5" font-weight="700" fill="#10b981">Raw Meal CaCO₃</text>
+
+              <!-- Stage 1-4 Cyclones -->
+              <g fill="#1e293b" stroke="#64748b" stroke-width="1.3">
+                <polygon points="104,64 134,64 134,82 123,102 115,102 104,82" />
+                <polygon points="140,112 170,112 170,130 159,150 151,150 140,130" />
+                <polygon points="104,160 134,160 134,178 123,198 115,198 104,178" />
+                <polygon points="140,208 170,208 170,226 159,246 151,246 140,226" />
+              </g>
+
+              <!-- Downward Green Meal Paths & Upward Hot Gas Paths -->
+              <path d="M 119 102 L 152 112 M 155 150 L 122 160 M 119 198 L 152 208 M 155 246 L 195 280" stroke="#10b981" stroke-width="2" fill="none" class="flow-green" />
+              <path d="M 178 272 L 178 64" stroke="#f97316" stroke-width="2.2" fill="none" class="flow-hot" marker-end="url(#m-hot)" />
+
+              <!-- Stage Temperature Callouts -->
+              <g font-size="8.5" font-weight="700" font-family="ui-monospace, monospace">
+                <rect x="139" y="72" width="36" height="14" rx="3" fill="#451a03" stroke="#f97316" stroke-width="0.8" />
+                <text x="157" y="82" fill="#fdba74" text-anchor="middle" id="svg-st1">680°C</text>
+                <rect x="92" y="120" width="36" height="14" rx="3" fill="#451a03" stroke="#f97316" stroke-width="0.8" />
+                <text x="110" y="130" fill="#fdba74" text-anchor="middle" id="svg-st2">730°C</text>
+                <rect x="142" y="168" width="36" height="14" rx="3" fill="#7c2d12" stroke="#f97316" stroke-width="0.8" />
+                <text x="160" y="178" fill="#fed7aa" text-anchor="middle" id="svg-st3">790°C</text>
+                <rect x="92" y="216" width="36" height="14" rx="3" fill="#9a3412" stroke="#fbbf24" stroke-width="0.8" />
+                <text x="110" y="226" fill="#fef08a" text-anchor="middle" id="svg-st4">830°C</text>
+              </g>
+              <text x="135" y="269" font-size="8.5" font-weight="700" fill="#fbbf24" text-anchor="middle">CaCO₃ → CaO + CO₂</text>
+            </g>
+
+            <!-- 2. BACK-END GAS ANALYZER -->
+            <g class="scada-unit" id="unit-analyzer" data-comp="analyzer">
+              <rect class="unit-outline" x="200" y="7" width="76" height="34" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.4" />
+              <circle cx="211" cy="18" r="3" fill="#10b981" />
+              <text x="218" y="20" font-size="8.5" font-weight="700" fill="#e2e8f0">GAS ANALYZER</text>
+              <text x="238" y="34" font-size="8.5" font-weight="700" fill="#38bdf8" text-anchor="middle" id="svg-analyzer-txt">O₂: --% | NOx</text>
+            </g>
+
+            <!-- 3. NIRO GAS CONDITIONING TOWER -->
+            <g class="scada-unit" id="unit-niro" data-comp="niro">
+              <rect class="unit-outline" x="284" y="50" width="52" height="106" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.4" />
+              <polygon points="284,156 336,156 320,178 300,178" fill="#1e293b" stroke="#64748b" stroke-width="1.3" />
+              <path d="M 294 64 L 310 82 L 326 64" stroke="#38bdf8" stroke-width="1.4" fill="none" stroke-dasharray="2 2" />
+              <circle cx="305" cy="96" r="1.6" fill="#38bdf8" />
+              <circle cx="316" cy="108" r="1.6" fill="#38bdf8" />
+              <circle cx="308" cy="120" r="1.6" fill="#38bdf8" />
+              <text x="310" y="138" font-size="8" font-weight="700" fill="#cbd5e1" text-anchor="middle">NIRO</text>
+              <text x="310" y="148" font-size="7.5" fill="#94a3b8" text-anchor="middle">GCT Tower</text>
+              <!-- Screw conveyor at bottom -->
+              <rect x="292" y="178" width="44" height="8" rx="3" fill="#334155" stroke="#64748b" stroke-width="1" />
+            </g>
+
+            <!-- 4. GEPOL ID FAN (730 kW, 980 rpm) -->
+            <g class="scada-unit" id="unit-idfan" data-comp="idfan">
+              <circle class="unit-outline" cx="412" cy="134" r="26" fill="#1e293b" stroke="#38bdf8" stroke-width="1.6" />
+              <g id="fan-rotor" class="fan-rotor">
+                <line x1="394" y1="134" x2="430" y2="134" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                <line x1="412" y1="116" x2="412" y2="152" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                <line x1="399" y1="121" x2="425" y2="147" stroke="#94a3b8" stroke-width="1.8" />
+                <line x1="425" y1="121" x2="399" y2="147" stroke="#94a3b8" stroke-width="1.8" />
+                <circle cx="412" cy="134" r="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+              </g>
+              <text x="412" y="172" font-size="8.5" font-weight="700" fill="#e2e8f0" text-anchor="middle">GEPOL ID FAN</text>
+              <text x="412" y="182" font-size="8" fill="#38bdf8" text-anchor="middle" id="svg-fan-rpm">730 kW · 980 rpm</text>
+            </g>
+
+            <!-- 5. BAGHOUSE FILTER -->
+            <g class="scada-unit" id="unit-baghouse" data-comp="baghouse">
+              <rect class="unit-outline" x="496" y="74" width="98" height="72" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.4" />
+              <!-- Internal Filter Bag Rows -->
+              <g stroke="#94a3b8" stroke-width="2.5" opacity="0.78">
+                <line x1="510" y1="84" x2="510" y2="136" />
+                <line x1="524" y1="84" x2="524" y2="136" />
+                <line x1="538" y1="84" x2="538" y2="136" />
+                <line x1="552" y1="84" x2="552" y2="136" />
+                <line x1="566" y1="84" x2="566" y2="136" />
+                <line x1="580" y1="84" x2="580" y2="136" />
+              </g>
+              <!-- Zig-zag Dust Hoppers -->
+              <polygon points="496,146 545,146 520,174" fill="#1e293b" stroke="#64748b" stroke-width="1.3" />
+              <polygon points="545,146 594,146 570,174" fill="#1e293b" stroke="#64748b" stroke-width="1.3" />
+              <text x="545" y="67" font-size="8.5" font-weight="700" fill="#cbd5e1" text-anchor="middle">BAGHOUSE FILTER</text>
+            </g>
+
+            <!-- 6. TALL EXHAUST STACK & ANIMATED CO2 PLUME -->
+            <g class="scada-unit" id="unit-stack" data-comp="stack">
+              <polygon class="unit-outline" points="628,174 654,174 648,46 634,46" fill="#334155" stroke="#94a3b8" stroke-width="1.4" />
+              <rect x="632" y="42" width="18" height="6" rx="1" fill="#ef4444" />
+              <g id="co2-plume"></g>
+              <text x="641" y="187" font-size="8.5" font-weight="700" fill="#cbd5e1" text-anchor="middle">EXHAUST STACK</text>
+              <text x="688" y="54" font-size="9" font-weight="700" fill="#f87171" id="svg-stack-co2">CO₂: -- kg/h</text>
+            </g>
+
+            <!-- 7. INCLINED ROTARY KILN CYLINDER (72m x 4m, 3 rpm, 488 kW) -->
+            <g class="scada-unit" id="unit-kiln" data-comp="kiln">
+              <!-- Inclined kiln assembly around firing axis -->
+              <g transform="translate(192, 274) rotate(4.2)">
+                <!-- Kiln Steel Shell + Thermal Interior -->
+                <rect class="unit-outline" x="0" y="0" width="336" height="44" rx="5" fill="url(#kiln-heat-grad)" stroke="#94a3b8" stroke-width="2" />
+                <rect x="4" y="4" width="328" height="36" rx="3" fill="none" stroke="rgba(15,23,42,0.45)" stroke-width="2" />
+                <!-- 4 Riding Tyres -->
+                <rect x="34" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <rect x="116" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <rect x="206" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <rect x="288" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <!-- Support Piers -->
+                <polygon points="32,49 48,49 52,66 28,66" fill="#334155" />
+                <polygon points="114,49 130,49 134,66 110,66" fill="#334155" />
+                <polygon points="204,49 220,49 224,66 200,66" fill="#334155" />
+                <polygon points="286,49 302,49 306,66 282,66" fill="#334155" />
+                <!-- Drive Gear Ring -->
+                <rect x="160" y="-7" width="16" height="58" rx="2" fill="#1e293b" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="4 3" />
+                <!-- Interior Zone Labels -->
+                <text x="16" y="25" font-size="9" font-weight="800" fill="#fff7ed">830°C Calcining</text>
+                <text x="218" y="25" font-size="9.5" font-weight="800" fill="#450a0a" id="svg-kiln-burn">1375°C Sintering</text>
+              </g>
+              <text x="360" y="266" font-size="9.5" font-weight="700" fill="#f8fafc" text-anchor="middle">ROTARY KILN (72m × 4m · 3 rpm · 488 kW Main Drive)</text>
+              <text x="360" y="366" font-size="8.5" fill="#f59e0b" text-anchor="middle" id="svg-drive-lbl">Tyre 1–4 · Rotary Drive: -- kW</text>
+            </g>
+
+            <!-- 8. KILN HOOD & ANIMATED BURNER LANCE FLAME -->
+            <g class="scada-unit" id="unit-burner" data-comp="burner">
+              <rect class="unit-outline" x="528" y="294" width="38" height="54" rx="4" fill="#1e293b" stroke="#f97316" stroke-width="1.6" />
+              <!-- Fuel & Primary Air Lance -->
+              <path id="actuator-fuel" d="M 618 320 L 542 320" stroke="#f59e0b" stroke-width="4" />
+              <rect x="576" y="313" width="14" height="14" rx="3" fill="#0f172a" stroke="#f59e0b" stroke-width="1.4" />
+              <text x="596" y="309" font-size="8" font-weight="700" fill="#fbbf24">Fuel Valve</text>
+              <!-- Dynamic Flame -->
+              <g id="burner-flame-group" class="flame-anim">
+                <path id="flame-outer" d="M 540 312 Q 465 304 425 320 Q 465 336 540 328 Z" fill="url(#flame-grad)" />
+                <path id="flame-core" d="M 540 316 Q 495 313 472 320 Q 495 327 540 324 Z" fill="#fef9c3" opacity="0.92" />
+              </g>
+            </g>
+
+            <!-- 9. PLANETARY COOLERS, CRUSHER & BUCKET CONVEYOR -->
+            <g class="scada-unit" id="unit-coolers" data-comp="coolers">
+              <!-- Satellite planetary cooler tubes -->
+              <g fill="#334155" stroke="#94a3b8" stroke-width="1.2">
+                <rect x="518" y="348" width="54" height="11" rx="4" />
+                <rect x="524" y="362" width="52" height="11" rx="4" />
+                <rect x="512" y="376" width="56" height="11" rx="4" />
+              </g>
+              <text x="582" y="366" font-size="8" font-weight="700" fill="#cbd5e1">Planetary Coolers</text>
+              <!-- Clinker Crusher -->
+              <rect class="unit-outline" x="522" y="394" width="54" height="32" rx="5" fill="#1e293b" stroke="#10b981" stroke-width="1.4" />
+              <text x="549" y="408" font-size="8" font-weight="700" fill="#10b981" text-anchor="middle">CRUSHER</text>
+              <text x="549" y="419" font-size="7.5" fill="#cbd5e1" text-anchor="middle">100°C Clinker</text>
+              <!-- Bucket Conveyor -->
+              <line x1="576" y1="416" x2="740" y2="416" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+              <path id="conveyor-buckets" d="M 580 416 L 736 416" stroke="#10b981" stroke-width="4" stroke-dasharray="5 9" class="flow-green" />
+              <text x="658" y="405" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="middle" id="svg-cpr-lbl">Clinker: -- tph</text>
+            </g>
+
+            <!-- Closed-Loop Feedback Bus Line inside SCADA -->
+            <path id="scada-feedback-bus" d="M 744 210 L 744 488 L 42 488 L 42 292" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="5 4" />
+            <text x="392" y="502" font-size="8.5" font-weight="700" fill="#64748b" text-anchor="middle" id="scada-loop-label">NSGA-II Closed-Loop Actuator Bus → Fuel Valve · ID Fan Damper · Raw Meal Feeder · Kiln Drive</text>
+
+            <!-- PINNED CLICKABLE SCADA SENSOR BADGES WITH 15-PT SPARKLINES -->
+            <g id="pinned-sensors-layer"></g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ZONE B: GLASS-BOX ML SURROGATE & INTERACTIVE NSGA-II PARETO WORKBENCH -->
+      <section class="panel">
+        <div class="head-row">
+          <div>
+            <h3 class="title">Zone B: Glass-Box ML &amp; NSGA-II Workbench</h3>
+            <p class="sub">Real-time Eqs. 3.13–3.17, trained RF split trees, &amp; clickable 50-pt Pareto frontier.</p>
+          </div>
+          <span class="zone-badge">GLASS-BOX AI</span>
+        </div>
+
+        <div class="zone-b-stack" style="margin-top:8px;">
+          <!-- PANEL 1: CHEMICAL ENGINEERING FEATURE FORGE -->
+          <div class="sub-panel forge-panel">
+            <div class="sub-head">
+              <h4 class="sub-title">1. Physics-Informed Feature Forge (Eqs. 3.13–3.17)</h4>
+              <span class="badge" id="forge-status">Live Thermo</span>
+            </div>
+            <div class="forge-grid">
+              <button class="forge-card" id="feat-tco2" data-comp="feat_tco2">
+                <div class="forge-top">
+                  <span class="forge-name">Theoretical CO₂ (Eq 3.13)</span>
+                  <span class="forge-val" id="val-tco2">--</span>
+                </div>
+                <div class="forge-eq">RMC × CPR × 0.44</div>
+                <div class="bar-track"><div class="bar-fill" id="bar-tco2" style="width:50%;background:#10b981;"></div></div>
+              </button>
+              <button class="forge-card" id="feat-te" data-comp="feat_te">
+                <div class="forge-top">
+                  <span class="forge-name">Calcination Energy (Eq 3.14)</span>
+                  <span class="forge-val" id="val-te">--</span>
+                </div>
+                <div class="forge-eq">0.278 × CPR × 1780 kJ/kg</div>
+                <div class="bar-track"><div class="bar-fill" id="bar-te" style="width:50%;background:#f59e0b;"></div></div>
+              </button>
+              <button class="forge-card" id="feat-he" data-comp="feat_he">
+                <div class="forge-top">
+                  <span class="forge-name">Heat Efficiency (Eq 3.16)</span>
+                  <span class="forge-val" id="val-he">--</span>
+                </div>
+                <div class="forge-eq">T_E / Fuel_Consumption</div>
+                <div class="bar-track"><div class="bar-fill" id="bar-he" style="width:50%;background:#38bdf8;"></div></div>
+              </button>
+              <button class="forge-card" id="feat-o2dev" data-comp="feat_o2dev">
+                <div class="forge-top">
+                  <span class="forge-name">O₂ Stoich. Dev (Eq 3.17)</span>
+                  <span class="forge-val" id="val-o2dev">--</span>
+                </div>
+                <div class="forge-eq">|O₂ - 4.0%|</div>
+                <div class="bar-track"><div class="bar-fill" id="bar-o2dev" style="width:20%;background:#a855f7;"></div></div>
+              </button>
+            </div>
+          </div>
+
+          <div class="stream-connector">▼ 20 Physically Consistent Features Stream Into Dual RF Twin ▼</div>
+
+          <!-- PANEL 2: DUAL RANDOM FOREST REGRESSOR TWIN -->
+          <div class="sub-panel" id="rf-twin-panel">
+            <div class="sub-head">
+              <h4 class="sub-title">2. Dual Random Forest Twin (Real Trained Trees)</h4>
+              <div class="btn-group">
+                <button class="pill-btn active" data-rf="energy" id="rf-tab-energy">Energy RF</button>
+                <button class="pill-btn" data-rf="co2" id="rf-tab-co2">CO₂ RF</button>
+              </div>
+            </div>
+
+            <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 132" xmlns="http://www.w3.org/2000/svg"></svg>
+
+            <div class="imp-list" id="rf-imp-bars"></div>
+            <div class="bench-strip" id="rf-benchmarks"></div>
+          </div>
+
+          <div class="stream-connector">▼ Surrogate f₁(x), f₂(x) Stream Into Multi-Objective Search ▼</div>
+
+          <!-- PANEL 3: LIVE INTERACTIVE NSGA-II PARETO FRONT & GEN SLIDER -->
+          <div class="sub-panel" id="nsga2-panel">
+            <div class="sub-head">
+              <h4 class="sub-title">3. Interactive NSGA-II Pareto Front (Click Any Point!)</h4>
+              <span class="badge" id="pareto-point-badge">50 Optimal Pts</span>
+            </div>
+
+            <svg class="pareto-svg" id="pareto-scatter-svg" viewBox="0 0 420 192" xmlns="http://www.w3.org/2000/svg"></svg>
+
+            <div class="slider-row">
+              <span>NSGA-II Gen:</span>
+              <input type="range" id="gen-slider" min="0" max="7" value="7" />
+              <strong id="gen-label" style="min-width:56px;text-align:right;">Gen 100</strong>
+            </div>
+
+            <div class="constraint-box" id="constraint-box">
+              <strong>Throughput Constraint:</strong> g(x) = 91.80 - CPR ≤ 0 · <span id="constraint-status">FEASIBLE ✅</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- VIEW 2: PRESERVED COMPACT BLOCK DIAGRAM -->
+  <div id="compact-view" class="hidden">
+    <section class="panel">
+      <div class="head-row">
+        <div>
+          <h2 class="title">Compact System Architecture Flowchart (Click Any Component)</h2>
+          <p class="sub">Original 6-node block diagram view showing upstream/downstream streams and closed-loop evaluation.</p>
+        </div>
+        <button class="pill-btn" id="show-all-btn">Highlight Full Loop</button>
+      </div>
+
+      <div class="svg-wrap" style="margin-top:8px;">
+        <svg class="arch-svg" id="arch-svg" viewBox="0 0 696 306" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+            </marker>
+            <marker id="arr-in" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+            </marker>
+            <marker id="arr-out" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+            </marker>
+            <marker id="arr-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+            </marker>
+          </defs>
+
+          <g id="edges-layer">
+            <path id="edge-sensors-nsga2" class="edge-path" data-from="sensors" data-to="nsga2" d="M 81 28 L 81 10 L 616 10 L 616 26" />
+            <text x="348" y="8" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.72">Controllable bounds [xl, xu] &amp; median CPR ≥ 91.80 tph</text>
+            <path id="edge-sensors-thermo" class="edge-path" data-from="sensors" data-to="thermo" d="M 154 90 L 178 90" />
+            <path id="edge-thermo-rf_energy" class="edge-path" data-from="thermo" data-to="rf_energy" d="M 350 74 L 376 56" />
+            <path id="edge-thermo-rf_co2" class="edge-path" data-from="thermo" data-to="rf_co2" d="M 350 106 L 376 124" />
+            <path id="edge-rf_energy-nsga2" class="edge-path" data-from="rf_energy" data-to="nsga2" d="M 516 56 L 542 56" />
+            <path id="edge-rf_co2-nsga2" class="edge-path" data-from="rf_co2" data-to="nsga2" d="M 516 124 L 542 124" />
+            <path id="edge-nsga2-thermo" class="edge-path" data-from="nsga2" data-to="thermo" d="M 576 152 L 576 172 L 265 172 L 265 154" />
+            <text x="420" y="167" font-size="9" font-weight="600" text-anchor="middle" fill="#f59e0b" opacity="0.88">Closed-Loop Evaluation: mutate 14 controllable vars → recompute Eqs. 3.13–3.17 every gen</text>
+            <path id="edge-nsga2-recommender" class="edge-path" data-from="nsga2" data-to="recommender" d="M 642 152 L 642 245 L 510 245" />
+            <text x="578" y="238" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.72">Pareto Front rows</text>
+            <path id="edge-recommender-sensors" class="edge-path" data-from="recommender" data-to="sensors" d="M 188 245 L 81 245 L 81 154" />
+            <text x="132" y="238" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.72">Control-knob deltas</text>
+          </g>
+
+          <g id="nodes-layer">
+            <g class="node-group" id="node-sensors" data-id="sensors">
+              <rect class="node-box" x="8" y="28" width="146" height="124" rx="10" fill="var(--muted, rgba(127,127,127,0.13))" stroke="var(--border, rgba(127,127,127,0.4))" stroke-width="1.4"/>
+              <text x="18" y="47" font-size="10.5" font-weight="700" fill="currentColor">1. Sensors &amp; Merger</text>
+              <text x="18" y="63" font-size="9.5" fill="currentColor" opacity="0.78">Join Energy + CO₂ on SN</text>
+              <text x="18" y="78" font-size="9.5" fill="currentColor" opacity="0.78">Drop SN (zero leakage)</text>
+              <text x="18" y="96" font-size="9.5" font-weight="600" fill="#38bdf8" id="n-sensors-temp">Temp: --</text>
+              <text x="18" y="111" font-size="9.5" font-weight="600" fill="#38bdf8" id="n-sensors-fuel">Fuel: --</text>
+              <text x="18" y="126" font-size="9.5" font-weight="600" fill="#38bdf8" id="n-sensors-o2">O₂: -- | Power: --</text>
+              <text x="18" y="143" font-size="8.8" fill="currentColor" opacity="0.62">Click to inspect streams</text>
+            </g>
+
+            <g class="node-group" id="node-thermo" data-id="thermo">
+              <rect class="node-box" x="180" y="28" width="170" height="124" rx="10" fill="var(--muted, rgba(127,127,127,0.13))" stroke="#f59e0b" stroke-width="1.4"/>
+              <text x="190" y="47" font-size="10.5" font-weight="700" fill="currentColor">2. Kiln &amp; Thermodynamics</text>
+              <g transform="translate(196,57) rotate(-3.5)">
+                <rect x="0" y="0" width="138" height="27" rx="6" fill="rgba(245, 158, 11, 0.16)" stroke="#f59e0b" stroke-width="1.2"/>
+                <circle cx="20" cy="13.5" r="6.5" fill="#ef4444" opacity="0.78"/>
+                <text x="34" y="17" font-size="9.5" font-weight="700" fill="currentColor">Rotary Kiln 1450°C</text>
+              </g>
+              <text x="190" y="103" font-size="9.5" fill="currentColor" opacity="0.82">Eq 3.13: CaCO₃ → CaO + CO₂</text>
+              <text x="190" y="118" font-size="9.5" font-weight="600" fill="#f59e0b" id="n-thermo-he">Heat Eff: --</text>
+              <text x="190" y="133" font-size="9.5" font-weight="600" fill="#f59e0b" id="n-thermo-o2dev">|O₂ - 4%|: --</text>
+              <text x="190" y="145" font-size="8.8" fill="currentColor" opacity="0.62">Sklearn Pipeline Transformer</text>
+            </g>
+
+            <g class="node-group" id="node-rf_energy" data-id="rf_energy">
+              <rect class="node-box" x="378" y="28" width="138" height="56" rx="9" fill="var(--muted, rgba(127,127,127,0.13))" stroke="#38bdf8" stroke-width="1.4"/>
+              <text x="388" y="45" font-size="10.5" font-weight="700" fill="currentColor">3a. Energy RF Twin</text>
+              <text x="388" y="61" font-size="9.5" font-weight="700" fill="#38bdf8" id="n-rfe-val">Test R² = __ENERGY_R2__</text>
+              <text x="388" y="75" font-size="9" fill="currentColor" opacity="0.72" id="n-rfe-pred">f₁: -- kWh/t</text>
+            </g>
+
+            <g class="node-group" id="node-rf_co2" data-id="rf_co2">
+              <rect class="node-box" x="378" y="96" width="138" height="56" rx="9" fill="var(--muted, rgba(127,127,127,0.13))" stroke="#10b981" stroke-width="1.4"/>
+              <text x="388" y="113" font-size="10.5" font-weight="700" fill="currentColor">3b. CO₂ RF Twin</text>
+              <text x="388" y="129" font-size="9.5" font-weight="700" fill="#10b981" id="n-rfc-val">Test R² = __CO2_R2__</text>
+              <text x="388" y="143" font-size="9" fill="currentColor" opacity="0.72" id="n-rfc-pred">f₂: -- kg/h</text>
+            </g>
+
+            <g class="node-group" id="node-nsga2" data-id="nsga2">
+              <rect class="node-box" x="544" y="28" width="144" height="124" rx="10" fill="var(--muted, rgba(127,127,127,0.13))" stroke="#a855f7" stroke-width="1.4"/>
+              <text x="554" y="47" font-size="10.5" font-weight="700" fill="currentColor">4. NSGA-II Search</text>
+              <text x="554" y="64" font-size="9.5" fill="currentColor" opacity="0.82">Pop: 50 × Gen: 100</text>
+              <text x="554" y="79" font-size="9.5" fill="currentColor" opacity="0.82">min (Energy, CO₂)</text>
+              <text x="554" y="96" font-size="9.5" font-weight="600" fill="#a855f7">g(x) = 91.80 - CPR ≤ 0</text>
+              <text x="554" y="114" font-size="9.5" font-weight="700" fill="#10b981" id="n-nsga-out">50 non-dominated pts</text>
+              <text x="554" y="130" font-size="9.5" fill="currentColor" opacity="0.8" id="n-nsga-cpr">CPR: -- tph ✓</text>
+              <text x="554" y="144" font-size="8.8" fill="currentColor" opacity="0.62">Click to trace feedback</text>
+            </g>
+
+            <g class="node-group" id="node-recommender" data-id="recommender">
+              <rect class="node-box" x="188" y="198" width="320" height="94" rx="10" fill="var(--muted, rgba(127,127,127,0.13))" stroke="#10b981" stroke-width="1.5"/>
+              <text x="202" y="218" font-size="11" font-weight="700" fill="currentColor">5. Regime Selector &amp; Operator Setpoints</text>
+              <text x="202" y="235" font-size="9.5" fill="currentColor" opacity="0.82" id="n-rec-regime">Active: Balanced</text>
+              <text x="202" y="253" font-size="10" font-weight="700" fill="#10b981" id="n-rec-savings">Energy: -- | CO₂: -- | Clinker: --</text>
+              <text x="202" y="271" font-size="9.5" fill="currentColor" opacity="0.78" id="n-rec-knobs">Key knobs: --</text>
+              <text x="202" y="284" font-size="8.8" fill="currentColor" opacity="0.62">Streams optimal control-knob deltas back to plant operation</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="legend-bar">
+        <div class="legend-items">
+          <span class="legend-item"><span class="swatch" style="background:#38bdf8;"></span>Incoming stream</span>
+          <span class="legend-item"><span class="swatch" style="background:#10b981;"></span>Outgoing stream</span>
+          <span class="legend-item"><span class="swatch" style="background:#f59e0b;"></span>Closed-loop evaluation</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ZONE C: UNIFIED DEEP-DIVE FUNCTIONAL COMPONENT INSPECTOR -->
+  <section class="panel" id="inspector-panel">
+    <div class="inspector-head">
+      <div>
+        <h3 class="title" id="ins-title">Zone C Inspector · Ashaka Gepol Rotary Kiln</h3>
+        <p class="sub" id="ins-subtitle">Click any plant equipment unit, sensor badge, Feature Forge equation, RF tree, or Pareto point.</p>
+      </div>
+      <span class="badge" id="ins-module">src/cement_opt/features/engineering.py</span>
+    </div>
+
+    <div class="inspector-grid">
+      <div class="info-box">
+        <div class="info-label">Physical Role &amp; Component Functionality</div>
+        <p class="info-text" id="ins-func"></p>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Exact Equations &amp; Live State</div>
+        <p class="info-text" id="ins-eq-desc"></p>
+        <p class="code-line" id="ins-live-code"></p>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp-table" id="ins-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Plant Baseline (Median)</th>
+            <th>Model Predicted</th>
+            <th>Active / NSGA-II Setpoint</th>
+            <th>Δ vs Baseline</th>
+          </tr>
+        </thead>
+        <tbody id="ins-table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="streams-grid">
+      <div class="info-box">
+        <div class="info-label">Receives From (Upstream Streams)</div>
+        <div class="stream-list" id="ins-in-list"></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Streams To (Downstream Components)</div>
+        <div class="stream-list" id="ins-out-list"></div>
+      </div>
+    </div>
+
+    <div class="goal-banner" id="ins-goal"></div>
+  </section>
+
+</div>
+
+<script>
+const ARCH_DATA = __ARCH_PAYLOAD_JSON__;
+ARCH_DATA.pareto = (ARCH_DATA.pareto || []).map(p => {
+  if (!Array.isArray(p)) return p;
+  const knobs = {};
+  (ARCH_DATA.knob_cols || []).forEach((col, i) => { knobs[col] = p[6][i]; });
+  const cpr = knobs["Clinker Production Rate (tons/h)"] || 91.8;
+  const rmc = knobs["Raw Meal Composition (% Limestone)"] || 85.0;
+  const fc = knobs["Fuel Consumption (kg/h)"] || 190.0;
+  const o2 = knobs["Oxygen Levels (%)"] || 4.0;
+  const t = ARCH_DATA.thermo;
+  const tCO2 = rmc * cpr * t.stoichiometric_co2_factor;
+  const tE = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
+  return {
+    id: p[0],
+    regime: p[1],
+    energy: p[2],
+    co2: p[3],
+    fuel: p[4],
+    g_violation: p[5],
+    production: cpr,
+    temp: knobs["Kiln Temperature (°C)"],
+    fuel_rate: fc,
+    limestone: rmc,
+    o2: o2,
+    power: knobs["Power (Kw)"],
+    air: knobs["Air Flow Rate (m³/h)"],
+    o2_dev: Math.abs(o2 - t.optimal_o2_percent),
+    heat_eff: fc > 0 ? tE / fc : 0,
+    theoretical_co2: tCO2,
+    theoretical_energy: tE,
+    knobs: knobs
+  };
+});
+(ARCH_DATA.gen_snapshots || []).forEach(g => {
+  g.points = (g.points || []).map(pt =>
+    Array.isArray(pt) ? { energy: pt[0], co2: pt[1], feasible: Boolean(pt[2]) } : pt
+  );
+});
+
+let activeView = "twin";
+let activeRegime = "Balanced";
+let compareBaseline = false;
+let customParetoIdx = null;
+let selectedRfModel = "energy";
+let selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+let selectedUnit = "kiln";
+let selectedCompactNode = "thermo";
+let showAllEdges = false;
+let liveStreamOn = false;
+let liveTimer = null;
+
+// Sparkline history buffers per controllable numeric feature
+const sparkHistory = {};
+Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+  const seed = (ARCH_DATA.spark_seeds && ARCH_DATA.spark_seeds[feat]) || [];
+  sparkHistory[feat] = seed.length >= 15 ? seed.slice(-15) : Array(15).fill(ARCH_DATA.baseline.knobs[feat] || 0);
+});
+
+// Live micro-jitter offsets (in relative fractional units)
+let jitterState = {};
+function resetJitter() {
+  jitterState = {};
+  Object.keys(ARCH_DATA.bounds || {}).forEach(f => { jitterState[f] = 0; });
+}
+resetJitter();
+
+function gaussianSample() {
+  const u1 = Math.max(1e-7, Math.random());
+  const u2 = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+}
+
+function getBaseOperatingRecord() {
+  if (compareBaseline) {
+    return ARCH_DATA.baseline;
+  }
+  if (customParetoIdx !== null && ARCH_DATA.pareto[customParetoIdx]) {
+    return ARCH_DATA.pareto[customParetoIdx];
+  }
+  return ARCH_DATA.regimes[activeRegime] || ARCH_DATA.pareto[0];
+}
+
+function getLiveSnapshot() {
+  const rec = getBaseOperatingRecord();
+  const knobs = {};
+  Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+    const baseVal = rec.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
+    const j = liveStreamOn ? (jitterState[feat] || 0) : 0;
+    const val = baseVal * (1 + j);
+    const b = ARCH_DATA.bounds[feat];
+    knobs[feat] = Math.min(b.max * 1.01, Math.max(b.min * 0.99, val));
+  });
+
+  const cpr = knobs["Clinker Production Rate (tons/h)"] || rec.production;
+  const rmc = knobs["Raw Meal Composition (% Limestone)"] || rec.limestone;
+  const fc = knobs["Fuel Consumption (kg/h)"] || rec.fuel_rate;
+  const o2 = knobs["Oxygen Levels (%)"] || rec.o2;
+
+  // Live Eqs 3.13 - 3.17
+  const t = ARCH_DATA.thermo;
+  const theoCO2 = rmc * cpr * t.stoichiometric_co2_factor;
+  const theoEnergy = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
+  const heatEff = fc > 0 ? (theoEnergy / fc) : 0;
+  const o2Dev = Math.abs(o2 - t.optimal_o2_percent);
+
+  // Full 20-feature vector for tree traversal & linear local delta
+  const fullFeat = { ...knobs };
+  fullFeat["Fuel_Coal"] = rec.fuel === "Coal" ? 1.0 : 0.0;
+  fullFeat["Fuel_Gas"] = rec.fuel === "Gas" ? 1.0 : 0.0;
+  fullFeat["Fuel_Oil"] = rec.fuel === "Oil" ? 1.0 : 0.0;
+  fullFeat["Theoretical_CO2"] = theoCO2;
+  fullFeat["Theoretical_Energy"] = theoEnergy;
+  fullFeat["Heat_Efficiency"] = heatEff;
+  fullFeat["O2_Deviation"] = o2Dev;
+
+  let energyPred = rec.energy;
+  let co2Pred = rec.co2;
+  if (liveStreamOn) {
+    const baseRec = getBaseOperatingRecord();
+    const eSlopes = (ARCH_DATA.slopes && ARCH_DATA.slopes.energy) || {};
+    const cSlopes = (ARCH_DATA.slopes && ARCH_DATA.slopes.co2) || {};
+    let dE = 0, dC = 0;
+    Object.keys(knobs).forEach(f => {
+      const df = knobs[f] - (baseRec.knobs[f] || 0);
+      dE += (eSlopes[f] || 0) * df;
+      dC += (cSlopes[f] || 0) * df;
+    });
+    dE += (eSlopes["Theoretical_Energy"] || 0) * (theoEnergy - (baseRec.theoretical_energy || theoEnergy));
+    dC += (cSlopes["Theoretical_CO2"] || 0) * (theoCO2 - (baseRec.theoretical_co2 || theoCO2));
+    energyPred = Math.max(850, baseRec.energy + dE + gaussianSample() * 0.45);
+    co2Pred = Math.max(800, baseRec.co2 + dC + gaussianSample() * 0.38);
+  }
+
+  return {
+    rec,
+    knobs,
+    fullFeat,
+    energy: energyPred,
+    co2: co2Pred,
+    production: cpr,
+    temp: knobs["Kiln Temperature (°C)"] || rec.temp,
+    fuel_rate: fc,
+    limestone: rmc,
+    o2,
+    power: knobs["Power (Kw)"] || rec.power,
+    power_cons: knobs["Power Consumed (KWt/h)"] || rec.knobs["Power Consumed (KWt/h)"],
+    absorbed: knobs["Absorbed Power (Kw)"] || rec.knobs["Absorbed Power (Kw)"],
+    rotary: knobs["Power (rotary drive) Kw"] || rec.knobs["Power (rotary drive) Kw"],
+    pressure: knobs["Kiln Pressure (bar)"] || rec.knobs["Kiln Pressure (bar)"],
+    air: knobs["Air Flow Rate (m³/h)"] || rec.air,
+    fuel: rec.fuel || "Oil",
+    theoCO2,
+    theoEnergy,
+    heatEff,
+    o2Dev,
+    gViolation: t.min_cpr - cpr
+  };
+}
+
+// PINNED SENSOR DEFINITIONS ON SCADA SVG
+const PINNED_SENSORS = [
+  { id: "s_limestone", feat: "Raw Meal Composition (% Limestone)", label: "Raw Meal", unit: "%", x: 10, y: 120, lx: 106, ly: 120 },
+  { id: "s_power_cons", feat: "Power Consumed (KWt/h)", label: "Power Cons.", unit: "kWt/h", x: 10, y: 205, lx: 104, ly: 205 },
+  { id: "s_o2", feat: "Oxygen Levels (%)", label: "Back-End O₂", unit: "%", x: 194, y: 54, lx: 238, ly: 41 },
+  { id: "s_air", feat: "Air Flow Rate (m³/h)", label: "ID Air Flow", unit: "m³/h", x: 368, y: 196, lx: 412, ly: 184 },
+  { id: "s_pressure", feat: "Kiln Pressure (bar)", label: "Kiln Press.", unit: "bar", x: 208, y: 208, lx: 245, ly: 274 },
+  { id: "s_temp", feat: "Kiln Temperature (°C)", label: "Burn Temp", unit: "°C", x: 388, y: 208, lx: 445, ly: 286 },
+  { id: "s_rotary", feat: "Power (rotary drive) Kw", label: "Rotary Drive", unit: "kW", x: 242, y: 382, lx: 356, ly: 332 },
+  { id: "s_absorbed", feat: "Absorbed Power (Kw)", label: "Absorbed", unit: "kW", x: 132, y: 382, lx: 232, ly: 325 },
+  { id: "s_fuel", feat: "Fuel Consumption (kg/h)", label: "Fuel Rate", unit: "kg/h", x: 632, y: 294, lx: 618, ly: 320 },
+  { id: "s_cpr", feat: "Clinker Production Rate (tons/h)", label: "Clinker CPR", unit: "tph", x: 632, y: 428, lx: 676, ly: 416 }
+];
+
+function buildSparklinePoints(arr, w, h) {
+  const minV = Math.min(...arr);
+  const maxV = Math.max(...arr);
+  const span = Math.max(1e-6, maxV - minV);
+  return arr.map((v, i) => {
+    const px = (i / Math.max(1, arr.length - 1)) * w;
+    const py = h - ((v - minV) / span) * h;
+    return `${px.toFixed(1)},${py.toFixed(1)}`;
+  }).join(" ");
+}
+
+function renderScada(snap) {
+  const base = ARCH_DATA.baseline;
+  const tempShift = snap.temp - base.temp;
+
+  document.getElementById("svg-st1").textContent = `${(680 + tempShift * 0.4).toFixed(0)}°C`;
+  document.getElementById("svg-st2").textContent = `${(730 + tempShift * 0.5).toFixed(0)}°C`;
+  document.getElementById("svg-st3").textContent = `${(790 + tempShift * 0.7).toFixed(0)}°C`;
+  document.getElementById("svg-st4").textContent = `${(830 + tempShift * 0.8).toFixed(0)}°C`;
+  document.getElementById("svg-analyzer-txt").textContent = `O₂: ${snap.o2.toFixed(2)}% · ${snap.pressure.toFixed(2)}b`;
+  document.getElementById("svg-kiln-burn").textContent = `${snap.temp.toFixed(1)}°C Sintering`;
+  document.getElementById("svg-drive-lbl").textContent = `Tyre 1–4 · Rotary Drive: ${snap.rotary.toFixed(1)} kW · Main: ${snap.power.toFixed(0)} kW`;
+  document.getElementById("svg-cpr-lbl").textContent = `Clinker: ${snap.production.toFixed(2)} tph`;
+  document.getElementById("svg-stack-co2").textContent = `CO₂: ${snap.co2.toFixed(1)} kg/h`;
+
+  // Dynamic ID Fan Speed
+  const airRatio = snap.air / Math.max(1, base.air);
+  const fanDur = Math.max(0.55, Math.min(2.4, 1.35 / airRatio));
+  const estRpm = Math.round(980 * airRatio);
+  document.getElementById("fan-rotor").style.setProperty("--fan-dur", `${fanDur.toFixed(2)}s`);
+  document.getElementById("svg-fan-rpm").textContent = `${Math.round(snap.power / 6)} kW · ${estRpm} rpm`;
+
+  // Dynamic Flame Length & Pulse
+  const fuelNorm = Math.max(0.75, Math.min(1.25, snap.fuel_rate / base.fuel_rate));
+  const flameScaleX = 0.85 + (fuelNorm - 0.8) * 0.9;
+  const flameDur = Math.max(0.28, 0.52 / fuelNorm);
+  const fGroup = document.getElementById("burner-flame-group");
+  fGroup.style.setProperty("--flame-dur", `${flameDur.toFixed(2)}s`);
+  document.getElementById("flame-outer").setAttribute("transform", `translate(${540 * (1 - flameScaleX)}, 0) scale(${flameScaleX.toFixed(2)}, 1)`);
+
+  // Dynamic Bucket Conveyor Speed
+  const cprRatio = snap.production / Math.max(1, base.production);
+  document.getElementById("conveyor-buckets").style.animationDuration = `${(1.1 / cprRatio).toFixed(2)}s`;
+
+  // Dynamic Stack CO2 Plume Particles
+  const plumeLayer = document.getElementById("co2-plume");
+  const co2Norm = Math.max(0.3, Math.min(1.0, (snap.co2 - 900) / 140));
+  const nPlume = Math.round(5 + co2Norm * 7);
+  let plumeHtml = "";
+  const nowPhase = (Date.now() / 1000) % 10;
+  for (let i = 0; i < nPlume; i++) {
+    const t = ((i / nPlume) + nowPhase * (0.12 + co2Norm * 0.08)) % 1;
+    const py = 38 - t * 34;
+    const px = 641 + Math.sin(t * 4 + i) * 7 + t * 14;
+    const pr = 2.5 + t * (3.2 + co2Norm * 3.0);
+    const pop = Math.max(0.08, (1 - t) * (0.35 + co2Norm * 0.5));
+    plumeHtml += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${pr.toFixed(1)}" fill="#cbd5e1" opacity="${pop.toFixed(2)}" />`;
+  }
+  plumeLayer.innerHTML = plumeHtml;
+
+  // Mode Pill
+  const modePill = document.getElementById("mode-pill");
+  if (compareBaseline) {
+    modePill.textContent = "PLANT BASELINE (UNOPTIMIZED)";
+    modePill.style.color = "#f59e0b";
+    modePill.style.borderColor = "rgba(245, 158, 11, 0.45)";
+  } else {
+    modePill.textContent = customParetoIdx !== null ? `PARETO #${customParetoIdx + 1} CLOSED-LOOP` : `${activeRegime.toUpperCase()} CLOSED-LOOP`;
+    modePill.style.color = "#10b981";
+    modePill.style.borderColor = "rgba(16, 185, 129, 0.45)";
+  }
+
+  // Render Pinned Sensor Badges
+  const layer = document.getElementById("pinned-sensors-layer");
+  let badgesHtml = "";
+  PINNED_SENSORS.forEach(s => {
+    const val = snap.knobs[s.feat] ?? 0;
+    const bVal = base.knobs[s.feat] ?? val;
+    const pct = bVal !== 0 ? ((val - bVal) / bVal) * 100 : 0;
+    const deltaStr = compareBaseline ? "BASE" : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
+    const deltaCol = compareBaseline ? "#94a3b8" : (Math.abs(pct) < 0.2 ? "#38bdf8" : (pct < 0 ? "#10b981" : "#f59e0b"));
+    const isSel = selectedUnit === s.id;
+    const spPts = buildSparklinePoints(sparkHistory[s.feat] || [val], 38, 10);
+
+    badgesHtml += `
+      <line x1="${s.x + 54}" y1="${s.y + 18}" x2="${s.lx}" y2="${s.ly}" stroke="#475569" stroke-width="0.9" stroke-dasharray="2 2" />
+      <g class="sensor-tag ${isSel ? "selected-unit" : ""}" data-comp="${s.id}" transform="translate(${s.x}, ${s.y})">
+        <rect class="tag-bg" width="108" height="37" rx="5" fill="#0f172a" fill-opacity="0.93" stroke="${isSel ? "#f59e0b" : "#334155"}" stroke-width="1.2" />
+        <text x="5" y="11" font-size="7.8" font-weight="700" fill="#94a3b8">${s.label}</text>
+        <text x="103" y="11" font-size="7.5" font-weight="800" fill="${deltaCol}" text-anchor="end">${deltaStr}</text>
+        <text x="5" y="27" font-size="9.5" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace">${val >= 1000 ? Math.round(val) : val.toFixed(1)}<tspan font-size="7" fill="#94a3b8"> ${s.unit}</tspan></text>
+        <g transform="translate(64, 19)">
+          <polyline fill="none" stroke="#38bdf8" stroke-width="1.3" points="${spPts}" />
+        </g>
+      </g>
+    `;
+  });
+  layer.innerHTML = badgesHtml;
+
+  // Bind clicks on pinned sensors
+  layer.querySelectorAll(".sensor-tag").forEach(el => {
+    el.addEventListener("click", () => {
+      selectedUnit = el.getAttribute("data-comp");
+      updateAll();
+    });
+  });
+
+  // Highlight selected unit outline
+  document.querySelectorAll("#scada-svg .scada-unit").forEach(u => {
+    u.classList.toggle("selected-unit", u.getAttribute("data-comp") === selectedUnit);
+  });
+}
+
+function triggerFeedbackPulse() {
+  const bus = document.getElementById("scada-feedback-bus");
+  const fuelAct = document.getElementById("actuator-fuel");
+  bus.classList.add("feedback-active");
+  fuelAct.setAttribute("stroke", "#10b981");
+  document.getElementById("scada-loop-label").setAttribute("fill", "#10b981");
+  setTimeout(() => {
+    bus.classList.remove("feedback-active");
+    fuelAct.setAttribute("stroke", "#f59e0b");
+    document.getElementById("scada-loop-label").setAttribute("fill", "#64748b");
+  }, 950);
+}
+
+function renderFeatureForge(snap) {
+  const t = ARCH_DATA.thermo;
+  const normPct = (v, lo, hi) => Math.max(5, Math.min(100, ((v - lo) / Math.max(1e-6, hi - lo)) * 100));
+
+  document.getElementById("val-tco2").textContent = `${snap.theoCO2.toFixed(1)}`;
+  document.getElementById("bar-tco2").style.width = `${normPct(snap.theoCO2, t.tco2_min, t.tco2_max).toFixed(1)}%`;
+
+  document.getElementById("val-te").textContent = `${(snap.theoEnergy / 1000).toFixed(2)} MW`;
+  document.getElementById("bar-te").style.width = `${normPct(snap.theoEnergy, t.te_min, t.te_max).toFixed(1)}%`;
+
+  document.getElementById("val-he").textContent = `${snap.heatEff.toFixed(1)}`;
+  document.getElementById("bar-he").style.width = `${normPct(snap.heatEff, t.he_min, t.he_max).toFixed(1)}%`;
+
+  document.getElementById("val-o2dev").textContent = `${snap.o2Dev.toFixed(3)}%`;
+  document.getElementById("bar-o2dev").style.width = `${normPct(snap.o2Dev, 0, t.o2dev_max).toFixed(1)}%`;
+
+  ["feat_tco2", "feat_te", "feat_he", "feat_o2dev"].forEach(cid => {
+    const btn = document.querySelector(`[data-comp="${cid}"]`);
+    if (btn) btn.classList.toggle("selected-card", selectedUnit === cid);
+  });
+}
+
+function evalTreeNode(node, featObj) {
+  if (node.leaf) {
+    return { value: node.value, path: [] };
+  }
+  const v = featObj[node.feature] ?? 0;
+  const goLeft = v <= node.threshold;
+  const sub = evalTreeNode(goLeft ? node.left : node.right, featObj);
+  return {
+    value: sub.value,
+    path: [{ feat: node.feature, thresh: node.threshold, val: v, dir: goLeft ? "L" : "R" }, ...sub.path]
+  };
+}
+
+function shortFeat(name) {
+  return name
+    .replace("Power Consumed (KWt/h)", "PwrCons")
+    .replace("Power (Kw)", "Power")
+    .replace("Power (rotary drive) Kw", "Rotary")
+    .replace("Absorbed Power (Kw)", "Absorbed")
+    .replace("Power Consumption (Kw) Max", "MaxPwr")
+    .replace("Power Consumption (MWH)", "PwrMWH")
+    .replace("Clinker Production Rate (tons/h)", "CPR")
+    .replace("Raw Meal Composition (% Limestone)", "CaCO₃%")
+    .replace("Fuel Consumption (kg/h)", "FuelRate")
+    .replace("Kiln Temperature (°C)", "KilnTemp")
+    .replace("Kiln Pressure (bar)", "Pressure")
+    .replace("Oxygen Levels (%)", "O₂%")
+    .replace("Air Flow Rate (m³/h)", "AirFlow")
+    .replace("Theoretical_Energy", "Theo_E")
+    .replace("Theoretical_CO2", "Theo_CO2")
+    .replace("Heat_Efficiency", "HeatEff")
+    .replace("O2_Deviation", "O₂_Dev");
+}
+
+function renderRfTwin(snap) {
+  const trees = (ARCH_DATA.trees && ARCH_DATA.trees[selectedRfModel]) || [];
+  const svg = document.getElementById("rf-trees-svg");
+  let html = "";
+  const leafVals = [];
+  const activeCol = selectedRfModel === "energy" ? "#38bdf8" : "#10b981";
+
+  trees.slice(0, 3).forEach((tree, idx) => {
+    const ox = 8 + idx * 136;
+    const res = evalTreeNode(tree, snap.fullFeat);
+    leafVals.push(res.value);
+    const p0 = res.path[0];
+    const p1 = res.path[1];
+
+    const l1Active = p0 && p0.dir === "L";
+    const r1Active = p0 && p0.dir === "R";
+    const llActive = l1Active && p1 && p1.dir === "L";
+    const lrActive = l1Active && p1 && p1.dir === "R";
+    const rlActive = r1Active && p1 && p1.dir === "L";
+    const rrActive = r1Active && p1 && p1.dir === "R";
+
+    const d1L = tree.left || { leaf: true, value: tree.value };
+    const d1R = tree.right || { leaf: true, value: tree.value };
+
+    html += `
+      <g transform="translate(${ox}, 6)">
+        <rect width="128" height="98" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+        <text x="64" y="12" font-size="8" font-weight="700" fill="#94a3b8" text-anchor="middle">Tree #${idx + 1} (${tree.samples} obs)</text>
+
+        <!-- Edges -->
+        <line x1="64" y1="28" x2="34" y2="52" stroke="${l1Active ? activeCol : "#334155"}" stroke-width="${l1Active ? 2.2 : 1}" />
+        <line x1="64" y1="28" x2="94" y2="52" stroke="${r1Active ? activeCol : "#334155"}" stroke-width="${r1Active ? 2.2 : 1}" />
+        <line x1="34" y1="56" x2="18" y2="80" stroke="${llActive ? activeCol : "#334155"}" stroke-width="${llActive ? 2 : 0.9}" />
+        <line x1="34" y1="56" x2="50" y2="80" stroke="${lrActive ? activeCol : "#334155"}" stroke-width="${lrActive ? 2 : 0.9}" />
+        <line x1="94" y1="56" x2="78" y2="80" stroke="${rlActive ? activeCol : "#334155"}" stroke-width="${rlActive ? 2 : 0.9}" />
+        <line x1="94" y1="56" x2="110" y2="80" stroke="${rrActive ? activeCol : "#334155"}" stroke-width="${rrActive ? 2 : 0.9}" />
+
+        <!-- Root Node -->
+        <rect x="24" y="17" width="80" height="15" rx="3" fill="#1e293b" stroke="${activeCol}" stroke-width="1.2" />
+        <text x="64" y="27" font-size="7.2" font-weight="700" fill="#f8fafc" text-anchor="middle">${shortFeat(tree.feature)} ≤ ${tree.threshold >= 100 ? Math.round(tree.threshold) : tree.threshold}</text>
+
+        <!-- Depth-1 Nodes -->
+        <rect x="8" y="45" width="52" height="14" rx="3" fill="${l1Active ? "#0c4a6e" : "#1e293b"}" stroke="${l1Active ? activeCol : "#475569"}" stroke-width="1" />
+        <text x="34" y="54.5" font-size="6.8" fill="#e2e8f0" text-anchor="middle">${d1L.leaf ? Math.round(d1L.value) : shortFeat(d1L.feature)}</text>
+        <rect x="68" y="45" width="52" height="14" rx="3" fill="${r1Active ? "#0c4a6e" : "#1e293b"}" stroke="${r1Active ? activeCol : "#475569"}" stroke-width="1" />
+        <text x="94" y="54.5" font-size="6.8" fill="#e2e8f0" text-anchor="middle">${d1R.leaf ? Math.round(d1R.value) : shortFeat(d1R.feature)}</text>
+
+        <!-- Leaf indicators -->
+        <circle cx="18" cy="80" r="${llActive ? 5 : 3.2}" fill="${llActive ? activeCol : "#475569"}" />
+        <circle cx="50" cy="80" r="${lrActive ? 5 : 3.2}" fill="${lrActive ? activeCol : "#475569"}" />
+        <circle cx="78" cy="80" r="${rlActive ? 5 : 3.2}" fill="${rlActive ? activeCol : "#475569"}" />
+        <circle cx="110" cy="80" r="${rrActive ? 5 : 3.2}" fill="${rrActive ? activeCol : "#475569"}" />
+        <text x="64" y="93" font-size="7.8" font-weight="700" fill="${activeCol}" text-anchor="middle">T_${idx + 1}(x) = ${res.value.toFixed(1)}</text>
+      </g>
+    `;
+  });
+
+  const liveFinal = selectedRfModel === "energy" ? snap.energy : snap.co2;
+  const unit = selectedRfModel === "energy" ? "kWh/t" : "kg/h";
+  html += `
+    <rect x="8" y="108" width="404" height="20" rx="5" fill="rgba(56, 189, 248, 0.12)" stroke="${activeCol}" stroke-width="1" />
+    <text x="210" y="121" font-size="8.6" font-weight="700" fill="#f8fafc" text-anchor="middle">
+      Ensemble Mean ŷ(x) = (1/100) Σ Tₙ(x)  →  Live ${selectedRfModel === "energy" ? "f₁" : "f₂"} = ${liveFinal.toFixed(2)} ${unit}
+    </text>
+  `;
+  svg.innerHTML = html;
+
+  // Feature Importance Bars
+  const imps = (ARCH_DATA.importances && ARCH_DATA.importances[selectedRfModel]) || [];
+  const maxImp = Math.max(0.01, ...(imps.map(x => x.importance)));
+  document.getElementById("rf-imp-bars").innerHTML = imps.slice(0, 6).map(item => `
+    <div class="imp-row" data-feat="${item.feature}">
+      <div class="imp-row-head">
+        <span>${shortFeat(item.feature)}</span>
+        <strong>${(item.importance * 100).toFixed(1)}%</strong>
+      </div>
+      <div class="bar-track" style="margin-top:0;height:4px;">
+        <div class="bar-fill" style="width:${(item.importance / maxImp * 100).toFixed(1)}%;background:${activeCol};"></div>
+      </div>
+    </div>
+  `).join("");
+
+  document.querySelectorAll("#rf-imp-bars .imp-row").forEach(el => {
+    el.addEventListener("click", () => {
+      selectedUnit = "rf_" + selectedRfModel;
+      updateAll();
+    });
+  });
+
+  // Model Benchmark Badges
+  const b = ARCH_DATA.benchmarks[selectedRfModel] || {};
+  document.getElementById("rf-benchmarks").innerHTML = `
+    <span class="bench-pill winner">RFR Test R² = ${(b.RF ?? 0.98).toFixed(3)} (CV ${(b.CV_RF ?? 0.98).toFixed(3)})</span>
+    <span class="bench-pill">GBR: ${(b.GBR ?? 0).toFixed(3)}</span>
+    <span class="bench-pill">Linear: ${(b.Linear ?? 0).toFixed(3)}</span>
+    <span class="bench-pill">SVR(RBF): ${(b.SVR ?? 0).toFixed(3)}</span>
+  `;
+
+  document.getElementById("rf-tab-energy").classList.toggle("active", selectedRfModel === "energy");
+  document.getElementById("rf-tab-co2").classList.toggle("active", selectedRfModel === "co2");
+}
+
+function renderParetoPlot(snap) {
+  const svg = document.getElementById("pareto-scatter-svg");
+  const pareto = ARCH_DATA.pareto || [];
+  const snaps = ARCH_DATA.gen_snapshots || [];
+  const genObj = snaps[selectedGenIdx] || { gen: ARCH_DATA.metrics.n_gen, points: [] };
+  const base = ARCH_DATA.baseline;
+
+  document.getElementById("gen-slider").max = Math.max(0, snaps.length - 1);
+  document.getElementById("gen-slider").value = selectedGenIdx;
+  document.getElementById("gen-label").textContent = `Gen ${genObj.gen}`;
+
+  const allE = [...pareto.map(p => p.energy), ...(genObj.points || []).map(p => p.energy), base.energy];
+  const allC = [...pareto.map(p => p.co2), ...(genObj.points || []).map(p => p.co2), base.co2];
+  const minE = Math.min(...allE) - 8;
+  const maxE = Math.max(...allE) + 8;
+  const minC = Math.min(...allC) - 8;
+  const maxC = Math.max(...allC) + 8;
+
+  const padL = 44, padR = 14, padT = 12, padB = 28;
+  const W = 420, H = 192;
+  const sx = e => padL + ((e - minE) / Math.max(1e-6, maxE - minE)) * (W - padL - padR);
+  const sy = c => H - padB - ((c - minC) / Math.max(1e-6, maxC - minC)) * (H - padT - padB);
+
+  let html = `
+    <!-- Grid & Axes -->
+    <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="#475569" stroke-width="1.2" />
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}" stroke="#475569" stroke-width="1.2" />
+    <text x="${(padL + W - padR) / 2}" y="${H - 6}" font-size="8.5" fill="#94a3b8" text-anchor="middle">Specific Energy Consumption (kWh/t-clinker)</text>
+    <text x="12" y="${(padT + H - padB) / 2}" font-size="8.5" fill="#94a3b8" text-anchor="middle" transform="rotate(-90 12 ${(padT + H - padB) / 2})">CO₂ Emissions (kg/h)</text>
+  `;
+
+  // Tick Labels
+  [minE + 8, (minE + maxE) / 2, maxE - 8].forEach(ev => {
+    const x = sx(ev);
+    html += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${H - padB}" stroke="#1e293b" stroke-width="0.7" />
+             <text x="${x.toFixed(1)}" y="${H - padB + 11}" font-size="7.5" fill="#64748b" text-anchor="middle">${Math.round(ev)}</text>`;
+  });
+  [minC + 8, (minC + maxC) / 2, maxC - 8].forEach(cv => {
+    const y = sy(cv);
+    html += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#1e293b" stroke-width="0.7" />
+             <text x="${padL - 5}" y="${(y + 3).toFixed(1)}" font-size="7.5" fill="#64748b" text-anchor="end">${Math.round(cv)}</text>`;
+  });
+
+  // Dominated candidate cloud for selected generation
+  (genObj.points || []).forEach(pt => {
+    html += `<circle cx="${sx(pt.energy).toFixed(1)}" cy="${sy(pt.co2).toFixed(1)}" r="2.6" fill="${pt.feasible ? "#64748b" : "#ef4444"}" opacity="0.38" />`;
+  });
+
+  // Historical Baseline Marker + Crosshairs
+  const bx = sx(base.energy), by = sy(base.co2);
+  html += `
+    <line x1="${bx.toFixed(1)}" y1="${padT}" x2="${bx.toFixed(1)}" y2="${H - padB}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.5" />
+    <line x1="${padL}" y1="${by.toFixed(1)}" x2="${W - padR}" y2="${by.toFixed(1)}" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.5" />
+    <polygon points="${bx.toFixed(1)},${(by - 5).toFixed(1)} ${(bx + 5).toFixed(1)},${(by + 4).toFixed(1)} ${(bx - 5).toFixed(1)},${(by + 4).toFixed(1)}" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
+    <text x="${(bx - 6).toFixed(1)}" y="${(by - 7).toFixed(1)}" font-size="7.5" font-weight="700" fill="#f87171" text-anchor="end">Plant Baseline</text>
+  `;
+
+  // Pareto Optimal Polyline
+  if (pareto.length > 1) {
+    const linePts = pareto.map(p => `${sx(p.energy).toFixed(1)},${sy(p.co2).toFixed(1)}`).join(" ");
+    html += `<polyline fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.7" points="${linePts}" />`;
+  }
+
+  // Clickable 50 Pareto Points
+  const activeBase = getBaseOperatingRecord();
+  document.getElementById("pareto-point-badge").textContent = `${pareto.length} Optimal Pts`;
+  pareto.forEach((p, idx) => {
+    const px = sx(p.energy), py = sy(p.co2);
+    const isSel = !compareBaseline && activeBase.id === p.id;
+    let fill = "#38bdf8", r = 3.4, stroke = "#0f172a";
+    if (p.regime === "Low Energy") { fill = "#f59e0b"; r = 5.4; stroke = "#ffffff"; }
+    else if (p.regime === "Balanced") { fill = "#10b981"; r = 6.2; stroke = "#ffffff"; }
+    else if (p.regime === "Low CO2") { fill = "#a855f7"; r = 5.4; stroke = "#ffffff"; }
+
+    if (isSel) {
+      html += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="10" fill="none" stroke="#fde047" stroke-width="1.8" opacity="0.9" />`;
+    }
+    html += `<circle class="pareto-pt" data-pidx="${idx}" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="1" />`;
+    if (p.regime) {
+      const lblY = p.regime === "Balanced" ? py - 9 : (p.regime === "Low Energy" ? py + 12 : py - 8);
+      html += `<text x="${(px + 4).toFixed(1)}" y="${lblY.toFixed(1)}" font-size="7.3" font-weight="700" fill="${fill}">${p.regime}</text>`;
+    }
+  });
+
+  // Live Jitter Marker if Live Stream ON
+  if (liveStreamOn) {
+    html += `<circle cx="${sx(snap.energy).toFixed(1)}" cy="${sy(snap.co2).toFixed(1)}" r="4.5" fill="#fde047" stroke="#000" stroke-width="1" />`;
+  }
+
+  svg.innerHTML = html;
+
+  svg.querySelectorAll(".pareto-pt").forEach(ptEl => {
+    ptEl.addEventListener("click", () => {
+      const idx = parseInt(ptEl.getAttribute("data-pidx"), 10);
+      compareBaseline = false;
+      customParetoIdx = idx;
+      if (pareto[idx].regime) {
+        activeRegime = pareto[idx].regime;
+      }
+      selectedUnit = "nsga2";
+      triggerFeedbackPulse();
+      updateAll();
+    });
+  });
+
+  // Constraint status
+  const margin = snap.production - ARCH_DATA.thermo.min_cpr;
+  const cStatus = document.getElementById("constraint-status");
+  if (compareBaseline) {
+    cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (Plant Baseline)`;
+    cStatus.className = "warn";
+  } else if (margin >= -1e-6) {
+    cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (+${margin.toFixed(2)} tph) · FEASIBLE ✅`;
+    cStatus.className = "good";
+  } else {
+    cStatus.textContent = `CPR = ${snap.production.toFixed(2)} tph (${margin.toFixed(2)} tph) · INFEASIBLE`;
+    cStatus.className = "warn";
+  }
+}
+
+function getInspectorInfo(unitId, snap) {
+  const base = ARCH_DATA.baseline;
+  const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || snap;
+  const lowC = (ARCH_DATA.regimes && ARCH_DATA.regimes["Low CO2"]) || snap;
+  const pctStr = (v, b) => {
+    const p = b !== 0 ? ((v - b) / b) * 100 : 0;
+    return `${p >= 0 ? "+" : ""}${p.toFixed(2)}%`;
+  };
+  const makeRow = (label, bVal, pVal, oVal, unit = "") => {
+    const d = oVal - bVal;
+    const pct = bVal !== 0 ? (d / bVal) * 100 : 0;
+    return {
+      param: `${label}${unit ? ` (${unit})` : ""}`,
+      base: bVal.toFixed(2),
+      pred: pVal !== null ? pVal.toFixed(2) : "—",
+      opt: oVal.toFixed(2),
+      delta: `${d >= 0 ? "+" : ""}${d.toFixed(2)} (${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%)`
+    };
+  };
+
+  // Check if it's a pinned sensor tag
+  const sensorMatch = PINNED_SENSORS.find(s => s.id === unitId);
+  if (sensorMatch) {
+    const f = sensorMatch.feat;
+    const bnd = ARCH_DATA.bounds[f];
+    const bVal = base.knobs[f];
+    const oVal = snap.knobs[f];
+    return {
+      title: `SCADA Sensor · ${f}`,
+      module: "src/cement_opt/data/preprocessing.py",
+      func: `Continuous plant measurement feeding the Thermodynamic Feature Forge and RF Digital Twins. Bounded strictly inside observed Ashaka empirical limits [${bnd.min}, ${bnd.max}] ${sensorMatch.unit}.`,
+      eqDesc: `Empirical bounds: min=${bnd.min}, median=${bnd.median}, max=${bnd.max} ${sensorMatch.unit}.`,
+      liveCode: `Current=${oVal.toFixed(2)} ${sensorMatch.unit} | Baseline=${bVal.toFixed(2)} | Sparkline 15-pt range updated live.`,
+      rows: [
+        makeRow(sensorMatch.label, bVal, bVal, oVal, sensorMatch.unit),
+        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+      ],
+      inStreams: [{ id: "nsga2", label: "NSGA-II Closed-Loop", desc: "Receives optimal setpoint target deltas when optimization is active." }],
+      outStreams: [{ id: "feat_he", label: "Feature Forge (Eqs. 3.13–3.17)", desc: "Feeds raw physical signals into thermodynamic transformations." }],
+      goal: `Bounding every controllable sensor inside [${bnd.min}, ${bnd.max}] guarantees zero physically impossible extrapolation.`
+    };
+  }
+
+  const catalog = {
+    preheater: {
+      title: "Gepol 4-Stage Preheater Cyclone Tower",
+      module: "src/cement_opt/features/engineering.py · Eq. 3.13",
+      func: "Counter-current gas-solid heat exchanger: raw meal limestone (81.8–87.7% CaCO₃) descends through 4 cyclone stages (680°C → 830°C) while hot kiln exhaust pre-calcines limestone before kiln entry.",
+      eqDesc: "Calcination stoichiometry Eq. 3.13: CaCO₃ → CaO + CO₂; Theoretical_CO2 = RMC × CPR × 0.44.",
+      liveCode: `Limestone=${snap.limestone.toFixed(2)}% | Theoretical_CO2=${snap.theoCO2.toFixed(1)} | Stage 4 Calcining=830°C`,
+      rows: [
+        makeRow("Raw Meal (% Limestone)", base.limestone, base.limestone, snap.limestone, "%"),
+        makeRow("Theoretical CO₂ (Eq 3.13)", base.theoretical_co2, base.theoretical_co2, snap.theoCO2),
+        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+      ],
+      inStreams: [{ id: "s_limestone", label: "Raw Meal Feeder Sensor", desc: "Limestone CaCO₃ composition and meal feed rate." }],
+      outStreams: [{ id: "kiln", label: "Rotary Kiln Inlet", desc: "Pre-calcined hot meal enters kiln calcining zone at ~830°C." }, { id: "analyzer", label: "Back-End Gas Analyzer", desc: "Exhaust gas stream exits Stage 1 cyclone." }],
+      goal: "Stabilizing raw meal limestone % while maximizing cyclone heat recovery reduces kiln burning-zone fuel demand without sacrificing clinker quality."
+    },
+    kiln: {
+      title: "Ashaka Gepol Rotary Kiln (72m × 4m · 3 rpm · 488 kW)",
+      module: "src/cement_opt/features/engineering.py · Eqs. 3.14–3.16",
+      func: "Inclined cylindrical reactor resting on 4 riding tyres converting calcined meal into alite/belite clinker phases at 1342–1375°C while consuming main and rotary drive electrical power.",
+      eqDesc: "Eq. 3.14–3.15: Theoretical_Energy = (CPR × 1000 × 1780) / 3600 | Eq. 3.16: Heat_Efficiency = T_E / Fuel_Rate.",
+      liveCode: `Burn Temp=${snap.temp.toFixed(1)}°C | Rotary Drive=${snap.rotary.toFixed(1)} kW | Main Power=${snap.power.toFixed(0)} kW | HE=${snap.heatEff.toFixed(1)}`,
+      rows: [
+        makeRow("Kiln Temperature", base.temp, base.temp, snap.temp, "°C"),
+        makeRow("Main Power", base.power, base.power, snap.power, "kW"),
+        makeRow("Rotary Drive Power", base.knobs["Power (rotary drive) Kw"], base.knobs["Power (rotary drive) Kw"], snap.rotary, "kW"),
+        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t")
+      ],
+      inStreams: [{ id: "preheater", label: "Gepol 4-Stage Preheater", desc: "Calcined feed at 830°C." }, { id: "burner", label: "Burner Lance & Fuel Valve", desc: "Combustion thermal input." }],
+      outStreams: [{ id: "coolers", label: "Planetary Coolers & Crusher", desc: "1350°C clinker discharged for rapid quenching." }, { id: "rf_energy", label: "Energy & CO₂ RF Twin", desc: "Power + thermal efficiency drive surrogate predictions." }],
+      goal: `Operating near ${bal.temp.toFixed(1)}°C with lower main/rotary auxiliary power and higher Heat Efficiency achieves ${pctStr(bal.energy, base.energy)} specific energy reduction while boosting throughput ${pctStr(bal.production, base.production)}.`
+    },
+    burner: {
+      title: "Kiln Firing Hood & Burner Lance Actuator",
+      module: "src/cement_opt/optimization/recommender.py",
+      func: "Injects Coal/Gas/Oil fuel and primary combustion air into the burning zone; flame length and radiative heat flux govern clinker sintering and fuel CO₂ intensity.",
+      eqDesc: "Heat_Efficiency = Theoretical_Energy / Fuel_Consumption (higher efficiency = more clinker enthalpy per kg fuel).",
+      liveCode: `Fuel=${snap.fuel_rate.toFixed(1)} kg/h (${snap.fuel}) | Air Flow=${snap.air.toFixed(0)} m³/h | Heat_Eff=${snap.heatEff.toFixed(1)}`,
+      rows: [
+        makeRow("Fuel Consumption", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h"),
+        makeRow("Heat Efficiency", base.heat_eff, base.heat_eff, snap.heatEff),
+        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")
+      ],
+      inStreams: [{ id: "nsga2", label: "NSGA-II Fuel Setpoint", desc: `Tunes fuel rate from ${base.fuel_rate.toFixed(1)} → ${bal.fuel_rate.toFixed(1)} kg/h (${pctStr(bal.fuel_rate, base.fuel_rate)}).` }],
+      outStreams: [{ id: "kiln", label: "Kiln Burning Zone", desc: "Radiative flame heat drives clinker formation." }],
+      goal: `Trimming fuel consumption from ${base.fuel_rate.toFixed(1)} to ${bal.fuel_rate.toFixed(1)} kg/h raises Heat Efficiency from ${base.heat_eff.toFixed(1)} to ${bal.heat_eff.toFixed(1)} and cuts combustion CO₂.`
+    },
+    coolers: {
+      title: "Planetary Coolers, Clinker Crusher (100°C) & Bucket Conveyor",
+      module: "src/cement_opt/optimization/problem.py · Eq. 3.22",
+      func: "Rapidly cools incandescent clinker from ~1350°C to 100°C in satellite cooler tubes, recovers secondary air preheat back into the kiln hood, crushes nodules, and conveys product.",
+      eqDesc: "Production constraint Eq. 3.22: g(x) = 91.80 - Clinker_Production_Rate <= 0.",
+      liveCode: `Clinker Rate=${snap.production.toFixed(2)} tph | Constraint Margin=${(snap.production - ARCH_DATA.thermo.min_cpr).toFixed(2)} tph`,
+      rows: [
+        makeRow("Clinker Production Rate", base.production, base.production, snap.production, "tph"),
+        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t")
+      ],
+      inStreams: [{ id: "kiln", label: "Kiln Discharge Hood", desc: "Sintered clinker exit." }],
+      outStreams: [{ id: "nsga2", label: "NSGA-II Constraint Check", desc: "Enforces zero production loss (>= 91.80 tph)." }],
+      goal: `Proves sustainability gains do NOT come from throttling output: thermal dilution at ${bal.production.toFixed(2)}–${lowC.production.toFixed(2)} tph reduces specific kWh per ton of clinker.`
+    },
+    analyzer: {
+      title: "Back-End Gas Analyzer (O₂ %, NOx & Draft Pressure)",
+      module: "src/cement_opt/features/engineering.py · Eq. 3.17",
+      func: "Continuously samples kiln-inlet / preheater-exit gas to verify complete combustion without excess-air dilution losses.",
+      eqDesc: "Eq. 3.17: O2_Deviation = |Oxygen_Levels (%) - 4.0%|.",
+      liveCode: `O₂=${snap.o2.toFixed(2)}% | |O₂ - 4.0%|=${snap.o2Dev.toFixed(3)}% | Pressure=${snap.pressure.toFixed(2)} bar`,
+      rows: [
+        makeRow("Oxygen Levels", base.o2, base.o2, snap.o2, "%"),
+        makeRow("O₂ Deviation |O₂-4%|", base.o2_dev, base.o2_dev, snap.o2Dev, "%"),
+        makeRow("Kiln Pressure", base.knobs["Kiln Pressure (bar)"], base.knobs["Kiln Pressure (bar)"], snap.pressure, "bar")
+      ],
+      inStreams: [{ id: "preheater", label: "Preheater Exit Gas", desc: "Hot exhaust gas leaving Stage 1." }],
+      outStreams: [{ id: "idfan", label: "Gepol ID Fan", desc: "Guides damper & draft control." }, { id: "feat_o2dev", label: "Eq 3.17 Feature Forge", desc: "Computes stoichiometric O₂ penalty." }],
+      goal: `Bringing plant O₂ from ${base.o2.toFixed(2)}% closer to the 4.0% target eliminates incomplete combustion CO spikes without blowing cold excess air through the kiln.`
+    },
+    niro: {
+      title: "NIRO Gas Conditioning Tower (GCT)",
+      module: "Ashaka Exhaust Conditioning Train",
+      func: "Atomizes water spray inside the vertical tower to cool and humidify preheater exhaust gas prior to electrostatic/baghouse filtration; bottom screw conveyors collect coarse dust.",
+      eqDesc: "Evaporative gas cooling protects downstream baghouse filter media and lowers volumetric fan draw.",
+      liveCode: `Air Flow=${snap.air.toFixed(0)} m³/h | Stack CO₂=${snap.co2.toFixed(1)} kg/h`,
+      rows: [makeRow("Air Flow Rate", base.air, base.air, snap.air, "m³/h")],
+      inStreams: [{ id: "analyzer", label: "Preheater Exhaust Duct", desc: "Hot gas stream after O₂ analysis." }],
+      outStreams: [{ id: "idfan", label: "Gepol ID Fan", desc: "Conditioned gas enters 730 kW fan suction." }],
+      goal: "Proper gas conditioning reduces gas volume and prevents thermal damage to baghouse filter bags."
+    },
+    idfan: {
+      title: "Gepol Induced Draft (ID) Fan (730 kW · 980 rpm)",
+      module: "src/cement_opt/optimization/recommender.py",
+      func: "Maintains negative kiln draft and pulls combustion gases through the kiln, 4-stage preheater, and NIRO tower. Fan power scales steeply with flow (Affinity Laws: P ∝ Q³).",
+      eqDesc: `Power_Consumed (KWt/h) is #1 driver (${(ARCH_DATA.importances.energy[0].importance * 100).toFixed(1)}% importance) of Energy RF.`,
+      liveCode: `Air Flow=${snap.air.toFixed(0)} m³/h | Power Consumed=${snap.power_cons.toFixed(1)} kWt/h | Pressure=${snap.pressure.toFixed(2)} bar`,
+      rows: [
+        makeRow("Air Flow Rate", base.air, base.air, snap.air, "m³/h"),
+        makeRow("Power Consumed", base.knobs["Power Consumed (KWt/h)"], base.knobs["Power Consumed (KWt/h)"], snap.power_cons, "kWt/h"),
+        makeRow("Kiln Pressure", base.knobs["Kiln Pressure (bar)"], base.knobs["Kiln Pressure (bar)"], snap.pressure, "bar")
+      ],
+      inStreams: [{ id: "niro", label: "NIRO GCT Outlet", desc: "Conditioned exhaust gas." }],
+      outStreams: [{ id: "baghouse", label: "Baghouse Filter", desc: "Pressurized gas pushed to particulate filtration." }],
+      goal: `Trimming draft pressure (${base.knobs["Kiln Pressure (bar)"].toFixed(2)} → ${bal.knobs["Kiln Pressure (bar)"].toFixed(2)} bar) and fan electrical draw is the #1 lever cutting Specific Energy (${pctStr(bal.energy, base.energy)}).`
+    },
+    baghouse: {
+      title: "Baghouse Dust Collector (Filter Bag Rows & Hoppers)",
+      module: "Ashaka Air Pollution Control",
+      func: "Captures kiln dust on vertical fabric filter bags before clean CO₂-bearing flue gas exits the tall stack; zig-zag hoppers return captured dust to raw meal.",
+      eqDesc: "Particulate separation prior to stack monitoring; pressure drop directly loads the ID Fan.",
+      liveCode: `Draft Pressure=${snap.pressure.toFixed(2)} bar | Flue Flow=${snap.air.toFixed(0)} m³/h`,
+      rows: [makeRow("Kiln Pressure", base.knobs["Kiln Pressure (bar)"], base.knobs["Kiln Pressure (bar)"], snap.pressure, "bar")],
+      inStreams: [{ id: "idfan", label: "Gepol ID Fan Discharge", desc: "Dust-laden exhaust stream." }],
+      outStreams: [{ id: "stack", label: "Tall Exhaust Stack", desc: "Filtered flue gas exits to atmosphere." }],
+      goal: "Low pressure drop across clean bag rows lowers ID fan electrical consumption."
+    },
+    stack: {
+      title: "Tall Exhaust Stack & Live CO₂ Plume",
+      module: "src/cement_opt/models/trainer.py · CO2 Target",
+      func: "Releases decarbonated + combustion flue gas to atmosphere. Visual plume density & velocity scale dynamically with predicted CO₂ Emissions (kg/h).",
+      eqDesc: "Target f₂(x) = CO2 Emissions (kg/h), minimized jointly with Energy f₁(x) in NSGA-II.",
+      liveCode: `Live CO₂=${snap.co2.toFixed(2)} kg/h vs Plant Baseline=${base.co2.toFixed(2)} kg/h`,
+      rows: [makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h")],
+      inStreams: [{ id: "baghouse", label: "Baghouse Clean Gas", desc: "Filtered CO₂ + N₂ + O₂ flue gas." }],
+      outStreams: [{ id: "nsga2", label: "NSGA-II Objective f₂", desc: "Tracks plant-wide carbon intensity reduction." }],
+      goal: `Balanced regime reduces hourly CO₂ to ${bal.co2.toFixed(2)} kg/h (${pctStr(bal.co2, base.co2)}) and Low CO₂ drops to ${lowC.co2.toFixed(2)} kg/h while maintaining >= 91.80 tph clinker.`
+    },
+    feat_tco2: {
+      title: "Eq. 3.13 · Theoretical Stoichiometric CO₂",
+      module: "src/cement_opt/features/engineering.py",
+      func: "Captures unavoidable chemical calcination CO₂ released when limestone CaCO₃ decomposes into CaO clinker.",
+      eqDesc: "Theoretical_CO2 = Raw_Meal_%_Limestone × Clinker_Production_Rate × 0.44",
+      liveCode: `${snap.limestone.toFixed(2)}% × ${snap.production.toFixed(2)} tph × 0.44 = ${snap.theoCO2.toFixed(2)}`,
+      rows: [makeRow("Theoretical CO₂", base.theoretical_co2, base.theoretical_co2, snap.theoCO2), makeRow("CO₂ Emissions", base.co2, base.predicted_co2, snap.co2, "kg/h")],
+      inStreams: [{ id: "preheater", label: "Preheater Limestone & CPR", desc: "Live feedstock % CaCO₃ and clinker rate." }],
+      outStreams: [{ id: "rf_co2", label: "CO₂ RF Twin", desc: "Strong stoichiometric predictor in CO₂ Random Forest." }],
+      goal: "Separates unavoidable process stoichiometry from avoidable fuel & excess-air emissions."
+    },
+    feat_te: {
+      title: "Eqs. 3.14–3.15 · Theoretical Calcination Energy",
+      module: "src/cement_opt/features/engineering.py",
+      func: "Computes thermodynamic enthalpy demand required to convert raw meal into clinker at 1780 kJ/kg-clinker.",
+      eqDesc: "Theoretical_Energy (kW) = (CPR × 1000 × 1780.0) / 3600.0",
+      liveCode: `(${snap.production.toFixed(2)} × 1000 × 1780) / 3600 = ${snap.theoEnergy.toFixed(1)} kW`,
+      rows: [makeRow("Theoretical Energy", base.theoretical_energy, base.theoretical_energy, snap.theoEnergy, "kW")],
+      inStreams: [{ id: "coolers", label: "Clinker Production Rate", desc: "Live tonnage throughput." }],
+      outStreams: [{ id: "rf_co2", label: "CO₂ RF Twin (#1 imp)", desc: "Top predictor in CO₂ Random Forest." }],
+      goal: "Anchors the ML twin to the 1st Law of Thermodynamics so NSGA-II can never hallucinate free energy."
+    },
+    feat_he: {
+      title: "Eq. 3.16 · Kiln Heat Efficiency",
+      module: "src/cement_opt/features/engineering.py",
+      func: "Measures how effectively fuel thermal input translates into useful clinker calcination enthalpy.",
+      eqDesc: "Heat_Efficiency = Theoretical_Energy / Fuel_Consumption (kg/h)",
+      liveCode: `${snap.theoEnergy.toFixed(1)} / ${snap.fuel_rate.toFixed(1)} = ${snap.heatEff.toFixed(1)}`,
+      rows: [makeRow("Heat Efficiency", base.heat_eff, base.heat_eff, snap.heatEff), makeRow("Fuel Rate", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h")],
+      inStreams: [{ id: "burner", label: "Fuel Valve & CPR", desc: "Combines enthalpy demand and fuel rate." }],
+      outStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Guides optimizer toward higher thermal efficiency." }],
+      goal: `Balanced optimization boosts Heat Efficiency from ${base.heat_eff.toFixed(1)} to ${bal.heat_eff.toFixed(1)} (${pctStr(bal.heat_eff, base.heat_eff)}).`
+    },
+    feat_o2dev: {
+      title: "Eq. 3.17 · Stoichiometric O₂ Deviation",
+      module: "src/cement_opt/features/engineering.py",
+      func: "Penalizes excess or insufficient kiln oxygen away from the optimal 4.0% combustion target.",
+      eqDesc: "O2_Deviation = |Oxygen_Levels (%) - 4.0%|",
+      liveCode: `|${snap.o2.toFixed(2)}% - 4.0%| = ${snap.o2Dev.toFixed(3)}%`,
+      rows: [makeRow("O₂ Deviation", base.o2_dev, base.o2_dev, snap.o2Dev, "%"), makeRow("Oxygen Levels", base.o2, base.o2, snap.o2, "%")],
+      inStreams: [{ id: "analyzer", label: "Back-End Gas Analyzer", desc: "Live flue oxygen concentration." }],
+      outStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Captures air-fuel combustion loss." }],
+      goal: `Tightens O₂ from ${base.o2.toFixed(2)}% to ${bal.o2.toFixed(2)}% (O₂_Dev drops from ${base.o2_dev.toFixed(3)}% to ${bal.o2_dev.toFixed(3)}%).`
+    },
+    rf_energy: {
+      title: "Dual Random Forest Surrogate Twin (Energy & CO₂)",
+      module: "src/cement_opt/models/trainer.py · CementProcessModel",
+      func: "100-tree RandomForestRegressor pipelines (max_depth=8) wrapping ChemicalEngineeringTransformer. Serves as millisecond virtual kiln evaluator across 5,000+ NSGA-II candidates.",
+      eqDesc: `Energy Test R² = ${ARCH_DATA.benchmarks.energy.RF.toFixed(4)} (CV ${ARCH_DATA.benchmarks.energy.CV_RF.toFixed(4)}) | CO₂ Test R² = ${ARCH_DATA.benchmarks.co2.RF.toFixed(4)}`,
+      liveCode: `Live f₁=${snap.energy.toFixed(2)} kWh/t | Live f₂=${snap.co2.toFixed(2)} kg/h`,
+      rows: [
+        makeRow("Energy Consumption", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions", base.co2, base.predicted_co2, snap.co2, "kg/h")
+      ],
+      inStreams: [{ id: "feat_te", label: "Feature Forge (20 features)", desc: "16 controllable inputs + 4 thermodynamic laws." }],
+      outStreams: [{ id: "nsga2", label: "NSGA-II Multi-Objective Search", desc: "Provides fast nonlinear objective gradients." }],
+      goal: `Outperforms linear energy baselines (R²=${ARCH_DATA.benchmarks.energy.Linear.toFixed(3)}) by capturing nonlinear electrical + kiln thermodynamics at Test R²=${ARCH_DATA.benchmarks.energy.RF.toFixed(3)}.`
+    },
+    rf_co2: null,
+    nsga2: {
+      title: "NSGA-II Multi-Objective Pareto Optimizer & Regime Recommender",
+      module: "src/cement_opt/optimization/problem.py · recommender.py",
+      func: `Evolves 50 candidates over ${ARCH_DATA.metrics.n_gen} generations mutating ONLY the ${ARCH_DATA.knob_cols.length} controllable decision variables while enforcing throughput constraint g(x) = 91.80 - CPR <= 0.`,
+      eqDesc: "min [f₁(Energy), f₂(CO₂)] s.t. Clinker_Production_Rate >= 91.80 tons/h",
+      liveCode: `Active: Energy=${snap.energy.toFixed(2)} kWh/t | CO₂=${snap.co2.toFixed(2)} kg/h | CPR=${snap.production.toFixed(2)} tph`,
+      rows: [
+        makeRow("Specific Energy (f₁)", base.energy, base.predicted_energy, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, base.predicted_co2, snap.co2, "kg/h"),
+        makeRow("Clinker Rate (CPR)", base.production, base.production, snap.production, "tph"),
+        makeRow("Power (Kw)", base.power, base.power, snap.power, "kW"),
+        makeRow("Fuel Rate", base.fuel_rate, base.fuel_rate, snap.fuel_rate, "kg/h"),
+        makeRow("Kiln Temp", base.temp, base.temp, snap.temp, "°C")
+      ],
+      inStreams: [{ id: "rf_energy", label: "Dual RF Twin", desc: "Evaluates Energy & CO₂ on every generation." }],
+      outStreams: [{ id: "burner", label: "Closed-Loop Actuators", desc: "Streams optimal setpoints to Fuel Valve, ID Fan, Kiln Drive & Raw Meal." }],
+      goal: `Demonstrates simultaneous win-win-win: ${pctStr(bal.energy, base.energy)} Energy, ${pctStr(bal.co2, base.co2)} CO₂, and ${pctStr(bal.production, base.production)} Clinker output at the Balanced utopia knee-point.`
+    }
+  };
+  catalog.rf_co2 = catalog.rf_energy;
+  return catalog[unitId] || catalog.kiln;
+}
+
+function renderInspector(snap) {
+  const info = getInspectorInfo(selectedUnit, snap);
+  document.getElementById("ins-title").textContent = `Zone C Inspector · ${info.title}`;
+  document.getElementById("ins-module").textContent = info.module;
+  document.getElementById("ins-func").textContent = info.func;
+  document.getElementById("ins-eq-desc").textContent = info.eqDesc;
+  document.getElementById("ins-live-code").textContent = info.liveCode;
+  document.getElementById("ins-goal").innerHTML = `<strong>Why This Matters for the Plant &amp; Professor:</strong> ${info.goal}`;
+
+  document.getElementById("ins-table-body").innerHTML = info.rows.map(r => `
+    <tr>
+      <td><strong>${r.param}</strong></td>
+      <td>${r.base}</td>
+      <td>${r.pred}</td>
+      <td><strong>${r.opt}</strong></td>
+      <td class="${r.delta.startsWith("-") ? "good" : "info"}">${r.delta}</td>
+    </tr>
+  `).join("");
+
+  const renderChips = (list, cls, prefix) => list.map(s => `
+    <button class="stream-chip" data-jump="${s.id}">
+      <span class="stream-chip-title ${cls}">${prefix} ${s.label}</span>
+      <span class="stream-chip-desc">${s.desc}</span>
+    </button>
+  `).join("");
+
+  document.getElementById("ins-in-list").innerHTML = renderChips(info.inStreams, "stream-chip-in", "← From");
+  document.getElementById("ins-out-list").innerHTML = renderChips(info.outStreams, "stream-chip-out", "→ To");
+
+  document.querySelectorAll("#inspector-panel .stream-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      selectedUnit = btn.getAttribute("data-jump");
+      updateAll();
+    });
+  });
+}
+
+function renderScoreboard(snap) {
+  const base = ARCH_DATA.baseline;
+  const ePct = ((snap.energy - base.energy) / base.energy) * 100;
+  const cPct = ((snap.co2 - base.co2) / base.co2) * 100;
+  const pPct = ((snap.production - base.production) / base.production) * 100;
+
+  document.getElementById("kpi-energy").textContent = `${snap.energy.toFixed(2)} kWh/t`;
+  const ke = document.getElementById("kpi-energy-delta");
+  ke.textContent = compareBaseline ? "Plant Median Baseline" : `${ePct >= 0 ? "+" : ""}${ePct.toFixed(2)}% vs ${base.energy.toFixed(2)}`;
+  ke.className = `kpi-sub ${ePct < 0 ? "good" : "warn"}`;
+
+  document.getElementById("kpi-co2").textContent = `${snap.co2.toFixed(2)} kg/h`;
+  const kc = document.getElementById("kpi-co2-delta");
+  kc.textContent = compareBaseline ? "Plant Median Baseline" : `${cPct >= 0 ? "+" : ""}${cPct.toFixed(2)}% vs ${base.co2.toFixed(2)}`;
+  kc.className = `kpi-sub ${cPct < 0 ? "good" : "warn"}`;
+
+  document.getElementById("kpi-cpr").textContent = `${snap.production.toFixed(2)} tph`;
+  const kp = document.getElementById("kpi-cpr-delta");
+  kp.textContent = compareBaseline ? "Constraint Floor (91.80)" : `${pPct >= 0 ? "+" : ""}${pPct.toFixed(2)}% (g(x) ≤ 0 ✅)`;
+  kp.className = `kpi-sub ${pPct >= 0 ? "good" : "warn"}`;
+
+  document.getElementById("kpi-he").textContent = `${snap.heatEff.toFixed(1)}`;
+  document.getElementById("kpi-o2dev").textContent = `|O₂ - 4.0%| = ${snap.o2Dev.toFixed(3)}%`;
+}
+
+// COMPACT BLOCK DIAGRAM UPDATER (PRESERVED)
+const COMPACT_EDGES = [
+  { id: "edge-sensors-nsga2", from: "sensors", to: "nsga2" },
+  { id: "edge-sensors-thermo", from: "sensors", to: "thermo" },
+  { id: "edge-thermo-rf_energy", from: "thermo", to: "rf_energy" },
+  { id: "edge-thermo-rf_co2", from: "thermo", to: "rf_co2" },
+  { id: "edge-rf_energy-nsga2", from: "rf_energy", to: "nsga2" },
+  { id: "edge-rf_co2-nsga2", from: "rf_co2", to: "nsga2" },
+  { id: "edge-nsga2-thermo", from: "nsga2", to: "thermo", isLoop: true },
+  { id: "edge-nsga2-recommender", from: "nsga2", to: "recommender" },
+  { id: "edge-recommender-sensors", from: "recommender", to: "sensors" }
+];
+
+function renderCompactView(snap) {
+  const base = ARCH_DATA.baseline;
+  document.getElementById("n-sensors-temp").textContent = `Temp: ${snap.temp.toFixed(1)}°C`;
+  document.getElementById("n-sensors-fuel").textContent = `Fuel: ${snap.fuel_rate.toFixed(1)} kg/h (${snap.fuel})`;
+  document.getElementById("n-sensors-o2").textContent = `O₂: ${snap.o2.toFixed(2)}% | ${Math.round(snap.power)} kW`;
+  document.getElementById("n-thermo-he").textContent = `Heat Eff: ${snap.heatEff.toFixed(1)}`;
+  document.getElementById("n-thermo-o2dev").textContent = `|O₂ - 4%|: ${snap.o2Dev.toFixed(3)}%`;
+  document.getElementById("n-rfe-pred").textContent = `f₁: ${snap.energy.toFixed(1)} kWh/t`;
+  document.getElementById("n-rfc-pred").textContent = `f₂: ${snap.co2.toFixed(1)} kg/h`;
+  document.getElementById("n-nsga-out").textContent = `${(ARCH_DATA.pareto || []).length} non-dominated pts`;
+  document.getElementById("n-nsga-cpr").textContent = `CPR: ${snap.production.toFixed(2)} tph ✓`;
+
+  const eDelta = (((snap.energy - base.energy) / base.energy) * 100).toFixed(2);
+  const cDelta = (((snap.co2 - base.co2) / base.co2) * 100).toFixed(2);
+  const pDelta = (((snap.production - base.production) / base.production) * 100).toFixed(2);
+  document.getElementById("n-rec-regime").textContent = `Active: ${compareBaseline ? "Baseline" : activeRegime} (Fuel: ${snap.fuel})`;
+  document.getElementById("n-rec-savings").textContent = `Energy: ${eDelta}% | CO₂: ${cDelta}% | Clinker: +${pDelta}%`;
+  document.getElementById("n-rec-knobs").textContent = `Power ${Math.round(base.power)}→${Math.round(snap.power)} kW · O₂ ${base.o2.toFixed(2)}→${snap.o2.toFixed(2)}%`;
+
+  const connected = new Set([selectedCompactNode]);
+  COMPACT_EDGES.forEach(e => {
+    if (e.from === selectedCompactNode || e.to === selectedCompactNode) {
+      connected.add(e.from); connected.add(e.to);
+    }
+  });
+  document.querySelectorAll("#arch-svg .node-group").forEach(g => {
+    const nid = g.getAttribute("data-id");
+    g.style.opacity = showAllEdges ? "1" : (connected.has(nid) ? "1" : "0.38");
+    const box = g.querySelector(".node-box");
+    box.setAttribute("stroke-width", nid === selectedCompactNode && !showAllEdges ? "2.6" : "1.4");
+  });
+  COMPACT_EDGES.forEach(e => {
+    const path = document.getElementById(e.id);
+    const isIn = e.to === selectedCompactNode;
+    const isOut = e.from === selectedCompactNode;
+    path.classList.remove("edge-animated");
+    if (showAllEdges || isIn || isOut) {
+      const col = e.isLoop ? "#f59e0b" : (isOut ? "#10b981" : "#38bdf8");
+      path.setAttribute("stroke", col);
+      path.setAttribute("stroke-width", showAllEdges ? "1.9" : "2.4");
+      path.setAttribute("marker-end", e.isLoop ? "url(#arr-loop)" : (isOut ? "url(#arr-out)" : "url(#arr-in)"));
+      path.style.opacity = "1";
+      path.classList.add("edge-animated");
+    } else {
+      path.setAttribute("stroke", "#94a3b8");
+      path.setAttribute("stroke-width", "1.3");
+      path.setAttribute("marker-end", "url(#arr-dim)");
+      path.style.opacity = "0.24";
+    }
+  });
+}
+
+function updateControls() {
+  document.getElementById("view-twin-btn").classList.toggle("active", activeView === "twin");
+  document.getElementById("view-compact-btn").classList.toggle("active", activeView === "compact");
+  document.getElementById("twin-view").classList.toggle("hidden", activeView !== "twin");
+  document.getElementById("compact-view").classList.toggle("hidden", activeView !== "compact");
+
+  const baseBtn = document.getElementById("baseline-compare-btn");
+  baseBtn.classList.toggle("warn-active", compareBaseline);
+
+  document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
+    const isReg = !compareBaseline && customParetoIdx === null && btn.getAttribute("data-regime") === activeRegime;
+    btn.classList.toggle("active", isReg);
+  });
+
+  const cBadge = document.getElementById("custom-pareto-badge");
+  if (!compareBaseline && customParetoIdx !== null) {
+    cBadge.classList.remove("hidden");
+    cBadge.textContent = `Pareto #${customParetoIdx + 1}`;
+  } else {
+    cBadge.classList.add("hidden");
+  }
+
+  const liveBtn = document.getElementById("live-stream-btn");
+  liveBtn.classList.toggle("live-on", liveStreamOn);
+  liveBtn.innerHTML = `<span class="pulse-dot"></span>Live Stream: ${liveStreamOn ? "ON (800ms)" : "OFF"}`;
+  document.getElementById("show-all-btn").classList.toggle("active", showAllEdges);
+}
+
+function updateAll() {
+  updateControls();
+  const snap = getLiveSnapshot();
+  renderScoreboard(snap);
+  renderScada(snap);
+  renderFeatureForge(snap);
+  renderRfTwin(snap);
+  renderParetoPlot(snap);
+  renderCompactView(snap);
+  renderInspector(snap);
+}
+
+// EVENT LISTENERS
+document.getElementById("view-twin-btn").addEventListener("click", () => {
+  activeView = "twin";
+  updateAll();
+});
+document.getElementById("view-compact-btn").addEventListener("click", () => {
+  activeView = "compact";
+  updateAll();
+});
+
+document.getElementById("baseline-compare-btn").addEventListener("click", () => {
+  compareBaseline = !compareBaseline;
+  if (!compareBaseline) triggerFeedbackPulse();
+  updateAll();
+});
+
+document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    compareBaseline = false;
+    customParetoIdx = null;
+    activeRegime = btn.getAttribute("data-regime");
+    triggerFeedbackPulse();
+    updateAll();
+  });
+});
+
+document.getElementById("live-stream-btn").addEventListener("click", () => {
+  liveStreamOn = !liveStreamOn;
+  if (liveStreamOn) {
+    liveTimer = setInterval(() => {
+      Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+        jitterState[feat] = gaussianSample() * 0.0015; // ±0.15% Gaussian jitter
+        const rec = getBaseOperatingRecord();
+        const val = (rec.knobs[feat] ?? 0) * (1 + jitterState[feat]);
+        sparkHistory[feat].push(val);
+        if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+      });
+      updateAll();
+    }, 800);
+  } else {
+    clearInterval(liveTimer);
+    resetJitter();
+  }
+  updateAll();
+});
+
+document.querySelectorAll("#scada-svg .scada-unit").forEach(u => {
+  u.addEventListener("click", () => {
+    selectedUnit = u.getAttribute("data-comp");
+    updateAll();
+  });
+});
+
+document.querySelectorAll(".forge-card").forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedUnit = btn.getAttribute("data-comp");
+    updateAll();
+  });
+});
+
+document.getElementById("rf-tab-energy").addEventListener("click", () => {
+  selectedRfModel = "energy";
+  selectedUnit = "rf_energy";
+  updateAll();
+});
+document.getElementById("rf-tab-co2").addEventListener("click", () => {
+  selectedRfModel = "co2";
+  selectedUnit = "rf_co2";
+  updateAll();
+});
+
+document.getElementById("gen-slider").addEventListener("input", e => {
+  selectedGenIdx = parseInt(e.target.value, 10);
+  selectedUnit = "nsga2";
+  updateAll();
+});
+
+document.querySelectorAll("#arch-svg .node-group").forEach(g => {
+  g.addEventListener("click", () => {
+    showAllEdges = false;
+    selectedCompactNode = g.getAttribute("data-id");
+    const mapToInspector = {
+      sensors: "s_temp",
+      thermo: "kiln",
+      rf_energy: "rf_energy",
+      rf_co2: "rf_co2",
+      nsga2: "nsga2",
+      recommender: "nsga2"
+    };
+    selectedUnit = mapToInspector[selectedCompactNode] || "kiln";
+    updateAll();
+  });
+});
+
+document.getElementById("show-all-btn").addEventListener("click", () => {
+  showAllEdges = !showAllEdges;
+  updateAll();
+});
+
+updateAll();
+</script>
+</body>
+</html>

@@ -6,6 +6,7 @@ paths:
   figures_dir: "outputs/figures"
   tables_dir: "outputs/tables"
   dashboard_html: "outputs/visual_explainer.html"
+  architecture_html: "outputs/architecture_visualizer.html"
 
 data:
   join_column: "SN"

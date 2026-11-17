@@ -224,6 +224,59 @@
     background: var(--muted, rgba(127, 127, 127, 0.14));
     color: var(--foreground, inherit);
   }
+  .stage-node {
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .stage-edge {
+    fill: none;
+    transition: opacity 0.15s ease, stroke 0.15s ease;
+  }
+  @keyframes dashFlow {
+    to { stroke-dashoffset: -20; }
+  }
+  .stage-edge.flowing {
+    stroke-dasharray: 5 4;
+    animation: dashFlow 0.9s linear infinite;
+  }
+  .stage-drawer {
+    margin-top: 10px;
+    padding: 11px 13px;
+    border-radius: 8px;
+    background: var(--muted, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--border, rgba(127, 127, 127, 0.24));
+    font-size: 12px;
+  }
+  .stage-drawer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .stage-streams {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  @media (max-width: 560px) {
+    .stage-streams { grid-template-columns: 1fr; }
+  }
+  .stream-jump {
+    text-align: left;
+    appearance: none;
+    background: var(--card, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--border, rgba(127, 127, 127, 0.24));
+    border-radius: 7px;
+    padding: 6px 9px;
+    font-size: 11px;
+    color: var(--foreground, inherit);
+    cursor: pointer;
+  }
+  .stream-jump:hover {
+    border-color: var(--primary, #38bdf8);
+  }
 </style>
 </head>
 <body>
@@ -271,68 +324,97 @@
     </div>
   </section>
 
-  <!-- 2. How It Works: Rotary Kiln -> Thermodynamics -> ML -> NSGA-II -->
+  <!-- 2. Interactive System Architecture & Kiln Flow -->
   <section class="panel">
     <div class="section-head">
       <div>
-        <h2 class="section-title">2. How the System Works: From Rotary Kiln Physics to AI Setpoints</h2>
-        <p class="section-sub">Every candidate setpoint respects chemical engineering mass &amp; energy balances before scoring.</p>
+        <h2 class="section-title">2. Interactive System Architecture (Click Any Component)</h2>
+        <p class="section-sub">Click any stage below to inspect its role, equations, and how data streams between components.</p>
       </div>
       <span class="pill-tag" id="flow-fuel-tag">Fuel: Oil</span>
     </div>
     <div class="flow-wrap">
-      <svg class="flow-svg" viewBox="0 0 696 170" xmlns="http://www.w3.org/2000/svg">
+      <svg class="flow-svg" style="height: 205px;" viewBox="0 0 696 205" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="currentColor" opacity="0.65"/>
+          <marker id="arrow-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+          </marker>
+          <marker id="arrow-in" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+          </marker>
+          <marker id="arrow-out" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+          </marker>
+          <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
           </marker>
         </defs>
 
-        <!-- Step 1: Inputs -->
-        <rect x="4" y="14" width="148" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--border, rgba(127,127,127,0.35))" />
-        <text x="16" y="34" font-size="11" font-weight="700" fill="currentColor">1. Kiln Inputs</text>
-        <text x="16" y="56" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-temp">Kiln Temp: 1375.2°C</text>
-        <text x="16" y="76" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-fuel">Fuel Rate: 194.3 kg/h</text>
-        <text x="16" y="96" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-limestone">Limestone: 85.4%</text>
-        <text x="16" y="116" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-o2">O₂ Level: 4.06%</text>
-        <text x="16" y="136" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-power">Power: 4277 kW</text>
+        <!-- Streams -->
+        <path id="ve-e-in-th" class="stage-edge" data-from="inputs" data-to="thermo" d="M 152 86 L 180 86" />
+        <path id="ve-e-th-ml" class="stage-edge" data-from="thermo" data-to="ml" d="M 348 86 L 376 86" />
+        <path id="ve-e-ml-opt" class="stage-edge" data-from="ml" data-to="nsga2" d="M 522 86 L 550 86" />
+        <path id="ve-e-opt-th" class="stage-edge" data-from="nsga2" data-to="thermo" d="M 622 158 L 622 182 L 265 182 L 265 160" />
+        <text x="444" y="176" font-size="9" font-weight="600" text-anchor="middle" fill="#f59e0b">Closed-loop evaluation: NSGA-II candidates recompute Eqs. 3.13–3.17 every gen</text>
+        <path id="ve-e-opt-in" class="stage-edge" data-from="nsga2" data-to="inputs" d="M 622 14 L 622 5 L 78 5 L 78 13" />
+        <text x="350" y="12" font-size="8.8" text-anchor="middle" fill="currentColor" opacity="0.65">Recommended setpoint deltas &amp; bounded search [xl, xu]</text>
 
-        <line x1="154" y1="85" x2="178" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
+        <!-- Step 1: Inputs -->
+        <g class="stage-node" data-stage="inputs">
+          <rect class="stage-box" x="4" y="16" width="148" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--border, rgba(127,127,127,0.35))" />
+          <text x="16" y="36" font-size="11" font-weight="700" fill="currentColor">1. Kiln Inputs</text>
+          <text x="16" y="58" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-temp">Kiln Temp: 1375.2°C</text>
+          <text x="16" y="78" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-fuel">Fuel Rate: 194.3 kg/h</text>
+          <text x="16" y="98" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-limestone">Limestone: 85.4%</text>
+          <text x="16" y="118" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-o2">O₂ Level: 4.06%</text>
+          <text x="16" y="138" font-size="10.5" fill="currentColor" opacity="0.82" id="svg-power">Power: 4277 kW</text>
+        </g>
 
         <!-- Step 2: Rotary Kiln + Thermodynamics -->
-        <rect x="182" y="14" width="166" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-2, #f59e0b)" stroke-width="1.4" />
-        <text x="194" y="34" font-size="11" font-weight="700" fill="currentColor">2. Rotary Kiln Physics</text>
-        <g transform="translate(198,48) rotate(-4)">
-          <rect x="0" y="0" width="132" height="32" rx="6" fill="rgba(245, 158, 11, 0.18)" stroke="#f59e0b" stroke-width="1.3"/>
-          <circle cx="24" cy="16" r="8" fill="#ef4444" opacity="0.7"/>
-          <text x="40" y="20" font-size="10" font-weight="700" fill="currentColor">1450°C Zone</text>
+        <g class="stage-node" data-stage="thermo">
+          <rect class="stage-box" x="182" y="16" width="166" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-2, #f59e0b)" stroke-width="1.4" />
+          <text x="194" y="36" font-size="11" font-weight="700" fill="currentColor">2. Rotary Kiln Physics</text>
+          <g transform="translate(198,50) rotate(-4)">
+            <rect x="0" y="0" width="132" height="32" rx="6" fill="rgba(245, 158, 11, 0.18)" stroke="#f59e0b" stroke-width="1.3"/>
+            <circle cx="24" cy="16" r="8" fill="#ef4444" opacity="0.7"/>
+            <text x="40" y="20" font-size="10" font-weight="700" fill="currentColor">1450°C Zone</text>
+          </g>
+          <text x="194" y="108" font-size="10" fill="currentColor" opacity="0.82">Eq 3.13: CaCO₃ → CaO + CO₂</text>
+          <text x="194" y="126" font-size="10" fill="currentColor" opacity="0.82" id="svg-he">Heat Eff: 236.2</text>
+          <text x="194" y="144" font-size="10" fill="currentColor" opacity="0.82" id="svg-o2dev">|O₂ - 4%|: 0.057%</text>
         </g>
-        <text x="194" y="106" font-size="10" fill="currentColor" opacity="0.82">Eq 3.13: CaCO₃ → CaO + CO₂</text>
-        <text x="194" y="124" font-size="10" fill="currentColor" opacity="0.82" id="svg-he">Heat Eff: 236.2</text>
-        <text x="194" y="142" font-size="10" fill="currentColor" opacity="0.82" id="svg-o2dev">|O₂ - 4%|: 0.057%</text>
-
-        <line x1="350" y1="85" x2="374" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
 
         <!-- Step 3: Random Forest Surrogates -->
-        <rect x="378" y="14" width="144" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-1, #38bdf8)" stroke-width="1.4" />
-        <text x="390" y="34" font-size="11" font-weight="700" fill="currentColor">3. ML Digital Twin</text>
-        <text x="390" y="56" font-size="10.5" fill="currentColor" opacity="0.85">Random Forest (100 trees)</text>
-        <text x="390" y="80" font-size="10.5" font-weight="700" fill="var(--chart-1, #38bdf8)">Energy R² = __ENERGY_R2__</text>
-        <text x="390" y="100" font-size="10.5" font-weight="700" fill="var(--success, #10b981)">CO₂ R² = __CO2_R2__</text>
-        <text x="390" y="126" font-size="9.5" fill="currentColor" opacity="0.72">No SN leakage; fuel-aware</text>
-        <text x="390" y="142" font-size="9.5" fill="currentColor" opacity="0.72">Instant virtual kiln test</text>
-
-        <line x1="524" y1="85" x2="548" y2="85" stroke="currentColor" stroke-width="1.6" opacity="0.6" marker-end="url(#arrow)" />
+        <g class="stage-node" data-stage="ml">
+          <rect class="stage-box" x="378" y="16" width="144" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--chart-1, #38bdf8)" stroke-width="1.4" />
+          <text x="390" y="36" font-size="11" font-weight="700" fill="currentColor">3. ML Digital Twin</text>
+          <text x="390" y="58" font-size="10.5" fill="currentColor" opacity="0.85">Random Forest (100 trees)</text>
+          <text x="390" y="82" font-size="10.5" font-weight="700" fill="var(--chart-1, #38bdf8)">Energy R² = __ENERGY_R2__</text>
+          <text x="390" y="102" font-size="10.5" font-weight="700" fill="var(--success, #10b981)">CO₂ R² = __CO2_R2__</text>
+          <text x="390" y="128" font-size="9.5" fill="currentColor" opacity="0.72">No SN leakage; fuel-aware</text>
+          <text x="390" y="144" font-size="9.5" fill="currentColor" opacity="0.72">Instant virtual kiln test</text>
+        </g>
 
         <!-- Step 4: NSGA-II Output -->
-        <rect x="552" y="14" width="140" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--success, #10b981)" stroke-width="1.4" />
-        <text x="564" y="34" font-size="11" font-weight="700" fill="currentColor">4. NSGA-II Search</text>
-        <text x="564" y="56" font-size="10.5" fill="currentColor" opacity="0.85">50 Pareto candidates</text>
-        <text x="564" y="76" font-size="10.5" fill="currentColor" opacity="0.85">100 generations</text>
-        <text x="564" y="102" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-e">1031.3 kWh/t</text>
-        <text x="564" y="120" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-c">960.3 kg/h CO₂</text>
-        <text x="564" y="140" font-size="10" fill="currentColor" opacity="0.8" id="svg-out-p">Output ≥ 91.8 tph ✓</text>
+        <g class="stage-node" data-stage="nsga2">
+          <rect class="stage-box" x="552" y="16" width="140" height="142" rx="10" fill="var(--muted, rgba(127,127,127,0.12))" stroke="var(--success, #10b981)" stroke-width="1.4" />
+          <text x="564" y="36" font-size="11" font-weight="700" fill="currentColor">4. NSGA-II Search</text>
+          <text x="564" y="58" font-size="10.5" fill="currentColor" opacity="0.85">50 Pareto candidates</text>
+          <text x="564" y="78" font-size="10.5" fill="currentColor" opacity="0.85">100 generations</text>
+          <text x="564" y="104" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-e">1031.3 kWh/t</text>
+          <text x="564" y="122" font-size="10.5" font-weight="700" fill="var(--success, #10b981)" id="svg-out-c">960.3 kg/h CO₂</text>
+          <text x="564" y="142" font-size="10" fill="currentColor" opacity="0.8" id="svg-out-p">Output ≥ 91.8 tph ✓</text>
+        </g>
       </svg>
+    </div>
+
+    <div class="stage-drawer">
+      <div class="stage-drawer-top">
+        <strong id="ve-stage-title">2. Rotary Kiln Physics (ChemicalEngineeringTransformer)</strong>
+        <span class="pill-tag" id="ve-stage-module">src/cement_opt/features/engineering.py</span>
+      </div>
+      <div id="ve-stage-desc"></div>
+      <div class="stage-streams" id="ve-stage-streams"></div>
     </div>
   </section>
 
@@ -555,6 +637,113 @@ document.getElementById("toggle-gen1").addEventListener("click", (e) => {
   document.getElementById("gen1-legend").style.display = showGen1 ? "inline-flex" : "none";
   renderParetoChart();
 });
+
+let selectedStage = "thermo";
+const VE_EDGES = [
+  { id: "ve-e-in-th", from: "inputs", to: "thermo",
+    title: "1. Kiln Inputs → 2. Rotary Kiln Physics",
+    desc: "16 clean controllable features (SN dropped; Fuel Coal/Gas/Oil encoded)." },
+  { id: "ve-e-th-ml", from: "thermo", to: "ml",
+    title: "2. Rotary Kiln Physics → 3. ML Digital Twin",
+    desc: "20 features (16 raw + Theoretical_CO2, Theoretical_Energy, Heat_Efficiency, O2_Deviation)." },
+  { id: "ve-e-ml-opt", from: "ml", to: "nsga2",
+    title: "3. ML Digital Twin → 4. NSGA-II Search",
+    desc: "Predicted objectives f1=Energy (kWh/t) & f2=CO2 (kg/h) for all 50 candidates." },
+  { id: "ve-e-opt-th", from: "nsga2", to: "thermo", isLoop: true,
+    title: "4. NSGA-II Search ↺ 2. Rotary Kiln Physics",
+    desc: "Every generation mutates 14 controllable decision vars and recomputes Eqs. 3.13–3.17." },
+  { id: "ve-e-opt-in", from: "nsga2", to: "inputs",
+    title: "4. NSGA-II Search → 1. Plant Control Knobs",
+    desc: "Actionable control-knob delta targets returned to plant operators within bounds [xl, xu]." }
+];
+
+function renderStageInspector() {
+  const pt = DATA.pareto[selectedIdx];
+  const base = DATA.baseline;
+  const eDelta = pctDelta(pt.energy, base.energy).toFixed(2);
+  const cDelta = pctDelta(pt.co2, base.co2).toFixed(2);
+
+  const info = {
+    inputs: {
+      title: "1. Kiln Inputs & Plant Merger",
+      module: "src/cement_opt/data/loader.py · preprocessing.py",
+      desc: `Joins raw energy & CO₂ datasets on SN, removes SN to prevent index leakage, and isolates 13 controllable knobs + Fuel (${pt.fuel}). Bounds [xl, xu] ensure every setpoint stays physically achievable.`
+    },
+    thermo: {
+      title: "2. Rotary Kiln & Thermodynamics Engine",
+      module: "src/cement_opt/features/engineering.py · ChemicalEngineeringTransformer",
+      desc: `Computes Eqs. 3.13–3.17 inside the scikit-learn Pipeline (Heat Eff = ${pt.heat_eff.toFixed(1)}, |O₂ - 4%| = ${pt.o2_dev.toFixed(3)}%) so physics laws hold during both training and optimization.`
+    },
+    ml: {
+      title: "3. Random Forest Digital Twin Surrogates",
+      module: "src/cement_opt/models/trainer.py · CementProcessModel",
+      desc: `Dual 100-tree Random Forests (Energy R² = ${DATA.metrics.energy_r2.toFixed(4)}, CO₂ R² = ${DATA.metrics.co2_r2.toFixed(4)}) evaluate virtual kiln states in milliseconds before any plant change is tried.`
+    },
+    nsga2: {
+      title: "4. NSGA-II Optimizer & Setpoint Recommender",
+      module: "src/cement_opt/optimization/problem.py · recommender.py",
+      desc: `Minimizes (Energy, CO₂) across 50×100 generations subject to Clinker Output ≥ ${base.production.toFixed(2)} tph. Active point achieves ${eDelta}% Energy and ${cDelta}% CO₂ at ${pt.production.toFixed(2)} tph.`
+    }
+  }[selectedStage];
+
+  document.getElementById("ve-stage-title").textContent = info.title;
+  document.getElementById("ve-stage-module").textContent = info.module;
+  document.getElementById("ve-stage-desc").textContent = info.desc;
+
+  document.querySelectorAll(".stage-node").forEach(n => {
+    const sid = n.getAttribute("data-stage");
+    const conn = sid === selectedStage || VE_EDGES.some(e => (e.from === selectedStage && e.to === sid) || (e.to === selectedStage && e.from === sid));
+    n.style.opacity = conn ? "1" : "0.4";
+    n.querySelector(".stage-box").setAttribute("stroke-width", sid === selectedStage ? "2.6" : "1.4");
+  });
+
+  VE_EDGES.forEach(e => {
+    const el = document.getElementById(e.id);
+    const isIn = e.to === selectedStage;
+    const isOut = e.from === selectedStage;
+    el.classList.remove("flowing");
+    if (isIn || isOut) {
+      el.setAttribute("stroke", e.isLoop ? "#f59e0b" : (isIn ? "#38bdf8" : "#10b981"));
+      el.setAttribute("stroke-width", "2.2");
+      el.setAttribute("marker-end", e.isLoop ? "url(#arrow-loop)" : (isIn ? "url(#arrow-in)" : "url(#arrow-out)"));
+      el.style.opacity = "1";
+      el.classList.add("flowing");
+    } else {
+      el.setAttribute("stroke", "#94a3b8");
+      el.setAttribute("stroke-width", "1.3");
+      el.setAttribute("marker-end", "url(#arrow-dim)");
+      el.style.opacity = "0.25";
+    }
+  });
+
+  const streamsBox = document.getElementById("ve-stage-streams");
+  streamsBox.innerHTML = "";
+  VE_EDGES.filter(e => e.from === selectedStage || e.to === selectedStage).forEach(e => {
+    const isOut = e.from === selectedStage;
+    const target = isOut ? e.to : e.from;
+    const btn = document.createElement("button");
+    btn.className = "stream-jump";
+    btn.innerHTML = `<strong style="color:${isOut ? "#10b981" : "#38bdf8"};">${isOut ? "→ Streams To" : "← Receives From"}: ${e.title}</strong><br/><span>${e.desc}</span>`;
+    btn.addEventListener("click", () => {
+      selectedStage = target;
+      renderStageInspector();
+    });
+    streamsBox.appendChild(btn);
+  });
+}
+
+document.querySelectorAll(".stage-node").forEach(n => {
+  n.addEventListener("click", () => {
+    selectedStage = n.getAttribute("data-stage");
+    renderStageInspector();
+  });
+});
+
+const origRenderSelection = renderSelection;
+renderSelection = function(idx) {
+  origRenderSelection(idx);
+  renderStageInspector();
+};
 
 renderSelection(selectedIdx);
 </script>

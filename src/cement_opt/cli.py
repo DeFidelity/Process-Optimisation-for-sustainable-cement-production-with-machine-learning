@@ -32,6 +32,8 @@ from cement_opt.visualization import (
     plot_r2_comparison,
     plot_regime_comparison,
     plot_setpoint_deltas,
+    save_architecture_visualizer,
+    save_system_architecture_svg,
     save_visual_explainer,
 )
 
@@ -200,11 +202,29 @@ def run_optimize(
         modeling_df,
         cfg.paths.dashboard_html,
     )
+    arch_html_path = save_architecture_visualizer(
+        energy_model,
+        co2_model,
+        opt_result,
+        optimizer,
+        modeling_df,
+        cfg.paths.architecture_html,
+    )
+    arch_svg_path = save_system_architecture_svg(
+        energy_model,
+        co2_model,
+        opt_result,
+        optimizer,
+        modeling_df,
+        cfg.paths.figures_dir / "system_architecture.svg",
+    )
 
     print(f"[optimize] Found {len(opt_result.pareto_df)} Pareto-optimal solutions.")
     print(f"[optimize] Saved tables to {cfg.paths.tables_dir}")
     print(f"[optimize] Saved figures to {cfg.paths.figures_dir}")
     print(f"[optimize] Saved interactive visual explainer to {dashboard_path}")
+    print(f"[optimize] Saved interactive architecture visualizer to {arch_html_path}")
+    print(f"[optimize] Saved system architecture SVG to {arch_svg_path}")
     print("\n--- Table 4.2: Model Validation & Deviation Analysis ---")
     print(validation_table.to_string(index=False))
 

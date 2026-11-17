@@ -18,6 +18,7 @@ class PathsConfig:
     figures_dir: Path
     tables_dir: Path
     dashboard_html: Path = Path("outputs/visual_explainer.html")
+    architecture_html: Path = Path("outputs/architecture_visualizer.html")
 
 
 @dataclass(frozen=True)
@@ -74,6 +75,8 @@ class ProjectConfig:
             figures_dir=root / p["figures_dir"],
             tables_dir=root / p["tables_dir"],
             dashboard_html=root / p.get("dashboard_html", "outputs/visual_explainer.html"),
+            architecture_html=root
+            / p.get("architecture_html", "outputs/architecture_visualizer.html"),
         )
         return cls(
             paths=paths,
