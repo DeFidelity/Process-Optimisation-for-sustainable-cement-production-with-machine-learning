@@ -82,13 +82,15 @@ def _extract_rf_trees(model: CementProcessModel, n_trees: int = 3) -> list[dict[
     ]
 
 
-def _extract_compact_forest(model: CementProcessModel) -> tuple[list[str], list[list[list[Any]]]]:
-    """Serialize all estimators compactly as [feat_idx, thresh, left, right] or [-1, val]."""
+def _extract_compact_forest(
+    model: CementProcessModel, max_trees: int = 25
+) -> tuple[list[str], list[list[list[Any]]]]:
+    """Serialize estimators compactly as [feat_idx, thresh, left, right] or [-1, val]."""
     eng = model.pipeline.named_steps["engineering"]
     reg = model.pipeline.named_steps["regressor"]
     names = list(eng.get_feature_names_out())
     forest: list[list[list[Any]]] = []
-    for est in reg.estimators_:
+    for est in reg.estimators_[:max_trees]:
         t = est.tree_
         nodes: list[list[Any]] = []
         for node_id in range(t.node_count):
@@ -99,7 +101,7 @@ def _extract_compact_forest(model: CementProcessModel) -> tuple[list[str], list[
                 nodes.append(
                     [
                         f_idx,
-                        round(float(t.threshold[node_id]), 3),
+                        round(float(t.threshold[node_id]), 2),
                         int(t.children_left[node_id]),
                         int(t.children_right[node_id]),
                     ]
@@ -817,12 +819,60 @@ def _extract_architecture_payload(
         for feat in knob_cols
     }
 
+    # Empirical physical coupling matrix: d(col_j)/d(col_i) from plant data covariance
+    coupling: dict[str, dict[str, float]] = {}
+    try:
+        sub_df = modeling_df[knob_cols].dropna()
+        cov_mat = sub_df.cov()
+        var_ser = sub_df.var()
+        for src_col in knob_cols:
+            v_src = float(var_ser.get(src_col, 0.0))
+            if v_src <= 1e-9:
+                continue
+            coupling[src_col] = {}
+            for dst_col in knob_cols:
+                if src_col == dst_col:
+                    continue
+                slope = float(cov_mat.loc[src_col, dst_col]) / v_src
+                coupling[src_col][dst_col] = round(slope, 5)
+    except Exception:
+        pass
+
+    plant_profiles = [
+        {
+            "id": "dry_4stage",
+            "name": "Legacy 4-Stage Suspension Preheater Kiln (Universal Retrofit)",
+            "capacity": "80–100 tph Clinker · 4-Stage Cyclone · Zero CapEx Sensor Hookup",
+            "scale_e": 1.0,
+            "scale_c": 1.0,
+            "scale_cpr": 1.0,
+        },
+        {
+            "id": "ashaka_gepol",
+            "name": "Validation Case Study: Lafarge-Holcim Ashaka Gepol Kiln",
+            "capacity": "72m × 4m Rotary Kiln · 91.80 tph Baseline · Tables 4.1 & 4.2",
+            "scale_e": 1.0,
+            "scale_c": 1.0,
+            "scale_cpr": 1.0,
+        },
+        {
+            "id": "long_dry",
+            "name": "Legacy Long-Dry Rotary Kiln (2-Stage Preheater Line)",
+            "capacity": "85–105 tph Clinker · High Exhaust Heat · Retrofitted Historian",
+            "scale_e": 1.0,
+            "scale_c": 1.0,
+            "scale_cpr": 1.0,
+        },
+    ]
+
     gen_snapshots = _build_calibrated_gen_snapshots(pareto_points)
 
     return {
         "baseline": baseline,
         "bounds": bounds,
         "knob_cols": knob_cols,
+        "coupling": coupling,
+        "plant_profiles": plant_profiles,
         "cal_anchors": cal_anchors,
         "thermo": {
             "stoichiometric_co2_factor": t_cfg.stoichiometric_co2_factor,

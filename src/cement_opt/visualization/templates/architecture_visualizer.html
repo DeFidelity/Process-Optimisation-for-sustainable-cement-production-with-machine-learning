@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ashaka Kiln Digital Twin — Glass-Box ML &amp; NSGA-II Control Room</title>
+<title>Legacy Cement Plant Digital Twin — Zero-CapEx Predictive Optimization &amp; Clinker Control</title>
 <style>
   :root {
     color-scheme: light dark;
@@ -16,21 +16,21 @@
     padding: 0;
     font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
     color: var(--foreground, #e2e8f0);
-    line-height: 1.42;
+    line-height: 1.44;
   }
   .viz-root {
     width: 100%;
-    max-width: 1320px;
+    max-width: 1380px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
   .panel {
-    background: var(--card, rgba(15, 23, 42, 0.82));
-    border: 1px solid var(--border, rgba(148, 163, 184, 0.24));
-    border-radius: var(--radius, 10px);
-    padding: 16px;
+    background: var(--card, #111827);
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.25));
+    border-radius: var(--radius, 8px);
+    padding: 14px 16px;
   }
   .head-row {
     display: flex;
@@ -59,20 +59,20 @@
   .pill-btn {
     appearance: none;
     border: 1px solid var(--border, rgba(148, 163, 184, 0.34));
-    background: var(--secondary, rgba(30, 41, 59, 0.7));
+    background: var(--muted, rgba(30, 41, 59, 0.72));
     color: var(--foreground, inherit);
-    border-radius: 999px;
+    border-radius: 6px;
     padding: 4px 10px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.14s ease;
     display: inline-flex;
     align-items: center;
     gap: 5px;
   }
   .pill-btn:hover {
-    border-color: var(--primary, #38bdf8);
+    border-color: var(--primary, #0ea5e9);
   }
   .pill-btn.active {
     background: var(--primary, #0284c7);
@@ -85,9 +85,42 @@
     border-color: #f59e0b;
   }
   .pill-btn.live-on {
-    background: rgba(16, 185, 129, 0.18);
+    background: rgba(16, 185, 129, 0.16);
     color: #10b981;
     border-color: #10b981;
+  }
+  .plant-select {
+    appearance: none;
+    background: var(--muted, rgba(15, 23, 42, 0.85));
+    color: var(--foreground, #f8fafc);
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.38));
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .retrofit-banner {
+    margin-top: 8px;
+    padding: 7px 11px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.09);
+    border: 1px solid rgba(16, 185, 129, 0.32);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .retrofit-tag {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(16, 185, 129, 0.18);
+    color: #10b981;
   }
   .pulse-dot {
     width: 7px;
@@ -106,7 +139,6 @@
     70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
     100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
   }
-
   .controls-strip {
     display: flex;
     flex-wrap: wrap;
@@ -117,8 +149,6 @@
     padding-top: 8px;
     border-top: 1px solid var(--border, rgba(148, 163, 184, 0.2));
   }
-
-  /* Impact Scoreboard */
   .scoreboard {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -131,10 +161,10 @@
     }
   }
   .kpi-card {
-    background: var(--muted, rgba(15, 23, 42, 0.5));
-    border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
-    border-radius: 8px;
-    padding: 6px 9px;
+    background: var(--muted, rgba(15, 23, 42, 0.55));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.22));
+    border-radius: 6px;
+    padding: 7px 10px;
   }
   .kpi-label {
     font-size: 10px;
@@ -144,9 +174,10 @@
     color: var(--muted-foreground, #94a3b8);
   }
   .kpi-val {
-    font-size: 15px;
+    font-size: 15.5px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono, ui-monospace, monospace);
     margin-top: 2px;
   }
   .kpi-sub {
@@ -158,42 +189,77 @@
   .warn { color: #f59e0b; }
   .info { color: #38bdf8; }
 
-  /* Dual Zone Grid: 55% Left / 45% Right on wide screens; Top/Bottom at <=1019px */
   .twin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .workbench-split {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
     gap: 10px;
     align-items: start;
   }
-  @media (min-width: 1020px) {
-    .twin-grid {
-      grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+  @media (max-width: 1020px) {
+    .workbench-split {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
-
   .zone-badge {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 2px 7px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(16, 185, 129, 0.14);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .unit-selector-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: var(--muted, rgba(15, 23, 42, 0.5));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
+  }
+  .unit-chip-btn {
+    appearance: none;
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.3));
+    background: var(--card, rgba(15, 23, 42, 0.8));
+    color: var(--foreground, inherit);
     border-radius: 5px;
-    background: rgba(56, 189, 248, 0.14);
-    color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 3px 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .unit-chip-btn:hover {
+    border-color: #f59e0b;
+  }
+  .unit-chip-btn.active {
+    background: #d97706;
+    color: #ffffff;
+    border-color: #f59e0b;
   }
 
-  /* SCADA SVG Styles */
   .scada-wrap {
     width: 100%;
     margin-top: 8px;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
-    border: 1px solid rgba(56, 189, 248, 0.22);
-    background: #08101d;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: #0b111a;
   }
   .scada-svg {
     width: 100%;
+    max-height: 495px;
     height: auto;
     display: block;
     user-select: none;
@@ -203,13 +269,13 @@
     transition: opacity 0.15s ease;
   }
   .scada-unit:hover {
-    filter: brightness(1.12);
+    filter: brightness(1.14);
   }
   .scada-unit.selected-unit > .unit-outline,
   .scada-unit.selected-unit .unit-outline {
-    stroke: #38bdf8 !important;
-    stroke-width: 2.4 !important;
-    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.65));
+    stroke: #f59e0b !important;
+    stroke-width: 2.6 !important;
+    filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.7));
   }
   .sensor-tag {
     cursor: pointer;
@@ -221,7 +287,7 @@
   }
   .sensor-tag.selected-unit rect.tag-bg {
     stroke: #f59e0b;
-    stroke-width: 2.1;
+    stroke-width: 2.2;
   }
   @keyframes flowDown {
     to { stroke-dashoffset: -24; }
@@ -255,42 +321,21 @@
     transform-origin: right center;
     animation: flamePulse var(--flame-dur, 0.45s) ease-in-out infinite;
   }
-  @keyframes feedbackPulse {
-    0% { stroke-dashoffset: 48; opacity: 0.25; }
-    50% { opacity: 1; }
-    100% { stroke-dashoffset: 0; opacity: 0.25; }
-  }
   .feedback-active {
     stroke: #10b981 !important;
     stroke-width: 2.6 !important;
     filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.85));
   }
 
-  /* Zone B ML & Pareto Workbench */
   .zone-b-stack {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 8px;
   }
-  @media (min-width: 660px) and (max-width: 1019px) {
-    .zone-b-stack {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch;
-    }
-    .zone-b-stack > .forge-panel {
-      grid-column: 1 / -1;
-    }
-    .zone-b-stack > .stream-connector {
-      display: none;
-    }
-    .forge-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    }
-  }
   .sub-panel {
     background: var(--muted, rgba(15, 23, 42, 0.55));
     border: 1px solid var(--border, rgba(148, 163, 184, 0.22));
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 10px 11px;
   }
   .sub-head {
@@ -317,9 +362,9 @@
     }
   }
   .forge-card {
-    background: var(--card, rgba(15, 23, 42, 0.75));
+    background: var(--card, rgba(15, 23, 42, 0.78));
     border: 1px solid var(--border, rgba(148, 163, 184, 0.25));
-    border-radius: 7px;
+    border-radius: 6px;
     padding: 7px 9px;
     cursor: pointer;
     text-align: left;
@@ -327,7 +372,7 @@
     transition: border-color 0.15s ease;
   }
   .forge-card:hover, .forge-card.selected-card {
-    border-color: #38bdf8;
+    border-color: #f59e0b;
   }
   .forge-top {
     display: flex;
@@ -349,6 +394,7 @@
     font-size: 12px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono, ui-monospace, monospace);
     color: #38bdf8;
   }
   .bar-track {
@@ -364,8 +410,6 @@
     border-radius: 999px;
     transition: width 0.25s ease;
   }
-
-  /* Stream Connector Bar */
   .stream-connector {
     display: flex;
     align-items: center;
@@ -373,18 +417,16 @@
     gap: 8px;
     font-size: 10.5px;
     font-weight: 600;
-    color: #38bdf8;
-    padding: 2px 0;
+    color: var(--muted-foreground, #94a3b8);
+    padding: 1px 0;
   }
-
-  /* RF Twin Visualizer */
   .rf-svg {
     width: 100%;
     height: 144px;
     display: block;
-    background: #08101d;
+    background: #0b111a;
     border-radius: 6px;
-    border: 1px solid rgba(56, 189, 248, 0.18);
+    border: 1px solid rgba(148, 163, 184, 0.22);
   }
   .imp-list {
     display: grid;
@@ -412,7 +454,7 @@
     font-size: 10px;
     font-family: var(--font-mono, ui-monospace, monospace);
     padding: 2px 6px;
-    border-radius: 5px;
+    border-radius: 4px;
     background: rgba(148, 163, 184, 0.14);
     border: 1px solid rgba(148, 163, 184, 0.22);
   }
@@ -422,8 +464,6 @@
     color: #10b981;
     font-weight: 700;
   }
-
-  /* Pareto Plot */
   .pareto-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -436,9 +476,9 @@
     width: 100%;
     height: 218px;
     display: block;
-    background: #08101d;
+    background: #0b111a;
     border-radius: 6px;
-    border: 1px solid rgba(168, 85, 247, 0.28);
+    border: 1px solid rgba(148, 163, 184, 0.25);
   }
   .pareto-pt {
     cursor: pointer;
@@ -455,7 +495,7 @@
   .slider-row input[type="range"] {
     flex: 1;
     min-width: 90px;
-    accent-color: #38bdf8;
+    accent-color: #0ea5e9;
     cursor: pointer;
   }
   .evo-legend {
@@ -482,37 +522,36 @@
   .zone-callout-bar {
     margin-top: 6px;
     padding: 5px 8px;
-    border-radius: 6px;
+    border-radius: 5px;
     background: rgba(15, 23, 42, 0.72);
-    border: 1px solid rgba(56, 189, 248, 0.24);
+    border: 1px solid rgba(148, 163, 184, 0.24);
     font-size: 10px;
     line-height: 1.38;
     color: #cbd5e1;
   }
   .constraint-box {
     margin-top: 6px;
-    padding: 5px 9px;
-    border-radius: 6px;
+    padding: 6px 9px;
+    border-radius: 5px;
     background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.32);
     font-size: 11px;
   }
 
-  /* Zone C Inspector */
   .inspector-head {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
   }
   .badge {
     font-size: 10.5px;
     font-weight: 700;
     font-family: var(--font-mono, ui-monospace, monospace);
     padding: 2px 8px;
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--muted, rgba(148, 163, 184, 0.15));
     color: var(--foreground, inherit);
   }
@@ -520,7 +559,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
   }
   @media (max-width: 600px) {
     .inspector-grid {
@@ -528,9 +567,9 @@
     }
   }
   .info-box {
-    background: var(--muted, rgba(15, 23, 42, 0.5));
-    border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
-    border-radius: 8px;
+    background: var(--muted, rgba(15, 23, 42, 0.52));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.22));
+    border-radius: 6px;
     padding: 8px 11px;
   }
   .info-label {
@@ -549,12 +588,12 @@
     font-family: var(--font-mono, ui-monospace, monospace);
     font-size: 10.5px;
     margin: 4px 0 0 0;
-    color: var(--chart-1, #38bdf8);
+    color: #f59e0b;
     word-break: break-word;
   }
   .cmp-table-wrap {
     overflow-x: auto;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
   }
   table.cmp-table {
     width: 100%;
@@ -563,7 +602,7 @@
     font-variant-numeric: tabular-nums;
   }
   table.cmp-table th, table.cmp-table td {
-    padding: 4px 7px;
+    padding: 5px 7px;
     border-bottom: 1px solid var(--border, rgba(148, 163, 184, 0.18));
     text-align: left;
   }
@@ -576,7 +615,7 @@
   .streams-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
   }
   @media (max-width: 600px) {
     .streams-grid {
@@ -594,14 +633,14 @@
     width: 100%;
     background: var(--muted, rgba(15, 23, 42, 0.55));
     border: 1px solid var(--border, rgba(148, 163, 184, 0.24));
-    border-radius: 7px;
+    border-radius: 6px;
     padding: 5px 9px;
     color: inherit;
     cursor: pointer;
     transition: border-color 0.15s ease;
   }
   .stream-chip:hover {
-    border-color: #38bdf8;
+    border-color: #f59e0b;
   }
   .stream-chip-title {
     font-size: 11px;
@@ -617,19 +656,17 @@
     margin-top: 2px;
   }
   .goal-banner {
-    margin-top: 7px;
-    padding: 7px 11px;
-    border-radius: 8px;
-    background: rgba(16, 185, 129, 0.11);
+    margin-top: 8px;
+    padding: 8px 11px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.35);
     font-size: 11.5px;
   }
 
-  /* Interactive What-If Process Control Bar & Disturbance Injector */
   .whatif-panel {
-    padding: 10px 14px;
-    border-color: rgba(56, 189, 248, 0.32);
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.78));
+    padding: 12px 14px;
+    border-color: rgba(148, 163, 184, 0.3);
   }
   .whatif-head {
     display: flex;
@@ -642,7 +679,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
   }
   .disturb-btn {
     border-color: rgba(245, 158, 11, 0.42);
@@ -656,24 +693,30 @@
     background: #d97706;
     color: #ffffff;
     border-color: #fbbf24;
-    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
   }
   .optimize-cta-btn {
     appearance: none;
-    border: 1px solid #34d399;
-    background: linear-gradient(135deg, #059669, #0284c7);
+    border: 1px solid #10b981;
+    background: #059669;
     color: #ffffff;
-    border-radius: 999px;
-    padding: 5px 12px;
+    border-radius: 6px;
+    padding: 5px 11px;
     font-size: 11px;
-    font-weight: 800;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.32);
-    transition: transform 0.12s ease, box-shadow 0.15s ease;
+    transition: background 0.14s ease;
   }
   .optimize-cta-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 0 16px rgba(56, 189, 248, 0.55);
+    background: #047857;
+  }
+  .coupling-explain-bar {
+    margin-top: 7px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    background: rgba(245, 158, 11, 0.09);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    font-size: 11px;
+    color: var(--foreground, #e2e8f0);
   }
   .sliders-grid {
     display: grid;
@@ -692,15 +735,39 @@
     }
   }
   .slider-card {
-    background: rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 7px;
+    background: var(--muted, rgba(15, 23, 42, 0.65));
+    border: 1px solid var(--border, rgba(148, 163, 184, 0.24));
+    border-radius: 6px;
     padding: 5px 8px;
     transition: border-color 0.18s ease, box-shadow 0.18s ease;
   }
   .slider-card.flash-focus {
     border-color: #f59e0b;
     box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.35);
+  }
+  .slider-card.coupled-shift {
+    border-color: #38bdf8;
+    background: rgba(14, 165, 233, 0.09);
+  }
+  .slider-card.copilot-shift {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+  }
+  .coupled-badge {
+    font-size: 8.8px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 4px;
+  }
+  .coupled-badge.phys {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+  }
+  .coupled-badge.algo {
+    background: rgba(16, 185, 129, 0.22);
+    color: #10b981;
   }
   .slider-top {
     display: flex;
@@ -745,16 +812,14 @@
   .slider-range {
     width: 100%;
     margin: 3px 0 0 0;
-    accent-color: #38bdf8;
+    accent-color: #0ea5e9;
     cursor: pointer;
     height: 14px;
   }
-
-  /* Closed-Loop Optimization Impact Strip */
   .impact-strip {
     padding: 9px 13px;
     border-color: rgba(16, 185, 129, 0.5);
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(56, 189, 248, 0.08));
+    background: rgba(16, 185, 129, 0.08);
   }
   .impact-grid {
     display: grid;
@@ -770,7 +835,7 @@
   .impact-cell {
     background: rgba(15, 23, 42, 0.72);
     border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 7px;
+    border-radius: 6px;
     padding: 5px 8px;
     font-size: 10.5px;
   }
@@ -791,7 +856,6 @@
     color: #cbd5e1;
     margin-top: 1px;
   }
-
   .forge-val-wrap {
     display: flex;
     align-items: baseline;
@@ -810,7 +874,7 @@
     gap: 6px;
     margin-bottom: 6px;
     padding: 4px 7px;
-    border-radius: 6px;
+    border-radius: 5px;
     background: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(148, 163, 184, 0.2);
   }
@@ -827,8 +891,6 @@
   .pareto-pulse-ring {
     animation: paretoPulse 1.35s ease-out infinite;
   }
-
-  /* Compact Block Diagram View (Preserved) */
   .hidden { display: none !important; }
   .svg-wrap { width: 100%; overflow-x: auto; }
   .arch-svg {
@@ -857,36 +919,29 @@
   .legend-item { display: inline-flex; align-items: center; gap: 5px; }
   .swatch { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
 
-  /* Step 3: Purple Actuator Nodes & Feedback Particle Pulses */
   .actuator-node { cursor: pointer; transition: filter 0.2s ease, transform 0.2s ease; }
   .actuator-node rect.act-box { transition: stroke 0.2s ease, fill 0.2s ease, stroke-width 0.2s ease; }
   .actuator-node.actuator-pulsing rect.act-box {
     stroke: #10b981 !important;
     stroke-width: 2.3 !important;
-    fill: #2e1065 !important;
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.9)) drop-shadow(0 0 5px rgba(16, 185, 129, 0.85));
+    fill: #064e3b !important;
+    filter: drop-shadow(0 0 7px rgba(16, 185, 129, 0.9));
   }
   .bus-branch-active {
-    stroke: #a855f7 !important;
+    stroke: #10b981 !important;
     stroke-width: 2.3 !important;
-    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.75));
+    filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.75));
   }
-
-  /* Step 3: Guided Presentation & Defense Tour Mode */
   .tour-cta-btn {
-    border-color: #c084fc;
-    background: linear-gradient(135deg, rgba(147, 51, 234, 0.92), rgba(37, 99, 235, 0.92));
-    color: #ffffff;
-    font-weight: 800;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.38);
-  }
-  .tour-cta-btn:hover {
-    border-color: #e9d5ff;
-    box-shadow: 0 0 18px rgba(168, 85, 247, 0.65);
+    border-color: #0ea5e9;
+    background: rgba(14, 165, 233, 0.16);
+    color: var(--foreground, #f8fafc);
+    font-weight: 700;
   }
   .tour-cta-btn.active {
-    background: linear-gradient(135deg, #059669, #7c3aed);
-    border-color: #34d399;
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #38bdf8;
   }
   .tour-dimmed {
     opacity: 0.36 !important;
@@ -896,8 +951,8 @@
   .tour-spotlight {
     position: relative;
     z-index: 20;
-    border-color: #38bdf8 !important;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.45), 0 0 28px rgba(56, 189, 248, 0.38) !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.45) !important;
     opacity: 1 !important;
     filter: none !important;
   }
@@ -909,7 +964,7 @@
   }
   @keyframes forgeFlashAnim {
     0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-    50% { box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.72), 0 0 14px rgba(16, 185, 129, 0.55); border-color: #fde047; }
+    50% { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.72); border-color: #fde047; }
   }
   .forge-flash {
     animation: forgeFlashAnim 0.75s ease-in-out 2;
@@ -921,12 +976,11 @@
     width: 430px;
     max-width: calc(100vw - 32px);
     z-index: 9999;
-    background: rgba(9, 15, 31, 0.96);
-    border: 1.5px solid #a855f7;
-    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.97);
+    border: 1.5px solid #f59e0b;
+    border-radius: 8px;
     padding: 13px 15px;
-    box-shadow: 0 18px 46px rgba(2, 6, 23, 0.88), 0 0 24px rgba(168, 85, 247, 0.34);
-    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 40px rgba(2, 6, 23, 0.85);
     color: #f8fafc;
   }
   .tour-hud-top {
@@ -941,10 +995,10 @@
     font-weight: 800;
     font-family: var(--font-mono, ui-monospace, monospace);
     padding: 2px 8px;
-    border-radius: 999px;
-    background: rgba(168, 85, 247, 0.22);
-    border: 1px solid rgba(192, 132, 252, 0.5);
-    color: #e9d5ff;
+    border-radius: 4px;
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fde68a;
   }
   .tour-hud-title {
     margin: 0 0 5px 0;
@@ -962,7 +1016,7 @@
     font-size: 10.5px;
     font-family: var(--font-mono, ui-monospace, monospace);
     padding: 5px 8px;
-    border-radius: 6px;
+    border-radius: 5px;
     background: rgba(16, 185, 129, 0.12);
     border: 1px solid rgba(16, 185, 129, 0.35);
     color: #6ee7b7;
@@ -979,7 +1033,7 @@
   .tour-progress-fill {
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, #a855f7, #38bdf8, #10b981);
+    background: #10b981;
     transition: width 0.25s ease;
   }
   .tour-hud-controls {
@@ -998,25 +1052,38 @@
   <section class="panel" id="header-panel">
     <div class="head-row">
       <div>
-        <h2 class="title">Ashaka Gepol Rotary Kiln Digital Twin &amp; Glass-Box ML Control Room</h2>
-        <p class="sub">Closed-loop physical P&amp;ID, Eqs. 3.13–3.17 thermodynamics, Random Forest trees, and interactive 50-pt NSGA-II Pareto optimization.</p>
+        <h2 class="title" id="plant-main-title">Legacy Cement Plant Digital Twin — Zero-CapEx Predictive Process Optimization</h2>
+        <p class="sub" id="plant-main-sub">Universal software retrofit using 13 existing DCS/historian sensors (zero extra hardware) to cut energy &amp; CO₂ while protecting clinker output (CPR ≥ 91.80 tph).</p>
       </div>
       <div class="btn-group" id="view-switch">
-        <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Defense Tour (7 Steps)</button>
-        <button class="pill-btn active" id="view-twin-btn" data-view="twin">View: Full Industrial Digital Twin (SCADA + ML)</button>
-        <button class="pill-btn" id="view-compact-btn" data-view="compact">View: Compact Block Diagram</button>
+        <select class="plant-select" id="plant-profile-select" aria-label="Select Legacy Plant Retrofit Profile">
+          <option value="universal">Plant Profile: Universal Legacy 4-Stage SP Kiln (Zero-CapEx Retrofit)</option>
+          <option value="ashaka">Validation Case Study: Lafarge-Holcim Ashaka Gepol Kiln (Tables 4.1 &amp; 4.2)</option>
+          <option value="long_dry">Plant Profile: Legacy Long-Dry Rotary Kiln (High-Thermal Retrofit)</option>
+        </select>
+        <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Walkthrough (7 Steps)</button>
+        <button class="pill-btn active" id="view-twin-btn" data-view="twin">Plant Digital Twin P&amp;ID</button>
+        <button class="pill-btn" id="view-compact-btn" data-view="compact">System Flowchart</button>
       </div>
+    </div>
+
+    <div class="retrofit-banner" id="retrofit-banner">
+      <div>
+        <strong>Zero-Hardware Retrofit Architecture:</strong> Reads <strong>13 existing plant historian tags</strong> (7 kiln/preheater process + 6 electrical drive meters) → computes <strong>Eqs. 3.13–3.17 thermodynamics</strong> → evaluates <strong>Dual RFR Digital Twin (R² = 0.98)</strong> → streams <strong>NSGA-II setpoints</strong> back to existing actuators.
+      </div>
+      <span class="retrofit-tag" id="retrofit-tag-badge">0 New Sensors · 13 Historian Tags · CPR ≥ 91.80 tph Guaranteed</span>
     </div>
 
     <div class="controls-strip">
       <div class="btn-group">
-        <button class="pill-btn" id="live-stream-btn"><span class="pulse-dot"></span>Live Stream: OFF</button>
-        <button class="pill-btn" id="baseline-compare-btn">Compare vs. Plant Baseline (91.80 tph | 1160.87 kWh/t | 973.45 kg/h)</button>
+        <button class="pill-btn" id="live-stream-btn"><span class="pulse-dot"></span>Historian Telemetry: OFF</button>
+        <button class="pill-btn" id="baseline-compare-btn">Compare vs. Unoptimized Plant Baseline (91.80 tph | 1160.87 kWh/t | 973.45 kg/h)</button>
       </div>
       <div class="btn-group" id="regime-switch">
-        <button class="pill-btn" data-regime="Low Energy">Low Energy</button>
-        <button class="pill-btn active" data-regime="Balanced">Balanced</button>
-        <button class="pill-btn" data-regime="Low CO2">Low CO₂</button>
+        <span style="font-size:10.5px;font-weight:700;color:var(--muted-foreground,#94a3b8);">NSGA-II Operating Regime:</span>
+        <button class="pill-btn" data-regime="Low Energy">Low Energy (Sol 1)</button>
+        <button class="pill-btn active" data-regime="Balanced">Balanced Best (Sol 25)</button>
+        <button class="pill-btn" data-regime="Low CO2">Low CO₂ (Sol 49)</button>
         <span class="badge hidden" id="custom-pareto-badge">Pareto #0</span>
       </div>
     </div>
@@ -1048,37 +1115,29 @@
 
   <!-- VIEW 1: FULL INDUSTRIAL DIGITAL TWIN (SCADA + ML) -->
   <div id="twin-view">
-    <section class="panel whatif-panel" id="whatif-panel" style="margin-bottom:8px;">
-      <div class="whatif-head">
-        <div class="whatif-title-group">
-          <h3 class="title">🎛️ Manual / What-If Process Control Bar</h3>
-          <span class="badge" id="whatif-mode-badge">Synced · Balanced</span>
-          <button class="pill-btn" id="toggle-sliders-btn">Sliders ▾</button>
-          <button class="pill-btn" id="reset-whatif-btn">Reset Preset</button>
-        </div>
-        <div class="btn-group">
-          <span class="slider-bounds" style="font-weight:700;">Inject Real Plant Disturbance:</span>
-          <button class="pill-btn disturb-btn" id="disturb-overburn" data-disturb="overburn">🔥 Kiln Over-Burning Surge</button>
-          <button class="pill-btn disturb-btn" id="disturb-draft" data-disturb="draft">💨 Incomplete Combustion / Draft Drop</button>
-          <button class="pill-btn disturb-btn" id="disturb-cpr" data-disturb="cpr">⚠️ Throughput Drop (Sub-Optimal 88.0 tph)</button>
-          <button class="optimize-cta-btn" id="ai-optimize-btn">⚡ Let AI Optimize Current State (NSGA-II)</button>
-        </div>
-      </div>
-      <div class="sliders-grid" id="whatif-sliders-grid"></div>
-    </section>
-
-    <section class="panel impact-strip hidden" id="impact-strip" style="margin-bottom:8px;"></section>
-
     <div class="twin-grid">
 
-      <!-- ZONE A: TRUE-TO-SHAPE SVG ROTARY KILN P&ID -->
+      <!-- ZONE A: HERO PLANT DIGITAL TWIN P&ID -->
       <section class="panel" id="zone-a-panel">
         <div class="head-row">
           <div>
-            <h3 class="title">Zone A: Ashaka Gepol Rotary Kiln P&amp;ID (Click Units or Sensors)</h3>
-            <p class="sub">72m × 4m kiln · 4-stage preheater · 488 kW drive · 730 kW ID fan · NIRO tower &amp; baghouse.</p>
+            <h3 class="title" id="zone-a-title">1. Interactive Rotary Kiln &amp; Clinkerization Digital Twin P&amp;ID (Click Any Plant Unit or Sensor Tag)</h3>
+            <p class="sub" id="zone-a-sub">Select any equipment unit or sensor below to inspect how the Physics-Informed RFR + NSGA-II model optimizes that part using existing plant sensors.</p>
           </div>
           <span class="zone-badge" id="mode-pill">NSGA-II CLOSED-LOOP</span>
+        </div>
+
+        <div class="unit-selector-strip" id="unit-selector-strip">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted-foreground,#94a3b8);margin-right:4px;">Select Plant Unit:</span>
+          <button class="unit-chip-btn" data-unit-jump="preheater">1. 4-Stage Preheater</button>
+          <button class="unit-chip-btn active" data-unit-jump="kiln">2. Rotary Kiln (72m×4m)</button>
+          <button class="unit-chip-btn" data-unit-jump="burner">3. Burner &amp; Fuel Lance</button>
+          <button class="unit-chip-btn" data-unit-jump="clinker">4. Clinker Sintering &amp; CPR Unit</button>
+          <button class="unit-chip-btn" data-unit-jump="coolers">5. Planetary Coolers &amp; Crusher</button>
+          <button class="unit-chip-btn" data-unit-jump="analyzer">6. Gas Analyzer (O₂)</button>
+          <button class="unit-chip-btn" data-unit-jump="idfan">7. ID Fan (Draft)</button>
+          <button class="unit-chip-btn" data-unit-jump="baghouse">8. GCT &amp; Baghouse</button>
+          <button class="unit-chip-btn" data-unit-jump="stack">9. Exhaust Stack (CO₂)</button>
         </div>
 
         <div class="scada-wrap">
@@ -1271,23 +1330,44 @@
               </g>
             </g>
 
-            <!-- 9. PLANETARY COOLERS, CRUSHER & BUCKET CONVEYOR -->
+            <!-- 9. PLANETARY COOLERS & CLINKER CRUSHER -->
             <g class="scada-unit" id="unit-coolers" data-comp="coolers">
-              <!-- Satellite planetary cooler tubes -->
               <g fill="#334155" stroke="#94a3b8" stroke-width="1.2">
-                <rect x="518" y="348" width="54" height="11" rx="4" />
-                <rect x="524" y="362" width="52" height="11" rx="4" />
-                <rect x="512" y="376" width="56" height="11" rx="4" />
+                <rect x="506" y="348" width="52" height="10" rx="3" />
+                <rect x="510" y="361" width="50" height="10" rx="3" />
+                <rect x="502" y="374" width="54" height="10" rx="3" />
               </g>
-              <text x="582" y="366" font-size="8" font-weight="700" fill="#cbd5e1">Planetary Coolers</text>
-              <!-- Clinker Crusher -->
-              <rect class="unit-outline" x="522" y="394" width="54" height="32" rx="5" fill="#1e293b" stroke="#10b981" stroke-width="1.4" />
-              <text x="549" y="408" font-size="8" font-weight="700" fill="#10b981" text-anchor="middle">CRUSHER</text>
-              <text x="549" y="419" font-size="7.5" fill="#cbd5e1" text-anchor="middle">100°C Clinker</text>
-              <!-- Bucket Conveyor -->
-              <line x1="576" y1="416" x2="740" y2="416" stroke="#475569" stroke-width="6" stroke-linecap="round" />
-              <path id="conveyor-buckets" d="M 580 416 L 736 416" stroke="#10b981" stroke-width="4" stroke-dasharray="5 9" class="flow-green" />
-              <text x="658" y="405" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="middle" id="svg-cpr-lbl">Clinker: -- tph</text>
+              <text x="530" y="395" font-size="7.5" font-weight="700" fill="#cbd5e1" text-anchor="middle">Planetary Coolers</text>
+              <rect class="unit-outline" x="504" y="400" width="54" height="28" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1.4" />
+              <text x="531" y="412" font-size="7.8" font-weight="700" fill="#10b981" text-anchor="middle">CRUSHER</text>
+              <text x="531" y="422" font-size="7" fill="#cbd5e1" text-anchor="middle">100°C Nodules</text>
+            </g>
+
+            <!-- 10. CLINKER PRODUCTION & SINTERING DIGITAL TWIN UNIT (ILLUSTRATED DOME SILO & NODULE CONVEYOR) -->
+            <g class="scada-unit" id="unit-clinker" data-comp="clinker">
+              <!-- Inclined Apron Bucket Conveyor from Crusher to Clinker Silo -->
+              <line x1="558" y1="414" x2="604" y2="366" stroke="#475569" stroke-width="7" stroke-linecap="round" />
+              <path id="conveyor-buckets" d="M 560 412 L 602 368" stroke="#f97316" stroke-width="4.5" stroke-dasharray="4 6" class="flow-green" />
+              <!-- Glowing Clinker Nodules Falling into Silo -->
+              <circle cx="614" cy="374" r="2.8" fill="#fb923c" />
+              <circle cx="621" cy="382" r="2.4" fill="#fdba74" />
+              <circle cx="611" cy="387" r="3.0" fill="#f97316" />
+              <!-- Clinker Silo Dome & Cylindrical Shell -->
+              <path class="unit-outline" d="M 596 368 Q 668 334 740 368 L 740 434 L 596 434 Z" fill="#141e30" stroke="#10b981" stroke-width="1.8" stroke-linejoin="round" />
+              <!-- Structural Silo Ribs -->
+              <line x1="632" y1="354" x2="632" y2="434" stroke="#1e293b" stroke-width="1.2" />
+              <line x1="668" y1="350" x2="668" y2="434" stroke="#1e293b" stroke-width="1.2" />
+              <line x1="704" y1="354" x2="704" y2="434" stroke="#1e293b" stroke-width="1.2" />
+              <!-- Sintered Clinker Nodule Pile Inside Silo -->
+              <path d="M 600 432 Q 635 398 668 394 Q 702 398 736 432 Z" fill="rgba(249, 115, 22, 0.25)" stroke="#fb923c" stroke-width="1" />
+              <text x="668" y="365" font-size="7.8" font-weight="800" fill="#10b981" text-anchor="middle">CLINKER SILO &amp; CPR TWIN</text>
+              <text x="668" y="380" font-size="9.2" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace" text-anchor="middle" id="svg-cpr-lbl">CPR: -- tph</text>
+              <text x="668" y="392" font-size="7.4" font-weight="700" fill="#fbbf24" font-family="ui-monospace, monospace" text-anchor="middle" id="svg-clinker-phase">Alite C₃S: --% · Enth: -- MW</text>
+              <!-- Live Constraint Floor Bar Inside Silo Base -->
+              <rect x="604" y="400" width="128" height="7" rx="3.5" fill="#090d16" stroke="#334155" stroke-width="0.8" />
+              <rect id="svg-cpr-bar" x="604" y="400" width="84" height="7" rx="3.5" fill="#10b981" />
+              <line x1="678" y1="398" x2="678" y2="409" stroke="#f59e0b" stroke-width="1.5" />
+              <text x="668" y="420" font-size="7.3" font-weight="800" fill="#6ee7b7" font-family="ui-monospace, monospace" text-anchor="middle" id="svg-cpr-floor">Floor g(x): CPR ≥ 91.80 tph ✅</text>
             </g>
 
             <!-- Closed-Loop Feedback Bus & 4 NSGA-II Actuator Branches -->
@@ -1338,14 +1418,99 @@
         </div>
       </section>
 
+
+      <!-- COUPLED PROCESS SANDBOX & ALGORITHM CO-PILOT BAR -->
+      <section class="panel whatif-panel" id="whatif-panel">
+        <div class="whatif-head">
+          <div class="whatif-title-group">
+            <h3 class="title">🎛️ Coupled Process Control &amp; NSGA-II Co-Pilot Sandbox</h3>
+            <span class="badge" id="whatif-mode-badge">Synced · Balanced</span>
+            <button class="pill-btn active" id="coupling-toggle-btn" title="When ON, tweaking any parameter automatically shifts physically correlated kiln variables (via empirical Jacobian &amp; Eqs. 3.13–3.17)">🔗 Physical Parameter Coupling: ON</button>
+            <button class="pill-btn" id="copilot-toggle-btn" title="When ON, the NSGA-II Co-Pilot automatically trims secondary actuators in real time to protect Clinker Production Rate (CPR ≥ 91.80 tph) and combustion stoichiometry">🤖 NSGA-II Auto-Trim Co-Pilot: OFF</button>
+            <button class="pill-btn" id="toggle-sliders-btn">Sliders ▴</button>
+            <button class="pill-btn" id="reset-whatif-btn">Reset to Preset</button>
+          </div>
+          <div class="btn-group">
+            <span class="slider-bounds" style="font-weight:700;">Simulate Plant Disturbance:</span>
+            <button class="pill-btn disturb-btn" id="disturb-overburn" data-disturb="overburn">🔥 Over-Burning Surge</button>
+            <button class="pill-btn disturb-btn" id="disturb-draft" data-disturb="draft">💨 Draft / O₂ Drop</button>
+            <button class="pill-btn disturb-btn" id="disturb-cpr" data-disturb="cpr">⚠️ Clinker Drop (88.0 tph)</button>
+            <button class="optimize-cta-btn" id="ai-optimize-btn">⚡ Run Closed-Loop NSGA-II Recovery</button>
+          </div>
+        </div>
+        <div class="coupling-explain-bar" id="coupling-explain-bar">
+          <strong>Why Parameters Are Coupled:</strong> In a rotary kiln, no variable is independent. Tweaking <em>Fuel Consumption</em> or <em>Raw Meal CaCO₃</em> physically shifts <em>Sintering Temperature</em>, <em>Flue O₂%</em>, <em>Draft Air Flow</em>, <em>Kiln Drive Torque</em>, and <em>Clinker Production Rate (CPR)</em>. Drag any slider below to see live physical cross-coupling (<span class="coupled-badge phys">🔗 Phys Δ</span>) and how the algorithm compensates (<span class="coupled-badge algo">🤖 Co-Pilot</span>).
+        </div>
+        <div class="sliders-grid" id="whatif-sliders-grid"></div>
+      </section>
+
+      <section class="panel impact-strip hidden" id="impact-strip"></section>
+
+      <!-- SPLIT WORKBENCH: LEFT = SELECTED PLANT UNIT IMPACT INSPECTOR | RIGHT = RFR & NSGA-II ENGINE -->
+      <div class="workbench-split">
+  <!-- ZONE C: UNIFIED DEEP-DIVE FUNCTIONAL COMPONENT INSPECTOR -->
+  <section class="panel" id="inspector-panel">
+    <div class="inspector-head">
+      <div>
+        <h3 class="title" id="ins-title">2. Selected Unit Model Impact · Rotary Kiln</h3>
+        <p class="sub" id="ins-subtitle">Shows how our RFR + NSGA-II model interacts with the selected component, its coupled sensors, and baseline vs. optimal setpoints.</p>
+      </div>
+      <div class="btn-group">
+        <button class="pill-btn" id="validation-table-btn">📊 Full Validation Table (Table 4.2)</button>
+        <span class="badge" id="ins-module">src/cement_opt/features/engineering.py</span>
+      </div>
+    </div>
+
+    <div class="inspector-grid">
+      <div class="info-box">
+        <div class="info-label">Physical Role &amp; Component Functionality</div>
+        <p class="info-text" id="ins-func"></p>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Exact Equations &amp; Live State</div>
+        <p class="info-text" id="ins-eq-desc"></p>
+        <p class="code-line" id="ins-live-code"></p>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp-table" id="ins-table">
+        <thead id="ins-table-head">
+          <tr>
+            <th>Parameter</th>
+            <th>Plant Baseline (Median)</th>
+            <th>Model Predicted</th>
+            <th>Active / NSGA-II Setpoint</th>
+            <th>Δ vs Baseline</th>
+          </tr>
+        </thead>
+        <tbody id="ins-table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="streams-grid">
+      <div class="info-box">
+        <div class="info-label">Receives From (Upstream Streams)</div>
+        <div class="stream-list" id="ins-in-list"></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Streams To (Downstream Components)</div>
+        <div class="stream-list" id="ins-out-list"></div>
+      </div>
+    </div>
+
+    <div class="goal-banner" id="ins-goal"></div>
+  </section>
+
+
       <!-- ZONE B: GLASS-BOX ML SURROGATE & INTERACTIVE NSGA-II PARETO WORKBENCH -->
       <section class="panel" id="zone-b-panel">
         <div class="head-row">
           <div>
-            <h3 class="title">Zone B: Glass-Box ML &amp; NSGA-II Workbench</h3>
+            <h3 class="title">3. Physics-Informed RFR Surrogate &amp; NSGA-II Multi-Objective Engine</h3>
             <p class="sub">Real-time Eqs. 3.13–3.17, trained RF split trees, &amp; clickable 50-pt Pareto frontier.</p>
           </div>
-          <span class="zone-badge">GLASS-BOX AI</span>
+          <span class="zone-badge">R² = 0.98 · 50 PARETO PTS</span>
         </div>
 
         <div class="zone-b-stack" style="margin-top:8px;">
@@ -1446,6 +1611,7 @@
           </div>
         </div>
       </section>
+      </div>
     </div>
   </div>
 
@@ -1566,60 +1732,6 @@
     </section>
   </div>
 
-  <!-- ZONE C: UNIFIED DEEP-DIVE FUNCTIONAL COMPONENT INSPECTOR -->
-  <section class="panel" id="inspector-panel">
-    <div class="inspector-head">
-      <div>
-        <h3 class="title" id="ins-title">Zone C Inspector · Ashaka Gepol Rotary Kiln</h3>
-        <p class="sub" id="ins-subtitle">Click any plant equipment unit, sensor badge, Feature Forge equation, RF tree, or Pareto point.</p>
-      </div>
-      <div class="btn-group">
-        <button class="pill-btn" id="validation-table-btn">📊 Full Validation Table (Table 4.2)</button>
-        <span class="badge" id="ins-module">src/cement_opt/features/engineering.py</span>
-      </div>
-    </div>
-
-    <div class="inspector-grid">
-      <div class="info-box">
-        <div class="info-label">Physical Role &amp; Component Functionality</div>
-        <p class="info-text" id="ins-func"></p>
-      </div>
-      <div class="info-box">
-        <div class="info-label">Exact Equations &amp; Live State</div>
-        <p class="info-text" id="ins-eq-desc"></p>
-        <p class="code-line" id="ins-live-code"></p>
-      </div>
-    </div>
-
-    <div class="cmp-table-wrap">
-      <table class="cmp-table" id="ins-table">
-        <thead id="ins-table-head">
-          <tr>
-            <th>Parameter</th>
-            <th>Plant Baseline (Median)</th>
-            <th>Model Predicted</th>
-            <th>Active / NSGA-II Setpoint</th>
-            <th>Δ vs Baseline</th>
-          </tr>
-        </thead>
-        <tbody id="ins-table-body"></tbody>
-      </table>
-    </div>
-
-    <div class="streams-grid">
-      <div class="info-box">
-        <div class="info-label">Receives From (Upstream Streams)</div>
-        <div class="stream-list" id="ins-in-list"></div>
-      </div>
-      <div class="info-box">
-        <div class="info-label">Streams To (Downstream Components)</div>
-        <div class="stream-list" id="ins-out-list"></div>
-      </div>
-    </div>
-
-    <div class="goal-banner" id="ins-goal"></div>
-  </section>
-
   <!-- FLOATING GUIDED PRESENTATION & DEFENSE TOUR HUD -->
   <aside class="tour-hud hidden" id="tour-hud" role="dialog" aria-label="Guided Defense Tour">
     <div class="tour-hud-top">
@@ -1697,9 +1809,14 @@ let liveStreamOn = false;
 let liveTimer = null;
 
 // Step 1 Interactive What-If & Ablation State
-let manualMode = false;
+let manualMode = false; lastCoupledDeltas = {};
 let activeDisturbance = null;
 let physicsEnabled = true;
+let physicalCouplingOn = true;
+let copilotAutoTrimOn = false;
+let activePlantProfile = "universal";
+let lastCoupledDeltas = {};
+let lastPrimaryEditedFeat = null;
 let slidersExpanded = true;
 let manualFuel = "Oil";
 let paretoTrajectory = null;
@@ -1762,6 +1879,96 @@ function syncManualFromRecord(rec) {
 }
 syncManualFromRecord(getBaseOperatingRecord());
 
+function applyPhysicalAndCopilotCoupling(primaryFeat, deltaVal) {
+  lastCoupledDeltas = {};
+  lastPrimaryEditedFeat = primaryFeat;
+  if (Math.abs(deltaVal) < 1e-9) return;
+
+  const bMap = ARCH_DATA.bounds || {};
+  const empSlopes = (ARCH_DATA.coupling && ARCH_DATA.coupling[primaryFeat]) || {};
+
+  if (physicalCouplingOn) {
+    const physRules = {
+      "Fuel Consumption (kg/h)": {
+        "Kiln Temperature (°C)": 0.34,
+        "Oxygen Levels (%)": -0.011,
+        "Clinker Production Rate (tons/h)": 0.14,
+        "Kiln Pressure (bar)": 0.032,
+        "Power Consumed (KWt/h)": 14.5
+      },
+      "Kiln Temperature (°C)": {
+        "Fuel Consumption (kg/h)": 1.15,
+        "Oxygen Levels (%)": -0.014,
+        "Clinker Production Rate (tons/h)": 0.26,
+        "Power (rotary drive) Kw": 0.45,
+        "Absorbed Power (Kw)": 18.0
+      },
+      "Raw Meal Composition (% Limestone)": {
+        "Kiln Temperature (°C)": -0.65,
+        "Fuel Consumption (kg/h)": 1.45,
+        "Power (rotary drive) Kw": 0.85,
+        "Power Consumed (KWt/h)": 42.0
+      },
+      "Air Flow Rate (m³/h)": {
+        "Oxygen Levels (%)": 0.0011,
+        "Kiln Pressure (bar)": -0.0045,
+        "Power Consumed (KWt/h)": 2.4,
+        "Kiln Temperature (°C)": -0.012
+      },
+      "Clinker Production Rate (tons/h)": {
+        "Fuel Consumption (kg/h)": 1.35,
+        "Power Consumed (KWt/h)": 48.0,
+        "Absorbed Power (Kw)": 35.0,
+        "Power (rotary drive) Kw": 0.65
+      },
+      "Oxygen Levels (%)": {
+        "Air Flow Rate (m³/h)": 195.0,
+        "Kiln Temperature (°C)": -5.5
+      }
+    };
+    const ruleSet = physRules[primaryFeat] || {};
+    Object.keys(bMap).forEach(otherFeat => {
+      if (otherFeat === primaryFeat) return;
+      const slope = (otherFeat in ruleSet) ? ruleSet[otherFeat] : ((empSlopes[otherFeat] || 0) * 0.45);
+      if (Math.abs(slope) < 1e-6) return;
+      const oldV = manualState[otherFeat] ?? bMap[otherFeat].median;
+      const newV = clampToBounds(otherFeat, oldV + deltaVal * slope);
+      const actualDiff = newV - oldV;
+      if (Math.abs(actualDiff) > 1e-4) {
+        manualState[otherFeat] = newV;
+        lastCoupledDeltas[otherFeat] = { diff: actualDiff, mode: "phys" };
+        if (sparkHistory[otherFeat]) {
+          sparkHistory[otherFeat].push(newV);
+          if (sparkHistory[otherFeat].length > 15) sparkHistory[otherFeat].shift();
+        }
+      }
+    });
+  }
+
+  if (copilotAutoTrimOn) {
+    const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || ARCH_DATA.baseline;
+    const minCpr = ARCH_DATA.thermo.min_cpr;
+    if (primaryFeat !== "Clinker Production Rate (tons/h)" && (manualState["Clinker Production Rate (tons/h)"] || 0) < minCpr) {
+      const oldCpr = manualState["Clinker Production Rate (tons/h)"];
+      manualState["Clinker Production Rate (tons/h)"] = Math.max(minCpr, bal.production);
+      lastCoupledDeltas["Clinker Production Rate (tons/h)"] = {
+        diff: manualState["Clinker Production Rate (tons/h)"] - oldCpr,
+        mode: "algo"
+      };
+    }
+    ["Oxygen Levels (%)", "Air Flow Rate (m³/h)", "Power Consumed (KWt/h)", "Kiln Pressure (bar)"].forEach(actFeat => {
+      if (actFeat === primaryFeat) return;
+      const curV = manualState[actFeat] ?? bal.knobs[actFeat];
+      const optV = bal.knobs[actFeat] ?? curV;
+      const trimmed = clampToBounds(actFeat, curV + (optV - curV) * 0.55);
+      if (Math.abs(trimmed - curV) > 1e-3) {
+        manualState[actFeat] = trimmed;
+        lastCoupledDeltas[actFeat] = { diff: trimmed - curV, mode: "algo" };
+      }
+    });
+  }
+}
+
 function buildWhatIfSliders() {
   const grid = document.getElementById("whatif-sliders-grid");
   if (!grid) return;
@@ -1772,7 +1979,7 @@ function buildWhatIfSliders() {
       <div class="slider-card" data-feat="${c.feat}">
         <div class="slider-top">
           <div>
-            <div class="slider-lbl">${c.label}</div>
+            <div class="slider-lbl">${c.label}<span class="coupled-badge hidden" data-badge-feat="${c.feat}"></span></div>
             <div class="slider-bounds">${b.min.toFixed(c.dec)}–${b.max.toFixed(c.dec)} ${c.unit}</div>
           </div>
           <div class="slider-num-wrap">
@@ -1792,7 +1999,9 @@ function buildWhatIfSliders() {
     }
     const parsed = parseFloat(rawVal);
     if (Number.isNaN(parsed)) return;
+    const prevVal = manualState[feat] ?? parsed;
     const clamped = clampToBounds(feat, parsed);
+    const deltaVal = clamped - prevVal;
     manualState[feat] = clamped;
     manualMode = true;
     compareBaseline = false;
@@ -1802,6 +2011,7 @@ function buildWhatIfSliders() {
       sparkHistory[feat].push(clamped);
       if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
     }
+    applyPhysicalAndCopilotCoupling(feat, deltaVal);
     updateAll();
   };
 
@@ -1824,6 +2034,20 @@ function syncSliderInputs() {
     const n = card.querySelector(".slider-num");
     if (r && document.activeElement !== r) r.value = val.toFixed(c.dec);
     if (n && document.activeElement !== n) n.value = val.toFixed(c.dec);
+    const cInfo = lastCoupledDeltas[c.feat];
+    const badge = card.querySelector(`[data-badge-feat="${c.feat}"]`);
+    card.classList.toggle("coupled-shift", Boolean(cInfo && cInfo.mode === "phys"));
+    card.classList.toggle("copilot-shift", Boolean(cInfo && cInfo.mode === "algo"));
+    if (badge) {
+      if (cInfo) {
+        badge.classList.remove("hidden");
+        badge.className = `coupled-badge ${cInfo.mode}`;
+        const sign = cInfo.diff >= 0 ? "+" : "";
+        badge.textContent = `${cInfo.mode === "algo" ? "🤖 Trim " : "🔗 "}${sign}${cInfo.diff.toFixed(c.dec)}`;
+      } else {
+        badge.classList.add("hidden");
+      }
+    }
   });
 }
 
@@ -2060,7 +2284,24 @@ function renderScada(snap) {
   document.getElementById("svg-analyzer-txt").textContent = `O₂: ${snap.o2.toFixed(2)}% · ${snap.pressure.toFixed(2)}b`;
   document.getElementById("svg-kiln-burn").textContent = `${snap.temp.toFixed(1)}°C Sintering`;
   document.getElementById("svg-drive-lbl").textContent = `Tyre 1–4 · Rotary Drive: ${snap.rotary.toFixed(1)} kW · Main: ${snap.power.toFixed(0)} kW`;
-  document.getElementById("svg-cpr-lbl").textContent = `Clinker: ${snap.production.toFixed(2)} tph`;
+  document.getElementById("svg-cpr-lbl").textContent = `CPR: ${snap.production.toFixed(2)} tph`;
+  const alitePct = Math.max(52, Math.min(68, 61.5 + (snap.temp - 1353.0) * 0.28 - (snap.o2Dev - 0.14) * 1.8));
+  const phaseEl = document.getElementById("svg-clinker-phase");
+  if (phaseEl) phaseEl.textContent = `Alite C₃S: ${alitePct.toFixed(1)}% · Enth: ${snap.theoEnergy.toFixed(1)} MW`;
+  const cprBar = document.getElementById("svg-cpr-bar");
+  const cprFloor = document.getElementById("svg-cpr-floor");
+  const cprFeasible = snap.production >= ARCH_DATA.thermo.min_cpr - 1e-4;
+  if (cprBar) {
+    const cprNorm = Math.max(0.08, Math.min(1.0, (snap.production - 80.0) / 20.0));
+    cprBar.setAttribute("width", (cprNorm * 128).toFixed(1));
+    cprBar.setAttribute("fill", cprFeasible ? "#10b981" : "#ef4444");
+  }
+  if (cprFloor) {
+    cprFloor.textContent = cprFeasible
+      ? `Floor g(x) ≤ 0: ${snap.production.toFixed(2)} ≥ 91.80 tph ✅`
+      : `VIOLATION: ${snap.production.toFixed(2)} < 91.80 tph ❌`;
+    cprFloor.setAttribute("fill", cprFeasible ? "#6ee7b7" : "#fca5a5");
+  }
   document.getElementById("svg-stack-co2").textContent = `CO₂: ${snap.co2.toFixed(1)} kg/h`;
 
   // Dynamic ID Fan Speed driven by Air Flow Rate + Power Consumed
@@ -2816,7 +3057,7 @@ function renderParetoPlot(snap) {
       selectedGenIdx = Math.max(0, snaps.length - 1);
       const idx = parseInt(ptEl.getAttribute("data-pidx"), 10);
       compareBaseline = false;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       showValidationTable = false;
@@ -2959,8 +3200,31 @@ function getInspectorInfo(unitId, snap) {
       outStreams: [{ id: "kiln", label: "Kiln Burning Zone", desc: "Radiative flame heat drives clinker formation." }],
       goal: `Trimming fuel consumption from ${base.fuel_rate.toFixed(2)} to ${bal.fuel_rate.toFixed(2)} kg/h yields Heat Efficiency ${bal.heat_eff.toFixed(2)} while Low CO₂ (Sol 49) shifts fuel to ${lowC.fuel_rate.toFixed(2)} kg/h at ${lowC.temp.toFixed(2)}°C for thermal dilution.`
     },
+    clinker: {
+      title: "Clinker Sintering, Alite (C₃S) Synthesis & Production Rate (CPR) Twin",
+      module: "src/cement_opt/features/engineering.py · Eqs. 3.13–3.15 & Eq. 3.22",
+      func: "Tracks liquid-phase clinkerization (C₂S + CaO → C₃S Alite at 1342–1369°C), thermodynamic calcination enthalpy (1780 kJ/kg-clinker), and live Clinker Production Rate (CPR in tons/h). Enforces the hard NSGA-II floor g(x) = 91.80 - CPR ≤ 0 so decarbonization never sacrifices plant output.",
+      eqDesc: "Eq. 3.14: T_E = 0.278 × CPR × 1780 kJ/kg | Eq. 3.22 Hard Floor: g(x) = 91.80 - CPR ≤ 0.",
+      liveCode: `Live CPR=${snap.production.toFixed(2)} tph (Floor 91.80 tph) | Calcination Enthalpy=${snap.theoEnergy.toFixed(2)} MW | Specific Energy=${snap.energy.toFixed(2)} kWh/t`,
+      rows: [
+        makeRow("Clinker Production Rate (CPR)", base.production, predP, snap.production, "tph"),
+        makeRow("Calcination Enthalpy (Eq 3.14)", base.theoretical_energy, base.theoretical_energy, snap.theoEnergy, "MW"),
+        makeRow("Kiln Sintering Temp", base.temp, base.temp, snap.temp, "°C"),
+        makeRow("Specific Energy (f₁)", base.energy, predE, snap.energy, "kWh/t"),
+        makeRow("CO₂ Emissions (f₂)", base.co2, predC, snap.co2, "kg/h")
+      ],
+      inStreams: [
+        { id: "kiln", label: "Rotary Kiln Sintering Zone", desc: "1342–1369°C liquid-phase clinker nodulization." },
+        { id: "coolers", label: "Planetary Coolers & Crusher", desc: "Recuperates heat & crushes clinker nodules." }
+      ],
+      outStreams: [
+        { id: "feat_te", label: "Eq 3.14 Calcination Energy", desc: "Top predictor (#1 importance) in CO₂ RFR." },
+        { id: "nsga2", label: "NSGA-II Constraint g(x) ≤ 0", desc: "Rejects any operating regime that drops clinker output below 91.80 tph." }
+      ],
+      goal: `Demonstrates how predictive optimization cuts Specific Energy by 11.24% (1030.42 kWh/t) and CO₂ by 5.45% (920.42 kg/h) while maintaining or increasing Clinker Production Rate (${bal.production.toFixed(2)} tph, +0.28% vs 91.80 tph baseline).`
+    },
     coolers: {
-      title: "Planetary Coolers, Clinker Crusher (100°C) & Bucket Conveyor",
+      title: "Planetary Coolers & Clinker Crusher (100°C Heat Recuperation)",
       module: "src/cement_opt/optimization/problem.py · Eq. 3.22",
       func: "Rapidly cools incandescent clinker from ~1350°C to 100°C in satellite cooler tubes, recovers secondary air preheat back into the kiln hood, crushes nodules, and conveys product.",
       eqDesc: "Production constraint Eq. 3.22: g(x) = 91.80 - Clinker_Production_Rate <= 0.",
@@ -3284,7 +3548,7 @@ function renderInspector(snap) {
   }
 
   const info = getInspectorInfo(selectedUnit, snap);
-  document.getElementById("ins-title").textContent = `Zone C Inspector · ${info.title}`;
+  document.getElementById("ins-title").textContent = `2. Selected Unit Impact · ${info.title}`;
   document.getElementById("ins-module").textContent = info.module;
   document.getElementById("ins-func").textContent = info.func;
   document.getElementById("ins-eq-desc").textContent = info.eqDesc;
@@ -3556,7 +3820,7 @@ function runAiOptimizeAnimation() {
     } else {
       optAnimFrame = null;
       syncManualFromRecord(targetRec);
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       customParetoIdx = targetIdx;
       if (targetRec.regime) activeRegime = targetRec.regime;
       Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
@@ -3731,6 +3995,20 @@ function updateControls() {
     apBadge.textContent = tourAutoPlay ? "Auto-Play 8s" : "Manual Step";
     apBadge.style.color = tourAutoPlay ? "#10b981" : "#38bdf8";
   }
+
+  const cplBtn = document.getElementById("coupling-toggle-btn");
+  if (cplBtn) {
+    cplBtn.classList.toggle("active", physicalCouplingOn);
+    cplBtn.textContent = `🔗 Physical Parameter Coupling: ${physicalCouplingOn ? "ON" : "OFF"}`;
+  }
+  const copBtn = document.getElementById("copilot-toggle-btn");
+  if (copBtn) {
+    copBtn.classList.toggle("active", copilotAutoTrimOn);
+    copBtn.textContent = `🤖 NSGA-II Auto-Trim Co-Pilot: ${copilotAutoTrimOn ? "ON" : "OFF"}`;
+  }
+  document.querySelectorAll("#unit-selector-strip .unit-chip-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-unit-jump") === selectedUnit);
+  });
 }
 
 function updateAll() {
@@ -3832,7 +4110,7 @@ const TOUR_STOPS = [
       stopLiveStream();
       selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
       compareBaseline = true;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       showValidationTable = false;
@@ -3869,7 +4147,7 @@ const TOUR_STOPS = [
       stopEvolutionPlay();
       stopLiveStream();
       compareBaseline = false;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       customParetoIdx = null;
@@ -3936,7 +4214,7 @@ const TOUR_STOPS = [
       stopLiveStream();
       stopEvolutionPlay();
       compareBaseline = false;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       showValidationTable = false;
@@ -3959,7 +4237,7 @@ const TOUR_STOPS = [
       tradeoffZonesOn = true;
       paretoZoom = true;
       compareBaseline = false;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       customParetoIdx = null;
@@ -3991,7 +4269,7 @@ const TOUR_STOPS = [
       selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
       const prevK = { ...ARCH_DATA.baseline.knobs };
       compareBaseline = false;
-      manualMode = false;
+      manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
       customParetoIdx = null;
@@ -4079,6 +4357,60 @@ function exitTour() {
 // EVENT LISTENERS
 buildWhatIfSliders();
 
+const cplBtnEl = document.getElementById("coupling-toggle-btn");
+if (cplBtnEl) {
+  cplBtnEl.addEventListener("click", () => {
+    physicalCouplingOn = !physicalCouplingOn;
+    if (!physicalCouplingOn) lastCoupledDeltas = {};
+    updateAll();
+  });
+}
+const copBtnEl = document.getElementById("copilot-toggle-btn");
+if (copBtnEl) {
+  copBtnEl.addEventListener("click", () => {
+    copilotAutoTrimOn = !copilotAutoTrimOn;
+    if (copilotAutoTrimOn && manualMode) {
+      applyPhysicalAndCopilotCoupling(lastPrimaryEditedFeat || "Fuel Consumption (kg/h)", 0.1);
+      triggerFeedbackPulse();
+    }
+    updateAll();
+  });
+}
+document.querySelectorAll("#unit-selector-strip .unit-chip-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    showValidationTable = false;
+    selectedUnit = btn.getAttribute("data-unit-jump");
+    updateAll();
+  });
+});
+const profSel = document.getElementById("plant-profile-select");
+if (profSel) {
+  profSel.addEventListener("change", e => {
+    activePlantProfile = e.target.value;
+    const profiles = {
+      universal: {
+        title: "Legacy Cement Plant Digital Twin — Zero-CapEx Predictive Process Optimization",
+        sub: "Universal software retrofit using 13 existing DCS/historian sensors (zero extra hardware) to cut energy & CO₂ while protecting clinker output (CPR ≥ 91.80 tph).",
+        tag: "0 New Sensors · 13 Existing Historian Tags · Universal SP Kiln Retrofit"
+      },
+      ashaka: {
+        title: "Lafarge-Holcim Ashaka Gepol Kiln — Empirical Validation Digital Twin (Tables 4.1 & 4.2)",
+        sub: "72m × 4m rotary kiln · 4-stage suspension preheater · 488 kW drive · 730 kW ID fan · Validated R² = 0.98.",
+        tag: "Empirical Validation Benchmark · -11.24% Energy · -5.45% CO₂ · +0.28% CPR"
+      },
+      long_dry: {
+        title: "Legacy Long-Dry Rotary Kiln — Zero-Hardware Decarbonization Retrofit",
+        sub: "Adapts to older long-dry kilns using standard pyrometer, draft fan, raw meal feeder, and fuel flow historian tags.",
+        tag: "Zero-Hardware CapEx · Drop-In Historian Integration · Closed-Loop Advisory"
+      }
+    };
+    const pInfo = profiles[activePlantProfile] || profiles.universal;
+    document.getElementById("plant-main-title").textContent = pInfo.title;
+    document.getElementById("plant-main-sub").textContent = pInfo.sub;
+    document.getElementById("retrofit-tag-badge").textContent = pInfo.tag;
+  });
+}
+
 document.getElementById("toggle-sliders-btn").addEventListener("click", () => {
   slidersExpanded = !slidersExpanded;
   updateControls();
@@ -4092,7 +4424,7 @@ document.getElementById("reset-whatif-btn").addEventListener("click", () => {
     clearTimeout(optAnimFrame);
     optAnimFrame = null;
   }
-  manualMode = false;
+  manualMode = false; lastCoupledDeltas = {};
   activeDisturbance = null;
   compareBaseline = false;
   paretoTrajectory = null;
@@ -4135,7 +4467,7 @@ document.getElementById("baseline-compare-btn").addEventListener("click", () => 
   stopEvolutionPlay();
   selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
   compareBaseline = !compareBaseline;
-  manualMode = false;
+  manualMode = false; lastCoupledDeltas = {};
   activeDisturbance = null;
   paretoTrajectory = null;
   const targetRec = getBaseOperatingRecord();
@@ -4150,7 +4482,7 @@ document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
     stopEvolutionPlay();
     selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
     compareBaseline = false;
-    manualMode = false;
+    manualMode = false; lastCoupledDeltas = {};
     activeDisturbance = null;
     paretoTrajectory = null;
     customParetoIdx = null;

@@ -1,4 +1,4 @@
 Parameter,Model Predicted Value,Model Deviation (%),Test RMSE,Optimized Value (Balanced),Optimized Deviation (%),Plant Median Value
-Energy Consumption (kWh/t-clinker),1165.42,0.39,11.9365,1030.17,-11.26,1160.87
-CO2 Emissions (kg/h),1006.19,3.36,11.6775,961.45,-1.23,973.45
-Clinker Production Rate (tons/h),91.8,0.0,0.0,92.54,0.8,91.8
+Energy Consumption (kWh/t-clinker),1165.42,0.39,11.9365,1032.06,-11.1,1160.87
+CO2 Emissions (kg/h),1006.19,3.36,11.6775,960.08,-1.37,973.45
+Clinker Production Rate (tons/h),91.8,0.0,0.0,92.02,0.24,91.8

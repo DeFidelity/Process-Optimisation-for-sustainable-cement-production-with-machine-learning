@@ -113,4 +113,10 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "feedback-pulses-layer" in arch_text
     assert "TOUR_STOPS" in arch_text
     assert "triggerFeedbackPulse" in arch_text
+    assert "unit-clinker" in arch_text
+    assert "coupling-toggle-btn" in arch_text
+    assert "copilot-toggle-btn" in arch_text
+    assert "plant-profile-select" in arch_text
+    assert "\"coupling\":" in arch_text
+    assert "\"plant_profiles\":" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")
