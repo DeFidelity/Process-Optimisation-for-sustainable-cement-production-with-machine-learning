@@ -117,6 +117,37 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "coupling-toggle-btn" in arch_text
     assert "copilot-toggle-btn" in arch_text
     assert "plant-profile-select" in arch_text
-    assert "\"coupling\":" in arch_text
-    assert "\"plant_profiles\":" in arch_text
+    assert '"coupling":' in arch_text
+    assert '"plant_profiles":' in arch_text
+    assert "rf-confidence-pill" in arch_text
+    assert "horizon-oscilloscope-svg" in arch_text
+    assert "clinker-soft-sensor" in arch_text
+    assert "svg-fcao-val" in arch_text
+    assert "supervisory-mode-switch" in arch_text
+    assert "mode-auto-btn" in arch_text
+    assert "mode-advisory-btn" in arch_text
+    assert "advisory-toast" in arch_text
+    assert "approve-advisory-btn" in arch_text
+    assert "reject-advisory-btn" in arch_text
+    assert "simulate-ood-btn" in arch_text
+    assert "isa-interlock-banner" in arch_text
+    assert "reset-interlock-btn" in arch_text
+    assert "SLEW_LIMITS" in arch_text
+    assert "evalCompactForestStats" in arch_text
+    assert "executeRampedSetpointMove" in arch_text
+    assert "triggerOodSensorFault" in arch_text
+    assert "auto-mode-bar" in arch_text
+    assert "mode-autonomous-btn" in arch_text
+    assert "mode-manual-btn" in arch_text
+    assert "auto-pause-btn" in arch_text
+    assert "auto-inject-btn" in arch_text
+    assert "ai-control-toggle-btn" in arch_text
+    assert "dcs-oscilloscope-svg" in arch_text
+    assert "dcs-status-ticker" in arch_text
+    assert "dcs-early-warning-badge" in arch_text
+    assert "Auto-Balance with NSGA-II" in arch_text
+    assert "AUTONOMOUS_UPSETS" in arch_text
+    assert "renderDcsOscilloscope" in arch_text
+    assert "stepAutonomousSimulation" in arch_text
+    assert "injectAutonomousDisturbanceNow" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")

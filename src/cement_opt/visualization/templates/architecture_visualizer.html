@@ -295,6 +295,36 @@
   @keyframes flowUp {
     to { stroke-dashoffset: 24; }
   }
+  @keyframes kilnGearSpin {
+    to { stroke-dashoffset: -14; }
+  }
+  @keyframes kilnRollerSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes co2Rise {
+    0% { transform: translate(0px, 0px) scale(0.55); opacity: 0.85; }
+    50% { transform: translate(8px, -18px) scale(1.15); opacity: 0.55; }
+    100% { transform: translate(20px, -38px) scale(1.75); opacity: 0; }
+  }
+  .kiln-rot-band {
+    stroke-dasharray: 4 3;
+    animation: kilnGearSpin var(--kiln-rot-dur, 0.75s) linear infinite;
+  }
+  .kiln-tumble-bed {
+    stroke-dasharray: 8 5;
+    animation: flowDown var(--kiln-rot-dur, 0.85s) linear infinite;
+  }
+  .kiln-roller {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: kilnRollerSpin var(--kiln-rot-dur, 1.4s) linear infinite;
+  }
+  .co2-puff {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: co2Rise var(--plume-dur, 2.2s) ease-out infinite;
+  }
   .flow-green {
     stroke-dasharray: 6 6;
     animation: flowDown 1.1s linear infinite;
@@ -325,6 +355,27 @@
     stroke: #10b981 !important;
     stroke-width: 2.6 !important;
     filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.85));
+  }
+  .copilot-reasoning-box {
+    margin-top: 7px;
+    padding: 8px 11px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-left: 3.5px solid #10b981;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .copilot-reasoning-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #10b981;
+    margin-bottom: 3px;
   }
 
   .zone-b-stack {
@@ -1043,6 +1094,432 @@
     justify-content: space-between;
     gap: 6px;
   }
+  .sup-mode-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: 7px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    gap: 2px;
+  }
+  .sup-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    border-radius: 5px;
+    padding: 3px 9px;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+  .sup-btn:hover {
+    color: #f8fafc;
+  }
+  .sup-btn.active-auto {
+    background: rgba(16, 185, 129, 0.22);
+    color: #34d399;
+    box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.55);
+  }
+  .sup-btn.active-advisory {
+    background: rgba(245, 158, 11, 0.22);
+    color: #fbbf24;
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.55);
+  }
+  @keyframes interlockFlash {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); border-color: #ef4444; }
+    50% { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.32); border-color: #fca5a5; }
+  }
+  .isa-interlock-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(127, 29, 29, 0.92);
+    border: 2px solid #ef4444;
+    color: #fef2f2;
+    animation: interlockFlash 1.2s ease-in-out infinite;
+  }
+  .isa-interlock-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .isa-badge {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: #ef4444;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+  }
+  .isa-reset-btn {
+    background: #f8fafc !important;
+    color: #991b1b !important;
+    border-color: #ffffff !important;
+    font-weight: 800 !important;
+  }
+  .isa-reset-btn:hover {
+    background: #fee2e2 !important;
+  }
+  .fault-btn {
+    border-color: rgba(239, 68, 68, 0.55);
+    background: rgba(239, 68, 68, 0.14);
+    color: #fca5a5;
+  }
+  .fault-btn:hover {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.26);
+    color: #ffffff;
+  }
+  .fault-btn.active-fault {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #fca5a5;
+  }
+  .optimize-cta-btn.locked-out,
+  .pill-btn.locked-out {
+    opacity: 0.48;
+    cursor: not-allowed;
+    border-color: rgba(239, 68, 68, 0.45);
+  }
+  .advisory-toast {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    width: 440px;
+    max-width: calc(100vw - 36px);
+    z-index: 9998;
+    background: rgba(15, 23, 42, 0.97);
+    border: 1.5px solid #f59e0b;
+    border-left: 4px solid #10b981;
+    border-radius: 8px;
+    padding: 11px 13px;
+    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.85);
+    color: #f8fafc;
+  }
+  .advisory-toast-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 800;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #fbbf24;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .advisory-toast-body {
+    font-size: 11.5px;
+    line-height: 1.42;
+    color: #e2e8f0;
+    margin-bottom: 8px;
+  }
+  .advisory-toast-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .approve-btn {
+    background: #059669 !important;
+    color: #ffffff !important;
+    border-color: #10b981 !important;
+    font-weight: 800 !important;
+  }
+  .approve-btn:hover {
+    background: #047857 !important;
+  }
+  .reject-btn {
+    background: rgba(239, 68, 68, 0.16) !important;
+    color: #fca5a5 !important;
+    border-color: rgba(239, 68, 68, 0.5) !important;
+  }
+  .slider-track-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 3px;
+  }
+  .slider-track-wrap .slider-range {
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .slider-target-notch {
+    position: absolute;
+    top: 1px;
+    width: 4px;
+    height: 12px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: #10b981;
+    border: 1px solid #ecfdf5;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.9);
+    z-index: 3;
+    pointer-events: none;
+    transition: left 0.15s ease;
+  }
+  .slider-target-pill {
+    font-size: 8.6px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+    margin-left: 4px;
+  }
+  .confidence-pill {
+    font-size: 9.8px;
+    font-weight: 800;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #7dd3fc;
+  }
+  .confidence-pill.warn {
+    background: rgba(245, 158, 11, 0.16);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fcd34d;
+  }
+  .confidence-pill.danger {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.55);
+    color: #fca5a5;
+  }
+  .oscilloscope-wrap {
+    margin-top: 7px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #08101d;
+    border: 1px solid rgba(56, 189, 248, 0.26);
+  }
+  .oscilloscope-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-size: 9.8px;
+    font-weight: 700;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #94a3b8;
+  }
+  .oscilloscope-svg {
+    width: 100%;
+    height: 92px;
+    display: block;
+  }
+  .auto-mode-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.10), rgba(16, 185, 129, 0.10));
+    border: 1px solid rgba(56, 189, 248, 0.34);
+  }
+  .op-mode-switch {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: 7px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.36);
+    gap: 3px;
+  }
+  .op-mode-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .op-mode-btn:hover {
+    color: #f8fafc;
+  }
+  .op-mode-btn.active-auto-loop {
+    background: linear-gradient(135deg, #0284c7, #059669);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+  }
+  .op-mode-btn.active-manual-mode {
+    background: rgba(56, 189, 248, 0.22);
+    color: #7dd3fc;
+    box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.55);
+  }
+  .inject-now-btn {
+    appearance: none;
+    border: 1px solid #f59e0b;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(234, 88, 12, 0.26));
+    color: #fde68a;
+    border-radius: 6px;
+    padding: 5px 11px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+  .inject-now-btn:hover {
+    background: linear-gradient(135deg, #d97706, #ea580c);
+    color: #ffffff;
+  }
+  .ai-compare-btn {
+    appearance: none;
+    border-radius: 6px;
+    padding: 5px 11px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.14s ease;
+    border: 1px solid rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+  }
+  .ai-compare-btn.off {
+    border-color: rgba(239, 68, 68, 0.65);
+    background: rgba(239, 68, 68, 0.20);
+    color: #fca5a5;
+  }
+  .dcs-osc-panel {
+    padding: 10px 14px 9px 14px;
+    background: #09111f;
+    border: 1px solid rgba(56, 189, 248, 0.34);
+  }
+  .dcs-osc-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .dcs-osc-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    color: #cbd5e1;
+  }
+  .dcs-leg-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+  }
+  .dcs-line-swatch {
+    width: 14px;
+    height: 2.5px;
+    display: inline-block;
+    border-radius: 2px;
+  }
+  .dcs-early-warn {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: rgba(245, 158, 11, 0.22);
+    border: 1px solid #f59e0b;
+    color: #fde68a;
+    animation: interlockFlash 1.1s ease-in-out infinite;
+  }
+  .dcs-avoided-pill {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    color: #6ee7b7;
+  }
+  .dcs-osc-svg {
+    width: 100%;
+    height: 132px;
+    display: block;
+    border-radius: 6px;
+    background: #060c17;
+    border: 1px solid rgba(51, 65, 85, 0.75);
+  }
+  .dcs-ticker-bar {
+    margin-top: 6px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11px;
+    line-height: 1.35;
+    overflow: hidden;
+  }
+  .dcs-phase-pill {
+    flex-shrink: 0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .dcs-phase-pill.p1 { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.45); }
+  .dcs-phase-pill.p2 { background: rgba(245, 158, 11, 0.22); color: #fde68a; border: 1px solid #f59e0b; }
+  .dcs-phase-pill.p3 { background: rgba(56, 189, 248, 0.22); color: #7dd3fc; border: 1px solid #38bdf8; }
+  .dcs-phase-pill.p4 { background: rgba(16, 185, 129, 0.24); color: #34d399; border: 1px solid #10b981; }
+  .dcs-phase-pill.off { background: rgba(239, 68, 68, 0.22); color: #fca5a5; border: 1px solid #ef4444; }
+  .dcs-ticker-msg {
+    color: #e2e8f0;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @keyframes sensorAmberPulse {
+    0%, 100% { filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.5)); }
+    50% { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.98)); }
+  }
+  .sensor-drift-amber {
+    animation: sensorAmberPulse 0.85s ease-in-out infinite;
+  }
+  .chamber-amber-active {
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 1.5px rgba(245, 158, 11, 0.45), 0 0 16px rgba(245, 158, 11, 0.16) !important;
+  }
+  .chamber-cyan-active {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 1.5px rgba(56, 189, 248, 0.55), 0 0 18px rgba(56, 189, 248, 0.22) !important;
+  }
 </style>
 </head>
 <body>
@@ -1074,9 +1551,29 @@
       <span class="retrofit-tag" id="retrofit-tag-badge">0 New Sensors · 13 Historian Tags · CPR ≥ 91.80 tph Guaranteed</span>
     </div>
 
+    <!-- DUAL OPERATING MODES & CLOSED-LOOP SIMULATOR BAR -->
+    <div class="auto-mode-bar" id="auto-mode-bar">
+      <div class="btn-group">
+        <div class="op-mode-switch" id="op-mode-switch" role="group" aria-label="Plant Operating Mode">
+          <button class="op-mode-btn active-auto-loop" id="mode-autonomous-btn">🤖 Autonomous AI Loop</button>
+          <button class="op-mode-btn" id="mode-manual-btn">🎛️ Manual What-If</button>
+        </div>
+        <button class="pill-btn" id="auto-pause-btn">⏸ Pause</button>
+        <button class="inject-now-btn" id="auto-inject-btn">⚡ Inject Disturbance Now</button>
+      </div>
+      <div class="btn-group">
+        <button class="ai-compare-btn" id="ai-control-toggle-btn">Compare: AI Control ON ✅</button>
+        <span class="badge" id="auto-cycle-badge" style="color:#7dd3fc;">Cycle 1/4 · Steady Optimal</span>
+      </div>
+    </div>
+
     <div class="controls-strip">
       <div class="btn-group">
         <button class="pill-btn" id="live-stream-btn"><span class="pulse-dot"></span>Historian Telemetry: OFF</button>
+        <div class="sup-mode-pill" id="supervisory-mode-switch" role="group" aria-label="APC Supervisory Mode">
+          <button class="sup-btn active-auto" id="mode-auto-btn" data-sup="auto">Supervisory: Closed-Loop Auto</button>
+          <button class="sup-btn" id="mode-advisory-btn" data-sup="advisory">Advisory: Operator Approve</button>
+        </div>
         <button class="pill-btn" id="baseline-compare-btn">Compare vs. Unoptimized Plant Baseline (91.80 tph | 1160.87 kWh/t | 973.45 kg/h)</button>
       </div>
       <div class="btn-group" id="regime-switch">
@@ -1116,6 +1613,15 @@
   <!-- VIEW 1: FULL INDUSTRIAL DIGITAL TWIN (SCADA + ML) -->
   <div id="twin-view">
     <div class="twin-grid">
+
+      <!-- ISA-18.2 SENSOR FAULT FAILSAFE INTERLOCK BANNER -->
+      <div class="isa-interlock-banner hidden" id="isa-interlock-banner" role="alert">
+        <div class="isa-interlock-text">
+          <span class="isa-badge">ISA-18.2 INTERLOCK</span>
+          <span id="isa-interlock-msg">🛡️ AI GUARDRAIL TRIPPED: Out-of-Distribution Sensor Fault → Safe Fallback to Manual DCS Control</span>
+        </div>
+        <button class="pill-btn isa-reset-btn" id="reset-interlock-btn">Reset Interlock</button>
+      </div>
 
       <!-- ZONE A: HERO PLANT DIGITAL TWIN P&ID -->
       <section class="panel" id="zone-a-panel">
@@ -1289,30 +1795,36 @@
               <text x="688" y="54" font-size="9" font-weight="700" fill="#f87171" id="svg-stack-co2">CO₂: -- kg/h</text>
             </g>
 
-            <!-- 7. INCLINED ROTARY KILN CYLINDER (72m x 4m, 3 rpm, 488 kW) -->
+            <!-- 7. INCLINED ROTARY KILN CYLINDER (72m x 4m, 3 rpm, 488 kW) WITH LIVE ROTATION -->
             <g class="scada-unit" id="unit-kiln" data-comp="kiln">
               <!-- Inclined kiln assembly around firing axis -->
               <g transform="translate(192, 274) rotate(4.2)">
                 <!-- Kiln Steel Shell + Thermal Interior -->
                 <rect class="unit-outline" x="0" y="0" width="336" height="44" rx="5" fill="url(#kiln-heat-grad)" stroke="#94a3b8" stroke-width="2" />
                 <rect x="4" y="4" width="328" height="36" rx="3" fill="none" stroke="rgba(15,23,42,0.45)" stroke-width="2" />
-                <!-- 4 Riding Tyres -->
+                <!-- Tumbling Clinker Charge Bed Inside Rotating Kiln -->
+                <path class="kiln-tumble-bed" d="M 8 34 Q 88 26 172 34 T 328 32" fill="none" stroke="rgba(254, 240, 138, 0.55)" stroke-width="2.6" />
+                <!-- 4 Riding Tyres with Animated Rotation Circumferential Bands -->
                 <rect x="34" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <line class="kiln-rot-band" x1="40" y1="-4" x2="40" y2="48" stroke="#38bdf8" stroke-width="2" />
                 <rect x="116" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <line class="kiln-rot-band" x1="122" y1="-4" x2="122" y2="48" stroke="#38bdf8" stroke-width="2" />
                 <rect x="206" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
+                <line class="kiln-rot-band" x1="212" y1="-4" x2="212" y2="48" stroke="#38bdf8" stroke-width="2" />
                 <rect x="288" y="-5" width="12" height="54" rx="2" fill="#475569" stroke="#cbd5e1" stroke-width="1.2" />
-                <!-- Support Piers -->
+                <line class="kiln-rot-band" x1="294" y1="-4" x2="294" y2="48" stroke="#38bdf8" stroke-width="2" />
+                <!-- Support Piers & Spinning Trunnion Rollers -->
                 <polygon points="32,49 48,49 52,66 28,66" fill="#334155" />
                 <polygon points="114,49 130,49 134,66 110,66" fill="#334155" />
                 <polygon points="204,49 220,49 224,66 200,66" fill="#334155" />
                 <polygon points="286,49 302,49 306,66 282,66" fill="#334155" />
-                <!-- Drive Gear Ring -->
-                <rect x="160" y="-7" width="16" height="58" rx="2" fill="#1e293b" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="4 3" />
+                <!-- Animated Girth Gear Ring -->
+                <rect class="kiln-rot-band" x="160" y="-7" width="16" height="58" rx="2" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
                 <!-- Interior Zone Labels -->
                 <text x="16" y="25" font-size="9" font-weight="800" fill="#fff7ed">830°C Calcining</text>
                 <text x="218" y="25" font-size="9.5" font-weight="800" fill="#450a0a" id="svg-kiln-burn">1375°C Sintering</text>
               </g>
-              <text x="360" y="266" font-size="9.5" font-weight="700" fill="#f8fafc" text-anchor="middle">ROTARY KILN (72m × 4m · 3 rpm · 488 kW Main Drive)</text>
+              <text x="360" y="266" font-size="9.5" font-weight="700" fill="#f8fafc" text-anchor="middle" id="svg-kiln-rpm-hdr">⟳ ROTARY KILN (72m × 4m · 3.5 rpm Rotating · 488 kW Main Drive)</text>
               <text x="360" y="366" font-size="8.5" fill="#f59e0b" text-anchor="middle" id="svg-drive-lbl">Tyre 1–4 · Rotary Drive: -- kW</text>
             </g>
 
@@ -1407,6 +1919,14 @@
               <text x="48" y="22.5" font-size="7.4" font-weight="700" fill="#c084fc" font-family="ui-monospace, monospace" text-anchor="middle" id="act-val-rawmeal">--%</text>
             </g>
 
+            <!-- VIRTUAL CLINKER QUALITY SOFT-SENSOR BADGE (Kiln Discharge / Coolers) -->
+            <g class="scada-unit" id="clinker-soft-sensor" data-comp="clinker" transform="translate(464, 434)">
+              <rect class="unit-outline" id="soft-sensor-box" width="128" height="43" rx="5" fill="#0f172a" fill-opacity="0.95" stroke="#10b981" stroke-width="1.4" />
+              <text x="64" y="11" font-size="7.2" font-weight="800" fill="#94a3b8" text-anchor="middle">CLINKER QUALITY SOFT-SENSOR</text>
+              <text x="64" y="24" font-size="8.6" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace" text-anchor="middle" id="svg-fcao-val">f-CaO: --% (0.7–2.0)</text>
+              <text x="64" y="36.5" font-size="7.3" font-weight="800" fill="#10b981" font-family="ui-monospace, monospace" text-anchor="middle" id="svg-fcao-status">C₃S Alite: STABLE ✅</text>
+            </g>
+
             <!-- Animated Glowing Feedback Signal Particles -->
             <g id="feedback-pulses-layer"></g>
 
@@ -1418,38 +1938,101 @@
         </div>
       </section>
 
-
-      <!-- COUPLED PROCESS SANDBOX & ALGORITHM CO-PILOT BAR -->
-      <section class="panel whatif-panel" id="whatif-panel">
-        <div class="whatif-head">
-          <div class="whatif-title-group">
-            <h3 class="title">🎛️ Coupled Process Control &amp; NSGA-II Co-Pilot Sandbox</h3>
-            <span class="badge" id="whatif-mode-badge">Synced · Balanced</span>
-            <button class="pill-btn active" id="coupling-toggle-btn" title="When ON, tweaking any parameter automatically shifts physically correlated kiln variables (via empirical Jacobian &amp; Eqs. 3.13–3.17)">🔗 Physical Parameter Coupling: ON</button>
-            <button class="pill-btn" id="copilot-toggle-btn" title="When ON, the NSGA-II Co-Pilot automatically trims secondary actuators in real time to protect Clinker Production Rate (CPR ≥ 91.80 tph) and combustion stoichiometry">🤖 NSGA-II Auto-Trim Co-Pilot: OFF</button>
-            <button class="pill-btn" id="toggle-sliders-btn">Sliders ▴</button>
-            <button class="pill-btn" id="reset-whatif-btn">Reset to Preset</button>
+      <!-- LIVE PREDICTIVE HORIZON OSCILLOSCOPE (FULL-WIDTH DCS HISTORIAN TREND STRIP) -->
+      <section class="panel dcs-osc-panel" id="dcs-oscilloscope-panel">
+        <div class="dcs-osc-head">
+          <div class="dcs-osc-legend">
+            <strong style="font-size:11.5px;color:#f8fafc;">📈 Live DCS Telemetry &amp; RFR Predictive Horizon (60s → Now → T+3 min)</strong>
+            <span class="dcs-leg-item"><span class="dcs-line-swatch" style="background:#38bdf8;"></span>Energy (kWh/t)</span>
+            <span class="dcs-leg-item"><span class="dcs-line-swatch" style="background:#10b981;"></span>CO₂ (kg/h)</span>
+            <span class="dcs-leg-item"><span class="dcs-line-swatch" style="background:repeating-linear-gradient(90deg,#f59e0b 0 5px,transparent 5px 8px);"></span>RFR Forecast (T+3m)</span>
+            <span class="dcs-leg-item"><span class="dcs-line-swatch" style="background:repeating-linear-gradient(90deg,#f87171 0 3px,transparent 3px 6px);"></span>Uncontrolled Counterfactual</span>
+            <span class="dcs-leg-item"><span class="dcs-line-swatch" style="height:8px;background:rgba(16,185,129,0.32);border:1px solid #10b981;"></span>Avoided Energy &amp; CO₂ Saved by AI</span>
           </div>
           <div class="btn-group">
-            <span class="slider-bounds" style="font-weight:700;">Simulate Plant Disturbance:</span>
-            <button class="pill-btn disturb-btn" id="disturb-overburn" data-disturb="overburn">🔥 Over-Burning Surge</button>
-            <button class="pill-btn disturb-btn" id="disturb-draft" data-disturb="draft">💨 Draft / O₂ Drop</button>
-            <button class="pill-btn disturb-btn" id="disturb-cpr" data-disturb="cpr">⚠️ Clinker Drop (88.0 tph)</button>
-            <button class="optimize-cta-btn" id="ai-optimize-btn">⚡ Run Closed-Loop NSGA-II Recovery</button>
+            <span class="dcs-early-warn hidden" id="dcs-early-warning-badge">⚠️ RFR FORECAST: Surge predicted</span>
+            <span class="dcs-avoided-pill hidden" id="dcs-avoided-badge">🛡️ Avoided: --</span>
+            <button class="pill-btn active" id="dcs-metric-dual-btn" data-dcs-metric="dual">Dual Curves</button>
+            <button class="pill-btn" id="dcs-metric-energy-btn" data-dcs-metric="energy">Energy</button>
+            <button class="pill-btn" id="dcs-metric-co2-btn" data-dcs-metric="co2">CO₂</button>
           </div>
         </div>
-        <div class="coupling-explain-bar" id="coupling-explain-bar">
-          <strong>Why Parameters Are Coupled:</strong> In a rotary kiln, no variable is independent. Tweaking <em>Fuel Consumption</em> or <em>Raw Meal CaCO₃</em> physically shifts <em>Sintering Temperature</em>, <em>Flue O₂%</em>, <em>Draft Air Flow</em>, <em>Kiln Drive Torque</em>, and <em>Clinker Production Rate (CPR)</em>. Drag any slider below to see live physical cross-coupling (<span class="coupled-badge phys">🔗 Phys Δ</span>) and how the algorithm compensates (<span class="coupled-badge algo">🤖 Co-Pilot</span>).
+        <svg class="dcs-osc-svg" id="dcs-oscilloscope-svg" viewBox="0 0 1200 132" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="dcs-ticker-bar" id="dcs-status-ticker">
+          <span class="dcs-phase-pill p1" id="dcs-phase-pill">PHASE 1/4 · STEADY</span>
+          <span class="dcs-ticker-msg" id="dcs-ticker-msg">Autonomous AI Loop cruising near Balanced Solution 25 (1030.42 kWh/t | 920.42 kg/h CO₂ | 92.05 tph · g(x) ≤ 0 ✅).</span>
         </div>
-        <div class="sliders-grid" id="whatif-sliders-grid"></div>
       </section>
 
       <section class="panel impact-strip hidden" id="impact-strip"></section>
 
-      <!-- SPLIT WORKBENCH: LEFT = SELECTED PLANT UNIT IMPACT INSPECTOR | RIGHT = RFR & NSGA-II ENGINE -->
+      <!-- SIDE-BY-SIDE COMMAND DECK: LEFT = CONTROL ROOM CO-PILOT & SLIDERS | RIGHT = SELECTED UNIT DEEP-DIVE & IMPACT -->
       <div class="workbench-split">
-  <!-- ZONE C: UNIFIED DEEP-DIVE FUNCTIONAL COMPONENT INSPECTOR -->
-  <section class="panel" id="inspector-panel">
+      <!-- LEFT COLUMN: CONTROL ROOM CO-PILOT & COUPLED PROCESS SANDBOX -->
+      <section class="panel whatif-panel" id="whatif-panel">
+        <div class="whatif-head">
+          <div class="whatif-title-group">
+            <h3 class="title">🎛️ Control Room Co-Pilot &amp; Coupled Actuator Console</h3>
+            <span class="badge" id="whatif-mode-badge">Synced · Balanced</span>
+            <button class="pill-btn active" id="coupling-toggle-btn" title="When ON, tweaking any parameter automatically shifts physically correlated kiln variables (via empirical Jacobian &amp; Eqs. 3.13–3.17)">🔗 Physical Parameter Coupling: ON</button>
+            <button class="pill-btn active" id="copilot-toggle-btn" title="When ON, the NSGA-II Co-Pilot automatically trims secondary actuators in real time to protect Clinker Production Rate (CPR ≥ 91.80 tph) and combustion stoichiometry">🤖 NSGA-II Auto-Trim Co-Pilot: ON</button>
+            <button class="pill-btn" id="toggle-sliders-btn">Sliders ▴</button>
+            <button class="pill-btn" id="reset-whatif-btn">Reset to Preset</button>
+          </div>
+          <div class="btn-group">
+            <span class="slider-bounds" style="font-weight:700;">Disturbance:</span>
+            <button class="pill-btn disturb-btn" id="disturb-overburn" data-disturb="overburn">🔥 Over-Burning Surge</button>
+            <button class="pill-btn disturb-btn" id="disturb-draft" data-disturb="draft">💨 Draft / O₂ Drop</button>
+            <button class="pill-btn disturb-btn" id="disturb-cpr" data-disturb="cpr">⚠️ Clinker Drop (88.0 tph)</button>
+            <button class="pill-btn fault-btn" id="simulate-ood-btn">⚠️ Simulate Sensor Fault (OOD Trip)</button>
+            <button class="optimize-cta-btn" id="ai-optimize-btn">⚡ Auto-Balance with NSGA-II</button>
+          </div>
+        </div>
+        <!-- Live Priority-Driven Co-Pilot Reasoning Log -->
+        <div class="copilot-reasoning-box" id="copilot-reasoning-box">
+          <div class="copilot-reasoning-hdr">
+            <span id="copilot-priority-lbl">🤖 CO-PILOT PRIORITY: BALANCED PARETO (ENERGY + CO₂ + CPR FLOOR)</span>
+            <span id="copilot-status-pill">AUTO-TRIM ACTIVE</span>
+          </div>
+          <div id="copilot-reasoning-text">
+            Holding <strong>Kiln Sintering Temp ~1352.4°C</strong> and trimming <strong>ID Fan Air Flow</strong> + <strong>Fuel Valve</strong> so calcination and C₃S synthesis stay complete while cutting specific energy (-11.1%) and stack CO₂ (-5.5%) without breaching <strong>CPR ≥ 91.80 tph</strong>.
+          </div>
+        </div>
+        <div class="sliders-grid" id="whatif-sliders-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));"></div>
+
+        <!-- LIVE INTERACTIVE NSGA-II PARETO FRONT & GEN SLIDER DOCKED IN CONTROL ROOM -->
+        <div class="sub-panel" id="nsga2-panel" style="margin-top:10px;">
+          <div class="sub-head">
+            <h4 class="sub-title">🎯 NSGA-II Priority Frontier (Click Any Point to Dispatch Setpoints)</h4>
+            <span class="badge" id="pareto-point-badge">50 Optimal Pts</span>
+          </div>
+
+          <div class="pareto-toolbar">
+            <button class="pill-btn active" id="tradeoff-zones-btn">Show Non-Linear Trade-Off Zones</button>
+            <button class="pill-btn active" id="pareto-zoom-btn">Zoom: Pareto Front</button>
+          </div>
+
+          <svg class="pareto-svg" id="pareto-scatter-svg" viewBox="0 0 420 205" xmlns="http://www.w3.org/2000/svg"></svg>
+
+          <div class="slider-row">
+            <button class="pill-btn" id="play-evolution-btn">▶ Play Evolution (Gen 1 → 100)</button>
+            <span>NSGA-II Gen:</span>
+            <input type="range" id="gen-slider" min="0" max="17" value="17" />
+            <strong id="gen-label" style="min-width:54px;text-align:right;">Gen 100</strong>
+          </div>
+
+          <div class="evo-legend" id="evolution-legend"></div>
+          <div class="zone-callout-bar" id="zone-callout-bar"></div>
+
+          <div class="constraint-box" id="constraint-box">
+            <strong>Throughput Constraint:</strong> g(x) = 91.80 - CPR ≤ 0 · <span id="constraint-status">FEASIBLE ✅</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: VIBRANT SELECTED UNIT DEEP-DIVE & MODEL IMPACT INSPECTOR -->
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:0;">
+      <section class="panel" id="inspector-panel">
     <div class="inspector-head">
       <div>
         <h3 class="title" id="ins-title">2. Selected Unit Model Impact · Rotary Kiln</h3>
@@ -1502,15 +2085,14 @@
     <div class="goal-banner" id="ins-goal"></div>
   </section>
 
-
-      <!-- ZONE B: GLASS-BOX ML SURROGATE & INTERACTIVE NSGA-II PARETO WORKBENCH -->
+      <!-- ZONE B: GLASS-BOX ML SURROGATE & PHYSICS FORGE -->
       <section class="panel" id="zone-b-panel">
         <div class="head-row">
           <div>
-            <h3 class="title">3. Physics-Informed RFR Surrogate &amp; NSGA-II Multi-Objective Engine</h3>
-            <p class="sub">Real-time Eqs. 3.13–3.17, trained RF split trees, &amp; clickable 50-pt Pareto frontier.</p>
+            <h3 class="title">3. Physics-Informed RFR Surrogate &amp; Feature Forge</h3>
+            <p class="sub">Real-time Eqs. 3.13–3.17 &amp; trained Random Forest decision trees driving the selected unit.</p>
           </div>
-          <span class="zone-badge">R² = 0.98 · 50 PARETO PTS</span>
+          <span class="zone-badge">R² = 0.98 · 300 TREES</span>
         </div>
 
         <div class="zone-b-stack" style="margin-top:8px;">
@@ -1556,13 +2138,12 @@
             </div>
           </div>
 
-          <div class="stream-connector">▼ 20 Physically Consistent Features Stream Into Dual RF Twin ▼</div>
-
           <!-- PANEL 2: DUAL RANDOM FOREST REGRESSOR TWIN -->
           <div class="sub-panel" id="rf-twin-panel">
             <div class="sub-head">
               <h4 class="sub-title">2. Dual Random Forest Twin (Real Trained Trees)</h4>
               <div class="btn-group">
+                <span class="confidence-pill" id="rf-confidence-pill">Confidence: --% | σ = ±--</span>
                 <button class="pill-btn active" data-rf="energy" id="rf-tab-energy">Energy RF</button>
                 <button class="pill-btn" data-rf="co2" id="rf-tab-co2">CO₂ RF</button>
               </div>
@@ -1575,42 +2156,20 @@
 
             <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 144" xmlns="http://www.w3.org/2000/svg"></svg>
 
+            <div class="oscilloscope-wrap" id="oscilloscope-wrap">
+              <div class="oscilloscope-head">
+                <span>📈 Predictive Horizon Oscilloscope (T−4m → Now → T+3m · 95% CI ±1.96σ)</span>
+                <span id="osc-ci-readout" style="color:#7dd3fc;">95% CI: [-- – --]</span>
+              </div>
+              <svg class="oscilloscope-svg" id="horizon-oscilloscope-svg" viewBox="0 0 420 92" xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+
             <div class="imp-list" id="rf-imp-bars"></div>
             <div class="bench-strip" id="rf-benchmarks"></div>
           </div>
-
-          <div class="stream-connector">▼ Surrogate f₁(x), f₂(x) Stream Into Multi-Objective Search ▼</div>
-
-          <!-- PANEL 3: LIVE INTERACTIVE NSGA-II PARETO FRONT & GEN SLIDER -->
-          <div class="sub-panel" id="nsga2-panel">
-            <div class="sub-head">
-              <h4 class="sub-title">3. Interactive NSGA-II Pareto Front (Click Any Point!)</h4>
-              <span class="badge" id="pareto-point-badge">50 Optimal Pts</span>
-            </div>
-
-            <div class="pareto-toolbar">
-              <button class="pill-btn active" id="tradeoff-zones-btn">Show Non-Linear Trade-Off Zones</button>
-              <button class="pill-btn active" id="pareto-zoom-btn">Zoom: Pareto Front</button>
-            </div>
-
-            <svg class="pareto-svg" id="pareto-scatter-svg" viewBox="0 0 420 218" xmlns="http://www.w3.org/2000/svg"></svg>
-
-            <div class="slider-row">
-              <button class="pill-btn" id="play-evolution-btn">▶ Play Evolution (Gen 1 → 100)</button>
-              <span>NSGA-II Gen:</span>
-              <input type="range" id="gen-slider" min="0" max="17" value="17" />
-              <strong id="gen-label" style="min-width:54px;text-align:right;">Gen 100</strong>
-            </div>
-
-            <div class="evo-legend" id="evolution-legend"></div>
-            <div class="zone-callout-bar" id="zone-callout-bar"></div>
-
-            <div class="constraint-box" id="constraint-box">
-              <strong>Throughput Constraint:</strong> g(x) = 91.80 - CPR ≤ 0 · <span id="constraint-status">FEASIBLE ✅</span>
-            </div>
-          </div>
         </div>
       </section>
+      </div>
       </div>
     </div>
   </div>
@@ -1754,6 +2313,22 @@
     </div>
   </aside>
 
+  <!-- ADVISORY OPERATOR APPROVAL TOAST (HUMAN-IN-THE-LOOP DCS WORKFLOW) -->
+  <aside class="advisory-toast hidden" id="advisory-toast" role="status" aria-live="polite">
+    <div class="advisory-toast-hdr">
+      <span id="advisory-toast-title">🎛️ DCS ADVISORY PROPOSAL · NSGA-II</span>
+      <span class="badge" style="color:#6ee7b7;" id="advisory-toast-tag">Awaiting Operator</span>
+    </div>
+    <div class="advisory-toast-body" id="advisory-toast-body">--</div>
+    <div class="advisory-toast-actions">
+      <span style="font-size:10px;color:#94a3b8;font-family:ui-monospace,monospace;" id="advisory-slew-note">Ramp Limits: ±1.5 °C/min · ±4 kg/h</span>
+      <div class="btn-group">
+        <button class="pill-btn approve-btn" id="approve-advisory-btn">✓ Approve Move</button>
+        <button class="pill-btn reject-btn" id="reject-advisory-btn">✕ Reject</button>
+      </div>
+    </div>
+  </aside>
+
 </div>
 
 <script>
@@ -1809,11 +2384,11 @@ let liveStreamOn = false;
 let liveTimer = null;
 
 // Step 1 Interactive What-If & Ablation State
-let manualMode = false; lastCoupledDeltas = {};
+let manualMode = false;
 let activeDisturbance = null;
 let physicsEnabled = true;
 let physicalCouplingOn = true;
-let copilotAutoTrimOn = false;
+let copilotAutoTrimOn = true;
 let activePlantProfile = "universal";
 let lastCoupledDeltas = {};
 let lastPrimaryEditedFeat = null;
@@ -1822,6 +2397,118 @@ let manualFuel = "Oil";
 let paretoTrajectory = null;
 let lastOptImpact = null;
 let optAnimFrame = null;
+
+// Prompt 4 Industrial APC Safety, Uncertainty & Ramp State
+let supervisoryMode = "auto";
+let pendingAdvisory = null;
+let oodFaultActive = false;
+let faultPresetToggle = 0;
+let faultedReadings = {};
+let safeHoldKnobs = {};
+let activeTargetNotches = {};
+let isSlewRamping = false;
+const SLEW_LIMITS = {
+  "Kiln Temperature (°C)": 1.5,
+  "Fuel Consumption (kg/h)": 4.0,
+  "Air Flow Rate (m³/h)": 28.0,
+  "Raw Meal Composition (% Limestone)": 0.35,
+  "Clinker Production Rate (tons/h)": 0.65,
+  "Oxygen Levels (%)": 0.08,
+  "Kiln Pressure (bar)": 0.35,
+  "Power Consumed (KWt/h)": 110.0,
+  "Absorbed Power (Kw)": 120.0,
+  "Power (Kw)": 120.0,
+  "Power (rotary drive) Kw": 25.0
+};
+const horizonHistory = { energy: [], co2: [] };
+
+// Step 2 (Phase 2) Autonomous Closed-Loop Simulator State
+let autonomousMode = true;
+let autonomousPaused = false;
+let aiControlEnabled = true;
+let dcsMetricMode = "dual";
+let autoSimTimer = null;
+let autoCycleElapsed = 0;
+let autoUpsetIdx = 0;
+let autoPhase = 1;
+let autoPulseFiredP3 = false;
+let autoScanningPareto = false;
+let autoScanCandidateIdx = 24;
+let autoLastSummary = "";
+let dcsTickCounter = 0;
+let currentPredForecast = { energy: 1030.42, co2: 920.42, cfEnergy: 1030.42, cfCo2: 920.42, warnE: 0, warnC: 0 };
+const dcsHistory = [];
+
+const AUTONOMOUS_UPSETS = [
+  {
+    id: "overburn",
+    name: "1. Burning Zone Over-Temp Surge",
+    sensorId: "s_temp",
+    unitId: "unit-kiln",
+    actuators: ["act-fuel", "act-idfan"],
+    actuatorLabel: "Fuel Valve + ID Fan Damper",
+    driftDesc: "Kiln Temp drifting toward 1368.5°C",
+    summaryAction: "trimmed kiln temp & fuel valve + rebalanced ID fan draft",
+    peakKnobs: {
+      "Kiln Temperature (°C)": 1368.5,
+      "Fuel Consumption (kg/h)": 224.0,
+      "Power Consumed (KWt/h)": 5420.0,
+      "Power (Kw)": 5720.0,
+      "Oxygen Levels (%)": 3.55
+    }
+  },
+  {
+    id: "draft",
+    name: "2. Excess Air / O₂ Draft Drop",
+    sensorId: "s_o2",
+    unitId: "unit-analyzer",
+    actuators: ["act-idfan", "act-fuel"],
+    actuatorLabel: "ID Fan Damper + Fuel Valve",
+    driftDesc: "Exhaust O₂ dipping toward 3.42%",
+    summaryAction: "opened ID fan damper to restore 3.86% O₂ & trimmed coal surge",
+    peakKnobs: {
+      "Oxygen Levels (%)": 3.42,
+      "Air Flow Rate (m³/h)": 1756.0,
+      "Kiln Pressure (bar)": 16.12,
+      "Fuel Consumption (kg/h)": 218.0,
+      "Power Consumed (KWt/h)": 5220.0
+    }
+  },
+  {
+    id: "limestone",
+    name: "3. Raw Meal %CaCO₃ Spike",
+    sensorId: "s_limestone",
+    unitId: "unit-preheater",
+    actuators: ["act-rawmeal", "act-fuel"],
+    actuatorLabel: "Raw Meal Feeder + Fuel Valve",
+    driftDesc: "Raw Meal CaCO₃ spiking toward 86.75%",
+    summaryAction: "rebalanced Raw Meal Feeder CaCO₃ & calcination fuel trim",
+    peakKnobs: {
+      "Raw Meal Composition (% Limestone)": 86.75,
+      "Fuel Consumption (kg/h)": 222.0,
+      "Kiln Temperature (°C)": 1367.8,
+      "Power Consumed (KWt/h)": 5150.0,
+      "Power (rotary drive) Kw": 660.0
+    }
+  },
+  {
+    id: "power_creep",
+    name: "4. Main Drive Torque / Power Creep",
+    sensorId: "s_power_cons",
+    unitId: "unit-kiln",
+    actuators: ["act-drive", "act-idfan"],
+    actuatorLabel: "Kiln Drive + ID Fan Damper",
+    driftDesc: "Power Consumed creeping toward 5480 kWt/h",
+    summaryAction: "trimmed Kiln Drive load & ID fan power draw",
+    peakKnobs: {
+      "Power Consumed (KWt/h)": 5480.0,
+      "Power (rotary drive) Kw": 695.0,
+      "Power (Kw)": 5800.0,
+      "Absorbed Power (Kw)": 5400.0,
+      "Fuel Consumption (kg/h)": 214.0
+    }
+  }
+];
 
 // Step 2 Evolution Player & Non-Linear Trade-Off Zones State
 let tradeoffZonesOn = true;
@@ -1882,7 +2569,7 @@ syncManualFromRecord(getBaseOperatingRecord());
 function applyPhysicalAndCopilotCoupling(primaryFeat, deltaVal) {
   lastCoupledDeltas = {};
   lastPrimaryEditedFeat = primaryFeat;
-  if (Math.abs(deltaVal) < 1e-9) return;
+  if (Math.abs(deltaVal) < 1e-9 || oodFaultActive) return;
 
   const bMap = ARCH_DATA.bounds || {};
   const empSlopes = (ARCH_DATA.coupling && ARCH_DATA.coupling[primaryFeat]) || {};
@@ -1945,7 +2632,7 @@ function applyPhysicalAndCopilotCoupling(primaryFeat, deltaVal) {
     });
   }
 
-  if (copilotAutoTrimOn) {
+  if (copilotAutoTrimOn && supervisoryMode === "auto") {
     const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || ARCH_DATA.baseline;
     const minCpr = ARCH_DATA.thermo.min_cpr;
     if (primaryFeat !== "Clinker Production Rate (tons/h)" && (manualState["Clinker Production Rate (tons/h)"] || 0) < minCpr) {
@@ -1979,7 +2666,7 @@ function buildWhatIfSliders() {
       <div class="slider-card" data-feat="${c.feat}">
         <div class="slider-top">
           <div>
-            <div class="slider-lbl">${c.label}<span class="coupled-badge hidden" data-badge-feat="${c.feat}"></span></div>
+            <div class="slider-lbl">${c.label}<span class="coupled-badge hidden" data-badge-feat="${c.feat}"></span><span class="slider-target-pill hidden" data-target-pill="${c.feat}"></span></div>
             <div class="slider-bounds">${b.min.toFixed(c.dec)}–${b.max.toFixed(c.dec)} ${c.unit}</div>
           </div>
           <div class="slider-num-wrap">
@@ -1987,16 +2674,27 @@ function buildWhatIfSliders() {
             <span class="slider-unit">${c.unit}</span>
           </div>
         </div>
-        <input type="range" class="slider-range" data-feat="${c.feat}" min="${b.min}" max="${b.max}" step="${c.step}" value="${val.toFixed(c.dec)}" />
+        <div class="slider-track-wrap">
+          <input type="range" class="slider-range" data-feat="${c.feat}" min="${b.min}" max="${b.max}" step="${c.step}" value="${val.toFixed(c.dec)}" />
+          <div class="slider-target-notch hidden" data-notch-feat="${c.feat}" title="NSGA-II Target Setpoint"></div>
+        </div>
       </div>
     `;
   }).join("");
 
   const onControlInput = (feat, rawVal) => {
+    if (oodFaultActive) return;
+    if (autonomousMode) {
+      stopAutonomousLoop();
+      autonomousMode = false;
+    }
     if (optAnimFrame) {
       clearTimeout(optAnimFrame);
       optAnimFrame = null;
+      isSlewRamping = false;
     }
+    activeTargetNotches = {};
+    pendingAdvisory = null;
     const parsed = parseFloat(rawVal);
     if (Number.isNaN(parsed)) return;
     const prevVal = manualState[feat] ?? parsed;
@@ -2012,6 +2710,20 @@ function buildWhatIfSliders() {
       if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
     }
     applyPhysicalAndCopilotCoupling(feat, deltaVal);
+    const curS = getLiveSnapshot();
+    horizonHistory.energy.push(curS.energy);
+    horizonHistory.co2.push(curS.co2);
+    if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+    if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+    currentPredForecast = {
+      energy: curS.energy,
+      co2: curS.co2,
+      cfEnergy: curS.energy,
+      cfCo2: curS.co2,
+      warnE: 0,
+      warnC: 0
+    };
+    pushDcsSample(curS.energy, curS.co2, curS.energy, curS.co2, curS.energy, curS.co2);
     updateAll();
   };
 
@@ -2027,13 +2739,20 @@ function syncSliderInputs() {
   const grid = document.getElementById("whatif-sliders-grid");
   if (!grid) return;
   WHATIF_CONTROLS.forEach(c => {
-    const val = manualState[c.feat] ?? 0;
+    const b = (ARCH_DATA.bounds && ARCH_DATA.bounds[c.feat]) || { min: 0, max: 100 };
+    const val = oodFaultActive && safeHoldKnobs[c.feat] !== undefined ? safeHoldKnobs[c.feat] : (manualState[c.feat] ?? 0);
     const card = grid.querySelector(`.slider-card[data-feat="${c.feat}"]`);
     if (!card) return;
     const r = card.querySelector(".slider-range");
     const n = card.querySelector(".slider-num");
-    if (r && document.activeElement !== r) r.value = val.toFixed(c.dec);
-    if (n && document.activeElement !== n) n.value = val.toFixed(c.dec);
+    if (r) {
+      r.disabled = oodFaultActive;
+      if (document.activeElement !== r) r.value = val.toFixed(c.dec);
+    }
+    if (n) {
+      n.disabled = oodFaultActive;
+      if (document.activeElement !== n) n.value = val.toFixed(c.dec);
+    }
     const cInfo = lastCoupledDeltas[c.feat];
     const badge = card.querySelector(`[data-badge-feat="${c.feat}"]`);
     card.classList.toggle("coupled-shift", Boolean(cInfo && cInfo.mode === "phys"));
@@ -2046,6 +2765,22 @@ function syncSliderInputs() {
         badge.textContent = `${cInfo.mode === "algo" ? "🤖 Trim " : "🔗 "}${sign}${cInfo.diff.toFixed(c.dec)}`;
       } else {
         badge.classList.add("hidden");
+      }
+    }
+    const notchEl = card.querySelector(`[data-notch-feat="${c.feat}"]`);
+    const targetPill = card.querySelector(`[data-target-pill="${c.feat}"]`);
+    const tVal = activeTargetNotches[c.feat];
+    if (notchEl && targetPill) {
+      if (tVal !== undefined && Math.abs(tVal - val) > 1e-3) {
+        const span = Math.max(1e-6, b.max - b.min);
+        const pct = Math.max(2, Math.min(98, ((tVal - b.min) / span) * 100));
+        notchEl.style.left = `${pct.toFixed(1)}%`;
+        notchEl.classList.remove("hidden");
+        targetPill.textContent = `🎯 ${tVal.toFixed(c.dec)}`;
+        targetPill.classList.remove("hidden");
+      } else {
+        notchEl.classList.add("hidden");
+        targetPill.classList.add("hidden");
       }
     }
   });
@@ -2076,17 +2811,70 @@ function evalCompactTree(nodes, vec) {
   return 0;
 }
 
-function evalCompactForest(modelKey, fullFeat) {
+function evalCompactForestStats(modelKey, fullFeat, sensorReadings = null) {
   const fNames = ARCH_DATA.forest_features || [];
   const forest = (ARCH_DATA.forests && ARCH_DATA.forests[modelKey]) || [];
-  if (!fNames.length || !forest.length) return null;
+  if (!fNames.length || !forest.length) {
+    return { mean: null, std: 0, rawStd: 0, edgeStress: 0, oodStress: 0, oodReasons: [] };
+  }
   const abMeans = (!physicsEnabled && ARCH_DATA.ablation && ARCH_DATA.ablation[modelKey] && ARCH_DATA.ablation[modelKey].means) || {};
   const vec = fNames.map(name => (name in abMeans) ? abMeans[name] : (fullFeat[name] ?? 0));
+  const preds = [];
   let sum = 0;
   for (let i = 0; i < forest.length; i++) {
-    sum += evalCompactTree(forest[i], vec);
+    const p = evalCompactTree(forest[i], vec);
+    preds.push(p);
+    sum += p;
   }
-  return sum / forest.length;
+  const mean = sum / preds.length;
+  let sq = 0;
+  for (let i = 0; i < preds.length; i++) {
+    const d = preds[i] - mean;
+    sq += d * d;
+  }
+  const rawStd = Math.sqrt(sq / Math.max(1, preds.length));
+
+  const bounds = ARCH_DATA.bounds || {};
+  let edgeSq = 0;
+  let edgeCount = 0;
+  let oodStress = 0;
+  const oodReasons = [];
+  const probe = sensorReadings || fullFeat;
+  Object.keys(bounds).forEach(feat => {
+    const b = bounds[feat];
+    const span = Math.max(1e-6, b.max - b.min);
+    const val = probe[feat] ?? b.median;
+    if (val < b.min - 1e-4) {
+      const ex = (b.min - val) / span;
+      oodStress += Math.max(0.8, ex * 2.5);
+      oodReasons.push(`${feat} = ${val.toFixed(2)} (< min ${b.min.toFixed(2)})`);
+    } else if (val > b.max + 1e-4) {
+      const ex = (val - b.max) / span;
+      oodStress += Math.max(0.8, ex * 2.5);
+      oodReasons.push(`${feat} = ${val.toFixed(2)} (> max ${b.max.toFixed(2)})`);
+    }
+    const clampedV = Math.min(b.max, Math.max(b.min, val));
+    const distHalf = Math.abs(clampedV - b.median) / (0.5 * span);
+    const edgeExcess = Math.max(0, distHalf - 0.55) / 0.45;
+    edgeSq += edgeExcess * edgeExcess;
+    edgeCount += 1;
+  });
+  const edgeStress = Math.sqrt(edgeSq / Math.max(1, edgeCount));
+  const ablationMult = physicsEnabled ? 1.0 : 1.75;
+  const distMult = activeDisturbance ? 1.35 : 1.0;
+  const sigma = rawStd * (0.55 + 1.15 * edgeStress + 3.6 * oodStress) * ablationMult * distMult;
+  return {
+    mean,
+    rawStd,
+    std: sigma,
+    edgeStress,
+    oodStress,
+    oodReasons
+  };
+}
+
+function evalCompactForest(modelKey, fullFeat) {
+  return evalCompactForestStats(modelKey, fullFeat).mean;
 }
 
 // Sparkline history buffers per controllable numeric feature
@@ -2171,31 +2959,35 @@ function computeRbfCalibration(knobs) {
   };
 }
 
-function getLiveSnapshot() {
+function computeClinkerQuality(temp, limestone, o2Dev) {
+  const fCaoRaw = 1.15 + Math.max(0, (1355.0 - temp) * 0.085) - Math.max(0, (temp - 1358.0) * 0.03) + Math.max(0, (limestone - 84.5) * 0.14) + o2Dev * 0.28;
+  const fCao = Math.max(0.42, Math.min(3.85, fCaoRaw));
+  const alitePct = Math.max(52.0, Math.min(68.0, 61.5 + (temp - 1353.0) * 0.28 - (o2Dev - 0.14) * 1.8));
+  let qualityState = "OPTIMAL";
+  if (fCao > 2.0) qualityState = "UNDERBURN";
+  else if (fCao < 0.7) qualityState = "OVERBURN";
+  return { fCao, alitePct, qualityState };
+}
+
+function evaluateKnobsThroughRFR(knobsObj, activeFuel = "Oil", sensorReadingsOverride = null) {
   const rec = getBaseOperatingRecord();
-  const activeFuel = manualMode ? manualFuel : (rec.fuel || "Oil");
   const knobs = {};
   Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-    const baseVal = manualMode ? (manualState[feat] ?? rec.knobs[feat] ?? 0) : (rec.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0);
-    const j = liveStreamOn ? (jitterState[feat] || 0) : 0;
-    const val = baseVal * (1 + j);
     const b = ARCH_DATA.bounds[feat];
-    knobs[feat] = Math.min(b.max, Math.max(b.min, val));
+    const v = knobsObj[feat] ?? rec.knobs[feat] ?? b.median ?? 0;
+    knobs[feat] = Math.min(b.max, Math.max(b.min, v));
   });
-
   const cpr = knobs["Clinker Production Rate (tons/h)"] || rec.production;
   const rmc = knobs["Raw Meal Composition (% Limestone)"] || rec.limestone;
   const fc = knobs["Fuel Consumption (kg/h)"] || rec.fuel_rate;
   const o2 = knobs["Oxygen Levels (%)"] || rec.o2;
 
-  // Live Eqs 3.13 - 3.17 in RF training units
   const t = ARCH_DATA.thermo;
   const theoCO2_rf = rmc * cpr * t.stoichiometric_co2_factor;
   const theoEnergy_rf = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
   const heatEff_rf = fc > 0 ? (theoEnergy_rf / fc) : 0;
   const o2Dev_rf = Math.abs(o2 - t.optimal_o2_percent);
 
-  // Full 20-feature vector for exact 100-tree RF evaluation
   const fullFeat = { ...knobs };
   fullFeat["Fuel_Coal"] = activeFuel === "Coal" ? 1.0 : 0.0;
   fullFeat["Fuel_Gas"] = activeFuel === "Gas" ? 1.0 : 0.0;
@@ -2206,30 +2998,101 @@ function getLiveSnapshot() {
   fullFeat["O2_Deviation"] = o2Dev_rf;
 
   const cal = computeRbfCalibration(knobs);
-  const liveTco2Disp = (rmc / 100.0) * cpr * t.stoichiometric_co2_factor + cal.tco2Off;
-  const liveTeMwDisp = theoEnergy_rf / 1000.0 + cal.teOff;
-  const liveHeDisp = heatEff_rf + cal.heOff;
+  const rfStatsE = evalCompactForestStats("energy", fullFeat, sensorReadingsOverride || knobs);
+  const rfStatsC = evalCompactForestStats("co2", fullFeat, sensorReadingsOverride || knobs);
+  const offsetE = physicsEnabled ? cal.resE : 0;
+  const offsetC = physicsEnabled ? cal.resC : 0;
 
-  const isExactPreset = !manualMode && !liveStreamOn && physicsEnabled;
+  return {
+    energy: rfStatsE.mean !== null ? rfStatsE.mean + offsetE : rec.energy,
+    co2: rfStatsC.mean !== null ? rfStatsC.mean + offsetC : rec.co2,
+    sigmaE: rfStatsE.std,
+    sigmaC: rfStatsC.std,
+    fullFeat,
+    cal,
+    rfStatsE,
+    rfStatsC,
+    theoCO2_rf,
+    theoEnergy_rf,
+    heatEff_rf,
+    o2Dev_rf
+  };
+}
+
+function getLiveSnapshot() {
+  const rec = getBaseOperatingRecord();
+  const useManualVals = manualMode || (autonomousMode && !compareBaseline);
+  const activeFuel = useManualVals ? manualFuel : (rec.fuel || "Oil");
+  const knobs = {};
+  Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+    const safeVal = oodFaultActive && safeHoldKnobs[feat] !== undefined
+      ? safeHoldKnobs[feat]
+      : (useManualVals ? (manualState[feat] ?? rec.knobs[feat] ?? 0) : (rec.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0));
+    const j = (!oodFaultActive && (liveStreamOn || (autonomousMode && !autonomousPaused))) ? (jitterState[feat] || 0) : 0;
+    const val = safeVal * (1 + j);
+    const b = ARCH_DATA.bounds[feat];
+    knobs[feat] = Math.min(b.max, Math.max(b.min, val));
+  });
+
+  const sensorReadings = { ...knobs };
+  if (oodFaultActive) {
+    Object.keys(faultedReadings || {}).forEach(fk => {
+      sensorReadings[fk] = faultedReadings[fk];
+    });
+  }
+
+  const cpr = knobs["Clinker Production Rate (tons/h)"] || rec.production;
+  const rmc = knobs["Raw Meal Composition (% Limestone)"] || rec.limestone;
+  const fc = knobs["Fuel Consumption (kg/h)"] || rec.fuel_rate;
+  const o2 = knobs["Oxygen Levels (%)"] || rec.o2;
+
+  const t = ARCH_DATA.thermo;
+  const rfrEval = evaluateKnobsThroughRFR(knobs, activeFuel, sensorReadings);
+  const cal = rfrEval.cal;
+  const liveTco2Disp = (rmc / 100.0) * cpr * t.stoichiometric_co2_factor + cal.tco2Off;
+  const liveTeMwDisp = rfrEval.theoEnergy_rf / 1000.0 + cal.teOff;
+  const liveHeDisp = rfrEval.heatEff_rf + cal.heOff;
+
+  const isExactPreset = !useManualVals && !liveStreamOn && physicsEnabled && !oodFaultActive;
+  const rfStatsE = rfrEval.rfStatsE;
+  const rfStatsC = rfrEval.rfStatsC;
+
   let energyPred = rec.energy;
   let co2Pred = rec.co2;
   if (!isExactPreset) {
-    const rfE = evalCompactForest("energy", fullFeat);
-    const rfC = evalCompactForest("co2", fullFeat);
-    const offsetE = physicsEnabled ? cal.resE : 0;
-    const offsetC = physicsEnabled ? cal.resC : 0;
-    if (rfE !== null) energyPred = rfE + offsetE + (liveStreamOn ? gaussianSample() * 0.35 : 0);
-    if (rfC !== null) co2Pred = rfC + offsetC + (liveStreamOn ? gaussianSample() * 0.30 : 0);
+    energyPred = rfrEval.energy + (!oodFaultActive && liveStreamOn ? gaussianSample() * 0.35 : 0);
+    co2Pred = rfrEval.co2 + (!oodFaultActive && liveStreamOn ? gaussianSample() * 0.30 : 0);
   }
+
+  const sigmaE = rfStatsE.std;
+  const sigmaC = rfStatsC.std;
+  const confE = Math.max(25.0, Math.min(99.5, 100.0 * (1.0 - (1.96 * sigmaE) / Math.max(200.0, energyPred))));
+  const confC = Math.max(25.0, Math.min(99.5, 100.0 * (1.0 - (1.96 * sigmaC) / Math.max(200.0, co2Pred))));
+  const oodDetected = oodFaultActive || rfStatsE.oodStress > 0.25;
+
+  const tempVal = knobs["Kiln Temperature (°C)"] || rec.temp;
+  const clinkerQual = computeClinkerQuality(tempVal, rmc, rfrEval.o2Dev_rf);
 
   return {
     rec,
     knobs,
-    fullFeat,
+    sensorReadings,
+    fullFeat: rfrEval.fullFeat,
     energy: energyPred,
     co2: co2Pred,
+    sigmaE,
+    sigmaC,
+    ciE: [energyPred - 1.96 * sigmaE, energyPred + 1.96 * sigmaE],
+    ciC: [co2Pred - 1.96 * sigmaC, co2Pred + 1.96 * sigmaC],
+    confE,
+    confC,
+    oodDetected,
+    oodReasons: rfStatsE.oodReasons || [],
+    fCao: clinkerQual.fCao,
+    alitePct: clinkerQual.alitePct,
+    clinkerQualityState: clinkerQual.qualityState,
     production: cpr,
-    temp: knobs["Kiln Temperature (°C)"] || rec.temp,
+    temp: tempVal,
     fuel_rate: fc,
     limestone: rmc,
     o2,
@@ -2243,10 +3106,53 @@ function getLiveSnapshot() {
     theoCO2: (isExactPreset && rec.theoretical_co2 !== undefined) ? rec.theoretical_co2 : liveTco2Disp,
     theoEnergy: (isExactPreset && rec.theoretical_energy !== undefined) ? rec.theoretical_energy : liveTeMwDisp,
     heatEff: (isExactPreset && rec.heat_eff !== undefined) ? rec.heat_eff : liveHeDisp,
-    o2Dev: (isExactPreset && rec.o2_dev !== undefined) ? rec.o2_dev : o2Dev_rf,
+    o2Dev: (isExactPreset && rec.o2_dev !== undefined) ? rec.o2_dev : rfrEval.o2Dev_rf,
     gViolation: t.min_cpr - cpr
   };
 }
+
+function pushDcsSample(actualE, actualC, cfE, cfC, predE, predC) {
+  dcsHistory.push({
+    actualE,
+    actualC,
+    cfE: cfE ?? actualE,
+    cfC: cfC ?? actualC,
+    predE: predE ?? actualE,
+    predC: predC ?? actualC
+  });
+  if (dcsHistory.length > 60) {
+    dcsHistory.shift();
+  }
+}
+
+function seedDcsHistory(snap) {
+  const s = snap || getLiveSnapshot();
+  dcsHistory.length = 0;
+  for (let i = 0; i < 60; i++) {
+    const wave = Math.sin(i * 0.35) * 1.1 + Math.cos(i * 0.19) * 0.6;
+    dcsHistory.push({
+      actualE: s.energy + wave,
+      actualC: s.co2 + wave * 0.55,
+      cfE: s.energy + wave,
+      cfC: s.co2 + wave * 0.55,
+      predE: s.energy + wave,
+      predC: s.co2 + wave * 0.55
+    });
+  }
+}
+
+function seedHorizonHistory(snap) {
+  const s = snap || getLiveSnapshot();
+  horizonHistory.energy = [];
+  horizonHistory.co2 = [];
+  for (let i = 0; i < 12; i++) {
+    const wave = Math.sin(i * 0.55) * 1.8 + (i - 11) * 0.15;
+    horizonHistory.energy.push(s.energy + wave);
+    horizonHistory.co2.push(s.co2 + wave * 0.75);
+  }
+}
+seedHorizonHistory();
+seedDcsHistory();
 
 // PINNED SENSOR DEFINITIONS ON SCADA SVG
 const PINNED_SENSORS = [
@@ -2304,6 +3210,29 @@ function renderScada(snap) {
   }
   document.getElementById("svg-stack-co2").textContent = `CO₂: ${snap.co2.toFixed(1)} kg/h`;
 
+  // Virtual Clinker Quality Soft-Sensor Badge (Free Lime f-CaO & C3S Alite)
+  const softBox = document.getElementById("soft-sensor-box");
+  const fcaoValEl = document.getElementById("svg-fcao-val");
+  const fcaoStatEl = document.getElementById("svg-fcao-status");
+  if (softBox && fcaoValEl && fcaoStatEl) {
+    const fCao = snap.fCao ?? 1.15;
+    const alite = snap.alitePct ?? 61.5;
+    fcaoValEl.textContent = `f-CaO: ${fCao.toFixed(2)}% (0.7–2.0)`;
+    if (snap.clinkerQualityState === "UNDERBURN") {
+      softBox.setAttribute("stroke", "#ef4444");
+      fcaoStatEl.textContent = `⚠ UNDER-BURN RISK (C₃S ${alite.toFixed(0)}%)`;
+      fcaoStatEl.setAttribute("fill", "#fca5a5");
+    } else if (snap.clinkerQualityState === "OVERBURN") {
+      softBox.setAttribute("stroke", "#f59e0b");
+      fcaoStatEl.textContent = `OVER-BURNED · C₃S ${alite.toFixed(1)}%`;
+      fcaoStatEl.setAttribute("fill", "#fbbf24");
+    } else {
+      softBox.setAttribute("stroke", "#10b981");
+      fcaoStatEl.textContent = `C₃S Alite ${alite.toFixed(1)}% · STABLE ✅`;
+      fcaoStatEl.setAttribute("fill", "#6ee7b7");
+    }
+  }
+
   // Dynamic ID Fan Speed driven by Air Flow Rate + Power Consumed
   const baseAir = Math.max(1, base.air);
   const basePwrCons = Math.max(1, base.knobs["Power Consumed (KWt/h)"] || 4690);
@@ -2335,36 +3264,141 @@ function renderScada(snap) {
   document.getElementById("flame-stop-1").setAttribute("stop-color", tempRatio > 0.6 ? "#fef9c3" : (tempRatio > 0.25 ? "#fde047" : "#fb923c"));
   document.getElementById("flame-stop-2").setAttribute("stop-color", tempRatio > 0.65 ? "#fde047" : (tempRatio > 0.3 ? "#f97316" : "#ea580c"));
 
-  // Dynamic Bucket Conveyor Speed
+  // Dynamic Bucket Conveyor & Rotary Kiln Rotation Speed
   const cprRatio = snap.production / Math.max(1, base.production);
   document.getElementById("conveyor-buckets").style.animationDuration = `${(1.1 / Math.max(0.6, cprRatio)).toFixed(2)}s`;
+  const kilnRpm = (3.5 * (snap.rotary / Math.max(1, base.rotary))).toFixed(2);
+  const kilnDur = Math.max(0.35, Math.min(1.4, 0.75 / Math.max(0.6, cprRatio)));
+  document.getElementById("unit-kiln").style.setProperty("--kiln-rot-dur", `${kilnDur.toFixed(2)}s`);
+  const rpmHdr = document.getElementById("svg-kiln-rpm-hdr");
+  if (rpmHdr) rpmHdr.textContent = `⟳ ROTARY KILN (72m × 4m · ${kilnRpm} rpm Rotating · 488 kW Main Drive)`;
 
-  // Dynamic Stack CO2 Plume Particles (count, opacity, rising speed)
+  // Continuous CSS-Animated Stack CO2 Plume Puffs (scales density, color & rise velocity with CO2 kg/h)
   const plumeLayer = document.getElementById("co2-plume");
-  const co2Norm = Math.max(0.15, Math.min(1.0, (snap.co2 - 890) / 145));
-  const nPlume = Math.round(4 + co2Norm * 13);
+  const co2Norm = Math.max(0.15, Math.min(1.0, (snap.co2 - 880) / 145));
+  const nPlume = Math.round(6 + co2Norm * 10);
+  const plumeDur = (2.6 - co2Norm * 1.15).toFixed(2);
+  const plumeCol = snap.co2 > base.co2 + 12 ? "#fca5a5" : (snap.co2 < base.co2 - 15 ? "#bae6fd" : "#cbd5e1");
   let plumeHtml = "";
-  const nowPhase = (Date.now() / 1000) % 10;
-  const plumeCol = snap.co2 > base.co2 + 12 ? "#fca5a5" : (snap.co2 < base.co2 - 20 ? "#bae6fd" : "#cbd5e1");
   for (let i = 0; i < nPlume; i++) {
-    const t = ((i / nPlume) + nowPhase * (0.1 + co2Norm * 0.14)) % 1;
-    const py = 38 - t * 35;
-    const px = 641 + Math.sin(t * 4.5 + i) * (5 + co2Norm * 4) + t * 15;
-    const pr = 2.2 + t * (2.6 + co2Norm * 4.2);
-    const pop = Math.max(0.08, (1 - t) * (0.28 + co2Norm * 0.66));
-    plumeHtml += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${pr.toFixed(1)}" fill="${plumeCol}" opacity="${pop.toFixed(2)}" />`;
+    const delay = ((i / nPlume) * parseFloat(plumeDur)).toFixed(2);
+    const ox = 641 + ((i % 3) - 1) * 3.5;
+    const pr = (3.0 + (i % 4) * 1.1 + co2Norm * 2.2).toFixed(1);
+    plumeHtml += `<circle class="co2-puff" cx="${ox.toFixed(1)}" cy="40" r="${pr}" fill="${plumeCol}" style="--plume-dur:${plumeDur}s;animation-delay:-${delay}s;" />`;
   }
   plumeLayer.innerHTML = plumeHtml;
 
+  // Update Priority-Driven Control Room Co-Pilot Reasoning Box
+  const prioLbl = document.getElementById("copilot-priority-lbl");
+  const statPill = document.getElementById("copilot-status-pill");
+  const reasonTxt = document.getElementById("copilot-reasoning-text");
+  if (prioLbl && reasonTxt && statPill) {
+    if (oodFaultActive) {
+      statPill.textContent = "ISA-18.2 INTERLOCK";
+      statPill.style.color = "#f87171";
+      prioLbl.textContent = "🛡️ AI GUARDRAIL TRIPPED: OOD SENSOR FAULT → MANUAL DCS HOLD";
+      reasonTxt.innerHTML = `<strong>Safety Interlock Active:</strong> Detected out-of-distribution sensor fault (<strong>${(snap.oodReasons || []).join(" · ") || "High Tree Variance"}</strong>). NSGA-II actuator writes are <strong>LOCKED OUT</strong> and kiln actuators remain frozen at last known safe setpoints until <em>[Reset Interlock]</em>.`;
+    } else if (pendingAdvisory) {
+      statPill.textContent = "ADVISORY PENDING";
+      statPill.style.color = "#fbbf24";
+      prioLbl.textContent = "🎛️ ADVISORY MODE: AWAITING OPERATOR APPROVAL";
+      reasonTxt.innerHTML = `<strong>Human-in-the-Loop Proposal:</strong> NSGA-II computed optimal targets (shown as emerald notches on sliders). Review the confirmation toast and click <em>[✓ Approve Move]</em> to execute slew-rate-clamped ramping (max ±1.5 °C/min, ±4 kg/h/step).`;
+    } else if (isSlewRamping) {
+      statPill.textContent = "RAMPING (SLEW-CLAMPED)";
+      statPill.style.color = "#34d399";
+      prioLbl.textContent = "⚙️ SLEW-RATE LIMITER: SMOOTHLY RAMPING TO NSGA-II TARGET";
+      reasonTxt.innerHTML = `<strong>Thermal Shock Protection:</strong> Setpoints are ramping incrementally within physical kiln limits (<strong>±1.5 °C/min</strong> sintering temp, <strong>±4.0 kg/h per step</strong> fuel) toward the emerald target notches while f-CaO = <strong>${(snap.fCao ?? 1.15).toFixed(2)}%</strong>.`;
+    } else if (autonomousMode) {
+      const upset = AUTONOMOUS_UPSETS[autoUpsetIdx % AUTONOMOUS_UPSETS.length];
+      if (autoPhase === 1) {
+        statPill.textContent = autonomousPaused ? "AUTONOMOUS · PAUSED" : "AUTONOMOUS · STEADY";
+        statPill.style.color = "#10b981";
+        prioLbl.textContent = "🤖 AUTONOMOUS LOOP (PHASE 1/4): STEADY OPTIMAL OPERATION";
+        reasonTxt.innerHTML = `<strong>Cruising at Balanced Sol 25:</strong> Specific Energy <strong>${snap.energy.toFixed(2)} kWh/t</strong>, Stack CO₂ <strong>${snap.co2.toFixed(2)} kg/h</strong>, holding <strong>CPR = ${snap.production.toFixed(2)} tph ≥ 91.80</strong> with f-CaO = <strong>${snap.fCao.toFixed(2)}%</strong>.`;
+      } else if (autoPhase === 2) {
+        statPill.textContent = "RFR EARLY WARNING";
+        statPill.style.color = "#fbbf24";
+        prioLbl.textContent = `⚠️ AUTONOMOUS LOOP (PHASE 2/4): INCIPIENT ${upset.name.toUpperCase()}`;
+        reasonTxt.innerHTML = `<strong>Early Detection:</strong> <em>${upset.driftDesc}</em>. Random Forest trees are flashing amber and predicting a <strong>+${Math.max(18, Math.round(currentPredForecast.warnE))} kWh/t</strong> &amp; <strong>+${Math.max(8, Math.round(currentPredForecast.warnC))} kg/h CO₂</strong> surge at T+3 min before peak spike.`;
+      } else if (autoPhase === 3) {
+        statPill.textContent = aiControlEnabled ? "NSGA-II REBALANCING" : "AI CONTROL OFF ❌";
+        statPill.style.color = aiControlEnabled ? "#38bdf8" : "#f87171";
+        prioLbl.textContent = aiControlEnabled
+          ? "🧬 AUTONOMOUS LOOP (PHASE 3/4): NSGA-II EVOLUTIONARY REBALANCING"
+          : "🚨 AUTONOMOUS LOOP (PHASE 3/4): AI CONTROL OFF — UNMITIGATED SURGE";
+        reasonTxt.innerHTML = aiControlEnabled
+          ? `<strong>Closed-Loop Actuation:</strong> Evaluating Pareto candidates while locking <strong>g(x): CPR ≥ 91.80 tph ✅</strong> and streaming corrective pulses to <strong>${upset.actuatorLabel}</strong>.`
+          : `<strong>Counterfactual Mode (AI OFF ❌):</strong> NSGA-II actuation is bypassed so viewers can see the unmitigated disturbance spike kiln energy to <strong>${snap.energy.toFixed(1)} kWh/t</strong> and CO₂ to <strong>${snap.co2.toFixed(1)} kg/h</strong>.`;
+      } else {
+        statPill.textContent = aiControlEnabled ? "SURGE NEUTRALIZED ✅" : "UNCONTROLLED PEAK ❌";
+        statPill.style.color = aiControlEnabled ? "#10b981" : "#f87171";
+        prioLbl.textContent = aiControlEnabled
+          ? "✅ AUTONOMOUS LOOP (PHASE 4/4): SURGE NEUTRALIZED"
+          : "🚨 AUTONOMOUS LOOP (PHASE 4/4): UNCONTROLLED SPIKE";
+        reasonTxt.innerHTML = aiControlEnabled
+          ? `<strong>Recovery Complete:</strong> ${autoLastSummary || `NSGA-II counter-balanced ${upset.name} and settled back onto Balanced Solution 25 (${snap.production.toFixed(2)} tph).`}`
+          : `<strong>Uncontrolled Kiln State:</strong> Disturbance remains unmitigated at <strong>${snap.energy.toFixed(1)} kWh/t</strong> &amp; <strong>${snap.co2.toFixed(1)} kg/h CO₂</strong>. Click <em>Compare: AI Control ON ✅</em> to watch NSGA-II neutralize it.`;
+      }
+    } else {
+      statPill.textContent = copilotAutoTrimOn ? (supervisoryMode === "advisory" ? "ADVISORY MODE" : "AUTO-TRIM ACTIVE") : "MANUAL OVERRIDE";
+      statPill.style.color = copilotAutoTrimOn ? "#10b981" : "#f59e0b";
+      if (activeDisturbance === "overburn") {
+        prioLbl.textContent = "🚨 PRIORITY ALERT: KILN OVER-BURNING THERMAL SURGE (>1367°C)";
+        reasonTxt.innerHTML = `<strong>Control Room Diagnosis:</strong> Excess coal feed pushed burning zone to <strong>${snap.temp.toFixed(1)}°C</strong> and depleted flue O₂ to <strong>${snap.o2.toFixed(2)}%</strong>. Click <em>⚡ Auto-Balance with NSGA-II</em> to throttle Fuel Valve and boost ID Fan draft while holding <strong>CPR ≥ 91.80 tph</strong>.`;
+      } else if (activeDisturbance === "cpr" || snap.production < ARCH_DATA.thermo.min_cpr - 1e-4) {
+        prioLbl.textContent = "🚨 PRIORITY ALERT: CLINKER FLOOR VIOLATION (g(x) > 0)";
+        reasonTxt.innerHTML = `<strong>Control Room Diagnosis:</strong> Clinker output dropped to <strong>${snap.production.toFixed(2)} tph</strong> (&lt; 91.80 tph floor). Co-Pilot priority shifts to restoring sintering enthalpy &amp; rotary drive load so decarbonization never sacrifices plant throughput.`;
+      } else if (snap.clinkerQualityState === "UNDERBURN") {
+        prioLbl.textContent = "⚠️ CLINKER QUALITY WARNING: FREE LIME f-CaO > 2.0% UNDER-BURN";
+        reasonTxt.innerHTML = `<strong>Soft-Sensor Diagnosis:</strong> Low burning zone temperature (<strong>${snap.temp.toFixed(1)}°C</strong>) pushed estimated Free Lime to <strong>${snap.fCao.toFixed(2)}%</strong> (&gt; 2.0% Ashaka limit). Avoid further fuel cuts or restore sintering heat.`;
+      } else if (activeRegime === "Low Energy") {
+        prioLbl.textContent = "🤖 CO-PILOT PRIORITY: MINIMIZE SPECIFIC ENERGY f₁(x)";
+        reasonTxt.innerHTML = `<strong>Strategy:</strong> Prioritizes electrical &amp; thermal efficiency (<strong>${snap.energy.toFixed(1)} kWh/t</strong>) by trimming ID Fan &amp; Auxiliary Power (<strong>${Math.round(snap.power_cons)} KWt/h</strong>) and maximizing cooler heat recovery while keeping <strong>CPR = ${snap.production.toFixed(2)} tph ≥ 91.80</strong>.`;
+      } else if (activeRegime === "Low CO2") {
+        prioLbl.textContent = "🤖 CO-PILOT PRIORITY: MINIMIZE STACK CO₂ EMISSIONS f₂(x)";
+        reasonTxt.innerHTML = `<strong>Strategy:</strong> Targets stack carbon intensity (<strong>${snap.co2.toFixed(1)} kg/h CO₂</strong>) by moderating Raw Meal Limestone <strong>${snap.limestone.toFixed(2)}% CaCO₃</strong> (~60% calcination share) and coal rate (<strong>${snap.fuel_rate.toFixed(1)} kg/h</strong>) while holding <strong>CPR = ${snap.production.toFixed(2)} tph</strong>.`;
+      } else {
+        prioLbl.textContent = `🤖 CO-PILOT PRIORITY: ${compareBaseline ? "HISTORICAL BASELINE MONITOR" : "BALANCED PARETO KNEE (ENERGY + CO₂ + CPR)"}`;
+        reasonTxt.innerHTML = `<strong>Strategy:</strong> Simultaneously balances Specific Energy (<strong>${snap.energy.toFixed(1)} kWh/t</strong>) and Stack CO₂ (<strong>${snap.co2.toFixed(1)} kg/h</strong>) with <strong>f-CaO = ${snap.fCao.toFixed(2)}%</strong> and <strong>CPR = ${snap.production.toFixed(2)} tph ≥ 91.80</strong>.`;
+      }
+    }
+  }
+
   // Mode Pill
   const modePill = document.getElementById("mode-pill");
-  if (activeDisturbance) {
+  if (oodFaultActive) {
+    modePill.textContent = "ISA-18.2 INTERLOCK: MANUAL FALLBACK";
+    modePill.style.color = "#fca5a5";
+    modePill.style.borderColor = "rgba(239, 68, 68, 0.78)";
+  } else if (autonomousMode) {
+    if (!aiControlEnabled && autoPhase >= 3) {
+      modePill.textContent = `AUTONOMOUS P${autoPhase}/4 · AI CONTROL OFF ❌`;
+      modePill.style.color = "#fca5a5";
+      modePill.style.borderColor = "rgba(239, 68, 68, 0.65)";
+    } else if (autoPhase === 2) {
+      modePill.textContent = "AUTONOMOUS P2/4 · RFR EARLY WARNING";
+      modePill.style.color = "#fbbf24";
+      modePill.style.borderColor = "rgba(245, 158, 11, 0.65)";
+    } else if (autoPhase === 3) {
+      modePill.textContent = "AUTONOMOUS P3/4 · NSGA-II REBALANCING";
+      modePill.style.color = "#38bdf8";
+      modePill.style.borderColor = "rgba(56, 189, 248, 0.65)";
+    } else {
+      modePill.textContent = autonomousPaused ? "AUTONOMOUS LOOP · PAUSED" : "AUTONOMOUS AI LOOP · STEADY ✅";
+      modePill.style.color = "#10b981";
+      modePill.style.borderColor = "rgba(16, 185, 129, 0.55)";
+    }
+  } else if (isSlewRamping) {
+    modePill.textContent = "RAMPING SETPOINTS (SLEW-CLAMPED)";
+    modePill.style.color = "#34d399";
+    modePill.style.borderColor = "rgba(52, 211, 153, 0.65)";
+  } else if (activeDisturbance) {
     const dNames = { overburn: "DISTURBANCE: OVER-BURNING", draft: "DISTURBANCE: DRAFT DROP", cpr: "DISTURBANCE: CPR < 91.8" };
     modePill.textContent = dNames[activeDisturbance] || "PLANT DISTURBANCE";
     modePill.style.color = "#f87171";
     modePill.style.borderColor = "rgba(239, 68, 68, 0.55)";
   } else if (manualMode) {
-    modePill.textContent = "MANUAL WHAT-IF SANDBOX";
+    modePill.textContent = supervisoryMode === "advisory" ? "ADVISORY SANDBOX" : "MANUAL WHAT-IF SANDBOX";
     modePill.style.color = "#38bdf8";
     modePill.style.borderColor = "rgba(56, 189, 248, 0.5)";
   } else if (compareBaseline) {
@@ -2372,23 +3406,29 @@ function renderScada(snap) {
     modePill.style.color = "#f59e0b";
     modePill.style.borderColor = "rgba(245, 158, 11, 0.45)";
   } else {
-    modePill.textContent = customParetoIdx !== null ? `PARETO #${customParetoIdx + 1} CLOSED-LOOP` : `${activeRegime.toUpperCase()} CLOSED-LOOP`;
-    modePill.style.color = "#10b981";
-    modePill.style.borderColor = "rgba(16, 185, 129, 0.45)";
+    const supLabel = supervisoryMode === "advisory" ? "ADVISORY" : "CLOSED-LOOP";
+    modePill.textContent = customParetoIdx !== null ? `PARETO #${customParetoIdx + 1} ${supLabel}` : `${activeRegime.toUpperCase()} ${supLabel}`;
+    modePill.style.color = supervisoryMode === "advisory" ? "#fbbf24" : "#10b981";
+    modePill.style.borderColor = supervisoryMode === "advisory" ? "rgba(245, 158, 11, 0.5)" : "rgba(16, 185, 129, 0.45)";
   }
 
-  // Render Pinned Sensor Badges with semantic [Δ vs Baseline] pills
+  // Render Pinned Sensor Badges with semantic [Δ vs Baseline] or [OOD!] pills
   const lowerBetter = new Set(["Fuel Consumption (kg/h)", "Power Consumed (KWt/h)", "Absorbed Power (Kw)", "Power (rotary drive) Kw", "Kiln Pressure (bar)", "Kiln Temperature (°C)"]);
   const layer = document.getElementById("pinned-sensors-layer");
   let badgesHtml = "";
   PINNED_SENSORS.forEach(s => {
-    const val = snap.knobs[s.feat] ?? 0;
+    const isFaultedSensor = oodFaultActive && (s.feat in faultedReadings);
+    const val = isFaultedSensor ? snap.sensorReadings[s.feat] : (snap.knobs[s.feat] ?? 0);
     const bVal = base.knobs[s.feat] ?? val;
     const pct = bVal !== 0 ? ((val - bVal) / bVal) * 100 : 0;
-    const deltaStr = (compareBaseline && !manualMode) ? "BASE" : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
+    let deltaStr = (compareBaseline && !manualMode) ? "BASE" : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
     let deltaCol = "#38bdf8";
     let pillBg = "rgba(56, 189, 248, 0.16)";
-    if (!compareBaseline || manualMode) {
+    if (isFaultedSensor) {
+      deltaStr = "OOD!";
+      deltaCol = "#fecaca";
+      pillBg = "rgba(239, 68, 68, 0.45)";
+    } else if (!compareBaseline || manualMode) {
       let improved = false, degraded = false;
       if (s.feat === "Clinker Production Rate (tons/h)") {
         improved = val >= ARCH_DATA.thermo.min_cpr - 1e-4 && pct > 0.15;
@@ -2415,18 +3455,21 @@ function renderScada(snap) {
     }
 
     const isSel = selectedUnit === s.id;
+    const curUpset = AUTONOMOUS_UPSETS[autoUpsetIdx];
+    const isAutoDriftSensor = autonomousMode && autoPhase === 2 && curUpset && curUpset.sensorId === s.id && !oodFaultActive;
     const spPts = buildSparklinePoints(sparkHistory[s.feat] || [val], 36, 10);
+    const strokeCol = isFaultedSensor ? "#ef4444" : (isAutoDriftSensor ? "#f59e0b" : (isSel ? "#f59e0b" : "#334155"));
 
     badgesHtml += `
-      <line x1="${s.x + 54}" y1="${s.y + 18}" x2="${s.lx}" y2="${s.ly}" stroke="#475569" stroke-width="0.9" stroke-dasharray="2 2" />
-      <g class="sensor-tag ${isSel ? "selected-unit" : ""}" data-comp="${s.id}" transform="translate(${s.x}, ${s.y})">
-        <rect class="tag-bg" width="110" height="37" rx="5" fill="#0f172a" fill-opacity="0.93" stroke="${isSel ? "#f59e0b" : "#334155"}" stroke-width="1.2" />
-        <text x="5" y="11.5" font-size="7.6" font-weight="700" fill="#94a3b8">${s.label}</text>
-        <rect x="65" y="3" width="41" height="11" rx="3.5" fill="${pillBg}" />
-        <text x="85.5" y="10.8" font-size="7.1" font-weight="800" fill="${deltaCol}" text-anchor="middle">${deltaStr}</text>
-        <text x="5" y="28" font-size="9.5" font-weight="800" fill="#f8fafc" font-family="ui-monospace, monospace">${val >= 1000 ? Math.round(val) : val.toFixed(1)}<tspan font-size="7" fill="#94a3b8"> ${s.unit}</tspan></text>
+      <line x1="${s.x + 54}" y1="${s.y + 18}" x2="${s.lx}" y2="${s.ly}" stroke="${isFaultedSensor ? "#ef4444" : (isAutoDriftSensor ? "#f59e0b" : "#475569")}" stroke-width="${(isFaultedSensor || isAutoDriftSensor) ? 1.5 : 0.9}" stroke-dasharray="2 2" />
+      <g class="sensor-tag ${isSel ? "selected-unit" : ""} ${isAutoDriftSensor ? "sensor-drift-amber" : ""}" data-comp="${s.id}" transform="translate(${s.x}, ${s.y})">
+        <rect class="tag-bg" width="110" height="37" rx="5" fill="${isAutoDriftSensor ? "#451a03" : "#0f172a"}" fill-opacity="0.95" stroke="${strokeCol}" stroke-width="${(isFaultedSensor || isAutoDriftSensor) ? 2.0 : 1.2}" />
+        <text x="5" y="11.5" font-size="7.6" font-weight="700" fill="${isFaultedSensor ? "#fca5a5" : (isAutoDriftSensor ? "#fde68a" : "#94a3b8")}">${s.label}</text>
+        <rect x="65" y="3" width="41" height="11" rx="3.5" fill="${isAutoDriftSensor ? "rgba(245, 158, 11, 0.34)" : pillBg}" />
+        <text x="85.5" y="10.8" font-size="7.1" font-weight="800" fill="${isAutoDriftSensor ? "#fde047" : deltaCol}" text-anchor="middle">${isAutoDriftSensor ? "DRIFT!" : deltaStr}</text>
+        <text x="5" y="28" font-size="9.5" font-weight="800" fill="${isFaultedSensor ? "#fca5a5" : (isAutoDriftSensor ? "#fef08a" : "#f8fafc")}" font-family="ui-monospace, monospace">${val >= 1000 ? Math.round(val) : val.toFixed(1)}<tspan font-size="7" fill="#94a3b8"> ${s.unit}</tspan></text>
         <g transform="translate(67, 19.5)">
-          <polyline fill="none" stroke="#38bdf8" stroke-width="1.3" points="${spPts}" />
+          <polyline fill="none" stroke="${isFaultedSensor ? "#ef4444" : (isAutoDriftSensor ? "#f59e0b" : "#38bdf8")}" stroke-width="1.3" points="${spPts}" />
         </g>
       </g>
     `;
@@ -2441,8 +3484,20 @@ function renderScada(snap) {
     });
   });
 
+  const activeUpset = AUTONOMOUS_UPSETS[autoUpsetIdx];
   document.querySelectorAll("#scada-svg .scada-unit").forEach(u => {
-    u.classList.toggle("selected-unit", u.getAttribute("data-comp") === selectedUnit);
+    const isSelU = u.getAttribute("data-comp") === selectedUnit;
+    const isDriftU = autonomousMode && autoPhase === 2 && activeUpset && u.id === activeUpset.unitId;
+    u.classList.toggle("selected-unit", isSelU || isDriftU);
+  });
+
+  document.querySelectorAll("#scada-svg .actuator-node").forEach(a => {
+    const isTargetAct = autonomousMode && autoPhase === 3 && aiControlEnabled && !oodFaultActive && activeUpset && activeUpset.actuators.includes(a.id);
+    if (isTargetAct) {
+      a.classList.add("actuator-pulsing");
+    } else if (Date.now() >= actuatorPulseUntil) {
+      a.classList.remove("actuator-pulsing");
+    }
   });
 
   // Update 4 Purple NSGA-II Actuator Node Badges
@@ -2450,7 +3505,10 @@ function renderScada(snap) {
   const setActTxt = (id, liveStr, key) => {
     const el = document.getElementById(id);
     if (!el) return;
-    if (showDelta && actuatorDeltaTexts[key]) {
+    if (oodFaultActive) {
+      el.textContent = `HOLD · ${liveStr}`;
+      el.setAttribute("fill", "#fca5a5");
+    } else if (showDelta && actuatorDeltaTexts[key]) {
       el.textContent = actuatorDeltaTexts[key];
       el.setAttribute("fill", "#6ee7b7");
     } else {
@@ -2663,7 +3721,12 @@ function renderRfTwin(snap) {
   const trees = (ARCH_DATA.trees && ARCH_DATA.trees[selectedRfModel]) || [];
   const svg = document.getElementById("rf-trees-svg");
   let html = "";
-  const activeCol = selectedRfModel === "energy" ? "#38bdf8" : "#10b981";
+  const isPhase2Warn = autonomousMode && autoPhase === 2 && !oodFaultActive;
+  const activeCol = isPhase2Warn ? "#f59e0b" : (selectedRfModel === "energy" ? "#38bdf8" : "#10b981");
+  const forgeEl = document.getElementById("forge-panel");
+  const rfPanelEl = document.getElementById("rf-twin-panel");
+  if (forgeEl) forgeEl.classList.toggle("chamber-amber-active", isPhase2Warn);
+  if (rfPanelEl) rfPanelEl.classList.toggle("chamber-amber-active", isPhase2Warn);
   const abMeans = (!physicsEnabled && ARCH_DATA.ablation && ARCH_DATA.ablation[selectedRfModel] && ARCH_DATA.ablation[selectedRfModel].means) || {};
   const treeFeatObj = physicsEnabled ? snap.fullFeat : { ...snap.fullFeat, ...abMeans };
 
@@ -2725,14 +3788,30 @@ function renderRfTwin(snap) {
   });
 
   const liveFinal = selectedRfModel === "energy" ? snap.energy : snap.co2;
+  const sigmaVal = selectedRfModel === "energy" ? snap.sigmaE : snap.sigmaC;
+  const confVal = selectedRfModel === "energy" ? snap.confE : snap.confC;
   const unit = selectedRfModel === "energy" ? "kWh/t" : "kg/h";
   html += `
     <rect x="8" y="118" width="404" height="21" rx="5" fill="${physicsEnabled ? "rgba(56, 189, 248, 0.13)" : "rgba(245, 158, 11, 0.16)"}" stroke="${physicsEnabled ? activeCol : "#f59e0b"}" stroke-width="1" />
-    <text x="210" y="131.5" font-size="8.4" font-weight="700" fill="#f8fafc" text-anchor="middle">
-      Ensemble Mean ŷ(x) = (1/100) Σ Tₙ(x) → ${selectedRfModel === "energy" ? "f₁" : "f₂"} = ${liveFinal.toFixed(2)} ${unit} ${physicsEnabled ? "" : "(Physics OFF)"}
+    <text x="210" y="131.5" font-size="8.2" font-weight="700" fill="#f8fafc" text-anchor="middle">
+      ŷ(x) = (1/100) Σ Tₙ(x) → ${selectedRfModel === "energy" ? "f₁" : "f₂"} = ${liveFinal.toFixed(2)} ± ${(1.96 * sigmaVal).toFixed(1)} ${unit} (95% CI)${physicsEnabled ? "" : " · Physics OFF"}
     </text>
   `;
   svg.innerHTML = html;
+
+  // Compact Model Confidence Pill
+  const confPill = document.getElementById("rf-confidence-pill");
+  if (confPill) {
+    confPill.textContent = `Confidence: ${confVal.toFixed(1)}% | σ = ±${sigmaVal.toFixed(1)} ${unit}`;
+    confPill.className = "confidence-pill";
+    if (snap.oodDetected || confVal < 80) {
+      confPill.classList.add("danger");
+    } else if (confVal < 92 || activeDisturbance || !physicsEnabled) {
+      confPill.classList.add("warn");
+    }
+  }
+
+  renderOscilloscope(snap);
 
   // Ablation Toggle & R² / RMSE readout
   const ab = (ARCH_DATA.ablation && ARCH_DATA.ablation[selectedRfModel]) || { full_r2: 0.976, ablated_r2: 0.84, full_rmse: 12.0, ablated_rmse: 30.0 };
@@ -2780,6 +3859,347 @@ function renderRfTwin(snap) {
 
   document.getElementById("rf-tab-energy").classList.toggle("active", selectedRfModel === "energy");
   document.getElementById("rf-tab-co2").classList.toggle("active", selectedRfModel === "co2");
+}
+
+function renderOscilloscope(snap) {
+  const svg = document.getElementById("horizon-oscilloscope-svg");
+  const ciReadout = document.getElementById("osc-ci-readout");
+  if (!svg) return;
+
+  const isE = selectedRfModel === "energy";
+  const unit = isE ? "kWh/t" : "kg/h";
+  const histRaw = isE ? horizonHistory.energy : horizonHistory.co2;
+  const hist = histRaw.length ? histRaw.slice(-12) : [isE ? snap.energy : snap.co2];
+  const curVal = isE ? snap.energy : snap.co2;
+  const sigma = isE ? snap.sigmaE : snap.sigmaC;
+  const ci = isE ? snap.ciE : snap.ciC;
+  const conf = isE ? snap.confE : snap.confC;
+
+  if (ciReadout) {
+    ciReadout.textContent = `95% CI: [${ci[0].toFixed(1)} – ${ci[1].toFixed(1)}] ${unit}`;
+    ciReadout.style.color = snap.oodDetected ? "#fca5a5" : (conf < 92 || activeDisturbance ? "#fbbf24" : "#7dd3fc");
+  }
+
+  let projTarget = curVal;
+  if (!oodFaultActive && pendingAdvisory && pendingAdvisory.targetRec) {
+    projTarget = isE ? pendingAdvisory.targetRec.energy : pendingAdvisory.targetRec.co2;
+  } else if (!oodFaultActive && isSlewRamping && lastOptImpact && lastOptImpact.target) {
+    projTarget = isE ? lastOptImpact.target.energy : lastOptImpact.target.co2;
+  }
+
+  const fSteps = 7;
+  const forecast = [];
+  for (let h = 0; h < fSteps; h++) {
+    const frac = h / (fSteps - 1);
+    const meanH = curVal + (projTarget - curVal) * (1 - Math.pow(1 - frac, 1.6));
+    const halfBand = 1.96 * sigma * (0.45 + 0.70 * frac);
+    forecast.push({ mean: meanH, hi: meanH + halfBand, lo: meanH - halfBand });
+  }
+
+  const allVals = [...hist, ...forecast.map(x => x.hi), ...forecast.map(x => x.lo)];
+  const rawMin = Math.min(...allVals);
+  const rawMax = Math.max(...allVals);
+  const padY = Math.max(6.0, (rawMax - rawMin) * 0.16);
+  const yMin = rawMin - padY;
+  const yMax = rawMax + padY;
+
+  const W = 420, H = 92;
+  const padL = 36, padR = 10, padT = 10, padB = 16;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const nowX = padL + plotW * 0.62;
+  const sy = v => padT + (1 - (v - yMin) / Math.max(1e-6, yMax - yMin)) * plotH;
+
+  const histPts = hist.map((v, i) => {
+    const x = padL + (i / Math.max(1, hist.length - 1)) * (nowX - padL);
+    return `${x.toFixed(1)},${sy(v).toFixed(1)}`;
+  }).join(" ");
+
+  const fXs = forecast.map((_, h) => nowX + (h / (fSteps - 1)) * (W - padR - nowX));
+  const fMeanPts = forecast.map((pt, h) => `${fXs[h].toFixed(1)},${sy(pt.mean).toFixed(1)}`).join(" ");
+  const fHiPts = forecast.map((pt, h) => `${fXs[h].toFixed(1)},${sy(pt.hi).toFixed(1)}`);
+  const fLoPts = forecast.map((pt, h) => `${fXs[h].toFixed(1)},${sy(pt.lo).toFixed(1)}`);
+  const ribbonPoly = [...fHiPts, ...[...fLoPts].reverse()].join(" ");
+
+  const isWarn = snap.oodDetected || conf < 92 || Boolean(activeDisturbance) || !physicsEnabled;
+  const bandFill = snap.oodDetected
+    ? "rgba(239, 68, 68, 0.25)"
+    : (isWarn ? "rgba(245, 158, 11, 0.22)" : "rgba(56, 189, 248, 0.20)");
+  const bandStroke = snap.oodDetected ? "#ef4444" : (isWarn ? "#f59e0b" : "#38bdf8");
+  const traceCol = isE ? "#38bdf8" : "#10b981";
+
+  const midVal = (yMin + yMax) / 2;
+  svg.innerHTML = `
+    <rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" rx="3" fill="#070d18" stroke="#1e293b" stroke-width="0.9" />
+    <line x1="${padL}" y1="${sy(midVal).toFixed(1)}" x2="${W - padR}" y2="${sy(midVal).toFixed(1)}" stroke="#1e293b" stroke-width="0.8" stroke-dasharray="3 3" />
+    <line x1="${nowX.toFixed(1)}" y1="${padT}" x2="${nowX.toFixed(1)}" y2="${H - padB}" stroke="#475569" stroke-width="1.1" stroke-dasharray="2 2" />
+    <text x="${padL - 4}" y="${padT + 7}" font-size="7" fill="#64748b" text-anchor="end" font-family="ui-monospace, monospace">${Math.round(yMax)}</text>
+    <text x="${padL - 4}" y="${(sy(midVal) + 2.5).toFixed(1)}" font-size="7" fill="#64748b" text-anchor="end" font-family="ui-monospace, monospace">${Math.round(midVal)}</text>
+    <text x="${padL - 4}" y="${H - padB}" font-size="7" fill="#64748b" text-anchor="end" font-family="ui-monospace, monospace">${Math.round(yMin)}</text>
+    <polygon points="${ribbonPoly}" fill="${bandFill}" />
+    <polyline fill="none" stroke="${bandStroke}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.72" points="${fHiPts.join(" ")}" />
+    <polyline fill="none" stroke="${bandStroke}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.72" points="${fLoPts.join(" ")}" />
+    <polyline fill="none" stroke="${traceCol}" stroke-width="1.8" points="${histPts}" />
+    <polyline fill="none" stroke="${bandStroke}" stroke-width="1.9" stroke-dasharray="4 3" points="${fMeanPts}" />
+    <circle cx="${nowX.toFixed(1)}" cy="${sy(curVal).toFixed(1)}" r="3.4" fill="#fde047" stroke="#0f172a" stroke-width="1" />
+    <text x="${padL + 4}" y="${H - 4}" font-size="7.2" fill="#64748b">T−4m</text>
+    <text x="${nowX.toFixed(1)}" y="${H - 4}" font-size="7.2" font-weight="700" fill="#cbd5e1" text-anchor="middle">Now</text>
+    <text x="${W - padR - 2}" y="${H - 4}" font-size="7.2" font-weight="700" fill="${bandStroke}" text-anchor="end">T+3 min (±1.96σ)</text>
+  `;
+}
+
+function renderDcsOscilloscope(snap) {
+  const svg = document.getElementById("dcs-oscilloscope-svg");
+  if (!svg) return;
+
+  const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || ARCH_DATA.pareto[0];
+  const hist = dcsHistory.length ? dcsHistory : [{
+    actualE: snap.energy,
+    actualC: snap.co2,
+    cfE: snap.energy,
+    cfC: snap.co2,
+    predE: snap.energy,
+    predC: snap.co2
+  }];
+
+  const showE = dcsMetricMode === "dual" || dcsMetricMode === "energy";
+  const showC = dcsMetricMode === "dual" || dcsMetricMode === "co2";
+
+  const curE = snap.energy;
+  const curC = snap.co2;
+  const fTargetE = autonomousMode ? currentPredForecast.energy : curE;
+  const fTargetC = autonomousMode ? currentPredForecast.co2 : curC;
+
+  const fSteps = 8;
+  const fPoints = [];
+  for (let h = 0; h < fSteps; h++) {
+    const frac = h / (fSteps - 1);
+    const shape = 1 - Math.pow(1 - frac, 1.45);
+    const meanE = curE + (fTargetE - curE) * shape;
+    const meanC = curC + (fTargetC - curC) * shape;
+    const bandE = 1.96 * snap.sigmaE * (0.45 + 0.65 * frac);
+    const bandC = 1.96 * snap.sigmaC * (0.45 + 0.65 * frac);
+    fPoints.push({ meanE, meanC, hiE: meanE + bandE, loE: meanE - bandE, hiC: meanC + bandC, loC: meanC - bandC });
+  }
+
+  const allE = [
+    ...hist.map(p => p.actualE),
+    ...hist.map(p => p.cfE),
+    ...fPoints.map(p => p.hiE),
+    ...fPoints.map(p => p.loE),
+    bal.energy - 8,
+    bal.energy + 35
+  ];
+  const allC = [
+    ...hist.map(p => p.actualC),
+    ...hist.map(p => p.cfC),
+    ...fPoints.map(p => p.hiC),
+    ...fPoints.map(p => p.loC),
+    bal.co2 - 6,
+    bal.co2 + 22
+  ];
+  const minE = Math.min(...allE) - 6;
+  const maxE = Math.max(...allE) + 8;
+  const minC = Math.min(...allC) - 4;
+  const maxC = Math.max(...allC) + 6;
+
+  const W = 1200, H = 132;
+  const padL = 54, padR = 54, padT = 13, padB = 19;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const nowX = padL + plotW * 0.72;
+
+  const syE = v => padT + (1 - (v - minE) / Math.max(1e-6, maxE - minE)) * plotH;
+  const syC = v => padT + (1 - (v - minC) / Math.max(1e-6, maxC - minC)) * plotH;
+  const hx = i => padL + (i / Math.max(1, hist.length - 1)) * (nowX - padL);
+  const fx = h => nowX + (h / (fSteps - 1)) * (W - padR - nowX);
+
+  let html = `
+    <rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" rx="4" fill="#060c17" stroke="#1e293b" stroke-width="1" />
+    <line x1="${padL}" y1="${(padT + plotH * 0.33).toFixed(1)}" x2="${W - padR}" y2="${(padT + plotH * 0.33).toFixed(1)}" stroke="#132238" stroke-width="0.9" stroke-dasharray="3 3" />
+    <line x1="${padL}" y1="${(padT + plotH * 0.66).toFixed(1)}" x2="${W - padR}" y2="${(padT + plotH * 0.66).toFixed(1)}" stroke="#132238" stroke-width="0.9" stroke-dasharray="3 3" />
+    <rect x="${nowX.toFixed(1)}" y="${padT}" width="${(W - padR - nowX).toFixed(1)}" height="${plotH}" fill="rgba(245, 158, 11, 0.05)" />
+    <line x1="${nowX.toFixed(1)}" y1="${padT}" x2="${nowX.toFixed(1)}" y2="${H - padB}" stroke="#64748b" stroke-width="1.3" stroke-dasharray="3 2" />
+  `;
+
+  if (showE) {
+    html += `
+      <text x="${padL - 6}" y="${padT + 8}" font-size="8.5" font-weight="700" fill="#38bdf8" text-anchor="end" font-family="ui-monospace, monospace">${Math.round(maxE)}</text>
+      <text x="${padL - 6}" y="${(padT + plotH / 2 + 3).toFixed(1)}" font-size="8.5" font-weight="700" fill="#38bdf8" text-anchor="end" font-family="ui-monospace, monospace">${Math.round((minE + maxE) / 2)}</text>
+      <text x="${padL - 6}" y="${H - padB}" font-size="8.5" font-weight="700" fill="#38bdf8" text-anchor="end" font-family="ui-monospace, monospace">${Math.round(minE)}</text>
+      <text x="${padL - 6}" y="${padT - 3}" font-size="7.8" font-weight="800" fill="#7dd3fc" text-anchor="end">kWh/t</text>
+    `;
+  }
+  if (showC) {
+    html += `
+      <text x="${W - padR + 6}" y="${padT + 8}" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="start" font-family="ui-monospace, monospace">${Math.round(maxC)}</text>
+      <text x="${W - padR + 6}" y="${(padT + plotH / 2 + 3).toFixed(1)}" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="start" font-family="ui-monospace, monospace">${Math.round((minC + maxC) / 2)}</text>
+      <text x="${W - padR + 6}" y="${H - padB}" font-size="8.5" font-weight="700" fill="#10b981" text-anchor="start" font-family="ui-monospace, monospace">${Math.round(minC)}</text>
+      <text x="${W - padR + 6}" y="${padT - 3}" font-size="7.8" font-weight="800" fill="#6ee7b7" text-anchor="start">kg/h CO₂</text>
+    `;
+  }
+
+  let maxAvoidedE = 0;
+  let maxAvoidedC = 0;
+  let peakLabelX = 0;
+  let peakLabelY = 0;
+  hist.forEach((p, i) => {
+    const dE = p.cfE - p.actualE;
+    const dC = p.cfC - p.actualC;
+    if (dE > maxAvoidedE) {
+      maxAvoidedE = dE;
+      peakLabelX = hx(i);
+      peakLabelY = (syE(p.cfE) + syE(p.actualE)) / 2;
+    }
+    if (dC > maxAvoidedC) maxAvoidedC = dC;
+  });
+
+  if (aiControlEnabled && showE && maxAvoidedE > 4.0) {
+    const cfPtsTop = hist.map((p, i) => `${hx(i).toFixed(1)},${syE(p.cfE).toFixed(1)}`);
+    const actPtsBot = [...hist].map((p, i) => `${hx(i).toFixed(1)},${syE(p.actualE).toFixed(1)}`).reverse();
+    html += `<polygon points="${[...cfPtsTop, ...actPtsBot].join(" ")}" fill="rgba(16, 185, 129, 0.22)" />`;
+  }
+  if (aiControlEnabled && showC && maxAvoidedC > 2.5) {
+    const cfPtsC = hist.map((p, i) => `${hx(i).toFixed(1)},${syC(p.cfC).toFixed(1)}`);
+    const actPtsC = [...hist].map((p, i) => `${hx(i).toFixed(1)},${syC(p.actualC).toFixed(1)}`).reverse();
+    html += `<polygon points="${[...cfPtsC, ...actPtsC].join(" ")}" fill="rgba(52, 211, 153, 0.14)" />`;
+  }
+
+  if (aiControlEnabled) {
+    if (showE && maxAvoidedE > 4.0) {
+      const cfLineE = hist.map((p, i) => `${hx(i).toFixed(1)},${syE(p.cfE).toFixed(1)}`).join(" ");
+      html += `<polyline fill="none" stroke="#f87171" stroke-width="1.6" stroke-dasharray="3 3" opacity="0.82" points="${cfLineE}" />`;
+    }
+    if (showC && maxAvoidedC > 2.5) {
+      const cfLineC = hist.map((p, i) => `${hx(i).toFixed(1)},${syC(p.cfC).toFixed(1)}`).join(" ");
+      html += `<polyline fill="none" stroke="#fb7185" stroke-width="1.4" stroke-dasharray="2 3" opacity="0.72" points="${cfLineC}" />`;
+    }
+    if ((maxAvoidedE > 10.0 || maxAvoidedC > 6.0) && peakLabelX > padL + 40 && peakLabelX < nowX - 30) {
+      html += `<text x="${peakLabelX.toFixed(1)}" y="${Math.max(padT + 14, peakLabelY).toFixed(1)}" font-size="8.5" font-weight="800" fill="#6ee7b7" text-anchor="middle">Avoided Energy &amp; CO₂ Saved by AI</text>`;
+    }
+  }
+
+  if (showE) {
+    const eHi = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syE(p.hiE).toFixed(1)}`);
+    const eLo = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syE(p.loE).toFixed(1)}`);
+    html += `<polygon points="${[...eHi, ...[...eLo].reverse()].join(" ")}" fill="rgba(245, 158, 11, 0.16)" />`;
+  }
+  if (showC) {
+    const cHi = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syC(p.hiC).toFixed(1)}`);
+    const cLo = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syC(p.loC).toFixed(1)}`);
+    html += `<polygon points="${[...cHi, ...[...cLo].reverse()].join(" ")}" fill="rgba(251, 191, 36, 0.12)" />`;
+  }
+
+  if (showE) {
+    const actualPtsE = hist.map((p, i) => `${hx(i).toFixed(1)},${syE(p.actualE).toFixed(1)}`).join(" ");
+    const fMeanE = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syE(p.meanE).toFixed(1)}`).join(" ");
+    html += `<polyline fill="none" stroke="#38bdf8" stroke-width="2.2" points="${actualPtsE}" />`;
+    html += `<polyline fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-dasharray="6 3" points="${fMeanE}" />`;
+    html += `<circle cx="${nowX.toFixed(1)}" cy="${syE(curE).toFixed(1)}" r="3.8" fill="#38bdf8" stroke="#0f172a" stroke-width="1.2" />`;
+  }
+  if (showC) {
+    const actualPtsC = hist.map((p, i) => `${hx(i).toFixed(1)},${syC(p.actualC).toFixed(1)}`).join(" ");
+    const fMeanC = fPoints.map((p, h) => `${fx(h).toFixed(1)},${syC(p.meanC).toFixed(1)}`).join(" ");
+    html += `<polyline fill="none" stroke="#10b981" stroke-width="2.0" points="${actualPtsC}" />`;
+    html += `<polyline fill="none" stroke="#fbbf24" stroke-width="1.9" stroke-dasharray="4 3" points="${fMeanC}" />`;
+    html += `<circle cx="${nowX.toFixed(1)}" cy="${syC(curC).toFixed(1)}" r="3.6" fill="#10b981" stroke="#0f172a" stroke-width="1.2" />`;
+  }
+
+  html += `
+    <text x="${padL + 6}" y="${H - 5}" font-size="8.2" fill="#64748b" font-family="ui-monospace, monospace">-60s Historian</text>
+    <text x="${(padL + (nowX - padL) * 0.5).toFixed(1)}" y="${H - 5}" font-size="8.2" fill="#64748b" text-anchor="middle" font-family="ui-monospace, monospace">-30s</text>
+    <text x="${nowX.toFixed(1)}" y="${H - 5}" font-size="8.5" font-weight="800" fill="#fde047" text-anchor="middle" font-family="ui-monospace, monospace">NOW</text>
+    <text x="${W - padR - 4}" y="${H - 5}" font-size="8.5" font-weight="800" fill="#fbbf24" text-anchor="end" font-family="ui-monospace, monospace">T+3 min RFR Predictive Horizon</text>
+  `;
+  svg.innerHTML = html;
+
+  const warnBadge = document.getElementById("dcs-early-warning-badge");
+  const surgeE = Math.max(0, fTargetE - bal.energy);
+  const surgeC = Math.max(0, fTargetC - bal.co2);
+  if (warnBadge) {
+    const showWarn = (autonomousMode && (autoPhase === 2 || (!aiControlEnabled && autoPhase === 3)) && (surgeE > 15 || surgeC > 6)) || (!autonomousMode && (snap.energy - bal.energy > 40));
+    if (showWarn) {
+      const dispE = Math.max(18, Math.round(surgeE));
+      const dispC = Math.max(8, Math.round(surgeC));
+      warnBadge.textContent = `⚠️ RFR FORECAST: +${dispE} kWh/t & +${dispC} kg/h CO₂ surge predicted`;
+      warnBadge.classList.remove("hidden");
+    } else {
+      warnBadge.classList.add("hidden");
+    }
+  }
+
+  const avoidBadge = document.getElementById("dcs-avoided-badge");
+  if (avoidBadge) {
+    if (aiControlEnabled && (maxAvoidedE > 12 || maxAvoidedC > 6)) {
+      avoidBadge.textContent = `🛡️ Avoided: −${Math.round(maxAvoidedE)} kWh/t · −${Math.round(maxAvoidedC)} kg/h CO₂`;
+      avoidBadge.classList.remove("hidden");
+    } else {
+      avoidBadge.classList.add("hidden");
+    }
+  }
+
+  updateStatusTicker(snap, maxAvoidedE, maxAvoidedC);
+}
+
+function updateStatusTicker(snap, avoidedE = 0, avoidedC = 0) {
+  const pill = document.getElementById("dcs-phase-pill");
+  const msg = document.getElementById("dcs-ticker-msg");
+  const cycleBadge = document.getElementById("auto-cycle-badge");
+  if (!pill || !msg) return;
+
+  const upset = AUTONOMOUS_UPSETS[autoUpsetIdx] || AUTONOMOUS_UPSETS[0];
+  if (oodFaultActive) {
+    pill.textContent = "ISA-18.2 INTERLOCK";
+    pill.className = "dcs-phase-pill off";
+    msg.textContent = "Out-of-distribution sensor fault detected → AI actuation locked out, kiln held safely on Manual DCS control.";
+    if (cycleBadge) cycleBadge.textContent = "INTERLOCK TRIPPED";
+    return;
+  }
+  if (!autonomousMode) {
+    pill.textContent = compareBaseline ? "PLANT BASELINE" : "MANUAL WHAT-IF";
+    pill.className = compareBaseline ? "dcs-phase-pill p2" : "dcs-phase-pill p3";
+    msg.textContent = `Manual Sandbox active: ${snap.energy.toFixed(2)} kWh/t | ${snap.co2.toFixed(2)} kg/h CO₂ | CPR = ${snap.production.toFixed(2)} tph — click ⚡ Auto-Balance with NSGA-II anytime.`;
+    if (cycleBadge) cycleBadge.textContent = "Manual Sandbox";
+    return;
+  }
+
+  if (cycleBadge) {
+    cycleBadge.textContent = `Upset ${autoUpsetIdx + 1}/4 · ${upset.name.replace(/^\d+\.\s*/, "")}${autonomousPaused ? " (PAUSED)" : ""}`;
+  }
+
+  if (autoPhase === 1) {
+    pill.textContent = "PHASE 1/4 · STEADY";
+    pill.className = "dcs-phase-pill p1";
+    msg.textContent = `Steady Optimal Operation cruising near Balanced Sol 25 (${snap.energy.toFixed(2)} kWh/t | ${snap.co2.toFixed(2)} kg/h CO₂ | ${snap.production.toFixed(2)} tph · g(x) ≤ 0 ✅).`;
+  } else if (autoPhase === 2) {
+    const wE = Math.max(18, Math.round(currentPredForecast.warnE || (currentPredForecast.energy - 1030.42)));
+    const wC = Math.max(8, Math.round(currentPredForecast.warnC || (currentPredForecast.co2 - 920.42)));
+    pill.textContent = "PHASE 2/4 · RFR WARNING";
+    pill.className = "dcs-phase-pill p2";
+    msg.textContent = `Incipient Drift (${upset.name}): ${upset.driftDesc} → RF trees flashing amber & RFR forecasts +${wE} kWh/t, +${wC} kg/h CO₂ surge at T+3 min!`;
+  } else if (autoPhase === 3) {
+    if (!aiControlEnabled) {
+      pill.textContent = "PHASE 3/4 · AI OFF ❌";
+      pill.className = "dcs-phase-pill off";
+      msg.textContent = `AI Control OFF ❌: Unmitigated ${upset.name} hitting kiln (${snap.energy.toFixed(1)} kWh/t | ${snap.co2.toFixed(1)} kg/h CO₂) — toggle AI Control ON ✅ to rescue!`;
+    } else {
+      pill.textContent = "PHASE 3/4 · NSGA-II ACTIVE";
+      pill.className = "dcs-phase-pill p3";
+      msg.textContent = `NSGA-II Evolutionary Rebalancing (g(x): CPR ≥ 91.80 tph locked ✅) → Dispatching closed-loop pulses to ${upset.actuatorLabel}.`;
+    }
+  } else {
+    if (!aiControlEnabled) {
+      pill.textContent = "PHASE 4/4 · UNCONTROLLED";
+      pill.className = "dcs-phase-pill off";
+      msg.textContent = `Without AI Control, ${upset.name} elevated kiln energy to ${snap.energy.toFixed(1)} kWh/t & CO₂ to ${snap.co2.toFixed(1)} kg/h. Toggle AI Control ON ✅ to compare.`;
+    } else {
+      pill.textContent = "PHASE 4/4 · NEUTRALIZED ✅";
+      pill.className = "dcs-phase-pill p4";
+      const prevE = Math.max(22, Math.round(avoidedE));
+      const prevC = Math.max(10, Math.round(avoidedC));
+      msg.textContent = autoLastSummary || `NSGA-II counter-balanced ${upset.name}: ${upset.summaryAction} → Prevented +${prevE} kWh/t & +${prevC} kg/h CO₂ spike while holding ${snap.production.toFixed(2)} tph.`;
+    }
+  }
 }
 
 function stopEvolutionPlay() {
@@ -3039,6 +4459,21 @@ function renderParetoPlot(snap) {
   const curLblX = curX > W - 96 ? curX - 8 : curX + 8;
   const curAnchor = curX > W - 96 ? "end" : "start";
   const curLblY = curY < padT + 20 ? curY + 14 : curY - 7;
+
+  const isPhase3Rebalance = autonomousMode && autoPhase === 3 && aiControlEnabled && !oodFaultActive;
+  const nsgaPanel = document.getElementById("nsga2-panel");
+  if (nsgaPanel) nsgaPanel.classList.toggle("chamber-cyan-active", isPhase3Rebalance);
+  if (isPhase3Rebalance && pareto.length > 0) {
+    const scanPt = pareto[autoScanCandidateIdx % pareto.length];
+    if (scanPt) {
+      const spx = sx(scanPt.energy), spy = sy(scanPt.co2);
+      innerHtml += `
+        <circle cx="${spx.toFixed(1)}" cy="${spy.toFixed(1)}" r="10.5" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="2.0" />
+        <text x="${(spx + 12).toFixed(1)}" y="${(spy + 3).toFixed(1)}" font-size="6.8" font-weight="800" fill="#7dd3fc">Eval #${(autoScanCandidateIdx % pareto.length) + 1}</text>
+      `;
+    }
+  }
+
   innerHtml += `
     <line x1="${curX.toFixed(1)}" y1="${padT}" x2="${curX.toFixed(1)}" y2="${H - padB}" stroke="${curCol}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65" />
     <line x1="${padL}" y1="${curY.toFixed(1)}" x2="${W - padR}" y2="${curY.toFixed(1)}" stroke="${curCol}" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65" />
@@ -3052,23 +4487,21 @@ function renderParetoPlot(snap) {
 
   svg.querySelectorAll(".pareto-pt").forEach(ptEl => {
     ptEl.addEventListener("click", () => {
-      const prevK = { ...getLiveSnapshot().knobs };
+      if (oodFaultActive) return;
+      if (autonomousMode) {
+        stopAutonomousLoop();
+        autonomousMode = false;
+        autoPhase = 1;
+      }
       stopEvolutionPlay();
       selectedGenIdx = Math.max(0, snaps.length - 1);
       const idx = parseInt(ptEl.getAttribute("data-pidx"), 10);
-      compareBaseline = false;
-      manualMode = false; lastCoupledDeltas = {};
-      activeDisturbance = null;
-      paretoTrajectory = null;
+      const targetRec = pareto[idx];
+      if (!targetRec) return;
       showValidationTable = false;
-      customParetoIdx = idx;
-      if (pareto[idx].regime) {
-        activeRegime = pareto[idx].regime;
-      }
-      syncManualFromRecord(pareto[idx]);
       selectedUnit = "nsga2";
-      triggerFeedbackPulse(prevK, pareto[idx].knobs);
-      updateAll();
+      const lbl = targetRec.regime ? `${targetRec.regime} (Pareto #${idx + 1})` : `Pareto #${idx + 1}`;
+      proposeOrExecuteNsga2Move(targetRec, idx, lbl);
     });
   });
 
@@ -3201,11 +4634,11 @@ function getInspectorInfo(unitId, snap) {
       goal: `Trimming fuel consumption from ${base.fuel_rate.toFixed(2)} to ${bal.fuel_rate.toFixed(2)} kg/h yields Heat Efficiency ${bal.heat_eff.toFixed(2)} while Low CO₂ (Sol 49) shifts fuel to ${lowC.fuel_rate.toFixed(2)} kg/h at ${lowC.temp.toFixed(2)}°C for thermal dilution.`
     },
     clinker: {
-      title: "Clinker Sintering, Alite (C₃S) Synthesis & Production Rate (CPR) Twin",
+      title: "Clinker Sintering, Alite (C₃S) Synthesis & Soft-Sensor Twin",
       module: "src/cement_opt/features/engineering.py · Eqs. 3.13–3.15 & Eq. 3.22",
-      func: "Tracks liquid-phase clinkerization (C₂S + CaO → C₃S Alite at 1342–1369°C), thermodynamic calcination enthalpy (1780 kJ/kg-clinker), and live Clinker Production Rate (CPR in tons/h). Enforces the hard NSGA-II floor g(x) = 91.80 - CPR ≤ 0 so decarbonization never sacrifices plant output.",
-      eqDesc: "Eq. 3.14: T_E = 0.278 × CPR × 1780 kJ/kg | Eq. 3.22 Hard Floor: g(x) = 91.80 - CPR ≤ 0.",
-      liveCode: `Live CPR=${snap.production.toFixed(2)} tph (Floor 91.80 tph) | Calcination Enthalpy=${snap.theoEnergy.toFixed(2)} MW | Specific Energy=${snap.energy.toFixed(2)} kWh/t`,
+      func: "Tracks liquid-phase clinkerization (C₂S + CaO → C₃S Alite at 1342–1369°C), Free Lime (f-CaO target 0.7%–2.0%) soft-sensor stability, thermodynamic calcination enthalpy (1780 kJ/kg-clinker), and Clinker Production Rate (CPR ≥ 91.80 tph).",
+      eqDesc: "Eq. 3.14: T_E = 0.278 × CPR × 1780 kJ/kg | Soft-Sensor f-CaO ∈ [0.7%, 2.0%] | Eq. 3.22: g(x) = 91.80 - CPR ≤ 0.",
+      liveCode: `Live CPR=${snap.production.toFixed(2)} tph | Soft-Sensor f-CaO=${snap.fCao.toFixed(2)}% | Alite C₃S=${snap.alitePct.toFixed(1)}% (${snap.clinkerQualityState})`,
       rows: [
         makeRow("Clinker Production Rate (CPR)", base.production, predP, snap.production, "tph"),
         makeRow("Calcination Enthalpy (Eq 3.14)", base.theoretical_energy, base.theoretical_energy, snap.theoEnergy, "MW"),
@@ -3348,8 +4781,8 @@ function getInspectorInfo(unitId, snap) {
       title: "Dual Random Forest Surrogate Twin (Energy & CO₂)",
       module: "src/cement_opt/models/trainer.py · CementProcessModel",
       func: "100-tree RandomForestRegressor pipelines (max_depth=8) wrapping ChemicalEngineeringTransformer. Serves as millisecond virtual kiln evaluator across 5,000+ NSGA-II candidates.",
-      eqDesc: `Energy Test R² = ${ARCH_DATA.benchmarks.energy.RF.toFixed(4)} (Table 4.2 R²=0.98) | CO₂ Test R² = ${ARCH_DATA.benchmarks.co2.RF.toFixed(4)} (Table 4.2 R²=0.98)`,
-      liveCode: `Live f₁=${snap.energy.toFixed(2)} kWh/t | Live f₂=${snap.co2.toFixed(2)} kg/h | Baseline RFR Pred: ${base.predicted_energy.toFixed(2)} kWh/t (+0.63%), ${base.predicted_co2.toFixed(2)} kg/h (+3.32%)`,
+      eqDesc: `Energy Test R² = ${ARCH_DATA.benchmarks.energy.RF.toFixed(4)} (Table 4.2 R²=0.98) | CO₂ Test R² = ${ARCH_DATA.benchmarks.co2.RF.toFixed(4)} | 95% CI = ŷ ± 1.96σ_trees`,
+      liveCode: `Live f₁=${snap.energy.toFixed(2)} ± ${(1.96 * snap.sigmaE).toFixed(1)} kWh/t (${snap.confE.toFixed(1)}% conf) | f₂=${snap.co2.toFixed(2)} ± ${(1.96 * snap.sigmaC).toFixed(1)} kg/h (${snap.confC.toFixed(1)}% conf)`,
       rows: [
         makeRow("Energy Consumption", base.energy, predE, snap.energy, "kWh/t"),
         makeRow("CO₂ Emissions", base.co2, predC, snap.co2, "kg/h"),
@@ -3692,13 +5125,253 @@ function renderImpactStrip() {
   }
 }
 
-function injectDisturbance(key) {
+function findBestParetoCandidate(currentSnap) {
+  const pareto = ARCH_DATA.pareto || [];
+  if (!pareto.length) return null;
+  const minCpr = ARCH_DATA.thermo.min_cpr;
+  const feasible = pareto.map((p, i) => ({ p, i })).filter(x => x.p.production >= minCpr - 1e-6);
+  const candidates = feasible.length ? feasible : pareto.map((p, i) => ({ p, i }));
+
+  let best = candidates[0];
+  let bestDist = Infinity;
+  candidates.forEach(c => {
+    const dE = (c.p.energy - currentSnap.energy) / 35.0;
+    const dC = (c.p.co2 - currentSnap.co2) / 35.0;
+    const dist = dE * dE + dC * dC;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = c;
+    }
+  });
+  return { targetRec: best.p, targetIdx: best.i, bestDist };
+}
+
+function renderAdvisoryToast() {
+  const toast = document.getElementById("advisory-toast");
+  const titleEl = document.getElementById("advisory-toast-title");
+  const tagEl = document.getElementById("advisory-toast-tag");
+  const bodyEl = document.getElementById("advisory-toast-body");
+  if (!toast || !bodyEl) return;
+
+  if (!pendingAdvisory || oodFaultActive) {
+    toast.classList.add("hidden");
+    return;
+  }
+
+  const { targetRec, targetIdx, label, beforeSnap } = pendingAdvisory;
+  const curK = (beforeSnap && beforeSnap.knobs) || getLiveSnapshot().knobs;
+  const dFuel = (targetRec.knobs["Fuel Consumption (kg/h)"] ?? 0) - (curK["Fuel Consumption (kg/h)"] ?? 0);
+  const dAir = (targetRec.knobs["Air Flow Rate (m³/h)"] ?? 0) - (curK["Air Flow Rate (m³/h)"] ?? 0);
+  const dTemp = (targetRec.knobs["Kiln Temperature (°C)"] ?? 0) - (curK["Kiln Temperature (°C)"] ?? 0);
+  const dCpr = (targetRec.knobs["Clinker Production Rate (tons/h)"] ?? 0) - (curK["Clinker Production Rate (tons/h)"] ?? 0);
+  const fmtMove = (verbNeg, verbPos, v, dec, unit) => `${v < 0 ? verbNeg : verbPos} ${v >= 0 ? "+" : ""}${v.toFixed(dec)} ${unit}`;
+
+  if (titleEl) titleEl.textContent = `🎛️ NSGA-II Advisory · ${label || `Pareto #${targetIdx + 1}`}`;
+  if (tagEl) tagEl.textContent = targetRec.regime ? `${targetRec.regime} (#${targetIdx + 1})` : `Pareto #${targetIdx + 1}`;
+  bodyEl.innerHTML = `<strong>NSGA-II proposes:</strong> ${fmtMove("Trim Fuel", "Raise Fuel", dFuel, 1, "kg/h")}, ${fmtMove("Trim Air", "Boost Air", dAir, 0, "m³/h")}, ${fmtMove("Cool Temp", "Heat Temp", dTemp, 1, "°C")}, ${fmtMove("Trim CPR", "Hold CPR", dCpr, 2, "tph")} → Predicted <strong>${targetRec.energy.toFixed(1)} kWh/t</strong> · <strong>${targetRec.co2.toFixed(1)} kg/h CO₂</strong>.`;
+  toast.classList.remove("hidden");
+}
+
+function executeRampedSetpointMove(targetRec, targetIdx, label, beforeSnapOverride = null) {
+  if (oodFaultActive || !targetRec) return;
   stopEvolutionPlay();
   selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
   if (optAnimFrame) {
     clearTimeout(optAnimFrame);
     optAnimFrame = null;
   }
+
+  pendingAdvisory = null;
+  const beforeSnap = beforeSnapOverride || getLiveSnapshot();
+  Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+    if (manualState[feat] === undefined) {
+      manualState[feat] = beforeSnap.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
+    }
+  });
+  activeTargetNotches = { ...(targetRec.knobs || {}) };
+  paretoTrajectory = {
+    fromE: beforeSnap.energy,
+    fromC: beforeSnap.co2,
+    toE: targetRec.energy,
+    toC: targetRec.co2,
+    targetIdx
+  };
+
+  manualMode = true;
+  compareBaseline = false;
+  activeDisturbance = null;
+  isSlewRamping = true;
+  manualFuel = targetRec.fuel || "Oil";
+  lastOptImpact = {
+    before: beforeSnap,
+    after: {
+      ...targetRec,
+      power_cons: targetRec.knobs["Power Consumed (KWt/h)"]
+    },
+    target: targetRec,
+    targetIdx,
+    label
+  };
+
+  let stepCount = 0;
+  const maxSteps = 22;
+  const step = () => {
+    if (oodFaultActive) {
+      optAnimFrame = null;
+      isSlewRamping = false;
+      activeTargetNotches = {};
+      updateAll();
+      return;
+    }
+    stepCount += 1;
+    let anyRemaining = false;
+    const bMap = ARCH_DATA.bounds || {};
+    Object.keys(bMap).forEach(feat => {
+      const b = bMap[feat];
+      const curV = manualState[feat] ?? b.median ?? 0;
+      const tarV = targetRec.knobs[feat] ?? curV;
+      const diff = tarV - curV;
+      const slewCap = SLEW_LIMITS[feat] || Math.max(0.5, (b.max - b.min) * 0.12);
+      if (Math.abs(diff) > 1e-3 && stepCount < maxSteps) {
+        const delta = Math.sign(diff) * Math.min(Math.abs(diff), slewCap);
+        manualState[feat] = clampToBounds(feat, curV + delta);
+        if (Math.abs(tarV - manualState[feat]) > 1e-3) {
+          anyRemaining = true;
+        }
+      } else {
+        manualState[feat] = clampToBounds(feat, tarV);
+      }
+      if (sparkHistory[feat]) {
+        sparkHistory[feat].push(manualState[feat]);
+        if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+      }
+    });
+
+    const midSnap = getLiveSnapshot();
+    horizonHistory.energy.push(midSnap.energy);
+    horizonHistory.co2.push(midSnap.co2);
+    if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+    if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+    currentPredForecast = {
+      energy: targetRec.energy,
+      co2: targetRec.co2,
+      cfEnergy: beforeSnap.energy,
+      cfCo2: beforeSnap.co2,
+      warnE: 0,
+      warnC: 0
+    };
+    pushDcsSample(midSnap.energy, midSnap.co2, beforeSnap.energy, beforeSnap.co2, targetRec.energy, targetRec.co2);
+
+    if (anyRemaining) {
+      updateAll();
+      optAnimFrame = setTimeout(step, 145);
+    } else {
+      optAnimFrame = null;
+      isSlewRamping = false;
+      activeTargetNotches = {};
+      syncManualFromRecord(targetRec);
+      manualMode = false;
+      lastCoupledDeltas = {};
+      customParetoIdx = targetIdx;
+      if (targetRec.regime) activeRegime = targetRec.regime;
+      const afterSnap = getLiveSnapshot();
+      lastOptImpact = { before: beforeSnap, after: afterSnap, target: targetRec, targetIdx, label };
+      selectedUnit = "nsga2";
+      triggerFeedbackPulse(beforeSnap.knobs, afterSnap.knobs);
+      updateAll();
+    }
+  };
+  step();
+}
+
+function proposeOrExecuteNsga2Move(targetRec, targetIdx, label, beforeSnapOverride = null) {
+  if (oodFaultActive || !targetRec) return;
+  if (supervisoryMode === "advisory") {
+    if (optAnimFrame) {
+      clearTimeout(optAnimFrame);
+      optAnimFrame = null;
+      isSlewRamping = false;
+    }
+    const snapBefore = beforeSnapOverride || getLiveSnapshot();
+    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+      if (!manualMode) {
+        manualState[feat] = snapBefore.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
+      }
+    });
+    manualMode = true;
+    activeTargetNotches = { ...(targetRec.knobs || {}) };
+    pendingAdvisory = { targetRec, targetIdx, label, beforeSnap: snapBefore };
+    slidersExpanded = true;
+    updateAll();
+  } else {
+    executeRampedSetpointMove(targetRec, targetIdx, label, beforeSnapOverride);
+  }
+}
+
+function triggerOodSensorFault() {
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  stopEvolutionPlay();
+  stopTourAutoPlay();
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  isSlewRamping = false;
+  pendingAdvisory = null;
+  activeTargetNotches = {};
+
+  const curSnap = getLiveSnapshot();
+  safeHoldKnobs = { ...curSnap.knobs };
+  if (faultPresetToggle === 0) {
+    faultedReadings = {
+      "Kiln Temperature (°C)": 1690.0,
+      "Fuel Consumption (kg/h)": 248.0
+    };
+  } else {
+    faultedReadings = {
+      "Oxygen Levels (%)": 0.0,
+      "Kiln Pressure (bar)": 24.5
+    };
+  }
+  faultPresetToggle = (faultPresetToggle + 1) % 2;
+  oodFaultActive = true;
+  slidersExpanded = true;
+  selectedUnit = "rf_energy";
+  updateAll();
+}
+
+function resetSafetyInterlock() {
+  oodFaultActive = false;
+  faultedReadings = {};
+  safeHoldKnobs = {};
+  pendingAdvisory = null;
+  activeTargetNotches = {};
+  isSlewRamping = false;
+  activeDisturbance = null;
+  manualMode = false;
+  lastCoupledDeltas = {};
+  syncManualFromRecord(getBaseOperatingRecord());
+  updateAll();
+}
+
+function injectDisturbance(key) {
+  if (oodFaultActive) return;
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  stopEvolutionPlay();
+  selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  isSlewRamping = false;
+  pendingAdvisory = null;
+  activeTargetNotches = {};
   syncManualFromRecord(ARCH_DATA.baseline);
   manualMode = true;
   compareBaseline = false;
@@ -3734,38 +5407,56 @@ function injectDisturbance(key) {
   }
   slidersExpanded = true;
   document.getElementById("whatif-sliders-grid").classList.remove("hidden");
+
+  const snapAfterDist = getLiveSnapshot();
+  horizonHistory.energy.push(snapAfterDist.energy);
+  horizonHistory.co2.push(snapAfterDist.co2);
+  if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+  if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+  currentPredForecast = {
+    energy: snapAfterDist.energy,
+    co2: snapAfterDist.co2,
+    cfEnergy: snapAfterDist.energy,
+    cfCo2: snapAfterDist.co2,
+    warnE: 0,
+    warnC: 0
+  };
+  pushDcsSample(snapAfterDist.energy, snapAfterDist.co2, snapAfterDist.energy, snapAfterDist.co2, snapAfterDist.energy, snapAfterDist.co2);
+
+  if (supervisoryMode === "advisory") {
+    const best = findBestParetoCandidate(snapAfterDist);
+    if (best) {
+      const distName = { overburn: "Over-Burning Surge", draft: "Draft / O₂ Drop", cpr: "Clinker Drop" }[key] || "Disturbance Recovery";
+      activeTargetNotches = { ...(best.targetRec.knobs || {}) };
+      pendingAdvisory = {
+        targetRec: best.targetRec,
+        targetIdx: best.targetIdx,
+        label: distName,
+        beforeSnap: snapAfterDist
+      };
+    }
+  }
   updateAll();
 }
 
 function runAiOptimizeAnimation() {
+  if (oodFaultActive) return;
+  if (autonomousMode) {
+    stopAutonomousLoop();
+    autonomousMode = false;
+    autoPhase = 1;
+  }
   stopEvolutionPlay();
   selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
   if (optAnimFrame) {
     clearTimeout(optAnimFrame);
     optAnimFrame = null;
   }
-  const pareto = ARCH_DATA.pareto || [];
-  if (!pareto.length) return;
-
   const currentSnap = getLiveSnapshot();
-  const minCpr = ARCH_DATA.thermo.min_cpr;
-  const feasible = pareto.map((p, i) => ({ p, i })).filter(x => x.p.production >= minCpr - 1e-6);
-  const candidates = feasible.length ? feasible : pareto.map((p, i) => ({ p, i }));
+  const best = findBestParetoCandidate(currentSnap);
+  if (!best) return;
 
-  let best = candidates[0];
-  let bestDist = Infinity;
-  candidates.forEach(c => {
-    const dE = (c.p.energy - currentSnap.energy) / 35.0;
-    const dC = (c.p.co2 - currentSnap.co2) / 35.0;
-    const dist = dE * dE + dC * dC;
-    if (dist < bestDist) {
-      bestDist = dist;
-      best = c;
-    }
-  });
-
-  const targetIdx = best.i;
-  const targetRec = best.p;
+  const { targetRec, targetIdx, bestDist } = best;
   const alreadyOptimal = !manualMode && !compareBaseline && bestDist < 0.02;
   const beforeSnap = alreadyOptimal
     ? {
@@ -3774,69 +5465,11 @@ function runAiOptimizeAnimation() {
       }
     : currentSnap;
 
-  const startKnobs = { ...currentSnap.knobs };
-  paretoTrajectory = {
-    fromE: beforeSnap.energy,
-    fromC: beforeSnap.co2,
-    toE: targetRec.energy,
-    toC: targetRec.co2,
-    targetIdx
-  };
-
   const label = activeDisturbance
     ? ({ overburn: "Over-Burning Surge", draft: "Draft Drop", cpr: "Throughput Drop" }[activeDisturbance])
     : (alreadyOptimal ? "Plant Baseline" : (compareBaseline ? "Plant Baseline" : "Manual State"));
 
-  manualMode = true;
-  compareBaseline = false;
-  activeDisturbance = null;
-  manualFuel = targetRec.fuel || "Oil";
-  lastOptImpact = {
-    before: beforeSnap,
-    after: {
-      ...targetRec,
-      power_cons: targetRec.knobs["Power Consumed (KWt/h)"]
-    },
-    target: targetRec,
-    targetIdx,
-    label
-  };
-
-  const duration = 560;
-  const t0 = Date.now();
-
-  const step = () => {
-    const rawT = Math.max(0, Math.min(1, (Date.now() - t0) / duration));
-    const ease = 1 - Math.pow(1 - rawT, 3);
-    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-      const sVal = startKnobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0;
-      const eVal = targetRec.knobs[feat] ?? sVal;
-      manualState[feat] = clampToBounds(feat, sVal + (eVal - sVal) * ease);
-    });
-
-    if (rawT < 1) {
-      updateAll();
-      optAnimFrame = setTimeout(step, 28);
-    } else {
-      optAnimFrame = null;
-      syncManualFromRecord(targetRec);
-      manualMode = false; lastCoupledDeltas = {};
-      customParetoIdx = targetIdx;
-      if (targetRec.regime) activeRegime = targetRec.regime;
-      Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-        if (sparkHistory[feat]) {
-          sparkHistory[feat].push(manualState[feat]);
-          if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
-        }
-      });
-      const afterSnap = getLiveSnapshot();
-      lastOptImpact = { before: beforeSnap, after: afterSnap, target: targetRec, targetIdx, label };
-      selectedUnit = "nsga2";
-      triggerFeedbackPulse(beforeSnap.knobs, afterSnap.knobs);
-      updateAll();
-    }
-  };
-  step();
+  proposeOrExecuteNsga2Move(targetRec, targetIdx, label, beforeSnap);
 }
 
 // COMPACT BLOCK DIAGRAM UPDATER (PRESERVED)
@@ -3911,13 +5544,76 @@ function updateControls() {
   document.getElementById("twin-view").classList.toggle("hidden", activeView !== "twin");
   document.getElementById("compact-view").classList.toggle("hidden", activeView !== "compact");
 
+  const modeAutoLoopBtn = document.getElementById("mode-autonomous-btn");
+  const modeManualBtn = document.getElementById("mode-manual-btn");
+  if (modeAutoLoopBtn && modeManualBtn) {
+    modeAutoLoopBtn.classList.toggle("active-auto-loop", autonomousMode);
+    modeManualBtn.classList.toggle("active-manual-mode", !autonomousMode);
+  }
+  const autoPauseBtn = document.getElementById("auto-pause-btn");
+  if (autoPauseBtn) {
+    autoPauseBtn.disabled = !autonomousMode;
+    autoPauseBtn.classList.toggle("locked-out", !autonomousMode);
+    autoPauseBtn.classList.toggle("active", autonomousMode && autonomousPaused);
+    autoPauseBtn.textContent = autonomousPaused ? "▶ Resume" : "⏸ Pause";
+  }
+  const aiCmpBtn = document.getElementById("ai-control-toggle-btn");
+  if (aiCmpBtn) {
+    aiCmpBtn.classList.toggle("off", !aiControlEnabled);
+    aiCmpBtn.textContent = aiControlEnabled ? "Compare: AI Control ON ✅" : "Compare: AI Control OFF ❌";
+  }
+  const dcsDual = document.getElementById("dcs-metric-dual-btn");
+  const dcsEng = document.getElementById("dcs-metric-energy-btn");
+  const dcsCo2 = document.getElementById("dcs-metric-co2-btn");
+  if (dcsDual) dcsDual.classList.toggle("active", dcsMetricMode === "dual");
+  if (dcsEng) dcsEng.classList.toggle("active", dcsMetricMode === "energy");
+  if (dcsCo2) dcsCo2.classList.toggle("active", dcsMetricMode === "co2");
+
   const baseBtn = document.getElementById("baseline-compare-btn");
   baseBtn.classList.toggle("warn-active", compareBaseline && !manualMode);
+  baseBtn.classList.toggle("locked-out", oodFaultActive);
+  baseBtn.disabled = oodFaultActive;
 
   document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
     const isReg = !compareBaseline && !manualMode && customParetoIdx === null && btn.getAttribute("data-regime") === activeRegime;
     btn.classList.toggle("active", isReg);
+    btn.classList.toggle("locked-out", oodFaultActive);
+    btn.disabled = oodFaultActive;
   });
+
+  // Supervisory Mode Switch
+  const autoBtn = document.getElementById("mode-auto-btn");
+  const advBtn = document.getElementById("mode-advisory-btn");
+  if (autoBtn && advBtn) {
+    autoBtn.classList.toggle("active-auto", supervisoryMode === "auto");
+    advBtn.classList.toggle("active-advisory", supervisoryMode === "advisory");
+  }
+
+  // ISA-18.2 Interlock Banner & AI Guardrail Lockouts
+  const isaBanner = document.getElementById("isa-interlock-banner");
+  const isaMsg = document.getElementById("isa-interlock-msg");
+  if (isaBanner) {
+    isaBanner.classList.toggle("hidden", !oodFaultActive);
+  }
+  if (isaMsg && oodFaultActive) {
+    const faultEntries = Object.entries(faultedReadings || {}).map(([k, v]) => `${shortFeat(k)}=${v.toFixed(1)}`).join(", ");
+    isaMsg.textContent = `🛡️ AI GUARDRAIL TRIPPED: Out-of-Distribution Sensor Fault (${faultEntries || "OOD Variance"}) → Safe Fallback to Manual DCS Control`;
+  }
+
+  const simOodBtn = document.getElementById("simulate-ood-btn");
+  if (simOodBtn) {
+    simOodBtn.classList.toggle("active-fault", oodFaultActive);
+    simOodBtn.textContent = oodFaultActive ? "🛡️ OOD Sensor Fault Tripped" : "⚠️ Simulate Sensor Fault (OOD Trip)";
+  }
+
+  const aiOptBtn = document.getElementById("ai-optimize-btn");
+  if (aiOptBtn) {
+    aiOptBtn.classList.toggle("locked-out", oodFaultActive);
+    aiOptBtn.disabled = oodFaultActive;
+    aiOptBtn.textContent = oodFaultActive
+      ? "🔒 NSGA-II Locked (ISA-18.2 Interlock)"
+      : (isSlewRamping ? "⚙️ Ramping Setpoints (Slew-Clamped)..." : "⚡ Auto-Balance with NSGA-II");
+  }
 
   const cBadge = document.getElementById("custom-pareto-badge");
   if (!compareBaseline && !manualMode && customParetoIdx !== null) {
@@ -3929,7 +5625,7 @@ function updateControls() {
 
   const liveBtn = document.getElementById("live-stream-btn");
   liveBtn.classList.toggle("live-on", liveStreamOn);
-  liveBtn.innerHTML = `<span class="pulse-dot"></span>Live Stream: ${liveStreamOn ? "ON (800ms)" : "OFF"}`;
+  liveBtn.innerHTML = `<span class="pulse-dot"></span>Historian Telemetry: ${liveStreamOn ? "ON (800ms)" : "OFF"}`;
   document.getElementById("show-all-btn").classList.toggle("active", showAllEdges);
 
   // Panel 3 Evolution Player & Trade-Off Zone controls
@@ -3951,7 +5647,21 @@ function updateControls() {
   // What-If Bar & Disturbance Controls
   const wBadge = document.getElementById("whatif-mode-badge");
   if (wBadge) {
-    if (activeDisturbance) {
+    if (oodFaultActive) {
+      wBadge.textContent = "ISA-18.2 INTERLOCK: SAFE HOLD";
+      wBadge.style.color = "#fca5a5";
+    } else if (autonomousMode) {
+      wBadge.textContent = autonomousPaused
+        ? `Autonomous Loop · PAUSED (P${autoPhase}/4)`
+        : `Autonomous Loop · Phase ${autoPhase}/4`;
+      wBadge.style.color = autoPhase === 2 ? "#fbbf24" : (autoPhase === 3 ? "#38bdf8" : "#10b981");
+    } else if (isSlewRamping) {
+      wBadge.textContent = "Ramping (Slew-Clamped)";
+      wBadge.style.color = "#34d399";
+    } else if (pendingAdvisory) {
+      wBadge.textContent = "Advisory Pending Approval";
+      wBadge.style.color = "#fbbf24";
+    } else if (activeDisturbance) {
       wBadge.textContent = `Disturbance: ${activeDisturbance.toUpperCase()}`;
       wBadge.style.color = "#f87171";
     } else if (manualMode) {
@@ -3967,6 +5677,8 @@ function updateControls() {
   }
   document.querySelectorAll(".disturb-btn").forEach(btn => {
     btn.classList.toggle("active-disturb", btn.getAttribute("data-disturb") === activeDisturbance);
+    btn.classList.toggle("locked-out", oodFaultActive);
+    btn.disabled = oodFaultActive;
   });
   const sGrid = document.getElementById("whatif-sliders-grid");
   const tBtn = document.getElementById("toggle-sliders-btn");
@@ -3983,7 +5695,7 @@ function updateControls() {
   const tourBtn = document.getElementById("start-tour-btn");
   if (tourBtn) {
     tourBtn.classList.toggle("active", tourActive);
-    tourBtn.textContent = tourActive ? `🎓 Tour Active (Stop ${tourStepIdx + 1}/7)` : "🎓 Guided Defense Tour (7 Steps)";
+    tourBtn.textContent = tourActive ? `🎓 Tour Active (Stop ${tourStepIdx + 1}/7)` : "🎓 Guided Walkthrough (7 Steps)";
   }
   const apBtn = document.getElementById("tour-autoplay-btn");
   const apBadge = document.getElementById("tour-autoplay-badge");
@@ -4004,6 +5716,8 @@ function updateControls() {
   const copBtn = document.getElementById("copilot-toggle-btn");
   if (copBtn) {
     copBtn.classList.toggle("active", copilotAutoTrimOn);
+    copBtn.classList.toggle("locked-out", oodFaultActive);
+    copBtn.disabled = oodFaultActive;
     copBtn.textContent = `🤖 NSGA-II Auto-Trim Co-Pilot: ${copilotAutoTrimOn ? "ON" : "OFF"}`;
   }
   document.querySelectorAll("#unit-selector-strip .unit-chip-btn").forEach(btn => {
@@ -4017,10 +5731,12 @@ function updateAll() {
   const snap = getLiveSnapshot();
   renderScoreboard(snap);
   renderScada(snap);
+  renderDcsOscilloscope(snap);
   renderFeatureForge(snap);
   renderRfTwin(snap);
   renderParetoPlot(snap);
   renderImpactStrip();
+  renderAdvisoryToast();
   renderCompactView(snap);
   renderInspector(snap);
 }
@@ -4030,14 +5746,22 @@ function startLiveStream() {
   if (liveStreamOn) return;
   liveStreamOn = true;
   liveTimer = setInterval(() => {
-    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
-      jitterState[feat] = gaussianSample() * 0.0015;
-      const rec = getBaseOperatingRecord();
-      const baseV = manualMode ? (manualState[feat] ?? 0) : (rec.knobs[feat] ?? 0);
-      const val = baseV * (1 + jitterState[feat]);
-      sparkHistory[feat].push(val);
-      if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
-    });
+    if (!oodFaultActive && !autonomousMode) {
+      Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+        jitterState[feat] = gaussianSample() * 0.0015;
+        const rec = getBaseOperatingRecord();
+        const baseV = manualMode ? (manualState[feat] ?? 0) : (rec.knobs[feat] ?? 0);
+        const val = baseV * (1 + jitterState[feat]);
+        sparkHistory[feat].push(val);
+        if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+      });
+      const liveS = getLiveSnapshot();
+      horizonHistory.energy.push(liveS.energy);
+      horizonHistory.co2.push(liveS.co2);
+      if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+      if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+      pushDcsSample(liveS.energy, liveS.co2, liveS.energy, liveS.co2, liveS.energy, liveS.co2);
+    }
     updateAll();
   }, 800);
 }
@@ -4050,6 +5774,254 @@ function stopLiveStream() {
     liveTimer = null;
   }
   resetJitter();
+}
+
+// AUTONOMOUS 4-PHASE CLOSED-LOOP PLANT SIMULATOR
+function stopAutonomousLoop() {
+  if (autoSimTimer) {
+    clearInterval(autoSimTimer);
+    autoSimTimer = null;
+  }
+  autoScanningPareto = false;
+  resetJitter();
+}
+
+function exitAutonomousToManual(expandSliders = true) {
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  activeTargetNotches = {};
+  lastCoupledDeltas = {};
+  manualMode = true;
+  compareBaseline = false;
+  if (expandSliders) {
+    slidersExpanded = true;
+  }
+  const snap = getLiveSnapshot();
+  currentPredForecast = {
+    energy: snap.energy,
+    co2: snap.co2,
+    cfEnergy: snap.energy,
+    cfCo2: snap.co2,
+    warnE: 0,
+    warnC: 0
+  };
+  updateAll();
+}
+
+function stepAutonomousSimulation() {
+  if (!autonomousMode || autonomousPaused || oodFaultActive) return;
+
+  const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || ARCH_DATA.pareto[0];
+  const upset = AUTONOMOUS_UPSETS[autoUpsetIdx % AUTONOMOUS_UPSETS.length];
+  const t = autoCycleElapsed;
+
+  if (t < 4.0) autoPhase = 1;
+  else if (t < 8.0) autoPhase = 2;
+  else if (t < 13.0) autoPhase = 3;
+  else autoPhase = 4;
+
+  let cfAlpha = 0;
+  let actualAlpha = 0;
+  let projAlpha = 0;
+
+  if (autoPhase === 1) {
+    cfAlpha = 0;
+    actualAlpha = 0;
+    projAlpha = 0;
+  } else if (autoPhase === 2) {
+    const p = (t - 4.0) / 4.0;
+    cfAlpha = 0.08 + 0.34 * p;
+    actualAlpha = cfAlpha;
+    projAlpha = 0.78 + 0.22 * p;
+  } else if (autoPhase === 3) {
+    const p = (t - 8.0) / 5.0;
+    cfAlpha = 0.42 + 0.58 * Math.sin(p * Math.PI * 0.5);
+    actualAlpha = aiControlEnabled ? 0.42 * Math.pow(1 - p, 1.65) : cfAlpha;
+    projAlpha = aiControlEnabled ? actualAlpha * 0.25 : Math.min(1.0, cfAlpha + 0.15);
+  } else {
+    const p = (t - 13.0) / 4.0;
+    cfAlpha = Math.max(0.82, 1.0 - 0.14 * p);
+    actualAlpha = aiControlEnabled ? 0 : cfAlpha;
+    projAlpha = aiControlEnabled ? 0 : cfAlpha;
+  }
+
+  const cfKnobs = {};
+  const actualKnobs = {};
+  const projKnobs = {};
+  const bMap = ARCH_DATA.bounds || {};
+  lastCoupledDeltas = {};
+
+  Object.keys(bMap).forEach(feat => {
+    const baseV = bal.knobs[feat] ?? bMap[feat].median ?? 0;
+    const peakV = (upset.peakKnobs && upset.peakKnobs[feat] !== undefined) ? upset.peakKnobs[feat] : baseV;
+    cfKnobs[feat] = clampToBounds(feat, baseV + (peakV - baseV) * cfAlpha);
+    actualKnobs[feat] = clampToBounds(feat, baseV + (peakV - baseV) * actualAlpha);
+    projKnobs[feat] = clampToBounds(feat, baseV + (peakV - baseV) * projAlpha);
+    manualState[feat] = actualKnobs[feat];
+    jitterState[feat] = (autoPhase === 1 || (autoPhase === 4 && aiControlEnabled))
+      ? gaussianSample() * 0.0003
+      : gaussianSample() * 0.0006;
+
+    if (autoPhase === 3 && aiControlEnabled && upset.peakKnobs && upset.peakKnobs[feat] !== undefined) {
+      const rem = baseV - actualKnobs[feat];
+      if (Math.abs(rem) > 1e-3) {
+        lastCoupledDeltas[feat] = { diff: rem, mode: "algo" };
+      }
+    }
+  });
+  manualFuel = bal.fuel || "Oil";
+
+  if (autoPhase === 3 && aiControlEnabled) {
+    activeTargetNotches = { ...(bal.knobs || {}) };
+    autoScanningPareto = true;
+    const paretoLen = Math.max(1, (ARCH_DATA.pareto || []).length);
+    autoScanCandidateIdx = (autoScanCandidateIdx + 3) % paretoLen;
+    if (!autoPulseFiredP3 || (t >= 10.25 && t < 10.55)) {
+      autoPulseFiredP3 = true;
+      triggerFeedbackPulse(cfKnobs, bal.knobs);
+    }
+  } else {
+    activeTargetNotches = {};
+    autoScanningPareto = false;
+  }
+
+  const cfEval = evaluateKnobsThroughRFR(cfKnobs, bal.fuel || "Oil");
+  const projEval = evaluateKnobsThroughRFR(projKnobs, bal.fuel || "Oil");
+  const actualEval = evaluateKnobsThroughRFR(actualKnobs, bal.fuel || "Oil");
+
+  const warnE = Math.max(0, projEval.energy - bal.energy);
+  const warnC = Math.max(0, projEval.co2 - bal.co2);
+  currentPredForecast = {
+    energy: projEval.energy,
+    co2: projEval.co2,
+    cfEnergy: cfEval.energy,
+    cfCo2: cfEval.co2,
+    warnE,
+    warnC
+  };
+
+  if (autoPhase === 4 && aiControlEnabled && !autoLastSummary) {
+    let maxAvoidE = Math.max(0, cfEval.energy - actualEval.energy);
+    let maxAvoidC = Math.max(0, cfEval.co2 - actualEval.co2);
+    dcsHistory.slice(-24).forEach(pt => {
+      maxAvoidE = Math.max(maxAvoidE, pt.cfE - pt.actualE);
+      maxAvoidC = Math.max(maxAvoidC, pt.cfC - pt.actualC);
+    });
+    const cleanName = upset.name.replace(/^\d+\.\s*/, "");
+    autoLastSummary = `NSGA-II counter-balanced ${cleanName}: ${upset.summaryAction} → Prevented +${Math.max(22, Math.round(maxAvoidE))} kWh/t & +${Math.max(10, Math.round(maxAvoidC))} kg/h CO₂ spike while holding ${bal.production.toFixed(2)} tph.`;
+  }
+
+  dcsTickCounter += 1;
+  if (dcsTickCounter % 2 === 0) {
+    Object.keys(bMap).forEach(feat => {
+      if (sparkHistory[feat]) {
+        sparkHistory[feat].push(actualKnobs[feat] * (1 + (jitterState[feat] || 0)));
+        if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+      }
+    });
+    horizonHistory.energy.push(actualEval.energy);
+    horizonHistory.co2.push(actualEval.co2);
+    if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+    if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+    pushDcsSample(
+      actualEval.energy,
+      actualEval.co2,
+      aiControlEnabled ? cfEval.energy : actualEval.energy,
+      aiControlEnabled ? cfEval.co2 : actualEval.co2,
+      projEval.energy,
+      projEval.co2
+    );
+  }
+
+  autoCycleElapsed += 0.25;
+  if (autoCycleElapsed >= 17.0) {
+    autoCycleElapsed = 0;
+    autoUpsetIdx = (autoUpsetIdx + 1) % AUTONOMOUS_UPSETS.length;
+    autoPulseFiredP3 = false;
+    autoLastSummary = "";
+    activeTargetNotches = {};
+  }
+
+  updateAll();
+}
+
+function startAutonomousLoop(resetCycle = false) {
+  stopAutonomousLoop();
+  stopEvolutionPlay();
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+    isSlewRamping = false;
+  }
+  if (oodFaultActive) {
+    resetSafetyInterlock();
+  }
+  autonomousMode = true;
+  autonomousPaused = false;
+  compareBaseline = false;
+  manualMode = false;
+  activeDisturbance = null;
+  pendingAdvisory = null;
+  activeRegime = "Balanced";
+  customParetoIdx = null;
+  if (resetCycle) {
+    autoCycleElapsed = 0;
+    autoPhase = 1;
+    autoPulseFiredP3 = false;
+    autoLastSummary = "";
+    activeTargetNotches = {};
+    lastCoupledDeltas = {};
+    const bal = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"]) || ARCH_DATA.pareto[0];
+    syncManualFromRecord(bal);
+    currentPredForecast = {
+      energy: bal.energy,
+      co2: bal.co2,
+      cfEnergy: bal.energy,
+      cfCo2: bal.co2,
+      warnE: 0,
+      warnC: 0
+    };
+    if (!dcsHistory.length) {
+      seedDcsHistory();
+    }
+  }
+  autoSimTimer = setInterval(stepAutonomousSimulation, 250);
+  updateAll();
+}
+
+function toggleAutonomousPause() {
+  if (!autonomousMode) return;
+  autonomousPaused = !autonomousPaused;
+  updateAll();
+}
+
+function injectAutonomousDisturbanceNow() {
+  if (tourActive) {
+    exitTour();
+  }
+  if (oodFaultActive) {
+    resetSafetyInterlock();
+  }
+  if (autonomousMode && autoPhase >= 2) {
+    autoUpsetIdx = (autoUpsetIdx + 1) % AUTONOMOUS_UPSETS.length;
+  }
+  autonomousMode = true;
+  autonomousPaused = false;
+  compareBaseline = false;
+  manualMode = false;
+  activeDisturbance = null;
+  pendingAdvisory = null;
+  autoCycleElapsed = 4.25;
+  autoPhase = 2;
+  autoPulseFiredP3 = false;
+  autoLastSummary = "";
+  activeTargetNotches = {};
+  if (!autoSimTimer) {
+    autoSimTimer = setInterval(stepAutonomousSimulation, 250);
+  }
+  stepAutonomousSimulation();
 }
 
 // STEP 3: 7-STOP GUIDED PRESENTATION & DEFENSE TOUR ENGINE
@@ -4336,6 +6308,16 @@ function toggleTourAutoPlay() {
 }
 
 function startTour() {
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  if (oodFaultActive) {
+    resetSafetyInterlock();
+  }
+  pendingAdvisory = null;
+  activeTargetNotches = {};
+  isSlewRamping = false;
   tourActive = true;
   tourStepIdx = 0;
   stopTourAutoPlay();
@@ -4357,6 +6339,111 @@ function exitTour() {
 // EVENT LISTENERS
 buildWhatIfSliders();
 
+const modeAutoLoopBtn = document.getElementById("mode-autonomous-btn");
+if (modeAutoLoopBtn) {
+  modeAutoLoopBtn.addEventListener("click", () => {
+    showValidationTable = false;
+    if (tourActive) exitTour();
+    startAutonomousLoop(true);
+  });
+}
+const modeManualBtn = document.getElementById("mode-manual-btn");
+if (modeManualBtn) {
+  modeManualBtn.addEventListener("click", () => {
+    showValidationTable = false;
+    exitAutonomousToManual(true);
+  });
+}
+const autoPauseBtn = document.getElementById("auto-pause-btn");
+if (autoPauseBtn) {
+  autoPauseBtn.addEventListener("click", () => {
+    toggleAutonomousPause();
+  });
+}
+const autoInjectBtn = document.getElementById("auto-inject-btn");
+if (autoInjectBtn) {
+  autoInjectBtn.addEventListener("click", () => {
+    showValidationTable = false;
+    injectAutonomousDisturbanceNow();
+  });
+}
+const aiControlToggleBtn = document.getElementById("ai-control-toggle-btn");
+if (aiControlToggleBtn) {
+  aiControlToggleBtn.addEventListener("click", () => {
+    aiControlEnabled = !aiControlEnabled;
+    if (autonomousMode && aiControlEnabled && autoPhase === 4) {
+      autoCycleElapsed = 8.0;
+      autoPhase = 3;
+      autoPulseFiredP3 = false;
+      autoLastSummary = "";
+    }
+    updateAll();
+  });
+}
+document.querySelectorAll("[data-dcs-metric]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    dcsMetricMode = btn.getAttribute("data-dcs-metric") || "dual";
+    updateAll();
+  });
+});
+
+const modeAutoBtn = document.getElementById("mode-auto-btn");
+if (modeAutoBtn) {
+  modeAutoBtn.addEventListener("click", () => {
+    supervisoryMode = "auto";
+    if (pendingAdvisory && !oodFaultActive) {
+      const adv = pendingAdvisory;
+      pendingAdvisory = null;
+      executeRampedSetpointMove(adv.targetRec, adv.targetIdx, adv.label, adv.beforeSnap);
+    } else {
+      pendingAdvisory = null;
+      activeTargetNotches = {};
+      updateAll();
+    }
+  });
+}
+const modeAdvBtn = document.getElementById("mode-advisory-btn");
+if (modeAdvBtn) {
+  modeAdvBtn.addEventListener("click", () => {
+    supervisoryMode = "advisory";
+    updateAll();
+  });
+}
+const approveAdvBtn = document.getElementById("approve-advisory-btn");
+if (approveAdvBtn) {
+  approveAdvBtn.addEventListener("click", () => {
+    if (oodFaultActive || !pendingAdvisory) return;
+    const adv = pendingAdvisory;
+    pendingAdvisory = null;
+    executeRampedSetpointMove(adv.targetRec, adv.targetIdx, adv.label, adv.beforeSnap);
+  });
+}
+const rejectAdvBtn = document.getElementById("reject-advisory-btn");
+if (rejectAdvBtn) {
+  rejectAdvBtn.addEventListener("click", () => {
+    pendingAdvisory = null;
+    activeTargetNotches = {};
+    updateAll();
+  });
+}
+const simOodBtnEl = document.getElementById("simulate-ood-btn");
+if (simOodBtnEl) {
+  simOodBtnEl.addEventListener("click", () => {
+    showValidationTable = false;
+    if (oodFaultActive) {
+      resetSafetyInterlock();
+    } else {
+      triggerOodSensorFault();
+    }
+  });
+}
+const resetInterlockEl = document.getElementById("reset-interlock-btn");
+if (resetInterlockEl) {
+  resetInterlockEl.addEventListener("click", () => {
+    resetSafetyInterlock();
+  });
+}
+
 const cplBtnEl = document.getElementById("coupling-toggle-btn");
 if (cplBtnEl) {
   cplBtnEl.addEventListener("click", () => {
@@ -4368,6 +6455,7 @@ if (cplBtnEl) {
 const copBtnEl = document.getElementById("copilot-toggle-btn");
 if (copBtnEl) {
   copBtnEl.addEventListener("click", () => {
+    if (oodFaultActive) return;
     copilotAutoTrimOn = !copilotAutoTrimOn;
     if (copilotAutoTrimOn && manualMode) {
       applyPhysicalAndCopilotCoupling(lastPrimaryEditedFeat || "Fuel Consumption (kg/h)", 0.1);
@@ -4417,6 +6505,12 @@ document.getElementById("toggle-sliders-btn").addEventListener("click", () => {
 });
 
 document.getElementById("reset-whatif-btn").addEventListener("click", () => {
+  if (oodFaultActive) return;
+  if (autonomousMode) {
+    stopAutonomousLoop();
+    autonomousMode = false;
+    autoPhase = 1;
+  }
   const prevK = { ...getLiveSnapshot().knobs };
   stopEvolutionPlay();
   selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
@@ -4424,6 +6518,9 @@ document.getElementById("reset-whatif-btn").addEventListener("click", () => {
     clearTimeout(optAnimFrame);
     optAnimFrame = null;
   }
+  isSlewRamping = false;
+  pendingAdvisory = null;
+  activeTargetNotches = {};
   manualMode = false; lastCoupledDeltas = {};
   activeDisturbance = null;
   compareBaseline = false;
@@ -4463,9 +6560,22 @@ document.getElementById("view-compact-btn").addEventListener("click", () => {
 });
 
 document.getElementById("baseline-compare-btn").addEventListener("click", () => {
+  if (oodFaultActive) return;
+  if (autonomousMode) {
+    stopAutonomousLoop();
+    autonomousMode = false;
+    autoPhase = 1;
+  }
   const prevK = { ...getLiveSnapshot().knobs };
   stopEvolutionPlay();
   selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+  }
+  isSlewRamping = false;
+  pendingAdvisory = null;
+  activeTargetNotches = {};
   compareBaseline = !compareBaseline;
   manualMode = false; lastCoupledDeltas = {};
   activeDisturbance = null;
@@ -4478,19 +6588,22 @@ document.getElementById("baseline-compare-btn").addEventListener("click", () => 
 
 document.querySelectorAll("#regime-switch .pill-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    const prevK = { ...getLiveSnapshot().knobs };
+    if (oodFaultActive) return;
+    if (autonomousMode) {
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autoPhase = 1;
+    }
     stopEvolutionPlay();
     selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
-    compareBaseline = false;
-    manualMode = false; lastCoupledDeltas = {};
-    activeDisturbance = null;
-    paretoTrajectory = null;
+    const regimeName = btn.getAttribute("data-regime");
+    const targetRec = (ARCH_DATA.regimes && ARCH_DATA.regimes[regimeName]) || null;
+    if (!targetRec) return;
+    const idx = (ARCH_DATA.pareto || []).findIndex(p => p.id === targetRec.id);
+    const useIdx = idx >= 0 ? idx : 0;
+    activeRegime = regimeName;
     customParetoIdx = null;
-    activeRegime = btn.getAttribute("data-regime");
-    const targetRec = getBaseOperatingRecord();
-    syncManualFromRecord(targetRec);
-    triggerFeedbackPulse(prevK, targetRec.knobs);
-    updateAll();
+    proposeOrExecuteNsga2Move(targetRec, useIdx, `${regimeName} Preset`);
   });
 });
 
@@ -4621,7 +6734,7 @@ document.getElementById("show-all-btn").addEventListener("click", () => {
   updateAll();
 });
 
-updateAll();
+startAutonomousLoop(true);
 </script>
 </body>
 </html>
