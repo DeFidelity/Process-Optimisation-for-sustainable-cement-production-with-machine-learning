@@ -39,9 +39,9 @@
   <rect x="16" y="56" width="158" height="126" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
   <text x="26" y="76" font-size="11" font-weight="700" fill="#f8fafc">1. Sensors &amp; Merger</text>
   <text x="26" y="94" font-size="9.5" fill="#cbd5e1">Join on SN; drop SN</text>
-  <text x="26" y="112" font-size="9.5" fill="#38bdf8">Temp: 1374.9°C</text>
-  <text x="26" y="128" font-size="9.5" fill="#38bdf8">Fuel: 183.1 kg/h (Oil)</text>
-  <text x="26" y="144" font-size="9.5" fill="#38bdf8">O2: 4.06% | 4201 kW</text>
+  <text x="26" y="112" font-size="9.5" fill="#38bdf8">Temp: 1365.6°C</text>
+  <text x="26" y="128" font-size="9.5" fill="#38bdf8">Fuel: 194.4 kg/h (Oil)</text>
+  <text x="26" y="144" font-size="9.5" fill="#38bdf8">O2: 3.86% | 4056 kW</text>
   <text x="26" y="164" font-size="8.8" fill="#94a3b8">13 knobs + Fuel one-hot</text>
 
   <!-- Node 2: Kiln & Thermo -->
@@ -53,20 +53,20 @@
     <text x="34" y="17" font-size="9.5" font-weight="700" fill="#fef3c7">Rotary Kiln 1450°C</text>
   </g>
   <text x="212" y="132" font-size="9.5" fill="#cbd5e1">Eq 3.13: CaCO3 → CaO + CO2</text>
-  <text x="212" y="148" font-size="9.5" fill="#fbbf24">Heat Eff: 250.7 | |O2-4%|: 0.060</text>
+  <text x="212" y="148" font-size="9.5" fill="#fbbf24">Heat Eff: 210.9 | |O2-4%|: 0.140</text>
   <text x="212" y="166" font-size="8.8" fill="#94a3b8">ChemicalEngineeringTransformer</text>
 
   <!-- Node 3a: Energy RF -->
   <rect x="412" y="56" width="144" height="56" rx="9" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
   <text x="422" y="74" font-size="10.5" font-weight="700" fill="#f8fafc">3a. Energy RF Twin</text>
   <text x="422" y="90" font-size="9.5" font-weight="700" fill="#38bdf8">Test R² = 0.9757</text>
-  <text x="422" y="104" font-size="9" fill="#cbd5e1">f1: 1040.2 kWh/t</text>
+  <text x="422" y="104" font-size="9" fill="#cbd5e1">f1: 1030.4 kWh/t</text>
 
   <!-- Node 3b: CO2 RF -->
   <rect x="412" y="126" width="144" height="56" rx="9" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
   <text x="422" y="144" font-size="10.5" font-weight="700" fill="#f8fafc">3b. CO2 RF Twin</text>
   <text x="422" y="160" font-size="9.5" font-weight="700" fill="#10b981">Test R² = 0.9762</text>
-  <text x="422" y="174" font-size="9" fill="#cbd5e1">f2: 959.4 kg/h</text>
+  <text x="422" y="174" font-size="9" fill="#cbd5e1">f2: 920.4 kg/h</text>
 
   <!-- Node 4: NSGA-II -->
   <rect x="586" y="56" width="156" height="126" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
@@ -75,12 +75,12 @@
   <text x="596" y="112" font-size="9.5" fill="#cbd5e1">min (Energy, CO2)</text>
   <text x="596" y="130" font-size="9.5" fill="#c084fc">g(x) = 91.80 - CPR ≤ 0</text>
   <text x="596" y="148" font-size="9.5" font-weight="700" fill="#10b981">50 Pareto solutions</text>
-  <text x="596" y="166" font-size="9" fill="#cbd5e1">CPR: 92.81 tph ✓</text>
+  <text x="596" y="166" font-size="9" fill="#cbd5e1">CPR: 92.05 tph ✓</text>
 
   <!-- Node 5: Recommender -->
   <rect x="210" y="230" width="340" height="96" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.6"/>
   <text x="224" y="252" font-size="11" font-weight="700" fill="#f8fafc">5. Regime Recommender &amp; Operator Setpoints</text>
   <text x="224" y="270" font-size="9.5" fill="#cbd5e1">Balanced Knee-Point vs. Plant Median (Fuel: Oil)</text>
-  <text x="224" y="289" font-size="10.5" font-weight="700" fill="#10b981">Energy: -10.40%  |  CO2: -1.44%  |  Clinker: +1.10%</text>
-  <text x="224" y="309" font-size="9" fill="#94a3b8">Power 5176→4201 kW · O2 3.67→4.06% · Air 2032→2202 m³/h</text>
+  <text x="224" y="289" font-size="10.5" font-weight="700" fill="#10b981">Energy: -11.24%  |  CO2: -5.45%  |  Clinker: +0.27%</text>
+  <text x="224" y="309" font-size="9" fill="#94a3b8">Power 5176→4056 kW · O2 3.67→3.86% · Air 2032→1831 m³/h</text>
 </svg>
