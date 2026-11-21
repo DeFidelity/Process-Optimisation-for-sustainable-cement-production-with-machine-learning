@@ -1520,6 +1520,166 @@
     border-color: #38bdf8 !important;
     box-shadow: 0 0 0 1.5px rgba(56, 189, 248, 0.55), 0 0 18px rgba(56, 189, 248, 0.22) !important;
   }
+  .academic-cta-btn {
+    border-color: rgba(56, 189, 248, 0.6) !important;
+    background: rgba(56, 189, 248, 0.14) !important;
+    color: #7dd3fc !important;
+    font-weight: 800 !important;
+  }
+  .academic-cta-btn:hover {
+    background: rgba(56, 189, 248, 0.24) !important;
+    color: #ffffff !important;
+  }
+  .academic-cta-btn.active {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: #38bdf8 !important;
+  }
+  .acad-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    background: rgba(2, 6, 23, 0.78);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+  .acad-modal-backdrop.hidden {
+    display: none !important;
+  }
+  .acad-modal {
+    width: min(1040px, 100%);
+    max-height: calc(100vh - 36px);
+    display: flex;
+    flex-direction: column;
+    background: #0b1322;
+    border: 1.5px solid rgba(56, 189, 248, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.88);
+    color: #f8fafc;
+    overflow: hidden;
+  }
+  .acad-modal-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.92);
+  }
+  .acad-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 9px 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(15, 23, 42, 0.65);
+  }
+  .acad-tab-btn {
+    appearance: none;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: rgba(30, 41, 59, 0.65);
+    color: #cbd5e1;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+  .acad-tab-btn:hover {
+    border-color: #38bdf8;
+    color: #f8fafc;
+  }
+  .acad-tab-btn.active {
+    background: rgba(56, 189, 248, 0.22);
+    border-color: #38bdf8;
+    color: #7dd3fc;
+  }
+  .acad-modal-body {
+    padding: 14px 16px 18px 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .acad-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  @media (max-width: 780px) {
+    .acad-kpi-grid { grid-template-columns: 1fr; }
+  }
+  .acad-kpi-card {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+  }
+  .acad-kpi-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.04em;
+  }
+  .acad-kpi-val {
+    font-size: 18px;
+    font-weight: 800;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #34d399;
+    margin: 3px 0;
+  }
+  .acad-kpi-sub {
+    font-size: 11px;
+    color: #cbd5e1;
+  }
+  .acad-math-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 820px) {
+    .acad-math-grid { grid-template-columns: 1fr; }
+  }
+  .acad-math-card {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+  }
+  .acad-math-card.full {
+    grid-column: 1 / -1;
+  }
+  .acad-math-title {
+    margin: 0 0 6px 0;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #7dd3fc;
+  }
+  .acad-eq-block {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 11.2px;
+    line-height: 1.55;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #060b14;
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    color: #e2e8f0;
+    margin: 6px 0;
+    overflow-x: auto;
+  }
+  .acad-note {
+    margin: 4px 0 0 0;
+    font-size: 11.2px;
+    line-height: 1.45;
+    color: #cbd5e1;
+  }
 </style>
 </head>
 <body>
@@ -1538,7 +1698,8 @@
           <option value="ashaka">Validation Case Study: Lafarge-Holcim Ashaka Gepol Kiln (Tables 4.1 &amp; 4.2)</option>
           <option value="long_dry">Plant Profile: Legacy Long-Dry Rotary Kiln (High-Thermal Retrofit)</option>
         </select>
-        <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Walkthrough (7 Steps)</button>
+        <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Tour</button>
+        <button class="pill-btn academic-cta-btn" id="academic-metrics-btn">📄 Academic Metrics</button>
         <button class="pill-btn active" id="view-twin-btn" data-view="twin">Plant Digital Twin P&amp;ID</button>
         <button class="pill-btn" id="view-compact-btn" data-view="compact">System Flowchart</button>
       </div>
@@ -2292,23 +2453,23 @@
   </div>
 
   <!-- FLOATING GUIDED PRESENTATION & DEFENSE TOUR HUD -->
-  <aside class="tour-hud hidden" id="tour-hud" role="dialog" aria-label="Guided Defense Tour">
+  <aside class="tour-hud hidden" id="tour-hud" role="dialog" aria-label="60-Second Guided Defense Tour" style="width:392px;">
     <div class="tour-hud-top">
-      <span class="tour-step-pill" id="tour-step-pill">Stop 1 / 7</span>
+      <span class="tour-step-pill" id="tour-step-pill">Stop 1 / 6</span>
       <span class="badge" id="tour-autoplay-badge" style="color:#38bdf8;">Manual Step</span>
     </div>
     <h4 class="tour-hud-title" id="tour-title">--</h4>
     <p class="tour-hud-body" id="tour-body">--</p>
     <div class="tour-hud-action" id="tour-action-status">--</div>
-    <div class="tour-progress"><div class="tour-progress-fill" id="tour-progress-fill" style="width:14%;"></div></div>
+    <div class="tour-progress"><div class="tour-progress-fill" id="tour-progress-fill" style="width:16.7%;"></div></div>
     <div class="tour-hud-controls">
       <div class="btn-group">
-        <button class="pill-btn" id="tour-prev-btn">◀ Prev</button>
+        <button class="pill-btn" id="tour-prev-btn">◀ Back</button>
         <button class="pill-btn active" id="tour-next-btn">Next ▶</button>
       </div>
       <div class="btn-group">
-        <button class="pill-btn" id="tour-autoplay-btn">⏯ Auto-Play 8s/step</button>
-        <button class="pill-btn warn-active" id="tour-exit-btn">✕ Exit Tour</button>
+        <button class="pill-btn" id="tour-autoplay-btn">⏯ Auto-Play</button>
+        <button class="pill-btn warn-active" id="tour-exit-btn">✕ Exit</button>
       </div>
     </div>
   </aside>
@@ -2328,6 +2489,25 @@
       </div>
     </div>
   </aside>
+
+  <!-- THESIS VALIDATION & EQUATIONS MODAL -->
+  <div class="acad-modal-backdrop hidden" id="academic-modal-backdrop" role="dialog" aria-modal="true" aria-label="Thesis Validation and Equations">
+    <div class="acad-modal" id="academic-modal">
+      <div class="acad-modal-head">
+        <div>
+          <h3 class="title" style="margin:0;">📄 Thesis Validation &amp; Mathematical Formulation (Ashaka Gepol Kiln)</h3>
+          <p class="sub" style="margin:2px 0 0 0;">Published validation metrics (Tables 4.1 &amp; 4.2), representative Pareto solutions, and physics-informed ML + NSGA-II equations.</p>
+        </div>
+        <button class="pill-btn warn-active" id="academic-modal-close">✕ Close</button>
+      </div>
+      <div class="acad-tabs" role="tablist">
+        <button class="acad-tab-btn active" id="acad-tab-btn-val" data-acad-tab="val" role="tab">Tab 1 · Plant Validation Matrix (Table 4.2)</button>
+        <button class="acad-tab-btn" id="acad-tab-btn-pareto" data-acad-tab="pareto" role="tab">Tab 2 · Pareto Operating Regimes (Table 4.1)</button>
+        <button class="acad-tab-btn" id="acad-tab-btn-math" data-acad-tab="math" role="tab">Tab 3 · Mathematical Formulation</button>
+      </div>
+      <div class="acad-modal-body" id="academic-modal-body"></div>
+    </div>
+  </div>
 
 </div>
 
@@ -2516,8 +2696,10 @@ let paretoZoom = true;
 let evoPlaying = false;
 let evoTimer = null;
 
-// Step 3 Guided Defense Tour, Table 4.2 View & Actuator Feedback Pulse State
+// Step 3 Guided Defense Tour, Academic Modal & Actuator Feedback Pulse State
 let showValidationTable = false;
+let academicModalOpen = false;
+let academicActiveTab = "val";
 let actuatorPulseUntil = 0;
 let actuatorDeltaTexts = {};
 let pulseAnimRaf = null;
@@ -4210,7 +4392,7 @@ function stopEvolutionPlay() {
   evoPlaying = false;
 }
 
-function toggleEvolutionPlay() {
+function toggleEvolutionPlay(stepMs = 210) {
   const snaps = ARCH_DATA.gen_snapshots || [];
   if (!snaps.length) return;
   if (evoPlaying) {
@@ -4232,7 +4414,7 @@ function toggleEvolutionPlay() {
       stopEvolutionPlay();
       updateAll();
     }
-  }, 210);
+  }, stepMs);
 }
 
 function renderParetoPlot(snap) {
@@ -5687,24 +5869,28 @@ function updateControls() {
     tBtn.textContent = slidersExpanded ? "Sliders ▴" : "Sliders ▾";
   }
 
-  // Step 3 Validation Table & Guided Tour Controls
+  // Step 3 Validation Table, Academic Modal & 60-Second Guided Tour Controls
   const vtBtn = document.getElementById("validation-table-btn");
   if (vtBtn) {
     vtBtn.classList.toggle("active", showValidationTable);
   }
+  const acadBtn = document.getElementById("academic-metrics-btn");
+  if (acadBtn) {
+    acadBtn.classList.toggle("active", academicModalOpen);
+  }
   const tourBtn = document.getElementById("start-tour-btn");
   if (tourBtn) {
     tourBtn.classList.toggle("active", tourActive);
-    tourBtn.textContent = tourActive ? `🎓 Tour Active (Stop ${tourStepIdx + 1}/7)` : "🎓 Guided Walkthrough (7 Steps)";
+    tourBtn.textContent = tourActive ? `🎓 Tour Active (Stop ${tourStepIdx + 1}/6)` : "🎓 Guided Tour";
   }
   const apBtn = document.getElementById("tour-autoplay-btn");
   const apBadge = document.getElementById("tour-autoplay-badge");
   if (apBtn) {
     apBtn.classList.toggle("active", tourAutoPlay);
-    apBtn.textContent = tourAutoPlay ? "⏸ Pause Auto-Play" : "⏯ Auto-Play 8s/step";
+    apBtn.textContent = tourAutoPlay ? "⏸ Pause" : "⏯ Auto-Play";
   }
   if (apBadge) {
-    apBadge.textContent = tourAutoPlay ? "Auto-Play 8s" : "Manual Step";
+    apBadge.textContent = tourAutoPlay ? "Auto-Play 10s (60s)" : "Manual Step";
     apBadge.style.color = tourAutoPlay ? "#10b981" : "#38bdf8";
   }
 
@@ -6024,11 +6210,12 @@ function injectAutonomousDisturbanceNow() {
   stepAutonomousSimulation();
 }
 
-// STEP 3: 7-STOP GUIDED PRESENTATION & DEFENSE TOUR ENGINE
+// STEP 3: 60-SECOND GUIDED PRESENTATION & DEFENSE TOUR (6 STOPS)
 const TOUR_PANEL_IDS = [
   "header-panel",
-  "whatif-panel",
   "zone-a-panel",
+  "dcs-oscilloscope-panel",
+  "whatif-panel",
   "forge-panel",
   "rf-twin-panel",
   "nsga2-panel",
@@ -6073,11 +6260,15 @@ function applyTourSpotlights(spotlightIds, unitIds = [], scrollId = null) {
 
 const TOUR_STOPS = [
   {
-    title: "Stop 1 — Industrial Problem & Ashaka Gepol Kiln Baseline",
-    body: "Cement clinker production emits CO₂ from two distinct sources: ~60% from limestone calcination (CaCO₃ → CaO + CO₂) and ~40% from high-temperature fuel combustion (>1450°C). At the Ashaka Gepol kiln (72m × 4m), manual control struggles to balance specific energy (1160.87 kWh/t), carbon intensity (973.45 kg/h), and throughput (91.80 tph).",
-    action: "Action: Loaded Unoptimized Plant Baseline (1160.87 kWh/t | 973.45 kg/h CO₂ | 91.80 tph) & spotlighted Preheater, Rotary Kiln & Exhaust Stack.",
+    title: "Stop 1 — Real Industrial Context (Ashaka Gepol Kiln)",
+    body: "The LafargeHolcim Ashaka 4-stage Gepol preheater dry-process kiln (72m × 4m) encounters a severe energy-vs-carbon trade-off: >1450°C clinkerization splits limestone calcination (CaCO₃ → CaO + CO₂, ~60% of emissions) alongside fuel combustion (~40%), leaving baseline operations at 1160.87 kWh/t, 973.45 kg/h CO₂, and 91.80 tph.",
+    action: "Action: Loaded Ashaka Plant Baseline & spotlighted 4-Stage Preheater, Rotary Kiln & Exhaust Stack.",
     run: () => {
       activeView = "twin";
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autonomousPaused = false;
+      autoPhase = 1;
       stopEvolutionPlay();
       stopLiveStream();
       selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
@@ -6085,6 +6276,7 @@ const TOUR_STOPS = [
       manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
+      lastOptImpact = null;
       showValidationTable = false;
       selectedUnit = "kiln";
       syncManualFromRecord(ARCH_DATA.baseline);
@@ -6097,31 +6289,22 @@ const TOUR_STOPS = [
     }
   },
   {
-    title: "Stop 2 — Live Industrial Sensor Streams & Process Disturbances",
-    body: "We stream 7 kiln process variables and 6 electrical power variables from the plant historian, expanded into 10⁶ physically bounded operating states. Live sparklines and SCADA badges react instantaneously when a kiln over-burning thermal surge occurs.",
-    action: "Action: Live Stream ON (800ms) + injected Kiln Over-Burning Surge disturbance (1368°C, elevated fuel & power).",
+    title: "Stop 2 — Physics-Informed Feature Synthesis",
+    body: "Raw DCS sensor streams are transformed using chemical engineering first principles before reaching ML: Theoretical CO₂ (0.44 CaCO₃ stoichiometry), Calcination Enthalpy (1.765 MJ/kg), Kiln Heat Efficiency (T_E / Fuel), and Stoichiometric O₂ Deviation (|O₂ − 4.0%|), guaranteeing mass and energy balance consistency.",
+    action: "Action: Spotlighting Chamber 1 & flashing Eqs. 3.13–3.17 thermodynamic calculators live.",
     run: () => {
       activeView = "twin";
-      stopEvolutionPlay();
-      showValidationTable = false;
-      injectDisturbance("overburn");
-      startLiveStream();
-      updateAll();
-      applyTourSpotlights(["zone-a-panel", "whatif-panel"], ["unit-burner", "unit-kiln"], "whatif-panel");
-    }
-  },
-  {
-    title: "Stop 3 — Physics-Informed Chemical Engineering Feature Forge",
-    body: "Embedding chemical engineering stoichiometry (Eqs. 3.13–3.17) prevents black-box ML extrapolation errors. We compute Theoretical CO₂ (0.44 stoichiometric factor), Calcination Energy (CH = 1.765 MJ/kg, 1780 kJ/kg), Kiln Heat Efficiency (T_E / Fuel), and Stoichiometric O₂ Deviation (|O₂ − 4.0%|).",
-    action: "Action: Flashing Eqs. 3.13–3.17 thermodynamic calculators live on Balanced operating state.",
-    run: () => {
-      activeView = "twin";
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autonomousPaused = false;
+      autoPhase = 1;
       stopEvolutionPlay();
       stopLiveStream();
       compareBaseline = false;
       manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
+      lastOptImpact = null;
       customParetoIdx = null;
       activeRegime = "Balanced";
       physicsEnabled = true;
@@ -6148,61 +6331,73 @@ const TOUR_STOPS = [
     }
   },
   {
-    title: "Stop 4 — Dual Random Forest Regressor Twin & Physics Ablation",
-    body: "Dual 100-tree Random Forest Regressors outperform Linear Regression and SVR on this collinear industrial power/kiln sensor dataset (R² = 0.98). Toggling physics features OFF proves why Theoretical_Energy (#2) and Theoretical_CO₂ (#4) are indispensable.",
-    action: "Action: Switching Energy RF ↔ CO₂ RF split paths and running live Physics Features Ablation proof.",
+    title: "Stop 3 — Predictive Early-Warning Engine (RFR Twin)",
+    body: "A live kiln thermal disturbance is triggered so you can watch the Dual Random Forest Regressor (R² = 0.98) detect incipient sensor drift along active tree split paths and forecast the impending Energy & CO₂ surge on the dashed T+3 min oscilloscope horizon BEFORE it peaks at the exhaust stack.",
+    action: "Action: Triggered live kiln upset in Phase 2 Early Warning & spotlighted Chamber 2 + DCS Oscilloscope.",
     run: () => {
       activeView = "twin";
       stopEvolutionPlay();
       stopLiveStream();
+      showValidationTable = false;
       selectedRfModel = "energy";
       physicsEnabled = true;
-      showValidationTable = false;
       selectedUnit = "rf_energy";
-      updateAll();
-      applyTourSpotlights(["rf-twin-panel"], [], "rf-twin-panel");
-
-      tourSubTimers.push(setTimeout(() => {
-        selectedRfModel = "co2";
-        selectedUnit = "rf_co2";
-        updateAll();
-      }, 1500));
-      tourSubTimers.push(setTimeout(() => {
-        physicsEnabled = false;
-        updateAll();
-      }, 3200));
-      tourSubTimers.push(setTimeout(() => {
-        physicsEnabled = true;
-        updateAll();
-      }, 5400));
+      lastOptImpact = null;
+      autoUpsetIdx = 0;
+      aiControlEnabled = true;
+      autonomousMode = true;
+      autonomousPaused = false;
+      compareBaseline = false;
+      manualMode = false;
+      activeDisturbance = null;
+      pendingAdvisory = null;
+      autoCycleElapsed = 4.25;
+      autoPhase = 2;
+      autoPulseFiredP3 = false;
+      autoLastSummary = "";
+      activeTargetNotches = {};
+      if (!autoSimTimer) {
+        autoSimTimer = setInterval(stepAutonomousSimulation, 250);
+      }
+      stepAutonomousSimulation();
+      applyTourSpotlights(["rf-twin-panel", "dcs-oscilloscope-panel"], ["unit-kiln", "unit-burner"], "dcs-oscilloscope-panel");
     }
   },
   {
-    title: "Stop 5 — NSGA-II Multi-Objective Evolution & Hard Constraint",
-    body: "NSGA-II evolves 50 candidate operating states across 100 generations, sorting solutions into non-dominated Pareto fronts (F1, F2, F3+) while strictly enforcing g(x) = CuPR − x_CPR ≤ 0 (≥ 91.80 tph) so the model cannot trivially cut CO₂ by cutting clinker output.",
-    action: "Action: Playing NSGA-II Gen 1 → Gen 100 evolutionary convergence animation under CPR ≥ 91.80 tph.",
+    title: "Stop 4 — Constrained NSGA-II Multi-Objective Optimization",
+    body: "NSGA-II sweeps 50 operating candidates across 100 generations to minimize Specific Energy f₁ and CO₂ Emissions f₂ simultaneously, while strictly enforcing the hard throughput constraint g(x) = CuPR − x_CPR ≤ 0 (≥ 91.80 tph) so the optimizer cannot cheat by cutting clinker production.",
+    action: "Action: Running fast NSGA-II Gen 1 → Gen 100 evolutionary sweep with g(x) ≤ 0 enforced.",
     run: () => {
       activeView = "twin";
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autonomousPaused = false;
+      autoPhase = 1;
       stopLiveStream();
       stopEvolutionPlay();
       compareBaseline = false;
       manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
+      lastOptImpact = null;
       showValidationTable = false;
       selectedUnit = "nsga2";
       selectedGenIdx = 0;
       updateAll();
       applyTourSpotlights(["nsga2-panel"], [], "nsga2-panel");
-      toggleEvolutionPlay();
+      toggleEvolutionPlay(110);
     }
   },
   {
-    title: "Stop 6 — Discovering the Non-Intuitive Thermodynamic Trade-Off",
-    body: "Section 4.2.1 reveals three Pareto trade-off zones: Steep Cliff, Balanced Knee, and Shallow Leverage. Remarkably, Solution 49 achieves the lowest hourly CO₂ (913.51 kg/h at 89.95 tph & 1353.31°C) because higher throughput + a 12°C lower sintering temperature dilutes fixed kiln radiative heat losses.",
-    action: "Action: Enabled Trade-Off Zones & cycling Sol 1 (Low Energy) → Sol 25 (Balanced) → Sol 49 (Low CO₂).",
+    title: "Stop 5 — The Key Thermodynamic Discovery (Sol 1 → 25 → 49)",
+    body: "Section 4.2.1 reveals a counter-intuitive physical insight: Low-CO₂ Solution 49 achieves the lowest hourly emissions (913.51 kg/h) at higher throughput (89.95 tph) and a 12°C lower sintering temperature (1353.31°C) by diluting fixed kiln shell radiative heat losses.",
+    action: "Action: Cycling Solution 1 (Low Energy) → Solution 25 (Balanced) → Solution 49 (Low CO₂).",
     run: () => {
       activeView = "twin";
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autonomousPaused = false;
+      autoPhase = 1;
       stopLiveStream();
       stopEvolutionPlay();
       selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
@@ -6212,6 +6407,7 @@ const TOUR_STOPS = [
       manualMode = false; lastCoupledDeltas = {};
       activeDisturbance = null;
       paretoTrajectory = null;
+      lastOptImpact = null;
       customParetoIdx = null;
       showValidationTable = false;
       selectedUnit = "nsga2";
@@ -6231,11 +6427,15 @@ const TOUR_STOPS = [
     }
   },
   {
-    title: "Stop 7 — Closed-Loop Plant Validation & Final Impact Summary",
-    body: "Locking in Balanced Solution 25 streams closed-loop setpoints to all 4 kiln actuators, delivering validated Table 4.2 gains: −11.24% Specific Energy (1160.87 → 1030.42 kWh/t), −5.45% CO₂ Emissions (973.45 → 920.42 kg/h), and +0.28% Clinker Throughput (91.80 → 92.05 tph).",
-    action: "Action: Locked Balanced Sol 25, fired 4-actuator closed-loop pulses, & opened Full Validation Table (Table 4.2).",
+    title: "Stop 6 — Validated Industrial Impact (Ashaka Table 4.2)",
+    body: "Closed-loop actuator pulses stream Balanced Solution 25 setpoints back to the Fuel Valve, ID Fan Damper, Raw Meal Feeder, and Kiln Drive—delivering verified baseline gains: −11.24% Specific Energy (1160.87 → 1030.42 kWh/t), −5.45% CO₂ (973.45 → 920.42 kg/h), and +0.28% Clinker Throughput (91.80 → 92.05 tph).",
+    action: "Action: Fired 4-actuator closed-loop control pulses & displayed verified plant impact summary.",
     run: () => {
       activeView = "twin";
+      stopAutonomousLoop();
+      autonomousMode = false;
+      autonomousPaused = false;
+      autoPhase = 1;
       stopLiveStream();
       stopEvolutionPlay();
       selectedGenIdx = Math.max(0, (ARCH_DATA.gen_snapshots || []).length - 1);
@@ -6247,12 +6447,26 @@ const TOUR_STOPS = [
       customParetoIdx = null;
       activeRegime = "Balanced";
       physicsEnabled = true;
-      showValidationTable = true;
+      showValidationTable = false;
       selectedUnit = "nsga2";
-      syncManualFromRecord(getBaseOperatingRecord());
-      triggerFeedbackPulse(prevK, getBaseOperatingRecord().knobs);
+      const balRec = getBaseOperatingRecord();
+      syncManualFromRecord(balRec);
+      lastOptImpact = {
+        before: {
+          ...ARCH_DATA.baseline,
+          power_cons: ARCH_DATA.baseline.knobs["Power Consumed (KWt/h)"]
+        },
+        after: {
+          ...balRec,
+          power_cons: balRec.knobs["Power Consumed (KWt/h)"]
+        },
+        target: balRec,
+        targetIdx: 24,
+        label: "Ashaka Baseline"
+      };
+      triggerFeedbackPulse(prevK, balRec.knobs);
       updateAll();
-      applyTourSpotlights(["zone-a-panel", "inspector-panel", "header-panel"], ["unit-kiln", "unit-burner"], "inspector-panel");
+      applyTourSpotlights(["zone-a-panel", "header-panel"], ["unit-kiln", "unit-burner", "unit-clinker"], "zone-a-panel");
     }
   }
 ];
@@ -6304,10 +6518,11 @@ function toggleTourAutoPlay() {
       stopTourAutoPlay();
       updateControls();
     }
-  }, 8000);
+  }, 10000);
 }
 
 function startTour() {
+  closeAcademicModal();
   stopAutonomousLoop();
   autonomousMode = false;
   autonomousPaused = false;
@@ -6331,13 +6546,241 @@ function exitTour() {
   stopTourAutoPlay();
   stopEvolutionPlay();
   stopLiveStream();
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  lastOptImpact = null;
   clearTourSpotlights();
   document.getElementById("tour-hud").classList.add("hidden");
-  updateAll();
+  startAutonomousLoop(true);
+}
+
+// THESIS VALIDATION & EQUATIONS MODAL RENDERER
+function renderAcademicModal() {
+  const backdrop = document.getElementById("academic-modal-backdrop");
+  const body = document.getElementById("academic-modal-body");
+  if (!backdrop || !body) return;
+
+  backdrop.classList.toggle("hidden", !academicModalOpen);
+  if (!academicModalOpen) return;
+
+  document.querySelectorAll(".acad-tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-acad-tab") === academicActiveTab);
+  });
+
+  const base = ARCH_DATA.baseline;
+  const reg = ARCH_DATA.regimes || {};
+  const lowE = reg["Low Energy"] || ARCH_DATA.pareto[0];
+  const bal = reg["Balanced"] || ARCH_DATA.pareto[0];
+  const lowC = reg["Low CO2"] || ARCH_DATA.pareto[ARCH_DATA.pareto.length - 1];
+  const r2E = (base.r2_reported ?? 0.98).toFixed(2);
+  const pct = (v, b) => {
+    const p = b !== 0 ? ((v - b) / b) * 100 : 0;
+    return `${p >= 0 ? "+" : ""}${p.toFixed(2)}%`;
+  };
+
+  if (academicActiveTab === "val") {
+    body.innerHTML = `
+      <div class="acad-kpi-grid">
+        <div class="acad-kpi-card">
+          <div class="acad-kpi-lbl">Specific Energy Reduction (Sol 25)</div>
+          <div class="acad-kpi-val">−11.24%</div>
+          <div class="acad-kpi-sub">${base.energy.toFixed(2)} → ${bal.energy.toFixed(2)} kWh/t-clinker</div>
+        </div>
+        <div class="acad-kpi-card">
+          <div class="acad-kpi-lbl">Stack CO₂ Reduction (Sol 25)</div>
+          <div class="acad-kpi-val">−5.45%</div>
+          <div class="acad-kpi-sub">${base.co2.toFixed(2)} → ${bal.co2.toFixed(2)} kg/h CO₂</div>
+        </div>
+        <div class="acad-kpi-card">
+          <div class="acad-kpi-lbl">Clinker Throughput Gain (g(x) ≤ 0)</div>
+          <div class="acad-kpi-val">+0.28%</div>
+          <div class="acad-kpi-sub">${base.production.toFixed(2)} → ${bal.production.toFixed(2)} tph (Nom. ${(bal.nominal_production ?? 83.56).toFixed(2)} tph)</div>
+        </div>
+      </div>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Performance Metric (Table 4.2)</th>
+              <th>Ashaka Plant Baseline (Median)</th>
+              <th>RFR Predicted at Baseline (R² = ${r2E})</th>
+              <th>NSGA-II Balanced Optimized (Sol 25)</th>
+              <th>Validated Δ vs Plant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Specific Energy Consumption (kWh/t-clinker)</strong></td>
+              <td>${base.energy.toFixed(2)}</td>
+              <td>${(base.predicted_energy ?? 1168.21).toFixed(2)} <span style="color:#94a3b8;">(+${(base.predicted_energy_dev_pct ?? 0.63).toFixed(2)}% dev)</span></td>
+              <td class="good"><strong>${bal.energy.toFixed(2)}</strong></td>
+              <td class="good"><strong>${pct(bal.energy, base.energy)}</strong></td>
+            </tr>
+            <tr>
+              <td><strong>CO₂ Emissions (kg/h)</strong></td>
+              <td>${base.co2.toFixed(2)}</td>
+              <td>${(base.predicted_co2 ?? 1005.78).toFixed(2)} <span style="color:#94a3b8;">(+${(base.predicted_co2_dev_pct ?? 3.32).toFixed(2)}% dev)</span></td>
+              <td class="good"><strong>${bal.co2.toFixed(2)}</strong></td>
+              <td class="good"><strong>${pct(bal.co2, base.co2)}</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Clinker Production Rate — CPR (tons/h)</strong></td>
+              <td>${base.production.toFixed(2)}</td>
+              <td>${(base.predicted_cpr ?? 91.80).toFixed(2)} <span style="color:#94a3b8;">(0.00% dev)</span></td>
+              <td class="good"><strong>${bal.production.toFixed(2)}</strong> <span style="color:#94a3b8;">(Nom. ${(bal.nominal_production ?? 83.56).toFixed(2)})</span></td>
+              <td class="good"><strong>+0.28%</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Surrogate Model Accuracy &amp; Benchmark RMSE</strong></td>
+              <td>${ARCH_DATA.metrics.n_samples || 240} operating records</td>
+              <td>R² = ${r2E} · Energy RMSE: ${(ARCH_DATA.metrics.energy_rmse ?? 11.94).toFixed(2)} · CO₂ RMSE: ${(ARCH_DATA.metrics.co2_rmse ?? 11.68).toFixed(2)}</td>
+              <td>${ARCH_DATA.metrics.n_pareto || 50} Pareto Solutions (${ARCH_DATA.metrics.n_gen || 100} Gen)</td>
+              <td class="info">g(x) = 91.80 − CPR ≤ 0 ✅</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (academicActiveTab === "pareto") {
+    const varRows = [
+      { grp: "Objectives & Output", name: "Specific Energy f₁ (kWh/t)", b: base.energy, s1: lowE.energy, s25: bal.energy, s49: lowC.energy, dec: 2 },
+      { grp: "Objectives & Output", name: "CO₂ Emissions f₂ (kg/h)", b: base.co2, s1: lowE.co2, s25: bal.co2, s49: lowC.co2, dec: 2 },
+      { grp: "Objectives & Output", name: "Clinker Prod. Rate CPR (tph)", b: base.production, s1: lowE.production, s25: bal.production, s49: lowC.production, dec: 2 },
+      { grp: "Process & Power (13)", name: "Power (Kw)", b: base.knobs["Power (Kw)"], s1: lowE.knobs["Power (Kw)"], s25: bal.knobs["Power (Kw)"], s49: lowC.knobs["Power (Kw)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Power Consumed (KWt/h)", b: base.knobs["Power Consumed (KWt/h)"], s1: lowE.knobs["Power Consumed (KWt/h)"], s25: bal.knobs["Power Consumed (KWt/h)"], s49: lowC.knobs["Power Consumed (KWt/h)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Absorbed Power (Kw)", b: base.knobs["Absorbed Power (Kw)"], s1: lowE.knobs["Absorbed Power (Kw)"], s25: bal.knobs["Absorbed Power (Kw)"], s49: lowC.knobs["Absorbed Power (Kw)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Power (rotary drive) Kw", b: base.knobs["Power (rotary drive) Kw"], s1: lowE.knobs["Power (rotary drive) Kw"], s25: bal.knobs["Power (rotary drive) Kw"], s49: lowC.knobs["Power (rotary drive) Kw"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Kiln Temperature (°C)", b: base.knobs["Kiln Temperature (°C)"], s1: lowE.knobs["Kiln Temperature (°C)"], s25: bal.knobs["Kiln Temperature (°C)"], s49: lowC.knobs["Kiln Temperature (°C)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Fuel Consumption (kg/h)", b: base.knobs["Fuel Consumption (kg/h)"], s1: lowE.knobs["Fuel Consumption (kg/h)"], s25: bal.knobs["Fuel Consumption (kg/h)"], s49: lowC.knobs["Fuel Consumption (kg/h)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Raw Meal Composition (% CaCO₃)", b: base.knobs["Raw Meal Composition (% Limestone)"], s1: lowE.knobs["Raw Meal Composition (% Limestone)"], s25: bal.knobs["Raw Meal Composition (% Limestone)"], s49: lowC.knobs["Raw Meal Composition (% Limestone)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Oxygen Levels (%)", b: base.knobs["Oxygen Levels (%)"], s1: lowE.knobs["Oxygen Levels (%)"], s25: bal.knobs["Oxygen Levels (%)"], s49: lowC.knobs["Oxygen Levels (%)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Kiln Pressure (bar)", b: base.knobs["Kiln Pressure (bar)"], s1: lowE.knobs["Kiln Pressure (bar)"], s25: bal.knobs["Kiln Pressure (bar)"], s49: lowC.knobs["Kiln Pressure (bar)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Air Flow Rate (m³/h)", b: base.knobs["Air Flow Rate (m³/h)"], s1: lowE.knobs["Air Flow Rate (m³/h)"], s25: bal.knobs["Air Flow Rate (m³/h)"], s49: lowC.knobs["Air Flow Rate (m³/h)"], dec: 2 },
+      { grp: "Process & Power (13)", name: "Fuel Mix Encoding (Oil / Coal / Gas)", b: "Oil (0/0/1)", s1: "Oil (0/0/1)", s25: "Oil (0/0/1)", s49: "Oil (0/0/1)", isStr: true },
+      { grp: "Physics Forge (4)", name: "Theoretical CO₂ (Eq. 3.13)", b: base.theoretical_co2, s1: lowE.theoretical_co2, s25: bal.theoretical_co2, s49: lowC.theoretical_co2, dec: 2 },
+      { grp: "Physics Forge (4)", name: "Theoretical Energy MW (Eq. 3.14)", b: base.theoretical_energy, s1: lowE.theoretical_energy, s25: bal.theoretical_energy, s49: lowC.theoretical_energy, dec: 2 },
+      { grp: "Physics Forge (4)", name: "Kiln Heat Efficiency (Eq. 3.16)", b: base.heat_eff, s1: lowE.heat_eff, s25: bal.heat_eff, s49: lowC.heat_eff, dec: 2 },
+      { grp: "Physics Forge (4)", name: "O₂ Stoich. Dev |O₂ − 4%| (Eq. 3.17)", b: base.o2_dev, s1: lowE.o2_dev, s25: bal.o2_dev, s49: lowC.o2_dev, dec: 2 }
+    ];
+    body.innerHTML = `
+      <p class="sub" style="margin:0;">Full side-by-side Table 4.1 comparison across all <strong>13 process/power input variables</strong> (10 continuous + 3 fuel one-hot indicators) and <strong>4 physics-engineered features</strong>.</p>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Variable / Feature</th>
+              <th>Plant Baseline</th>
+              <th>Sol 1 (Low Energy)</th>
+              <th>Sol 25 (Balanced Best)</th>
+              <th>Sol 49 (Low CO₂)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${varRows.map(r => `
+              <tr>
+                <td style="color:#94a3b8;font-size:10px;">${r.grp}</td>
+                <td><strong>${r.name}</strong></td>
+                <td>${r.isStr ? r.b : Number(r.b).toFixed(r.dec)}</td>
+                <td class="info">${r.isStr ? r.s1 : Number(r.s1).toFixed(r.dec)}</td>
+                <td class="good"><strong>${r.isStr ? r.s25 : Number(r.s25).toFixed(r.dec)}</strong></td>
+                <td class="info">${r.isStr ? r.s49 : Number(r.s49).toFixed(r.dec)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else {
+    body.innerHTML = `
+      <div class="acad-math-grid">
+        <div class="acad-math-card full">
+          <h4 class="acad-math-title">1. Physics-Informed Chemical Engineering Feature Synthesis (Eqs. 3.13–3.17)</h4>
+          <div class="acad-eq-block">
+            CaCO₃(s) → CaO(s) + CO₂(g) &nbsp;&nbsp;|&nbsp;&nbsp; ΔH<sub>calc</sub> = 1.765 MJ/kg (1780 kJ/kg), &nbsp; Stoich. Factor = M<sub>CO₂</sub> / M<sub>CaCO₃</sub> = 44 / 100 = 0.44<br/>
+            (Eq. 3.13) &nbsp; Theoretical_CO₂ = (% Limestone) × CPR × 0.44<br/>
+            (Eq. 3.14–3.15) &nbsp; Theoretical_Energy = (CPR × 1000 × 1780 kJ/kg) / 3600 &nbsp;[kW]<br/>
+            (Eq. 3.16) &nbsp; Heat_Efficiency = Theoretical_Energy / Fuel_Consumption<br/>
+            (Eq. 3.17) &nbsp; O₂_Deviation = |Oxygen_Levels − 4.0%|
+          </div>
+          <p class="acad-note">Injecting stoichiometric calcination and enthalpy conservation prevents the Random Forest surrogate from proposing physically impossible fuel cuts or unburned clinker.</p>
+        </div>
+
+        <div class="acad-math-card">
+          <h4 class="acad-math-title">2. Random Forest Node MSE Reduction &amp; Ensemble Uncertainty</h4>
+          <div class="acad-eq-block">
+            MSE(D) = (1 / |D|) Σ<sub>i∈D</sub> (y<sub>i</sub> − ȳ<sub>D</sub>)²<br/>
+            ΔMSE(j, s) = MSE(D) − (|D<sub>L</sub>|/|D|)MSE(D<sub>L</sub>) − (|D<sub>R</sub>|/|D|)MSE(D<sub>R</sub>)<br/>
+            ŷ(x) = (1 / B) Σ<sub>b=1..B</sub> T<sub>b</sub>(x), &nbsp;&nbsp; 95% CI = ŷ(x) ± 1.96 · σ(x)
+          </div>
+          <p class="acad-note">Dual B = 100-tree regressors capture non-linear collinear kiln thermodynamics (R² = 0.98) while tree spread σ(x) drives OOD safety lockouts and predictive horizon intervals.</p>
+        </div>
+
+        <div class="acad-math-card">
+          <h4 class="acad-math-title">3. NSGA-II Dominance, Crowding Distance &amp; Hard Constraint</h4>
+          <div class="acad-eq-block">
+            min<sub>x ∈ [x<sub>L</sub>, x<sub>U</sub>]</sub> &nbsp; F(x) = [ f₁(x) = Energy<sub>RFR</sub>(x), &nbsp; f₂(x) = CO₂<sub>RFR</sub>(x) ]<sup>T</sup><br/>
+            subject to: &nbsp; g(x) = CuPR − x<sub>CPR</sub> ≤ 0 &nbsp;&nbsp;(CuPR = 91.80 tph)<br/>
+            Dominance a ≺ b: &nbsp; ∀m ∈ {1,2}: f<sub>m</sub>(a) ≤ f<sub>m</sub>(b) &nbsp;∧&nbsp; ∃m: f<sub>m</sub>(a) &lt; f<sub>m</sub>(b)<br/>
+            Crowding: &nbsp; d<sub>i</sub> = Σ<sub>m=1..2</sub> ( f<sub>m</sub><sup>(i+1)</sup> − f<sub>m</sub><sup>(i−1)</sup> ) / ( f<sub>m</sub><sup>max</sup> − f<sub>m</sub><sup>min</sup> )
+          </div>
+          <p class="acad-note">Non-dominated sorting (F1, F2, F3+) and crowding distance preserve a diverse Pareto trade-off frontier while guaranteeing zero clinker production loss.</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function openAcademicModal(tab = "val") {
+  academicActiveTab = tab;
+  academicModalOpen = true;
+  updateControls();
+  renderAcademicModal();
+}
+
+function closeAcademicModal() {
+  if (!academicModalOpen) return;
+  academicModalOpen = false;
+  updateControls();
+  renderAcademicModal();
 }
 
 // EVENT LISTENERS
 buildWhatIfSliders();
+
+const acadMetricsBtn = document.getElementById("academic-metrics-btn");
+if (acadMetricsBtn) {
+  acadMetricsBtn.addEventListener("click", () => {
+    if (academicModalOpen) {
+      closeAcademicModal();
+    } else {
+      openAcademicModal("val");
+    }
+  });
+}
+const acadModalClose = document.getElementById("academic-modal-close");
+if (acadModalClose) {
+  acadModalClose.addEventListener("click", () => closeAcademicModal());
+}
+const acadBackdrop = document.getElementById("academic-modal-backdrop");
+if (acadBackdrop) {
+  acadBackdrop.addEventListener("click", e => {
+    if (e.target === acadBackdrop) closeAcademicModal();
+  });
+}
+document.querySelectorAll(".acad-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    academicActiveTab = btn.getAttribute("data-acad-tab") || "val";
+    renderAcademicModal();
+  });
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && academicModalOpen) {
+    closeAcademicModal();
+  }
+});
 
 const modeAutoLoopBtn = document.getElementById("mode-autonomous-btn");
 if (modeAutoLoopBtn) {

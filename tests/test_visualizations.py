@@ -150,4 +150,13 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "renderDcsOscilloscope" in arch_text
     assert "stepAutonomousSimulation" in arch_text
     assert "injectAutonomousDisturbanceNow" in arch_text
+    assert "academic-metrics-btn" in arch_text
+    assert "academic-modal-backdrop" in arch_text
+    assert "acad-tab-btn-val" in arch_text
+    assert "acad-tab-btn-pareto" in arch_text
+    assert "acad-tab-btn-math" in arch_text
+    assert "renderAcademicModal" in arch_text
+    assert "openAcademicModal" in arch_text
+    assert "closeAcademicModal" in arch_text
+    assert "Guided Tour" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")
