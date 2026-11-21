@@ -17,9 +17,9 @@ A modular machine learning and multi-objective optimization framework for sustai
 
 | Parameter | Model Predicted Value | Model Deviation (%) | Test RMSE | Balanced Optimized Value | Optimized Deviation (%) | Plant Median Value |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Energy Consumption (kWh/t-clinker) | 1165.42 | +0.39% | 11.9365 | 1031.26 | **-11.16%** | 1160.87 |
-| $\text{CO}_2$ Emissions (kg/h) | 1006.19 | +3.36% | 11.6775 | 960.25 | **-1.36%** | 973.45 |
-| Clinker Production Rate (tons/h) | 91.80 | 0.00% | 0.0000 | 93.11 | **+1.43%** | 91.80 |
+| Energy Consumption (kWh/t-clinker) | 1165.42 | +0.39% | 11.9365 | 1031.68 | **-11.13%** | 1160.87 |
+| $\text{CO}_2$ Emissions (kg/h) | 1006.19 | +3.36% | 11.6775 | 960.46 | **-1.33%** | 973.45 |
+| Clinker Production Rate (tons/h) | 91.80 | 0.00% | 0.0000 | 93.12 | **+1.44%** | 91.80 |
 
 ---
 
@@ -36,7 +36,8 @@ A modular machine learning and multi-objective optimization framework for sustai
 ├── models/                          # Serialized Random Forest pipelines & metadata (.joblib/.json)
 ├── notebooks/                       # Interactive EDA, model evaluation & Pareto analysis notebooks
 ├── outputs/
-│   ├── figures/                     # Publication-ready charts (Figures 4.1–4.4)
+│   ├── visual_explainer.html        # Interactive HTML/SVG dashboard (open in any browser)
+│   ├── figures/                     # Publication-ready 300 DPI charts (8 figures)
 │   └── tables/                      # Automated Table 4.1, Table 4.2 & setpoint deltas
 ├── src/cement_opt/
 │   ├── config.py                    # YAML configuration loader
@@ -44,7 +45,7 @@ A modular machine learning and multi-objective optimization framework for sustai
 │   ├── features/                    # ChemicalEngineeringTransformer (Eq. 3.13–3.17)
 │   ├── models/                      # RandomForest pipeline, CV metrics & Table 4.2 validator
 │   ├── optimization/                # Thermodynamically consistent NSGA-II & ProcessOptimizer
-│   ├── visualization/               # R² parity, feature importance & Pareto front plots
+│   ├── visualization/               # Publication plots & interactive HTML/SVG explainer
 │   └── cli.py                       # Unified CLI (`preprocess`, `train`, `optimize`, `run-all`)
 └── tests/                           # Unit & integration test suite (pytest)
 ```
