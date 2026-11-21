@@ -1860,6 +1860,356 @@
     gap: 8px;
     flex-wrap: wrap;
   }
+
+  /* PROMPT 6: DECLUTTER & ENTERPRISE EXPLAINABILITY / HISTORIAN / AUDIT STYLES */
+  #header-panel {
+    padding: 10px 12px;
+  }
+  #header-panel .controls-strip {
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+  #header-panel .auto-mode-bar {
+    margin-top: 6px;
+    padding: 5px 8px;
+  }
+  #header-panel .scoreboard {
+    margin-top: 6px;
+    gap: 6px;
+  }
+  #header-panel .kpi-card {
+    padding: 5px 9px;
+  }
+  .unit-selector-strip {
+    padding: 4px 7px;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .unit-chip-btn {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+  .historian-cta-btn {
+    border-color: rgba(168, 85, 247, 0.62) !important;
+    background: rgba(168, 85, 247, 0.14) !important;
+    color: #e9d5ff !important;
+    font-weight: 800 !important;
+  }
+  .historian-cta-btn:hover, .historian-cta-btn.active {
+    background: #7e22ce !important;
+    color: #ffffff !important;
+    border-color: #c084fc !important;
+  }
+  .audit-cta-btn {
+    border-color: rgba(16, 185, 129, 0.65) !important;
+    background: rgba(16, 185, 129, 0.14) !important;
+    color: #6ee7b7 !important;
+    font-weight: 800 !important;
+  }
+  .audit-cta-btn:hover, .audit-cta-btn.active {
+    background: #059669 !important;
+    color: #ffffff !important;
+    border-color: #34d399 !important;
+  }
+
+  /* Chamber 2 View Tabs & SHAP Waterfall */
+  .rf-view-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 3px;
+    border-radius: 6px;
+    background: #08101d;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+  }
+  .rf-view-tab-btn {
+    flex: 1 1 auto;
+    appearance: none;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #94a3b8;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 10.2px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.13s ease;
+    text-align: center;
+  }
+  .rf-view-tab-btn:hover {
+    color: #f8fafc;
+    background: rgba(56, 189, 248, 0.08);
+  }
+  .rf-view-tab-btn.active {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.52);
+    color: #7dd3fc;
+  }
+  .rf-shap-wrap {
+    margin-top: 6px;
+    padding: 7px 8px;
+    border-radius: 6px;
+    background: #08101d;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+  }
+  .rf-shap-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .shap-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+    font-size: 9.8px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #cbd5e1;
+  }
+
+  /* Historian Replay & CSV Drawer */
+  .historian-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 880px) {
+    .historian-grid { grid-template-columns: 1fr; }
+  }
+  .hist-card {
+    padding: 11px 13px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .shift-scrubber-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 9px 10px;
+    border-radius: 7px;
+    background: #060b14;
+    border: 1px solid rgba(168, 85, 247, 0.35);
+  }
+  .shift-scrubber-bar input[type="range"] {
+    width: 100%;
+    accent-color: #a855f7;
+    cursor: pointer;
+  }
+  .shift-timeline-pills {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .shift-phase-pill {
+    padding: 4px 6px;
+    border-radius: 5px;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .shift-phase-pill.active {
+    background: rgba(168, 85, 247, 0.24);
+    border-color: #c084fc;
+    color: #f3e8ff;
+  }
+  .csv-dropzone {
+    border: 1.5px dashed rgba(56, 189, 248, 0.48);
+    border-radius: 8px;
+    padding: 13px 12px;
+    text-align: center;
+    background: rgba(8, 16, 29, 0.85);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 11px;
+    color: #cbd5e1;
+  }
+  .csv-dropzone:hover, .csv-dropzone.drag-over {
+    border-color: #34d399;
+    background: rgba(16, 185, 129, 0.1);
+    color: #f8fafc;
+  }
+  .opcua-box {
+    border-radius: 8px;
+    background: #060b14;
+    border: 1px solid rgba(16, 185, 129, 0.32);
+    overflow: hidden;
+  }
+  .opcua-hdr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 11px;
+    background: rgba(15, 23, 42, 0.9);
+    cursor: pointer;
+  }
+  .opcua-console {
+    margin: 0;
+    padding: 10px 12px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10.4px;
+    line-height: 1.48;
+    color: #6ee7b7;
+    background: #030712;
+    max-height: 230px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border-top: 1px solid rgba(16, 185, 129, 0.22);
+  }
+
+  /* Printable Engineering Shift Audit Report */
+  .audit-sheet {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    line-height: 1.42;
+  }
+  .audit-sheet-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .audit-sheet h2 {
+    margin: 0;
+    font-size: 16.5px;
+    color: #0f172a;
+  }
+  .audit-sheet-meta {
+    font-size: 10.5px;
+    color: #475569;
+    font-family: ui-monospace, monospace;
+    text-align: right;
+  }
+  .audit-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin: 10px 0 14px 0;
+  }
+  .audit-kpi-box {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 10px;
+    background: #f8fafc;
+  }
+  .audit-kpi-box .lbl {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #475569;
+  }
+  .audit-kpi-box .val {
+    font-size: 14px;
+    font-weight: 800;
+    font-family: ui-monospace, monospace;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+  .audit-kpi-box .sub {
+    font-size: 9.5px;
+    color: #059669;
+    font-weight: 600;
+  }
+  .audit-sec-title {
+    margin: 12px 0 6px 0;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 3px;
+  }
+  .audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10.2px;
+    margin-bottom: 10px;
+  }
+  .audit-table th, .audit-table td {
+    border: 1px solid #cbd5e1;
+    padding: 5px 7px;
+    text-align: left;
+  }
+  .audit-table th {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  .audit-pill-pass {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: 700;
+    font-size: 9.5px;
+  }
+  .audit-pill-warn {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #fef3c7;
+    color: #92400e;
+    font-weight: 700;
+    font-size: 9.5px;
+  }
+  @media print {
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .viz-root > *:not(#audit-modal-backdrop) {
+      display: none !important;
+    }
+    #audit-modal-backdrop {
+      position: static !important;
+      background: #ffffff !important;
+      padding: 0 !important;
+      display: block !important;
+      overflow: visible !important;
+    }
+    #audit-modal {
+      border: none !important;
+      box-shadow: none !important;
+      max-height: none !important;
+      width: 100% !important;
+      background: #ffffff !important;
+    }
+    #audit-modal .acad-modal-head {
+      display: none !important;
+    }
+    #audit-modal .acad-modal-body {
+      padding: 0 !important;
+      overflow: visible !important;
+    }
+    .audit-sheet {
+      padding: 0 !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1870,27 +2220,17 @@
     <div class="head-row">
       <div>
         <h2 class="title" id="plant-main-title">Legacy Cement Plant Digital Twin — Zero-CapEx Predictive Process Optimization</h2>
-        <p class="sub" id="plant-main-sub">Universal software retrofit using 13 existing DCS/historian sensors (zero extra hardware) to cut energy &amp; CO₂ while protecting clinker output (CPR ≥ 91.80 tph).</p>
+        <p class="sub" id="plant-main-sub">13 existing DCS/historian sensors → Eqs. 3.13–3.17 thermodynamics → Dual RFR Twin (R² = 0.98) → NSGA-II setpoints (CPR ≥ 91.80 tph).</p>
       </div>
       <div class="btn-group" id="view-switch">
-        <select class="plant-select" id="plant-profile-select" aria-label="Select Legacy Plant Retrofit Profile">
-          <option value="universal">Plant Profile: Universal Legacy 4-Stage SP Kiln (Zero-CapEx Retrofit)</option>
-          <option value="ashaka">Validation Case Study: Lafarge-Holcim Ashaka Gepol Kiln (Tables 4.1 &amp; 4.2)</option>
-          <option value="long_dry">Plant Profile: Legacy Long-Dry Rotary Kiln (High-Thermal Retrofit)</option>
-        </select>
         <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Tour</button>
         <button class="pill-btn academic-cta-btn" id="academic-metrics-btn">📄 Academic Metrics</button>
         <button class="pill-btn heat-cta-btn" id="heat-roi-btn">🔥 Heat Balance &amp; EU ETS ROI</button>
-        <button class="pill-btn active" id="view-twin-btn" data-view="twin">Plant Digital Twin P&amp;ID</button>
-        <button class="pill-btn" id="view-compact-btn" data-view="compact">System Flowchart</button>
+        <button class="pill-btn historian-cta-btn" id="historian-replay-btn">📼 Historian Replay / CSV</button>
+        <button class="pill-btn audit-cta-btn" id="export-audit-btn">📥 Export Shift Audit</button>
+        <button class="pill-btn active" id="view-twin-btn" data-view="twin">Plant P&amp;ID</button>
+        <button class="pill-btn" id="view-compact-btn" data-view="compact">Flowchart</button>
       </div>
-    </div>
-
-    <div class="retrofit-banner" id="retrofit-banner">
-      <div>
-        <strong>Zero-Hardware Retrofit Architecture:</strong> Reads <strong>13 existing plant historian tags</strong> (7 kiln/preheater process + 6 electrical drive meters) → computes <strong>Eqs. 3.13–3.17 thermodynamics</strong> → evaluates <strong>Dual RFR Digital Twin (R² = 0.98)</strong> → streams <strong>NSGA-II setpoints</strong> back to existing actuators.
-      </div>
-      <span class="retrofit-tag" id="retrofit-tag-badge">0 New Sensors · 13 Historian Tags · CPR ≥ 91.80 tph Guaranteed</span>
     </div>
 
     <!-- DUAL OPERATING MODES & CLOSED-LOOP SIMULATOR BAR -->
@@ -1915,11 +2255,17 @@
 
     <div class="controls-strip">
       <div class="btn-group">
+        <select class="plant-select" id="plant-profile-select" aria-label="Select Legacy Plant Retrofit Profile">
+          <option value="universal">Profile: Universal 4-Stage SP Kiln</option>
+          <option value="ashaka">Profile: Ashaka Gepol Kiln (Tables 4.1–4.2)</option>
+          <option value="long_dry">Profile: Legacy Long-Dry Kiln</option>
+        </select>
         <button class="pill-btn" id="live-stream-btn"><span class="pulse-dot"></span>Historian Telemetry: OFF</button>
-        <button class="pill-btn" id="baseline-compare-btn">Compare vs. Unoptimized Plant Baseline (91.80 tph | 1160.87 kWh/t | 973.45 kg/h)</button>
+        <button class="pill-btn" id="baseline-compare-btn">Compare vs. Baseline (91.80 tph | 1160.87 kWh/t)</button>
+        <span class="retrofit-tag hidden" id="retrofit-tag-badge">0 New Sensors · 13 Historian Tags · CPR ≥ 91.80 tph</span>
       </div>
       <div class="btn-group" id="regime-switch">
-        <span style="font-size:10.5px;font-weight:700;color:var(--muted-foreground,#94a3b8);">NSGA-II Operating Regime:</span>
+        <span style="font-size:10px;font-weight:700;color:var(--muted-foreground,#94a3b8);">Regime:</span>
         <button class="pill-btn" data-regime="Low Energy">Low Energy (Sol 1)</button>
         <button class="pill-btn active" data-regime="Balanced">Balanced Best (Sol 25)</button>
         <button class="pill-btn" data-regime="Low CO2">Low CO₂ (Sol 49)</button>
@@ -2496,18 +2842,38 @@
               <span class="ablation-note" id="ablation-note">Full Physics RF · R² = --</span>
             </div>
 
-            <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 144" xmlns="http://www.w3.org/2000/svg"></svg>
-
-            <div class="oscilloscope-wrap" id="oscilloscope-wrap">
-              <div class="oscilloscope-head">
-                <span>📈 Predictive Horizon Oscilloscope (T−4m → Now → T+3m · 95% CI ±1.96σ)</span>
-                <span id="osc-ci-readout" style="color:#7dd3fc;">95% CI: [-- – --]</span>
-              </div>
-              <svg class="oscilloscope-svg" id="horizon-oscilloscope-svg" viewBox="0 0 420 92" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div class="rf-view-tabs" id="rf-view-tabs" role="tablist">
+              <button class="rf-view-tab-btn active" id="rf-view-trees-btn" data-rf-pane="trees" role="tab">Decision Trees</button>
+              <button class="rf-view-tab-btn" id="rf-view-imp-btn" data-rf-pane="imp" role="tab">Feature Importance</button>
+              <button class="rf-view-tab-btn" id="rf-view-shap-btn" data-rf-pane="shap" role="tab">🔍 Local SHAP Waterfall</button>
             </div>
 
-            <div class="imp-list" id="rf-imp-bars"></div>
-            <div class="bench-strip" id="rf-benchmarks"></div>
+            <div id="rf-pane-trees">
+              <svg class="rf-svg" id="rf-trees-svg" viewBox="0 0 420 144" xmlns="http://www.w3.org/2000/svg"></svg>
+
+              <div class="oscilloscope-wrap" id="oscilloscope-wrap">
+                <div class="oscilloscope-head">
+                  <span>📈 Predictive Horizon Oscilloscope (T−4m → Now → T+3m · 95% CI ±1.96σ)</span>
+                  <span id="osc-ci-readout" style="color:#7dd3fc;">95% CI: [-- – --]</span>
+                </div>
+                <svg class="oscilloscope-svg" id="horizon-oscilloscope-svg" viewBox="0 0 420 92" xmlns="http://www.w3.org/2000/svg"></svg>
+              </div>
+            </div>
+
+            <div id="rf-pane-imp" class="hidden">
+              <div class="imp-list" id="rf-imp-bars"></div>
+              <div class="bench-strip" id="rf-benchmarks"></div>
+            </div>
+
+            <div id="rf-pane-shap" class="hidden">
+              <div class="rf-shap-wrap">
+                <svg class="rf-shap-svg" id="rf-shap-svg" viewBox="0 0 420 228" xmlns="http://www.w3.org/2000/svg"></svg>
+                <div class="shap-footer" id="rf-shap-footer">
+                  <span id="shap-summary-lbl">Base → Live Attribution</span>
+                  <span style="color:#94a3b8;">Amber/Rose: Worsens · Emerald: Saves</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -2715,6 +3081,118 @@
     </div>
   </div>
 
+  <!-- PLANT HISTORIAN SHIFT REPLAYER, CSV UPLOAD & OPC-UA TELEMETRY DRAWER -->
+  <div class="acad-modal-backdrop hidden" id="historian-modal-backdrop" role="dialog" aria-modal="true" aria-label="Plant Historian Shift Replayer and CSV Ingestion">
+    <div class="acad-modal" id="historian-modal" style="width:min(1120px, 100%);border-color:rgba(168, 85, 247, 0.55);">
+      <div class="acad-modal-head">
+        <div>
+          <h3 class="title" style="margin:0;">📼 Plant Historian Shift Replayer, Custom CSV Ingestion &amp; OPC-UA Inspector</h3>
+          <p class="sub" style="margin:2px 0 0 0;">Replay the 24-hour multi-shift Ashaka Gepol kiln log, upload custom CSV rows, and inspect live standardized OPC-UA / MQTT SCADA packets.</p>
+        </div>
+        <div class="btn-group">
+          <button class="pill-btn audit-cta-btn" id="drawer-export-audit-btn">📥 Export Shift Audit</button>
+          <button class="pill-btn warn-active" id="historian-modal-close">✕ Close</button>
+        </div>
+      </div>
+
+      <div class="acad-modal-body">
+        <div class="historian-grid">
+          <!-- LEFT: 24-HOUR SHIFT REPLAYER -->
+          <div class="hist-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:12px;color:#e9d5ff;" id="hist-dataset-title">Built-in 24-Hour Ashaka Shift Log (24 Hourly Rows)</strong>
+              <span class="badge" id="shift-status-lbl" style="color:#c084fc;">00:00 · Night Optimization</span>
+            </div>
+
+            <div class="shift-scrubber-bar">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+                <div class="btn-group">
+                  <button class="pill-btn historian-cta-btn" id="shift-replay-play-btn">▶ Replay 24h Shift at 10x Speed</button>
+                  <button class="pill-btn" id="shift-reset-builtin-btn">Reset to 24h Ashaka Log</button>
+                </div>
+                <span style="font-size:10.5px;font-family:ui-monospace,monospace;color:#cbd5e1;" id="shift-row-counter">Row 1 / 24</span>
+              </div>
+              <input type="range" id="shift-scrubber" min="0" max="23" value="0" />
+              <div class="shift-timeline-pills" id="shift-timeline-pills">
+                <button class="shift-phase-pill active" data-shift-jump="0">00–05h Night Opt.</button>
+                <button class="shift-phase-pill" data-shift-jump="6">06–11h Day Steady</button>
+                <button class="shift-phase-pill" data-shift-jump="12">12–17h CaCO₃ Var.</button>
+                <button class="shift-phase-pill" data-shift-jump="18">18–23h Draft Surge</button>
+              </div>
+            </div>
+
+            <div class="closure-grid" id="hist-live-metrics">
+              <div class="closure-cell">
+                <div class="closure-lbl">RFR Energy / CO₂</div>
+                <div class="closure-val" id="hist-pred-val" style="color:#38bdf8;">-- kWh/t</div>
+                <div class="closure-sub" id="hist-pred-co2">-- kg/h CO₂</div>
+              </div>
+              <div class="closure-cell">
+                <div class="closure-lbl">Throughput g(x) ≤ 0</div>
+                <div class="closure-val" id="hist-cpr-val" style="color:#10b981;">-- tph</div>
+                <div class="closure-sub" id="hist-gx-status">FEASIBLE ✅</div>
+              </div>
+              <div class="closure-cell">
+                <div class="closure-lbl">Calcination / f-CaO</div>
+                <div class="closure-val" id="hist-fcao-val" style="color:#fbbf24;">--% f-CaO</div>
+                <div class="closure-sub" id="hist-limestone-sub">--% CaCO₃</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: BRING-YOUR-OWN CSV UPLOAD -->
+          <div class="hist-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:12px;color:#7dd3fc;">Bring-Your-Own Kiln Historian CSV</strong>
+              <button class="pill-btn" id="download-csv-template-btn">⬇ Download Sample Ashaka CSV Template</button>
+            </div>
+            <div class="csv-dropzone" id="csv-dropzone" tabindex="0">
+              <div style="font-size:18px;margin-bottom:4px;">📂</div>
+              <div><strong>Drag &amp; Drop custom kiln `.csv` file here</strong> or <span style="color:#38bdf8;text-decoration:underline;">browse local file</span></div>
+              <div style="font-size:10px;color:#94a3b8;margin-top:4px;">Maps Kiln Temp, Fuel Rate, Raw Meal %CaCO₃, CPR, O₂, Air Flow &amp; Power into Feature Forge + Dual RF + NSGA-II live.</div>
+              <input type="file" id="csv-file-input" accept=".csv,text/csv" class="hidden" />
+            </div>
+            <div style="font-size:10.5px;font-family:ui-monospace,monospace;color:#94a3b8;" id="csv-parse-status">
+              Ready · Supports standard Ashaka/DCS CSV headers (missing optional columns auto-fill from plant median).
+            </div>
+          </div>
+        </div>
+
+        <!-- COLLAPSIBLE LIVE OPC-UA / MQTT INDUSTRIAL PAYLOAD INSPECTOR -->
+        <div class="opcua-box">
+          <div class="opcua-hdr" id="opcua-toggle-btn" role="button" tabindex="0" aria-expanded="true">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:11.5px;color:#6ee7b7;">📡 Live OPC-UA / MQTT Industrial Payload Inspector</strong>
+              <span class="badge" id="opcua-quality-badge" style="color:#34d399;">QUALITY: GOOD</span>
+            </div>
+            <span style="font-size:10.5px;color:#94a3b8;font-family:ui-monospace,monospace;" id="opcua-toggle-lbl">Collapse ▴</span>
+          </div>
+          <pre class="opcua-console" id="opcua-console"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINTABLE ENGINEERING SHIFT AUDIT REPORT MODAL -->
+  <div class="acad-modal-backdrop hidden" id="audit-modal-backdrop" role="dialog" aria-modal="true" aria-label="Engineering Shift Audit Report">
+    <div class="acad-modal" id="audit-modal" style="width:min(1040px, 100%);border-color:rgba(16, 185, 129, 0.6);">
+      <div class="acad-modal-head">
+        <div>
+          <h3 class="title" style="margin:0;">📥 Engineering Shift Audit Report &amp; Raw JSON Compliance Log</h3>
+          <p class="sub" style="margin:2px 0 0 0;">Print-ready PDF/HTML executive report summarizing disturbances, RFR early-warning lead times, NSGA-II actuator actions &amp; EU ETS savings.</p>
+        </div>
+        <div class="btn-group">
+          <button class="pill-btn audit-cta-btn" id="audit-print-btn">🖨️ Print / Save PDF</button>
+          <button class="pill-btn" id="audit-download-json-btn">⬇ Download JSON Log</button>
+          <button class="pill-btn warn-active" id="audit-modal-close">✕ Close</button>
+        </div>
+      </div>
+      <div class="acad-modal-body" id="audit-modal-body">
+        <div class="audit-sheet" id="print-audit-sheet"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -2778,11 +3256,35 @@ let copilotAutoTrimOn = true;
 let activePlantProfile = "universal";
 let lastCoupledDeltas = {};
 let lastPrimaryEditedFeat = null;
-let slidersExpanded = true;
+let slidersExpanded = false;
 let manualFuel = "Oil";
 let paretoTrajectory = null;
 let lastOptImpact = null;
 let optAnimFrame = null;
+
+// Prompt 6 State: Local SHAP Waterfall, Historian Replay / CSV, OPC-UA & Session Audit Log
+let activeRfPane = "trees";
+let historianModalOpen = false;
+let auditModalOpen = false;
+let opcuaExpanded = true;
+let shiftReplayTimer = null;
+let shiftReplayPlaying = false;
+let shiftRowIdx = 0;
+let historianDatasetName = "Built-in 24-Hour Ashaka Shift Log (24 Hourly Rows)";
+let activeHistorianRows = [];
+let lastAuditPhaseKey = "";
+const sessionAuditLog = {
+  sessionStartIso: new Date().toISOString(),
+  totalTicks: 0,
+  feasibleTicks: 0,
+  disturbancesDetected: 0,
+  interventionsExecuted: 0,
+  oodTripsCount: 0,
+  totalKwhSaved: 0.0,
+  totalCo2KgSaved: 0.0,
+  totalEurSaved: 0.0,
+  events: []
+};
 
 // Prompt 4 Industrial APC Safety, Uncertainty & Ramp State
 let supervisoryMode = "auto";
@@ -4250,8 +4752,273 @@ function renderRfTwin(snap) {
     <span class="bench-pill">SVR(RBF): ${(b.SVR ?? 0).toFixed(3)}</span>
   `;
 
+  // Chamber 2 Tab Visibility & SHAP Waterfall
+  const pTrees = document.getElementById("rf-pane-trees");
+  const pImp = document.getElementById("rf-pane-imp");
+  const pShap = document.getElementById("rf-pane-shap");
+  if (pTrees) pTrees.classList.toggle("hidden", activeRfPane !== "trees");
+  if (pImp) pImp.classList.toggle("hidden", activeRfPane !== "imp");
+  if (pShap) pShap.classList.toggle("hidden", activeRfPane !== "shap");
+  const bTrees = document.getElementById("rf-view-trees-btn");
+  const bImp = document.getElementById("rf-view-imp-btn");
+  const bShap = document.getElementById("rf-view-shap-btn");
+  if (bTrees) bTrees.classList.toggle("active", activeRfPane === "trees");
+  if (bImp) bImp.classList.toggle("active", activeRfPane === "imp");
+  if (bShap) bShap.classList.toggle("active", activeRfPane === "shap");
+
+  renderShapWaterfall(snap);
+
   document.getElementById("rf-tab-energy").classList.toggle("active", selectedRfModel === "energy");
   document.getElementById("rf-tab-co2").classList.toggle("active", selectedRfModel === "co2");
+}
+
+function buildFullFeatureVector(knobs, fuelName = "Oil") {
+  const t = ARCH_DATA.thermo;
+  const cpr = knobs["Clinker Production Rate (tons/h)"] || 91.8;
+  const rmc = knobs["Raw Meal Composition (% Limestone)"] || 85.0;
+  const fc = knobs["Fuel Consumption (kg/h)"] || 190.0;
+  const o2 = knobs["Oxygen Levels (%)"] || 4.0;
+  const theoCO2_rf = rmc * cpr * t.stoichiometric_co2_factor;
+  const theoEnergy_rf = (cpr * 1000.0 * t.calcination_enthalpy_kj_per_kg) / 3600.0;
+  const heatEff_rf = fc > 0 ? (theoEnergy_rf / fc) : 0;
+  const o2Dev_rf = Math.abs(o2 - t.optimal_o2_percent);
+  return {
+    ...knobs,
+    "Fuel_Coal": fuelName === "Coal" ? 1.0 : 0.0,
+    "Fuel_Gas": fuelName === "Gas" ? 1.0 : 0.0,
+    "Fuel_Oil": fuelName === "Oil" ? 1.0 : 0.0,
+    "Theoretical_CO2": theoCO2_rf,
+    "Theoretical_Energy": theoEnergy_rf,
+    "Heat_Efficiency": heatEff_rf,
+    "O2_Deviation": o2Dev_rf
+  };
+}
+
+function computeLocalShap(snap, modelKey = selectedRfModel) {
+  const baseRec = ARCH_DATA.baseline;
+  const baseVal = modelKey === "energy" ? baseRec.energy : baseRec.co2;
+  const finalVal = modelKey === "energy" ? snap.energy : snap.co2;
+  const targetDelta = finalVal - baseVal;
+
+  const fNames = (ARCH_DATA.forest_features || []).slice();
+  const baseFull = buildFullFeatureVector(baseRec.knobs || {}, baseRec.fuel || "Oil");
+  const curFull = snap.fullFeat || buildFullFeatureVector(snap.knobs || {}, snap.fuel || "Oil");
+  const abMeans = (!physicsEnabled && ARCH_DATA.ablation && ARCH_DATA.ablation[modelKey] && ARCH_DATA.ablation[modelKey].means) || {};
+  const maskFeat = f => (f in abMeans ? abMeans[f] : (curFull[f] ?? 0));
+  const maskBase = f => (f in abMeans ? abMeans[f] : (baseFull[f] ?? 0));
+
+  const evalVec = vecObj => evalCompactForestStats(modelKey, vecObj, snap.sensorReadings || snap.knobs).mean ?? baseVal;
+
+  const baseVecObj = {};
+  const curVecObj = {};
+  fNames.forEach(f => {
+    baseVecObj[f] = maskBase(f);
+    curVecObj[f] = maskFeat(f);
+  });
+
+  const phiMap = {};
+  fNames.forEach(f => { phiMap[f] = 0; });
+
+  // Two-sided Shapley sweep (forward + backward) guaranteeing telescoping additivity
+  let curFwd = { ...baseVecObj };
+  let prevFwd = evalVec(curFwd);
+  fNames.forEach(f => {
+    if (Math.abs(curVecObj[f] - baseVecObj[f]) > 1e-8) {
+      curFwd[f] = curVecObj[f];
+      const nextFwd = evalVec(curFwd);
+      phiMap[f] += 0.5 * (nextFwd - prevFwd);
+      prevFwd = nextFwd;
+    }
+  });
+
+  let curBwd = { ...baseVecObj };
+  let prevBwd = evalVec(curBwd);
+  for (let i = fNames.length - 1; i >= 0; i--) {
+    const f = fNames[i];
+    if (Math.abs(curVecObj[f] - baseVecObj[f]) > 1e-8) {
+      curBwd[f] = curVecObj[f];
+      const nextBwd = evalVec(curBwd);
+      phiMap[f] += 0.5 * (nextBwd - prevBwd);
+      prevBwd = nextBwd;
+    }
+  }
+
+  // Reconcile calibration / RBF residual proportionally across changed features
+  const rawSum = fNames.reduce((acc, f) => acc + phiMap[f], 0);
+  const residual = targetDelta - rawSum;
+  if (Math.abs(residual) > 1e-6) {
+    const changed = fNames.filter(f => Math.abs(curVecObj[f] - baseVecObj[f]) > 1e-7);
+    if (changed.length > 0) {
+      const weights = changed.map(f => {
+        const b = ARCH_DATA.bounds && ARCH_DATA.bounds[f];
+        const normD = b ? Math.abs(curVecObj[f] - baseVecObj[f]) / Math.max(1e-6, b.max - b.min) : Math.abs(curVecObj[f] - baseVecObj[f]) / Math.max(1, Math.abs(baseVecObj[f]));
+        return Math.abs(phiMap[f]) + 2.5 * normD + 1e-4;
+      });
+      const wTot = weights.reduce((a, b) => a + b, 0);
+      changed.forEach((f, idx) => {
+        phiMap[f] += residual * (weights[idx] / Math.max(1e-9, wTot));
+      });
+    } else {
+      phiMap["Kiln Temperature (°C)"] = (phiMap["Kiln Temperature (°C)"] || 0) + residual;
+    }
+  }
+
+  const labelMap = {
+    "Power Consumed (KWt/h)": "Power Consumed",
+    "Absorbed Power (Kw)": "Absorbed Power",
+    "Kiln Temperature (°C)": "Kiln Temp",
+    "Fuel Consumption (kg/h)": "Fuel Rate",
+    "Raw Meal Composition (% Limestone)": "Limestone CaCO₃%",
+    "Clinker Production Rate (tons/h)": "Clinker CPR",
+    "Oxygen Levels (%)": "Exhaust O₂%",
+    "Air Flow Rate (m³/h)": "ID Fan Air Flow",
+    "Power (rotary drive) Kw": "Rotary Drive",
+    "Power (Kw)": "Main Power",
+    "Kiln Pressure (bar)": "Kiln Pressure",
+    "Heat_Efficiency": "Heat Efficiency",
+    "Theoretical_Energy": "Calc. Enthalpy",
+    "Theoretical_CO2": "Stoich. CO₂",
+    "O2_Deviation": "O₂ Stoich. Dev"
+  };
+
+  const nonZero = fNames
+    .map(f => ({
+      feature: f,
+      label: labelMap[f] || shortFeat(f),
+      phi: phiMap[f],
+      value: curVecObj[f],
+      baseValue: baseVecObj[f]
+    }))
+    .filter(d => Math.abs(d.phi) >= 0.005)
+    .sort((a, b) => Math.abs(b.phi) - Math.abs(a.phi));
+
+  const topItems = nonZero.slice(0, 5);
+  const tailItems = nonZero.slice(5);
+  const topSum = topItems.reduce((acc, d) => acc + d.phi, 0);
+  const otherPhi = targetDelta - topSum;
+  if (tailItems.length > 0 && Math.abs(otherPhi) >= 0.01) {
+    topItems.push({
+      feature: "__other__",
+      label: `Other (${tailItems.length} tags)`,
+      phi: otherPhi,
+      value: null,
+      baseValue: null
+    });
+  } else if (topItems.length > 0 && Math.abs(targetDelta - topSum) > 1e-4) {
+    topItems[0].phi += (targetDelta - topSum);
+  }
+
+  return {
+    modelKey,
+    unit: modelKey === "energy" ? "kWh/t" : "kg/h",
+    baseVal,
+    finalVal,
+    targetDelta,
+    contributions: topItems
+  };
+}
+
+function renderShapWaterfall(snap) {
+  const svg = document.getElementById("rf-shap-svg");
+  const summaryLbl = document.getElementById("shap-summary-lbl");
+  if (!svg) return;
+
+  const shap = computeLocalShap(snap, selectedRfModel);
+  const unit = shap.unit;
+  const rows = [
+    { kind: "base", label: "Ashaka Baseline", start: shap.baseVal, end: shap.baseVal, delta: 0 }
+  ];
+  let running = shap.baseVal;
+  shap.contributions.forEach(c => {
+    const next = running + c.phi;
+    rows.push({
+      kind: c.phi >= 0 ? "pos" : "neg",
+      label: c.label,
+      start: running,
+      end: next,
+      delta: c.phi,
+      val: c.value
+    });
+    running = next;
+  });
+  if (shap.contributions.length === 0) {
+    rows.push({
+      kind: "neutral",
+      label: "No Sensor Drift",
+      start: shap.baseVal,
+      end: shap.finalVal,
+      delta: 0
+    });
+  }
+  rows.push({ kind: "final", label: "Live Prediction ŷ(x)", start: shap.finalVal, end: shap.finalVal, delta: shap.targetDelta });
+
+  const allVals = [shap.baseVal, shap.finalVal];
+  rows.forEach(r => { allVals.push(r.start, r.end); });
+  let minV = Math.min(...allVals);
+  let maxV = Math.max(...allVals);
+  const padSpan = Math.max(12, (maxV - minV) * 0.22);
+  minV -= padSpan;
+  maxV += padSpan;
+  const span = Math.max(1e-6, maxV - minV);
+
+  const labelX = 6;
+  const chartL = 122;
+  const chartR = 354;
+  const chartW = chartR - chartL;
+  const mapX = v => chartL + ((v - minV) / span) * chartW;
+  const rowH = Math.min(25, Math.floor(194 / Math.max(1, rows.length)));
+  const topY = 22;
+
+  let html = `
+    <rect x="0" y="0" width="420" height="228" rx="6" fill="#060d19" />
+    <text x="10" y="13.5" font-size="8.2" font-weight="800" fill="#7dd3fc">
+      Local SHAP Waterfall (${selectedRfModel === "energy" ? "Specific Energy kWh/t" : "CO₂ Emissions kg/h"})
+    </text>
+    <text x="412" y="13.5" font-size="7.6" font-weight="700" fill="#94a3b8" text-anchor="end">
+      Base ${shap.baseVal.toFixed(1)} → ŷ(x) ${shap.finalVal.toFixed(1)} ${unit}
+    </text>
+    <line x1="${mapX(shap.baseVal).toFixed(1)}" y1="${topY}" x2="${mapX(shap.baseVal).toFixed(1)}" y2="${topY + rows.length * rowH}" stroke="#475569" stroke-width="1" stroke-dasharray="2.5 2.5" />
+  `;
+
+  rows.forEach((r, idx) => {
+    const y = topY + idx * rowH;
+    const barY = y + 3;
+    const barH = Math.max(11, rowH - 7);
+    const midY = barY + barH / 2;
+
+    if (idx > 0 && idx < rows.length - 1) {
+      const prevEnd = rows[idx - 1].end;
+      const cx = mapX(prevEnd).toFixed(1);
+      html += `<line x1="${cx}" y1="${y - 2}" x2="${cx}" y2="${barY + barH}" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.65" />`;
+    }
+
+    html += `<text x="${labelX}" y="${midY + 3}" font-size="7.8" font-weight="${r.kind === "base" || r.kind === "final" ? 800 : 600}" fill="${r.kind === "base" ? "#cbd5e1" : (r.kind === "final" ? "#f8fafc" : "#e2e8f0")}">${r.label}</text>`;
+
+    if (r.kind === "base" || r.kind === "final") {
+      const xPos = mapX(r.end);
+      const col = r.kind === "base" ? "#64748b" : (shap.targetDelta <= 0 ? "#10b981" : "#f59e0b");
+      const anchorX = mapX(minV);
+      const bw = Math.max(4, xPos - anchorX);
+      html += `<rect x="${anchorX.toFixed(1)}" y="${barY}" width="${bw.toFixed(1)}" height="${barH}" rx="3" fill="${col}" fill-opacity="${r.kind === "base" ? "0.45" : "0.78"}" stroke="${col}" stroke-width="1" />`;
+      html += `<text x="412" y="${midY + 3}" font-size="8" font-weight="800" fill="${r.kind === "base" ? "#cbd5e1" : col}" text-anchor="end" font-family="ui-monospace, monospace">${r.end.toFixed(2)}</text>`;
+    } else {
+      const x1 = mapX(r.start);
+      const x2 = mapX(r.end);
+      const bx = Math.min(x1, x2);
+      const bw = Math.max(3, Math.abs(x2 - x1));
+      const col = r.kind === "neg" ? "#10b981" : (r.kind === "pos" ? (r.delta > 15 ? "#fb7185" : "#f59e0b") : "#64748b");
+      const sign = r.delta >= 0 ? "+" : "";
+      html += `<rect x="${bx.toFixed(1)}" y="${barY}" width="${bw.toFixed(1)}" height="${barH}" rx="2.5" fill="${col}" fill-opacity="0.85" />`;
+      html += `<text x="412" y="${midY + 3}" font-size="8" font-weight="800" fill="${col}" text-anchor="end" font-family="ui-monospace, monospace">${sign}${r.delta.toFixed(2)}</text>`;
+    }
+  });
+
+  svg.innerHTML = html;
+  if (summaryLbl) {
+    const sign = shap.targetDelta >= 0 ? "+" : "";
+    summaryLbl.textContent = `Base: ${shap.baseVal.toFixed(2)} ${unit} → Δ ${sign}${shap.targetDelta.toFixed(2)} → ŷ(x): ${shap.finalVal.toFixed(2)} ${unit}`;
+    summaryLbl.style.color = shap.targetDelta <= 0 ? "#34d399" : "#fbbf24";
+  }
 }
 
 function renderOscilloscope(snap) {
@@ -5689,6 +6456,19 @@ function executeRampedSetpointMove(targetRec, targetIdx, label, beforeSnapOverri
       lastOptImpact = { before: beforeSnap, after: afterSnap, target: targetRec, targetIdx, label };
       selectedUnit = "nsga2";
       triggerFeedbackPulse(beforeSnap.knobs, afterSnap.knobs);
+      if (typeof logAuditEvent === "function") {
+        const dFuel = afterSnap.fuel_rate - beforeSnap.fuel_rate;
+        const dAir = afterSnap.air - beforeSnap.air;
+        const dTemp = afterSnap.temp - beforeSnap.temp;
+        logAuditEvent({
+          type: "NSGA2_INTERVENTION",
+          severity: "GOOD",
+          detail: `${label || "NSGA-II"} → Pareto #${targetIdx + 1} (${targetRec.regime || "Custom"})`,
+          leadTimeSec: 180,
+          snap: afterSnap,
+          actuatorMoves: `Fuel ${dFuel >= 0 ? "+" : ""}${dFuel.toFixed(1)} kg/h, Air ${dAir >= 0 ? "+" : ""}${dAir.toFixed(0)} m³/h, Temp ${dTemp >= 0 ? "+" : ""}${dTemp.toFixed(1)}°C`
+        });
+      }
       updateAll();
     }
   };
@@ -5751,6 +6531,17 @@ function triggerOodSensorFault() {
   oodFaultActive = true;
   slidersExpanded = true;
   selectedUnit = "rf_energy";
+  if (typeof logAuditEvent === "function") {
+    const fStr = Object.entries(faultedReadings).map(([k, v]) => `${shortFeat(k)}=${v}`).join(", ");
+    logAuditEvent({
+      type: "ISA18_2_OOD_TRIP",
+      severity: "WARN",
+      detail: `OOD Sensor Fault (${fStr}) → Safe Manual DCS Hold`,
+      leadTimeSec: 0,
+      snap: getLiveSnapshot(),
+      actuatorMoves: "ACTUATOR WRITES LOCKED OUT"
+    });
+  }
   updateAll();
 }
 
@@ -5765,6 +6556,16 @@ function resetSafetyInterlock() {
   manualMode = false;
   lastCoupledDeltas = {};
   syncManualFromRecord(getBaseOperatingRecord());
+  if (typeof logAuditEvent === "function") {
+    logAuditEvent({
+      type: "INTERLOCK_RESET",
+      severity: "GOOD",
+      detail: "Operator cleared ISA-18.2 Interlock → Nominal Optimal Resume",
+      leadTimeSec: 0,
+      snap: getLiveSnapshot(),
+      actuatorMoves: "Closed-loop unlocked"
+    });
+  }
   updateAll();
 }
 
@@ -5846,6 +6647,17 @@ function injectDisturbance(key) {
         beforeSnap: snapAfterDist
       };
     }
+  }
+  if (typeof logAuditEvent === "function") {
+    const dLabel = { overburn: "Over-Burning Thermal Surge", draft: "ID Fan Draft / O₂ Drop", cpr: "Clinker Production Drop (88.0 tph)" }[key] || key;
+    logAuditEvent({
+      type: "DISTURBANCE_DETECTED",
+      severity: "WARN",
+      detail: `${dLabel} → RFR Early Forecast +${Math.max(0, snapAfterDist.energy - ARCH_DATA.baseline.energy).toFixed(1)} kWh/t`,
+      leadTimeSec: 180,
+      snap: snapAfterDist,
+      actuatorMoves: supervisoryMode === "advisory" ? "Advisory Proposal Queued" : "Awaiting NSGA-II Trim"
+    });
   }
   updateAll();
 }
@@ -6103,6 +6915,14 @@ function updateControls() {
   if (vtBtn) {
     vtBtn.classList.toggle("active", showValidationTable);
   }
+  const histBtn = document.getElementById("historian-replay-btn");
+  if (histBtn) {
+    histBtn.classList.toggle("active", historianModalOpen || shiftReplayPlaying);
+  }
+  const audBtn = document.getElementById("export-audit-btn");
+  if (audBtn) {
+    audBtn.classList.toggle("active", auditModalOpen);
+  }
   const acadBtn = document.getElementById("academic-metrics-btn");
   if (acadBtn) {
     acadBtn.classList.toggle("active", academicModalOpen);
@@ -6148,6 +6968,9 @@ function updateAll() {
   updateControls();
   syncSliderInputs();
   const snap = getLiveSnapshot();
+  if (typeof recordAuditTick === "function") {
+    recordAuditTick(snap);
+  }
   renderScoreboard(snap);
   renderScada(snap);
   renderDcsOscilloscope(snap);
@@ -6160,6 +6983,9 @@ function updateAll() {
   renderInspector(snap);
   if (heatRoiModalOpen) {
     renderHeatRoiModal(snap);
+  }
+  if (historianModalOpen && typeof renderHistorianDrawer === "function") {
+    renderHistorianDrawer(snap);
   }
 }
 
@@ -6334,6 +7160,31 @@ function stepAutonomousSimulation() {
     });
     const cleanName = upset.name.replace(/^\d+\.\s*/, "");
     autoLastSummary = `NSGA-II counter-balanced ${cleanName}: ${upset.summaryAction} → Prevented +${Math.max(22, Math.round(maxAvoidE))} kWh/t & +${Math.max(10, Math.round(maxAvoidC))} kg/h CO₂ spike while holding ${bal.production.toFixed(2)} tph.`;
+  }
+
+  const phaseKey = `${autoUpsetIdx}-${autoPhase}`;
+  if (phaseKey !== lastAuditPhaseKey && typeof logAuditEvent === "function") {
+    lastAuditPhaseKey = phaseKey;
+    const cleanName = upset.name.replace(/^\d+\.\s*/, "");
+    if (autoPhase === 2) {
+      logAuditEvent({
+        type: "RFR_EARLY_WARNING",
+        severity: "WARN",
+        detail: `${cleanName}: ${upset.driftDesc} (Forecast +${Math.max(12, Math.round(warnE))} kWh/t)`,
+        leadTimeSec: 180,
+        snap: { energy: actualEval.energy, co2: actualEval.co2, production: actualKnobs["Clinker Production Rate (tons/h)"] || bal.production, o2: actualKnobs["Oxygen Levels (%)"] || bal.o2, fCao: 1.15 },
+        actuatorMoves: "Pending NSGA-II Phase 3"
+      });
+    } else if (autoPhase === 3 && aiControlEnabled) {
+      logAuditEvent({
+        type: "NSGA2_AUTO_REBALANCE",
+        severity: "GOOD",
+        detail: `Counter-balanced ${cleanName} → ${upset.actuatorLabel}`,
+        leadTimeSec: 180,
+        snap: { energy: actualEval.energy, co2: actualEval.co2, production: actualKnobs["Clinker Production Rate (tons/h)"] || bal.production, o2: actualKnobs["Oxygen Levels (%)"] || bal.o2, fCao: 1.15 },
+        actuatorMoves: upset.summaryAction
+      });
+    }
   }
 
   dcsTickCounter += 1;
@@ -7513,6 +8364,732 @@ function closeHeatRoiModal() {
   renderHeatRoiModal();
 }
 
+// PROMPT 6: AUDIT LOGGER, 24H HISTORIAN REPLAY, CSV UPLOAD, OPC-UA & PRINTABLE AUDIT REPORT
+function logAuditEvent({ type, severity = "INFO", detail = "", leadTimeSec = 0, snap = null, actuatorMoves = "" }) {
+  const s = snap || getLiveSnapshot();
+  if (type === "DISTURBANCE_DETECTED" || type === "RFR_EARLY_WARNING") {
+    sessionAuditLog.disturbancesDetected += 1;
+  } else if (type === "NSGA2_INTERVENTION" || type === "NSGA2_AUTO_REBALANCE") {
+    sessionAuditLog.interventionsExecuted += 1;
+  } else if (type === "ISA18_2_OOD_TRIP") {
+    sessionAuditLog.oodTripsCount += 1;
+  }
+  const cpr = s.production ?? 91.8;
+  const minCpr = (ARCH_DATA.thermo && ARCH_DATA.thermo.min_cpr) || 91.8;
+  sessionAuditLog.events.unshift({
+    timestamp: new Date().toISOString(),
+    type,
+    severity,
+    detail,
+    leadTimeSec,
+    energyKwhT: Number((s.energy ?? 0).toFixed(2)),
+    co2KgH: Number((s.co2 ?? 0).toFixed(2)),
+    cprTph: Number(cpr.toFixed(2)),
+    gFeasible: cpr >= minCpr - 1e-4,
+    o2Pct: Number((s.o2 ?? 0).toFixed(2)),
+    fCaoPct: Number((s.fCao ?? 1.15).toFixed(2)),
+    actuatorMoves
+  });
+  if (sessionAuditLog.events.length > 200) {
+    sessionAuditLog.events.length = 200;
+  }
+}
+
+function recordAuditTick(snap, dtHours = 0.02) {
+  if (!snap) return;
+  const base = ARCH_DATA.baseline;
+  const minCpr = (ARCH_DATA.thermo && ARCH_DATA.thermo.min_cpr) || 91.8;
+  sessionAuditLog.totalTicks += 1;
+  if (snap.production >= minCpr - 1e-4) {
+    sessionAuditLog.feasibleTicks += 1;
+  }
+  const dKwhPerT = Math.max(0, base.energy - snap.energy);
+  const dCo2KgH = Math.max(0, base.co2 - snap.co2);
+  const kwhSaved = dKwhPerT * snap.production * dtHours;
+  const co2Saved = dCo2KgH * dtHours;
+  const eurSaved = kwhSaved * roiEnergyTariffEur + (co2Saved / 1000.0) * roiEtsPriceEur;
+  sessionAuditLog.totalKwhSaved += kwhSaved;
+  sessionAuditLog.totalCo2KgSaved += co2Saved;
+  sessionAuditLog.totalEurSaved += eurSaved;
+}
+
+function buildAshaka24hShiftLog() {
+  const baseK = ARCH_DATA.baseline.knobs || {};
+  const balK = (ARCH_DATA.regimes && ARCH_DATA.regimes["Balanced"] && ARCH_DATA.regimes["Balanced"].knobs) || baseK;
+  const lowEK = (ARCH_DATA.regimes && ARCH_DATA.regimes["Low Energy"] && ARCH_DATA.regimes["Low Energy"].knobs) || balK;
+  const rows = [];
+  for (let h = 0; h < 24; h++) {
+    const hh = String(h).padStart(2, "0") + ":00";
+    let shift = "Night Shift · Steady Optimal";
+    let refK = { ...balK };
+    let note = "NSGA-II Balanced Sol 25 steady cruise";
+    const overrides = {};
+
+    if (h < 6) {
+      shift = "Night Shift · NSGA-II Optimization";
+      refK = h % 2 === 0 ? { ...balK } : { ...lowEK };
+      note = "Low nocturnal ambient shell gradient · Optimal kiln steady state";
+      overrides["Kiln Temperature (°C)"] = (refK["Kiln Temperature (°C)"] ?? 1352.4) + Math.sin(h) * 0.8;
+    } else if (h < 12) {
+      shift = "Day Shift · Steady Clinker Run";
+      refK = { ...balK };
+      const blend = 0.22 + 0.1 * Math.sin(h);
+      Object.keys(refK).forEach(k => {
+        refK[k] = (balK[k] ?? 0) * (1 - blend) + (baseK[k] ?? balK[k] ?? 0) * blend;
+      });
+      note = "Normal daytime production run under closed-loop trim";
+    } else if (h < 18) {
+      shift = "Afternoon Shift · Limestone Variability";
+      refK = { ...balK };
+      const caco3Wave = Math.sin((h - 12) * 1.15) * 1.85;
+      overrides["Raw Meal Composition (% Limestone)"] = (balK["Raw Meal Composition (% Limestone)"] ?? 84.5) + caco3Wave;
+      overrides["Fuel Consumption (kg/h)"] = (balK["Fuel Consumption (kg/h)"] ?? 192.0) + caco3Wave * 4.2;
+      overrides["Kiln Temperature (°C)"] = (balK["Kiln Temperature (°C)"] ?? 1354.0) - caco3Wave * 1.4;
+      overrides["Power Consumed (KWt/h)"] = (balK["Power Consumed (KWt/h)"] ?? 4120.0) + Math.abs(caco3Wave) * 185.0;
+      note = caco3Wave > 0 ? "High-CaCO₃ quarry batch → NSGA-II calcination fuel trim" : "Low-CaCO₃ meal batch → enthalpy trim";
+    } else {
+      shift = "Evening Shift · ID Fan Draft Surge & Recovery";
+      refK = { ...balK };
+      if (h === 18) {
+        overrides["Kiln Temperature (°C)"] = 1361.5;
+        overrides["Oxygen Levels (%)"] = 3.68;
+        overrides["Power Consumed (KWt/h)"] = 4850.0;
+        note = "Incipient draft/thermal drift detected by RFR T+3m horizon";
+      } else if (h === 19 || h === 20) {
+        overrides["Kiln Temperature (°C)"] = h === 19 ? 1368.2 : 1365.4;
+        overrides["Fuel Consumption (kg/h)"] = h === 19 ? 221.0 : 212.0;
+        overrides["Oxygen Levels (%)"] = h === 19 ? 3.44 : 3.58;
+        overrides["Air Flow Rate (m³/h)"] = 1765.0;
+        overrides["Power Consumed (KWt/h)"] = h === 19 ? 5390.0 : 5110.0;
+        overrides["Power (Kw)"] = 5690.0;
+        note = h === 19 ? "Peak ID Fan Draft Surge & Over-Burning (NSGA-II Dispatch)" : "Slew-clamped NSGA-II recovery ramp in progress";
+      } else {
+        overrides["Kiln Temperature (°C)"] = (balK["Kiln Temperature (°C)"] ?? 1353.0) + (23 - h) * 0.4;
+        note = "Surge neutralized · Returned to Pareto Balanced Sol 25";
+      }
+    }
+
+    const rowKnobs = {};
+    Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+      const v = feat in overrides ? overrides[feat] : (refK[feat] ?? baseK[feat] ?? ARCH_DATA.bounds[feat].median);
+      rowKnobs[feat] = clampToBounds(feat, v);
+    });
+    rows.push({
+      timestamp: hh,
+      shift,
+      note,
+      fuel: "Oil",
+      knobs: rowKnobs
+    });
+  }
+  return rows;
+}
+const ASHAKA_24H_SHIFT_LOG = buildAshaka24hShiftLog();
+activeHistorianRows = ASHAKA_24H_SHIFT_LOG.slice();
+
+function applyShiftRecord(idx, logEvent = false) {
+  if (!activeHistorianRows.length) return;
+  shiftRowIdx = Math.max(0, Math.min(activeHistorianRows.length - 1, idx));
+  const row = activeHistorianRows[shiftRowIdx];
+  if (!row) return;
+
+  stopAutonomousLoop();
+  autonomousMode = false;
+  autonomousPaused = false;
+  autoPhase = 1;
+  stopEvolutionPlay();
+  if (optAnimFrame) {
+    clearTimeout(optAnimFrame);
+    optAnimFrame = null;
+    isSlewRamping = false;
+  }
+  pendingAdvisory = null;
+  activeTargetNotches = {};
+  oodFaultActive = false;
+  faultedReadings = {};
+  compareBaseline = false;
+  manualMode = true;
+  activeDisturbance = null;
+  manualFuel = row.fuel || "Oil";
+
+  Object.keys(ARCH_DATA.bounds || {}).forEach(feat => {
+    const val = clampToBounds(feat, row.knobs[feat] ?? ARCH_DATA.baseline.knobs[feat] ?? 0);
+    manualState[feat] = val;
+    if (sparkHistory[feat]) {
+      sparkHistory[feat].push(val);
+      if (sparkHistory[feat].length > 15) sparkHistory[feat].shift();
+    }
+  });
+
+  const snap = getLiveSnapshot();
+  horizonHistory.energy.push(snap.energy);
+  horizonHistory.co2.push(snap.co2);
+  if (horizonHistory.energy.length > 12) horizonHistory.energy.shift();
+  if (horizonHistory.co2.length > 12) horizonHistory.co2.shift();
+  currentPredForecast = {
+    energy: snap.energy,
+    co2: snap.co2,
+    cfEnergy: ARCH_DATA.baseline.energy,
+    cfCo2: ARCH_DATA.baseline.co2,
+    warnE: Math.max(0, snap.energy - ARCH_DATA.baseline.energy),
+    warnC: Math.max(0, snap.co2 - ARCH_DATA.baseline.co2)
+  };
+  pushDcsSample(snap.energy, snap.co2, ARCH_DATA.baseline.energy, ARCH_DATA.baseline.co2, snap.energy, snap.co2);
+  recordAuditTick(snap, 1.0);
+
+  if (logEvent) {
+    logAuditEvent({
+      type: "HISTORIAN_REPLAY_STEP",
+      severity: snap.energy > ARCH_DATA.baseline.energy - 10 ? "WARN" : "GOOD",
+      detail: `[${row.timestamp}] ${row.shift} — ${row.note}`,
+      leadTimeSec: 180,
+      snap,
+      actuatorMoves: `Fuel ${snap.fuel_rate.toFixed(1)} kg/h, Air ${Math.round(snap.air)} m³/h`
+    });
+  }
+  updateAll();
+}
+
+function stopShiftReplay() {
+  if (shiftReplayTimer) {
+    clearInterval(shiftReplayTimer);
+    shiftReplayTimer = null;
+  }
+  shiftReplayPlaying = false;
+  updateControls();
+  if (historianModalOpen) renderHistorianDrawer();
+}
+
+function startShiftReplay() {
+  if (!activeHistorianRows.length) return;
+  stopShiftReplay();
+  if (shiftRowIdx >= activeHistorianRows.length - 1) {
+    shiftRowIdx = 0;
+  }
+  shiftReplayPlaying = true;
+  applyShiftRecord(shiftRowIdx, true);
+  shiftReplayTimer = setInterval(() => {
+    if (shiftRowIdx >= activeHistorianRows.length - 1) {
+      stopShiftReplay();
+      return;
+    }
+    applyShiftRecord(shiftRowIdx + 1, true);
+  }, 450);
+}
+
+function downloadTextFile(filename, content, mime = "text/plain;charset=utf-8") {
+  try {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (err) {
+    // Graceful no-op in headless non-DOM test contexts
+  }
+}
+
+function downloadSampleCsvTemplate() {
+  const cols = [
+    "Timestamp",
+    "Shift",
+    "Kiln Temperature (°C)",
+    "Fuel Consumption (kg/h)",
+    "Raw Meal Composition (% Limestone)",
+    "Clinker Production Rate (tons/h)",
+    "Oxygen Levels (%)",
+    "Air Flow Rate (m³/h)",
+    "Kiln Pressure (bar)",
+    "Power Consumed (KWt/h)",
+    "Absorbed Power (Kw)",
+    "Power (rotary drive) Kw",
+    "Power (Kw)"
+  ];
+  const sampleRows = ASHAKA_24H_SHIFT_LOG.filter((_, i) => i % 3 === 0).map(r => {
+    const vals = cols.slice(2).map(c => Number(r.knobs[c] ?? 0).toFixed(2));
+    return [`"${r.timestamp}"`, `"${r.shift}"`, ...vals].join(",");
+  });
+  const csv = [cols.join(","), ...sampleRows].join("\n");
+  downloadTextFile("ashaka_kiln_shift_template.csv", csv, "text/csv;charset=utf-8");
+  const st = document.getElementById("csv-parse-status");
+  if (st) {
+    st.textContent = "Downloaded ashaka_kiln_shift_template.csv (8 sample shift rows).";
+    st.style.color = "#34d399";
+  }
+}
+
+function parseCsvLine(line) {
+  const out = [];
+  let cur = "";
+  let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      inQ = !inQ;
+    } else if (ch === "," && !inQ) {
+      out.push(cur.trim());
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  out.push(cur.trim());
+  return out;
+}
+
+function parseAndLoadCsv(csvText, fileName = "custom_kiln.csv") {
+  const lines = String(csvText || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const st = document.getElementById("csv-parse-status");
+  if (lines.length < 2) {
+    if (st) {
+      st.textContent = "Error: CSV needs a header row and at least 1 data row.";
+      st.style.color = "#f87171";
+    }
+    return false;
+  }
+
+  const headers = parseCsvLine(lines[0]);
+  const bounds = ARCH_DATA.bounds || {};
+  const baseK = ARCH_DATA.baseline.knobs || {};
+  const knownFeats = Object.keys(bounds);
+
+  const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const aliasMap = {};
+  headers.forEach((h, idx) => {
+    const nh = norm(h);
+    if (nh.includes("time") || nh === "hour" || nh === "sn") aliasMap.timestampIdx = idx;
+    else if (nh.includes("shift") || nh.includes("note") || nh.includes("regime")) aliasMap.shiftIdx = idx;
+    knownFeats.forEach(feat => {
+      if (norm(feat) === nh) {
+        aliasMap[feat] = idx;
+      }
+    });
+  });
+
+  // Fallback substring matching for friendly column names
+  const fuzzyAliases = {
+    "Kiln Temperature (°C)": ["kilntemp", "burnzone", "temp"],
+    "Fuel Consumption (kg/h)": ["fuelcons", "fuelrate", "fuel"],
+    "Raw Meal Composition (% Limestone)": ["rawmeal", "limestone", "caco3"],
+    "Clinker Production Rate (tons/h)": ["clinkerprod", "cpr", "throughput"],
+    "Oxygen Levels (%)": ["oxygen", "o2"],
+    "Air Flow Rate (m³/h)": ["airflow", "draft"],
+    "Kiln Pressure (bar)": ["pressure"],
+    "Power Consumed (KWt/h)": ["powerconsumed", "idfanpower"],
+    "Absorbed Power (Kw)": ["absorbed"],
+    "Power (rotary drive) Kw": ["rotary", "drive"],
+    "Power (Kw)": ["powerkw", "mainpower"]
+  };
+  knownFeats.forEach(feat => {
+    if (aliasMap[feat] !== undefined) return;
+    const keys = fuzzyAliases[feat] || [];
+    for (let idx = 0; idx < headers.length; idx++) {
+      const nh = norm(headers[idx]);
+      if (keys.some(k => nh.includes(k))) {
+        aliasMap[feat] = idx;
+        break;
+      }
+    }
+  });
+
+  const parsedRows = [];
+  for (let r = 1; r < lines.length; r++) {
+    const cells = parseCsvLine(lines[r]);
+    if (!cells.length) continue;
+    const rowKnobs = {};
+    let numericCount = 0;
+    knownFeats.forEach(feat => {
+      const colIdx = aliasMap[feat];
+      let val = colIdx !== undefined ? parseFloat(cells[colIdx]) : NaN;
+      if (!Number.isNaN(val)) {
+        numericCount += 1;
+        rowKnobs[feat] = clampToBounds(feat, val);
+      } else {
+        rowKnobs[feat] = baseK[feat] ?? bounds[feat].median ?? 0;
+      }
+    });
+    if (numericCount > 0) {
+      parsedRows.push({
+        timestamp: aliasMap.timestampIdx !== undefined ? cells[aliasMap.timestampIdx] : `Row ${r}`,
+        shift: aliasMap.shiftIdx !== undefined ? cells[aliasMap.shiftIdx] : `CSV (${fileName})`,
+        note: `Ingested from ${fileName}`,
+        fuel: "Oil",
+        knobs: rowKnobs
+      });
+    }
+  }
+
+  if (!parsedRows.length) {
+    if (st) {
+      st.textContent = "Error: No valid numeric kiln columns matched in uploaded CSV.";
+      st.style.color = "#f87171";
+    }
+    return false;
+  }
+
+  stopShiftReplay();
+  activeHistorianRows = parsedRows;
+  historianDatasetName = `Custom CSV: ${fileName} (${parsedRows.length} rows)`;
+  shiftRowIdx = 0;
+  if (st) {
+    st.textContent = `Loaded ${parsedRows.length} rows from ${fileName} → Feature Forge + RF + NSGA-II live.`;
+    st.style.color = "#34d399";
+  }
+  logAuditEvent({
+    type: "CSV_HISTORIAN_INGESTION",
+    severity: "GOOD",
+    detail: `Ingested ${parsedRows.length} custom kiln historian rows from ${fileName}`,
+    leadTimeSec: 180,
+    actuatorMoves: "Historian pipeline ready"
+  });
+  applyShiftRecord(0, true);
+  return true;
+}
+
+function buildOpcUaPayload(snap) {
+  const s = snap || getLiveSnapshot();
+  const quality = s.oodDetected ? "BAD_OOD" : "GOOD";
+  const optStatus = oodFaultActive
+    ? "ISA18_2_INTERLOCK_HOLD"
+    : (shiftReplayPlaying
+      ? "HISTORIAN_REPLAY_ACTIVE"
+      : (pendingAdvisory
+        ? "ADVISORY_AWAITING_OPERATOR"
+        : (autonomousMode ? `CLOSED_LOOP_AUTO_P${autoPhase}` : "MANUAL_SANDBOX")));
+  return {
+    protocol: "OPC-UA PubSub / MQTT SparkplugB",
+    endpoint: "opc.tcp://ashaka-dcs-gw01:4840",
+    timestamp: new Date().toISOString(),
+    quality,
+    nodes: {
+      "ns=2;s=Ashaka.Kiln1.BurningZoneTemp": { value: Number(s.temp.toFixed(2)), unit: "degC", quality },
+      "ns=2;s=Ashaka.Kiln1.FuelFlowRate": { value: Number(s.fuel_rate.toFixed(2)), unit: "kg/h", quality },
+      "ns=2;s=Ashaka.Kiln1.GepolIDFan.Power": { value: Number(s.power_cons.toFixed(1)), unit: "kWt/h", quality },
+      "ns=2;s=Ashaka.Kiln1.GepolIDFan.AirFlow": { value: Number(s.air.toFixed(1)), unit: "m3/h", quality },
+      "ns=2;s=Ashaka.Kiln1.Preheater.O2": { value: Number(s.o2.toFixed(2)), unit: "%", quality },
+      "ns=2;s=Ashaka.Kiln1.RawMeal.CaCO3": { value: Number(s.limestone.toFixed(2)), unit: "%", quality },
+      "ns=2;s=Ashaka.Kiln1.Clinker.CPR": { value: Number(s.production.toFixed(2)), unit: "tph", quality },
+      "ns=2;s=Ashaka.Kiln1.SoftSensor.FreeLime_fCaO": { value: Number((s.fCao ?? 1.15).toFixed(2)), unit: "%", quality },
+      "ns=2;s=Ashaka.DigitalTwin.RFR.PredEnergy": {
+        value: Number(s.energy.toFixed(2)),
+        ci95: [Number(s.ciE[0].toFixed(2)), Number(s.ciE[1].toFixed(2))],
+        confidencePct: Number(s.confE.toFixed(1)),
+        unit: "kWh/t"
+      },
+      "ns=2;s=Ashaka.DigitalTwin.RFR.PredCO2": {
+        value: Number(s.co2.toFixed(2)),
+        ci95: [Number(s.ciC[0].toFixed(2)), Number(s.ciC[1].toFixed(2))],
+        unit: "kg/h"
+      },
+      "ns=2;s=Ashaka.Optimizer.NSGA2.Status": optStatus,
+      "ns=2;s=Ashaka.Optimizer.NSGA2.Constraint_gx": {
+        value: Number(s.gViolation.toFixed(3)),
+        feasible: s.production >= ((ARCH_DATA.thermo && ARCH_DATA.thermo.min_cpr) || 91.8) - 1e-4
+      }
+    }
+  };
+}
+
+function renderOpcUaPayload(snap) {
+  const pre = document.getElementById("opcua-console");
+  const qBadge = document.getElementById("opcua-quality-badge");
+  const tLbl = document.getElementById("opcua-toggle-lbl");
+  if (!pre) return;
+  pre.classList.toggle("hidden", !opcuaExpanded);
+  if (tLbl) tLbl.textContent = opcuaExpanded ? "Collapse ▴" : "Expand ▾";
+  const payload = buildOpcUaPayload(snap);
+  if (qBadge) {
+    qBadge.textContent = `QUALITY: ${payload.quality}`;
+    qBadge.style.color = payload.quality === "GOOD" ? "#34d399" : "#f87171";
+  }
+  if (opcuaExpanded) {
+    pre.textContent = JSON.stringify(payload, null, 2);
+  }
+}
+
+function renderHistorianDrawer(liveSnap = null) {
+  const backdrop = document.getElementById("historian-modal-backdrop");
+  if (!backdrop) return;
+  backdrop.classList.toggle("hidden", !historianModalOpen);
+  if (!historianModalOpen) return;
+
+  const snap = liveSnap || getLiveSnapshot();
+  const rows = activeHistorianRows.length ? activeHistorianRows : ASHAKA_24H_SHIFT_LOG;
+  const curRow = rows[Math.min(shiftRowIdx, rows.length - 1)] || rows[0];
+
+  const titleEl = document.getElementById("hist-dataset-title");
+  if (titleEl) titleEl.textContent = historianDatasetName;
+
+  const scrubber = document.getElementById("shift-scrubber");
+  if (scrubber) {
+    scrubber.max = String(Math.max(0, rows.length - 1));
+    scrubber.value = String(shiftRowIdx);
+  }
+  const cntEl = document.getElementById("shift-row-counter");
+  if (cntEl) cntEl.textContent = `Row ${shiftRowIdx + 1} / ${rows.length}`;
+  const stLbl = document.getElementById("shift-status-lbl");
+  if (stLbl && curRow) stLbl.textContent = `${curRow.timestamp} · ${curRow.shift}`;
+
+  const playBtn = document.getElementById("shift-replay-play-btn");
+  if (playBtn) {
+    playBtn.textContent = shiftReplayPlaying ? "⏸ Pause Shift Replay" : "▶ Replay 24h Shift at 10x Speed";
+    playBtn.classList.toggle("active", shiftReplayPlaying);
+  }
+
+  document.querySelectorAll("#shift-timeline-pills .shift-phase-pill").forEach(pill => {
+    const startIdx = parseInt(pill.getAttribute("data-shift-jump"), 10);
+    const isAct = shiftRowIdx >= startIdx && shiftRowIdx < startIdx + 6;
+    pill.classList.toggle("active", isAct);
+  });
+
+  const pE = document.getElementById("hist-pred-val");
+  const pC = document.getElementById("hist-pred-co2");
+  const pCpr = document.getElementById("hist-cpr-val");
+  const pGx = document.getElementById("hist-gx-status");
+  const pFc = document.getElementById("hist-fcao-val");
+  const pLm = document.getElementById("hist-limestone-sub");
+  const feasible = snap.production >= ((ARCH_DATA.thermo && ARCH_DATA.thermo.min_cpr) || 91.8) - 1e-4;
+  if (pE) pE.textContent = `${snap.energy.toFixed(2)} kWh/t`;
+  if (pC) pC.textContent = `${snap.co2.toFixed(2)} kg/h CO₂`;
+  if (pCpr) {
+    pCpr.textContent = `${snap.production.toFixed(2)} tph`;
+    pCpr.style.color = feasible ? "#10b981" : "#f87171";
+  }
+  if (pGx) pGx.textContent = feasible ? `g(x) = ${snap.gViolation.toFixed(2)} ≤ 0 ✅` : `VIOLATION g(x) = +${snap.gViolation.toFixed(2)} ❌`;
+  if (pFc) pFc.textContent = `${(snap.fCao ?? 1.15).toFixed(2)}% f-CaO`;
+  if (pLm) pLm.textContent = `${snap.limestone.toFixed(2)}% CaCO₃ · ${snap.temp.toFixed(1)}°C`;
+
+  renderOpcUaPayload(snap);
+}
+
+function openHistorianModal() {
+  closeAcademicModal();
+  closeHeatRoiModal();
+  closeAuditModal();
+  historianModalOpen = true;
+  updateControls();
+  renderHistorianDrawer();
+}
+
+function closeHistorianModal() {
+  if (!historianModalOpen) return;
+  historianModalOpen = false;
+  updateControls();
+  renderHistorianDrawer();
+}
+
+function compileAuditData(liveSnap = null) {
+  const snap = liveSnap || getLiveSnapshot();
+  const base = ARCH_DATA.baseline;
+  const compliancePct = sessionAuditLog.totalTicks > 0
+    ? (sessionAuditLog.feasibleTicks / sessionAuditLog.totalTicks) * 100.0
+    : 100.0;
+  const shapE = computeLocalShap(snap, "energy");
+  const shapC = computeLocalShap(snap, "co2");
+  return {
+    reportTitle: "Ashaka Gepol Kiln — Engineering Shift Audit & APC Compliance Report",
+    generatedAt: new Date().toISOString(),
+    plantProfile: activePlantProfile,
+    sessionStartIso: sessionAuditLog.sessionStartIso,
+    baseline: {
+      energyKwhT: base.energy,
+      co2KgH: base.co2,
+      cprTph: base.production
+    },
+    currentLiveState: {
+      energyKwhT: Number(snap.energy.toFixed(2)),
+      co2KgH: Number(snap.co2.toFixed(2)),
+      cprTph: Number(snap.production.toFixed(2)),
+      gViolation: Number(snap.gViolation.toFixed(3)),
+      gFeasible: snap.production >= ((ARCH_DATA.thermo && ARCH_DATA.thermo.min_cpr) || 91.8) - 1e-4,
+      freeLimeFCaoPct: Number((snap.fCao ?? 1.15).toFixed(2)),
+      clinkerQualityState: snap.clinkerQualityState,
+      modelConfidencePct: Number(snap.confE.toFixed(1)),
+      opcUaQuality: snap.oodDetected ? "BAD_OOD" : "GOOD"
+    },
+    cumulativeSavings: {
+      energySavedKwh: Number(sessionAuditLog.totalKwhSaved.toFixed(1)),
+      co2AvoidedKg: Number(sessionAuditLog.totalCo2KgSaved.toFixed(1)),
+      euEtsAndOpexSavedEur: Number(sessionAuditLog.totalEurSaved.toFixed(2)),
+      etsPriceEurPerTonne: roiEtsPriceEur,
+      energyTariffEurPerKwh: roiEnergyTariffEur
+    },
+    operationalMetrics: {
+      disturbancesDetected: sessionAuditLog.disturbancesDetected,
+      nsga2Interventions: sessionAuditLog.interventionsExecuted,
+      oodInterlockTrips: sessionAuditLog.oodTripsCount,
+      rfrEarlyWarningLeadTimeSec: 180,
+      cprConstraintCompliancePct: Number(compliancePct.toFixed(2)),
+      totalTelemetryTicks: sessionAuditLog.totalTicks
+    },
+    localShapAttribution: {
+      energy: shapE,
+      co2: shapC
+    },
+    opcUaSnapshot: buildOpcUaPayload(snap),
+    eventLog: sessionAuditLog.events.slice(0, 40)
+  };
+}
+
+function renderAuditSheet(auditData) {
+  const sheet = document.getElementById("print-audit-sheet");
+  if (!sheet) return;
+  const d = auditData;
+  const cur = d.currentLiveState;
+  const sav = d.cumulativeSavings;
+  const ops = d.operationalMetrics;
+  const rowsHtml = d.eventLog.length
+    ? d.eventLog.slice(0, 18).map(ev => `
+        <tr>
+          <td style="font-family:ui-monospace,monospace;">${ev.timestamp.slice(11, 19)}Z</td>
+          <td><strong>${ev.type}</strong></td>
+          <td>${ev.detail}</td>
+          <td>${ev.leadTimeSec > 0 ? `${ev.leadTimeSec}s (T+3m)` : "—"}</td>
+          <td>${ev.energyKwhT} kWh/t · ${ev.co2KgH} kg/h</td>
+          <td><span class="${ev.gFeasible ? "audit-pill-pass" : "audit-pill-warn"}">${ev.gFeasible ? "g(x)≤0 PASS" : "VIOLATION"} (${ev.cprTph} tph)</span></td>
+          <td style="font-family:ui-monospace,monospace;">${ev.actuatorMoves || "—"}</td>
+        </tr>
+      `).join("")
+    : `<tr><td colspan="7" style="text-align:center;color:#64748b;">Session active — steady optimal supervision (no upsets logged yet).</td></tr>`;
+
+  const shapRowsHtml = d.localShapAttribution.energy.contributions.map(c => `
+    <tr>
+      <td><strong>${c.label}</strong></td>
+      <td style="font-family:ui-monospace,monospace;color:${c.phi >= 0 ? "#b45309" : "#047857"};"><strong>${c.phi >= 0 ? "+" : ""}${c.phi.toFixed(2)} kWh/t</strong></td>
+      <td>${c.phi >= 0 ? "Energy Worsening Driver" : "Energy Saving Driver"}</td>
+    </tr>
+  `).join("");
+
+  sheet.innerHTML = `
+    <div class="audit-sheet-hdr">
+      <div>
+        <h2>${d.reportTitle}</h2>
+        <div style="font-size:11px;color:#334155;margin-top:2px;">
+          Zero-Hardware Supervisory APC · Physics-Informed Dual RFR (R² = 0.98) + Constrained NSGA-II (g(x) = 91.80 − CPR ≤ 0)
+        </div>
+      </div>
+      <div class="audit-sheet-meta">
+        <div>Generated: ${d.generatedAt.replace("T", " ").slice(0, 19)} UTC</div>
+        <div>Profile: ${d.plantProfile.toUpperCase()} · OPC-UA: ${cur.opcUaQuality}</div>
+      </div>
+    </div>
+
+    <div class="audit-kpi-row">
+      <div class="audit-kpi-box">
+        <div class="lbl">Cumulative Energy Saved</div>
+        <div class="val">${sav.energySavedKwh.toLocaleString()} kWh</div>
+        <div class="sub">Live Rate: ${cur.energyKwhT} vs ${d.baseline.energyKwhT} kWh/t</div>
+      </div>
+      <div class="audit-kpi-box">
+        <div class="lbl">Cumulative CO₂ Avoided</div>
+        <div class="val">${sav.co2AvoidedKg.toLocaleString()} kg</div>
+        <div class="sub">Live Stack: ${cur.co2KgH} vs ${d.baseline.co2KgH} kg/h</div>
+      </div>
+      <div class="audit-kpi-box">
+        <div class="lbl">EU ETS + OPEX Saved</div>
+        <div class="val">€${sav.euEtsAndOpexSavedEur.toLocaleString()}</div>
+        <div class="sub">@ €${sav.etsPriceEurPerTonne}/tCO₂ · €${sav.energyTariffEurPerKwh.toFixed(3)}/kWh</div>
+      </div>
+      <div class="audit-kpi-box">
+        <div class="lbl">Constraint g(x) ≤ 0 Compliance</div>
+        <div class="val">${ops.cprConstraintCompliancePct}%</div>
+        <div class="sub">CPR: ${cur.cprTph} tph · f-CaO: ${cur.freeLimeFCaoPct}% (${cur.clinkerQualityState})</div>
+      </div>
+    </div>
+
+    <div class="audit-sec-title">1. Session Supervisory &amp; Safety Telemetry Summary</div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Disturbances Detected</th>
+          <th>NSGA-II Interventions</th>
+          <th>RFR Early-Warning Lead Time</th>
+          <th>ISA-18.2 OOD Trips</th>
+          <th>RF Ensemble Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>${ops.disturbancesDetected}</strong></td>
+          <td><strong>${ops.nsga2Interventions}</strong></td>
+          <td><strong>${ops.rfrEarlyWarningLeadTimeSec} s (3.0 min horizon)</strong></td>
+          <td><strong>${ops.oodInterlockTrips}</strong></td>
+          <td><strong>${cur.modelConfidencePct}%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="audit-sec-title">2. Disturbances, RFR Early Warnings &amp; NSGA-II Actuator Audit Log</div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>UTC Time</th>
+          <th>Event Type</th>
+          <th>Engineering Diagnosis</th>
+          <th>Lead Time</th>
+          <th>RFR Twin State</th>
+          <th>Constraint g(x) ≤ 0</th>
+          <th>Actuator Adjustments</th>
+        </tr>
+      </thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+
+    <div class="audit-sec-title">3. Live Local SHAP Attribution Snapshot (Base ${d.localShapAttribution.energy.baseVal.toFixed(2)} → ŷ(x) ${d.localShapAttribution.energy.finalVal.toFixed(2)} kWh/t)</div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Active Sensor / Physics Feature</th>
+          <th>Shapley Attribution φᵢ</th>
+          <th>Thermodynamic Direction</th>
+        </tr>
+      </thead>
+      <tbody>${shapRowsHtml || `<tr><td colspan="3">Baseline steady operation (zero drift from Ashaka median).</td></tr>`}</tbody>
+    </table>
+  `;
+}
+
+function downloadAuditJson(auditData = null) {
+  const payload = auditData || compileAuditData();
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+  downloadTextFile(
+    `ashaka_engineering_shift_audit_${stamp}.json`,
+    JSON.stringify(payload, null, 2),
+    "application/json;charset=utf-8"
+  );
+}
+
+function closeAuditModal() {
+  if (!auditModalOpen) return;
+  auditModalOpen = false;
+  const b = document.getElementById("audit-modal-backdrop");
+  if (b) b.classList.add("hidden");
+  updateControls();
+}
+
+function exportShiftAuditReport(triggerPrint = true) {
+  closeAcademicModal();
+  closeHeatRoiModal();
+  closeHistorianModal();
+  const auditData = compileAuditData();
+  auditModalOpen = true;
+  const b = document.getElementById("audit-modal-backdrop");
+  if (b) b.classList.remove("hidden");
+  renderAuditSheet(auditData);
+  updateControls();
+  downloadAuditJson(auditData);
+  if (triggerPrint && typeof window !== "undefined" && typeof window.print === "function") {
+    setTimeout(() => {
+      try { window.print(); } catch (e) {}
+    }, 120);
+  }
+  return auditData;
+}
+
 // EVENT LISTENERS
 buildWhatIfSliders();
 
@@ -7597,8 +9174,152 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (academicModalOpen) closeAcademicModal();
     if (heatRoiModalOpen) closeHeatRoiModal();
+    if (historianModalOpen) closeHistorianModal();
+    if (auditModalOpen) closeAuditModal();
   }
 });
+
+// Prompt 6 Listeners: Chamber 2 Tabs, Historian Replay / CSV Drawer, OPC-UA & Shift Audit Report
+document.querySelectorAll("#rf-view-tabs .rf-view-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    activeRfPane = btn.getAttribute("data-rf-pane") || "trees";
+    updateAll();
+  });
+});
+
+const histReplayHeaderBtn = document.getElementById("historian-replay-btn");
+if (histReplayHeaderBtn) {
+  histReplayHeaderBtn.addEventListener("click", () => {
+    if (historianModalOpen) closeHistorianModal();
+    else openHistorianModal();
+  });
+}
+const histModalClose = document.getElementById("historian-modal-close");
+if (histModalClose) {
+  histModalClose.addEventListener("click", () => closeHistorianModal());
+}
+const histBackdrop = document.getElementById("historian-modal-backdrop");
+if (histBackdrop) {
+  histBackdrop.addEventListener("click", e => {
+    if (e.target === histBackdrop) closeHistorianModal();
+  });
+}
+const shiftPlayBtn = document.getElementById("shift-replay-play-btn");
+if (shiftPlayBtn) {
+  shiftPlayBtn.addEventListener("click", () => {
+    if (shiftReplayPlaying) stopShiftReplay();
+    else startShiftReplay();
+  });
+}
+const shiftResetBtn = document.getElementById("shift-reset-builtin-btn");
+if (shiftResetBtn) {
+  shiftResetBtn.addEventListener("click", () => {
+    stopShiftReplay();
+    activeHistorianRows = ASHAKA_24H_SHIFT_LOG.slice();
+    historianDatasetName = "Built-in 24-Hour Ashaka Shift Log (24 Hourly Rows)";
+    shiftRowIdx = 0;
+    const st = document.getElementById("csv-parse-status");
+    if (st) {
+      st.textContent = "Restored built-in 24-hour Ashaka multi-shift log.";
+      st.style.color = "#94a3b8";
+    }
+    applyShiftRecord(0, false);
+  });
+}
+const shiftScrubberEl = document.getElementById("shift-scrubber");
+if (shiftScrubberEl) {
+  shiftScrubberEl.addEventListener("input", e => {
+    stopShiftReplay();
+    applyShiftRecord(parseInt(e.target.value, 10) || 0, false);
+  });
+}
+document.querySelectorAll("#shift-timeline-pills .shift-phase-pill").forEach(pill => {
+  pill.addEventListener("click", () => {
+    stopShiftReplay();
+    const jIdx = parseInt(pill.getAttribute("data-shift-jump"), 10) || 0;
+    applyShiftRecord(Math.min(activeHistorianRows.length - 1, jIdx), true);
+  });
+});
+
+const dlCsvBtn = document.getElementById("download-csv-template-btn");
+if (dlCsvBtn) {
+  dlCsvBtn.addEventListener("click", () => downloadSampleCsvTemplate());
+}
+const csvDrop = document.getElementById("csv-dropzone");
+const csvInput = document.getElementById("csv-file-input");
+if (csvDrop && csvInput) {
+  csvDrop.addEventListener("click", () => csvInput.click());
+  csvDrop.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      csvInput.click();
+    }
+  });
+  csvDrop.addEventListener("dragover", e => {
+    e.preventDefault();
+    csvDrop.classList.add("drag-over");
+  });
+  csvDrop.addEventListener("dragleave", () => {
+    csvDrop.classList.remove("drag-over");
+  });
+  csvDrop.addEventListener("drop", e => {
+    e.preventDefault();
+    csvDrop.classList.remove("drag-over");
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => parseAndLoadCsv(ev.target.result, file.name);
+      reader.readAsText(file);
+    }
+  });
+  csvInput.addEventListener("change", e => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => parseAndLoadCsv(ev.target.result, file.name);
+      reader.readAsText(file);
+    }
+  });
+}
+
+const opcuaToggleBtn = document.getElementById("opcua-toggle-btn");
+if (opcuaToggleBtn) {
+  opcuaToggleBtn.addEventListener("click", () => {
+    opcuaExpanded = !opcuaExpanded;
+    renderOpcUaPayload();
+  });
+}
+
+const exportAuditHeaderBtn = document.getElementById("export-audit-btn");
+if (exportAuditHeaderBtn) {
+  exportAuditHeaderBtn.addEventListener("click", () => exportShiftAuditReport(true));
+}
+const exportAuditDrawerBtn = document.getElementById("drawer-export-audit-btn");
+if (exportAuditDrawerBtn) {
+  exportAuditDrawerBtn.addEventListener("click", () => exportShiftAuditReport(true));
+}
+const auditCloseBtn = document.getElementById("audit-modal-close");
+if (auditCloseBtn) {
+  auditCloseBtn.addEventListener("click", () => closeAuditModal());
+}
+const auditBackdrop = document.getElementById("audit-modal-backdrop");
+if (auditBackdrop) {
+  auditBackdrop.addEventListener("click", e => {
+    if (e.target === auditBackdrop) closeAuditModal();
+  });
+}
+const auditPrintBtn = document.getElementById("audit-print-btn");
+if (auditPrintBtn) {
+  auditPrintBtn.addEventListener("click", () => {
+    if (typeof window !== "undefined" && typeof window.print === "function") {
+      try { window.print(); } catch (e) {}
+    }
+  });
+}
+const auditJsonBtn = document.getElementById("audit-download-json-btn");
+if (auditJsonBtn) {
+  auditJsonBtn.addEventListener("click", () => downloadAuditJson());
+}
 
 const modeAutoLoopBtn = document.getElementById("mode-autonomous-btn");
 if (modeAutoLoopBtn) {

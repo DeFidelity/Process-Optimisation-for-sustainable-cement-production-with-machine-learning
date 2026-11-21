@@ -164,5 +164,24 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "renderHeatRoiModal" in arch_text
     assert "openHeatRoiModal" in arch_text
     assert "closeHeatRoiModal" in arch_text
+    assert "rf-view-tabs" in arch_text
+    assert "rf-view-shap-btn" in arch_text
+    assert "rf-shap-svg" in arch_text
+    assert "computeLocalShap" in arch_text
+    assert "renderShapWaterfall" in arch_text
+    assert "historian-replay-btn" in arch_text
+    assert "historian-modal-backdrop" in arch_text
+    assert "ASHAKA_24H_SHIFT_LOG" in arch_text
+    assert "shift-replay-play-btn" in arch_text
+    assert "csv-dropzone" in arch_text
+    assert "download-csv-template-btn" in arch_text
+    assert "opcua-console" in arch_text
+    assert "ns=2;s=Ashaka.Kiln1.BurningZoneTemp" in arch_text
+    assert "ns=2;s=Ashaka.Kiln1.GepolIDFan.Power" in arch_text
+    assert "ns=2;s=Ashaka.Optimizer.NSGA2.Status" in arch_text
+    assert "export-audit-btn" in arch_text
+    assert "audit-modal-backdrop" in arch_text
+    assert "print-audit-sheet" in arch_text
+    assert "exportShiftAuditReport" in arch_text
     assert "Guided Tour" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")
