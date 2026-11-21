@@ -1680,6 +1680,186 @@
     line-height: 1.45;
     color: #cbd5e1;
   }
+  .heat-cta-btn {
+    border-color: rgba(249, 115, 22, 0.68) !important;
+    background: rgba(249, 115, 22, 0.16) !important;
+    color: #fdba74 !important;
+    font-weight: 800 !important;
+  }
+  .heat-cta-btn:hover {
+    background: rgba(249, 115, 22, 0.28) !important;
+    color: #ffffff !important;
+  }
+  .heat-cta-btn.active {
+    background: #ea580c !important;
+    color: #ffffff !important;
+    border-color: #fb923c !important;
+  }
+  .heat-regime-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(15, 23, 42, 0.72);
+  }
+  .heat-roi-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 920px) {
+    .heat-roi-grid { grid-template-columns: 1fr; }
+  }
+  .sankey-card, .ets-card {
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sankey-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #060b14;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 8px;
+  }
+  .sankey-ribbon {
+    transition: d 0.35s ease, opacity 0.2s ease;
+  }
+  .closure-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  @media (max-width: 680px) {
+    .closure-grid { grid-template-columns: 1fr; }
+  }
+  .closure-cell {
+    padding: 7px 9px;
+    border-radius: 7px;
+    background: #060b14;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  .closure-lbl {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+  .closure-val {
+    font-size: 13.5px;
+    font-weight: 800;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    margin-top: 2px;
+  }
+  .closure-sub {
+    font-size: 10px;
+    color: #cbd5e1;
+    margin-top: 2px;
+  }
+  .ets-controls-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  @media (max-width: 680px) {
+    .ets-controls-row { grid-template-columns: 1fr; }
+  }
+  .ets-ctrl-box {
+    padding: 7px 9px;
+    border-radius: 7px;
+    background: #060b14;
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ets-ctrl-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #cbd5e1;
+  }
+  .ets-ctrl-head strong {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #7dd3fc;
+  }
+  .ets-ctrl-box input[type="range"] {
+    width: 100%;
+    accent-color: #f97316;
+    cursor: pointer;
+  }
+  .ets-kpi-stack {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .ets-kpi-box {
+    padding: 9px 10px;
+    border-radius: 7px;
+    background: #060b14;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .ets-kpi-box.full {
+    grid-column: 1 / -1;
+    border-color: rgba(249, 115, 22, 0.42);
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.10), rgba(249, 115, 22, 0.10));
+  }
+  .ets-bench-box {
+    padding: 9px 10px;
+    border-radius: 7px;
+    background: #060b14;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bench-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bench-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: #e2e8f0;
+  }
+  .bench-bar-track {
+    height: 7px;
+    border-radius: 999px;
+    background: #1e293b;
+    overflow: hidden;
+  }
+  .bench-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+  .zero-capex-callout {
+    padding: 8px 12px;
+    border-radius: 7px;
+    background: rgba(16, 185, 129, 0.13);
+    border: 1px solid rgba(16, 185, 129, 0.48);
+    color: #a7f3d0;
+    font-size: 11.2px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
 </style>
 </head>
 <body>
@@ -1700,6 +1880,7 @@
         </select>
         <button class="pill-btn tour-cta-btn" id="start-tour-btn">🎓 Guided Tour</button>
         <button class="pill-btn academic-cta-btn" id="academic-metrics-btn">📄 Academic Metrics</button>
+        <button class="pill-btn heat-cta-btn" id="heat-roi-btn">🔥 Heat Balance &amp; EU ETS ROI</button>
         <button class="pill-btn active" id="view-twin-btn" data-view="twin">Plant Digital Twin P&amp;ID</button>
         <button class="pill-btn" id="view-compact-btn" data-view="compact">System Flowchart</button>
       </div>
@@ -2509,6 +2690,31 @@
     </div>
   </div>
 
+  <!-- THERMODYNAMIC HEAT BALANCE & EU ETS / CBAM ROI OVERLAY -->
+  <div class="acad-modal-backdrop hidden" id="heat-roi-modal-backdrop" role="dialog" aria-modal="true" aria-label="Kiln Heat Balance Sankey and EU ETS ROI Analytics">
+    <div class="acad-modal" id="heat-roi-modal" style="width:min(1160px, 100%);border-color:rgba(249, 115, 22, 0.55);">
+      <div class="acad-modal-head">
+        <div>
+          <h3 class="title" style="margin:0;">🔥 First-Principles Kiln Heat Balance &amp; EU ETS / CBAM Sustainability ROI</h3>
+          <p class="sub" style="margin:2px 0 0 0;">Live dynamic Sankey enthalpy closure (100% energy balance) coupled with annualized plant OPEX &amp; European carbon compliance economics.</p>
+        </div>
+        <button class="pill-btn warn-active" id="heat-roi-modal-close">✕ Close</button>
+      </div>
+      <div class="heat-regime-bar" id="heat-roi-regime-bar">
+        <div class="btn-group">
+          <span style="font-size:10.5px;font-weight:700;color:#94a3b8;">Compare Operating Regime Live:</span>
+          <button class="pill-btn active" data-heat-regime="live">Live Active State</button>
+          <button class="pill-btn" data-heat-regime="baseline">Plant Baseline</button>
+          <button class="pill-btn" data-heat-regime="Low Energy">Low Energy (Sol 1)</button>
+          <button class="pill-btn" data-heat-regime="Balanced">Balanced (Sol 25)</button>
+          <button class="pill-btn" data-heat-regime="Low CO2">Low CO₂ (Sol 49 · Thermal Dilution)</button>
+        </div>
+        <span class="badge" id="heat-roi-active-badge" style="color:#fdba74;">Synced · Balanced</span>
+      </div>
+      <div class="acad-modal-body" id="heat-roi-modal-body"></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -2700,6 +2906,11 @@ let evoTimer = null;
 let showValidationTable = false;
 let academicModalOpen = false;
 let academicActiveTab = "val";
+let heatRoiModalOpen = false;
+let heatRoiRegimeFilter = "live";
+let roiOperatingHours = 8000;
+let roiEtsPriceEur = 85;
+let roiEnergyTariffEur = 0.09;
 let actuatorPulseUntil = 0;
 let actuatorDeltaTexts = {};
 let pulseAnimRaf = null;
@@ -5896,6 +6107,10 @@ function updateControls() {
   if (acadBtn) {
     acadBtn.classList.toggle("active", academicModalOpen);
   }
+  const heatBtn = document.getElementById("heat-roi-btn");
+  if (heatBtn) {
+    heatBtn.classList.toggle("active", heatRoiModalOpen);
+  }
   const tourBtn = document.getElementById("start-tour-btn");
   if (tourBtn) {
     tourBtn.classList.toggle("active", tourActive);
@@ -5943,6 +6158,9 @@ function updateAll() {
   renderAdvisoryToast();
   renderCompactView(snap);
   renderInspector(snap);
+  if (heatRoiModalOpen) {
+    renderHeatRoiModal(snap);
+  }
 }
 
 // LIVE STREAM HELPERS
@@ -6557,6 +6775,7 @@ function toggleTourAutoPlay() {
 
 function startTour() {
   closeAcademicModal();
+  closeHeatRoiModal();
   stopAutonomousLoop();
   autonomousMode = false;
   autonomousPaused = false;
@@ -6768,6 +6987,7 @@ function renderAcademicModal() {
 }
 
 function openAcademicModal(tab = "val") {
+  closeHeatRoiModal();
   academicActiveTab = tab;
   academicModalOpen = true;
   updateControls();
@@ -6779,6 +6999,518 @@ function closeAcademicModal() {
   academicModalOpen = false;
   updateControls();
   renderAcademicModal();
+}
+
+function getHeatRoiRecord(liveSnap) {
+  const base = ARCH_DATA.baseline;
+  const reg = ARCH_DATA.regimes || {};
+  if (heatRoiRegimeFilter === "baseline") {
+    return {
+      label: "Plant Baseline (Median)",
+      energy: base.energy,
+      co2: base.co2,
+      production: base.production,
+      temp: base.temp,
+      fuel_rate: base.fuel_rate,
+      limestone: base.limestone,
+      o2: base.o2,
+      o2Dev: base.o2_dev,
+      air: base.air,
+      power_cons: base.knobs["Power Consumed (KWt/h)"] || 4690,
+      rotary: base.knobs["Power (rotary drive) Kw"] || 650,
+      heatEff: base.heat_eff,
+      theoEnergy: base.theoretical_energy,
+      isBaseline: true
+    };
+  }
+  if (heatRoiRegimeFilter !== "live" && reg[heatRoiRegimeFilter]) {
+    const r = reg[heatRoiRegimeFilter];
+    return {
+      label: r.regime === "Low CO2" ? "Low CO₂ (Sol 49 · Thermal Dilution)" : `${r.regime} (Sol ${r.solution_num || ""})`,
+      energy: r.energy,
+      co2: r.co2,
+      production: r.production,
+      nominal_production: r.nominal_production,
+      temp: r.temp,
+      fuel_rate: r.fuel_rate,
+      limestone: r.limestone,
+      o2: r.o2,
+      o2Dev: r.o2_dev,
+      air: r.air,
+      power_cons: r.knobs["Power Consumed (KWt/h)"] || 4065,
+      rotary: r.knobs["Power (rotary drive) Kw"] || 520,
+      heatEff: r.heat_eff,
+      theoEnergy: r.theoretical_energy,
+      regime: r.regime,
+      isBaseline: false
+    };
+  }
+  const snap = liveSnap || getLiveSnapshot();
+  const lbl = oodFaultActive
+    ? "Safe Hold (ISA-18.2 Interlock)"
+    : (compareBaseline && !manualMode ? "Plant Baseline (Live)" : (manualMode ? "Live Manual What-If State" : `Live Twin · ${activeRegime}`));
+  return {
+    label: lbl,
+    energy: snap.energy,
+    co2: snap.co2,
+    production: snap.production,
+    temp: snap.temp,
+    fuel_rate: snap.fuel_rate,
+    limestone: snap.limestone,
+    o2: snap.o2,
+    o2Dev: snap.o2Dev,
+    air: snap.air,
+    power_cons: snap.power_cons,
+    rotary: snap.rotary,
+    heatEff: snap.heatEff,
+    theoEnergy: snap.theoEnergy,
+    regime: snap.rec && snap.rec.regime,
+    isBaseline: compareBaseline && !manualMode
+  };
+}
+
+function computeKilnHeatBalance(rec) {
+  const cpr = Math.max(40, rec.production || 91.8);
+  const totalMW = Math.max(20, (rec.energy * cpr) / 1000.0);
+  const rawElecMW = Math.max(1.5, ((rec.power_cons || 4065) + (rec.rotary || 520)) / 1000.0);
+  const elecMW = Math.min(totalMW * 0.18, rawElecMW);
+  const fuelMW = Math.max(10, totalMW - elecMW);
+
+  // First-principles endothermic calcination + clinker mineral reaction heat
+  const calcBaseMW = ((cpr * 1000.0 * 1780.0) / 3600000.0) * ((rec.limestone || 84.5) / 84.5);
+  const calcMW = Math.min(totalMW * 0.56, Math.max(totalMW * 0.34, calcBaseMW));
+
+  // Fixed kiln shell radiative & convective loss driven by (Kiln Temp - 25C)
+  const shellRawMW = 16.3 * Math.pow(Math.max(0.25, ((rec.temp || 1365.0) - 25.0) / 1340.58), 2.6);
+  // Preheater cyclone & baghouse exhaust sensible heat driven by Air Flow Rate & O2 excess
+  const airNorm = (rec.air || 1831.2) / 1831.2;
+  const o2ExcessMult = 1.0 + 0.14 * (rec.o2Dev || 0.14) + 0.045 * Math.max(0, (rec.o2 || 3.86) - 3.86);
+  const baseExhMW = 19.6 * airNorm * o2ExcessMult + 0.42 * Math.max(0, totalMW - 95.0);
+
+  const remMW = Math.max(6.0, totalMW - calcMW);
+  let shellMW = shellRawMW;
+  let exhaustMW = baseExhMW;
+  let coolerMW = remMW - shellMW - exhaustMW;
+
+  const minCooler = Math.max(totalMW * 0.09, elecMW * 0.55 + 5.5);
+  if (coolerMW < minCooler) {
+    const avail = Math.max(4.0, remMW - minCooler);
+    const scale = avail / Math.max(1e-6, shellMW + exhaustMW);
+    shellMW *= scale;
+    exhaustMW *= scale;
+    coolerMW = remMW - shellMW - exhaustMW;
+  }
+
+  const pct = v => (v / totalMW) * 100.0;
+  const kwhPerTon = v => (v * 1000.0) / cpr;
+
+  const elecToExhaust = Math.min(exhaustMW * 0.45, elecMW * 0.65);
+  const elecToCooler = Math.max(0, elecMW - elecToExhaust);
+  const fuelToCalc = calcMW;
+  const fuelToExhaust = Math.max(0, exhaustMW - elecToExhaust);
+  const fuelToShell = shellMW;
+  const fuelToCooler = Math.max(0, coolerMW - elecToCooler);
+
+  const excessAirPenaltyMW = Math.max(0.4, 2.2 * (rec.o2Dev || 0.14) + 0.35 * Math.max(0, totalMW - 95.0));
+
+  return {
+    totalMW,
+    fuelMW,
+    elecMW,
+    calcMW,
+    exhaustMW,
+    shellMW,
+    coolerMW,
+    fuelPct: pct(fuelMW),
+    elecPct: pct(elecMW),
+    calcPct: pct(calcMW),
+    exhPct: pct(exhaustMW),
+    shellPct: pct(shellMW),
+    coolPct: pct(coolerMW),
+    calcKwh: kwhPerTon(calcMW),
+    exhKwh: kwhPerTon(exhaustMW),
+    shellKwh: kwhPerTon(shellMW),
+    coolKwh: kwhPerTon(coolerMW),
+    elecToExhaust,
+    elecToCooler,
+    fuelToCalc,
+    fuelToExhaust,
+    fuelToShell,
+    fuelToCooler,
+    excessAirPenaltyMW
+  };
+}
+
+function renderSankeySvg(rec, hb) {
+  const W = 820;
+  const H = 304;
+  const xL = 186;
+  const xR = 606;
+  const barW = 18;
+  const totalH = 212;
+  const yStart = 40;
+  const leftGap = 14;
+  const rightGap = 10;
+
+  const hFuel = Math.max(24, (hb.fuelMW / hb.totalMW) * totalH);
+  const hElec = Math.max(16, (hb.elecMW / hb.totalMW) * totalH);
+  const yFuel = yStart;
+  const yElec = yFuel + hFuel + leftGap;
+
+  const hCalc = Math.max(22, (hb.calcMW / hb.totalMW) * totalH);
+  const hExh = Math.max(18, (hb.exhaustMW / hb.totalMW) * totalH);
+  const hShell = Math.max(18, (hb.shellMW / hb.totalMW) * totalH);
+  const hCool = Math.max(16, (hb.coolerMW / hb.totalMW) * totalH);
+
+  const yCalc = yStart;
+  const yExh = yCalc + hCalc + rightGap;
+  const yShell = yExh + hExh + rightGap;
+  const yCool = yShell + hShell + rightGap;
+
+  const ribbonPath = (x0, y0a, y0b, x1, y1a, y1b) => {
+    const cx = (x0 + x1) * 0.5;
+    return `M ${x0.toFixed(1)} ${y0a.toFixed(1)} C ${cx.toFixed(1)} ${y0a.toFixed(1)}, ${cx.toFixed(1)} ${y1a.toFixed(1)}, ${x1.toFixed(1)} ${y1a.toFixed(1)} L ${x1.toFixed(1)} ${y1b.toFixed(1)} C ${cx.toFixed(1)} ${y1b.toFixed(1)}, ${cx.toFixed(1)} ${y0b.toFixed(1)}, ${x0.toFixed(1)} ${y0b.toFixed(1)} Z`;
+  };
+
+  let curFuelY = yFuel;
+  const takeFuel = mw => {
+    const dh = hFuel * (mw / Math.max(1e-6, hb.fuelMW));
+    const y0 = curFuelY;
+    curFuelY += dh;
+    return [y0, curFuelY];
+  };
+  let curElecY = yElec;
+  const takeElec = mw => {
+    const dh = hElec * (mw / Math.max(1e-6, hb.elecMW));
+    const y0 = curElecY;
+    curElecY += dh;
+    return [y0, curElecY];
+  };
+
+  const exhElecH = hExh * (hb.elecToExhaust / Math.max(1e-6, hb.exhaustMW));
+  const coolElecH = hCool * (hb.elecToCooler / Math.max(1e-6, hb.coolerMW));
+
+  const [fCalcA, fCalcB] = takeFuel(hb.fuelToCalc);
+  const [fExhA, fExhB] = takeFuel(hb.fuelToExhaust);
+  const [fShellA, fShellB] = takeFuel(hb.fuelToShell);
+  const [fCoolA, fCoolB] = takeFuel(hb.fuelToCooler);
+  const [eExhA, eExhB] = takeElec(hb.elecToExhaust);
+  const [eCoolA, eCoolB] = takeElec(hb.elecToCooler);
+
+  const x0 = xL + barW;
+  const x1 = xR;
+
+  return `
+    <defs>
+      <linearGradient id="sk-grad-calc" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#f97316" stop-opacity="0.52" />
+        <stop offset="100%" stop-color="#10b981" stop-opacity="0.72" />
+      </linearGradient>
+      <linearGradient id="sk-grad-exh" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#fb923c" stop-opacity="0.46" />
+        <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.62" />
+      </linearGradient>
+      <linearGradient id="sk-grad-shell" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#f97316" stop-opacity="0.42" />
+        <stop offset="100%" stop-color="#fb7185" stop-opacity="0.64" />
+      </linearGradient>
+      <linearGradient id="sk-grad-cool" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#94a3b8" stop-opacity="0.35" />
+        <stop offset="100%" stop-color="#64748b" stop-opacity="0.52" />
+      </linearGradient>
+      <linearGradient id="sk-grad-elec" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.62" />
+        <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.48" />
+      </linearGradient>
+    </defs>
+
+    <text x="16" y="21" font-size="10.5" font-weight="800" fill="#7dd3fc">ENERGY INPUTS (100.0% · ${hb.totalMW.toFixed(1)} MW)</text>
+    <text x="410" y="21" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">${rec.label} · ${rec.energy.toFixed(2)} kWh/t @ ${rec.production.toFixed(2)} tph</text>
+    <text x="804" y="21" font-size="10.5" font-weight="800" fill="#6ee7b7" text-anchor="end">THERMAL SINKS (100.0% CLOSURE)</text>
+
+    <!-- Ribbons -->
+    <path class="sankey-ribbon" d="${ribbonPath(x0, fCalcA, fCalcB, x1, yCalc, yCalc + hCalc)}" fill="url(#sk-grad-calc)" />
+    <path class="sankey-ribbon" d="${ribbonPath(x0, fExhA, fExhB, x1, yExh, yExh + (hExh - exhElecH))}" fill="url(#sk-grad-exh)" />
+    <path class="sankey-ribbon" d="${ribbonPath(x0, eExhA, eExhB, x1, yExh + (hExh - exhElecH), yExh + hExh)}" fill="url(#sk-grad-elec)" />
+    <path class="sankey-ribbon" d="${ribbonPath(x0, fShellA, fShellB, x1, yShell, yShell + hShell)}" fill="url(#sk-grad-shell)" />
+    <path class="sankey-ribbon" d="${ribbonPath(x0, fCoolA, fCoolB, x1, yCool, yCool + (hCool - coolElecH))}" fill="url(#sk-grad-cool)" />
+    <path class="sankey-ribbon" d="${ribbonPath(x0, eCoolA, eCoolB, x1, yCool + (hCool - coolElecH), yCool + hCool)}" fill="url(#sk-grad-elec)" />
+
+    <!-- Left Nodes -->
+    <rect x="${xL}" y="${yFuel.toFixed(1)}" width="${barW}" height="${hFuel.toFixed(1)}" rx="3" fill="#f97316" />
+    <text x="${xL - 8}" y="${(yFuel + hFuel * 0.42).toFixed(1)}" font-size="10.5" font-weight="800" fill="#fdba74" text-anchor="end">Fossil Fuel Combustion</text>
+    <text x="${xL - 8}" y="${(yFuel + hFuel * 0.42 + 13).toFixed(1)}" font-size="9.5" font-weight="700" fill="#e2e8f0" text-anchor="end" font-family="ui-monospace, monospace">${hb.fuelPct.toFixed(1)}% · ${hb.fuelMW.toFixed(1)} MW (${rec.fuel_rate.toFixed(1)} kg/h × NCV)</text>
+
+    <rect x="${xL}" y="${yElec.toFixed(1)}" width="${barW}" height="${hElec.toFixed(1)}" rx="3" fill="#38bdf8" />
+    <text x="${xL - 8}" y="${(yElec + hElec * 0.45).toFixed(1)}" font-size="10" font-weight="800" fill="#7dd3fc" text-anchor="end">Electrical Drive &amp; ID Fan</text>
+    <text x="${xL - 8}" y="${(yElec + hElec * 0.45 + 12).toFixed(1)}" font-size="9.2" font-weight="700" fill="#cbd5e1" text-anchor="end" font-family="ui-monospace, monospace">${hb.elecPct.toFixed(1)}% · ${hb.elecMW.toFixed(2)} MW (${Math.round(rec.power_cons + rec.rotary)} kW)</text>
+
+    <!-- Right Nodes -->
+    <rect x="${xR}" y="${yCalc.toFixed(1)}" width="${barW}" height="${hCalc.toFixed(1)}" rx="3" fill="#10b981" />
+    <text x="${xR + barW + 8}" y="${(yCalc + hCalc * 0.42).toFixed(1)}" font-size="10.2" font-weight="800" fill="#6ee7b7">1. Calcination &amp; Clinker Heat</text>
+    <text x="${xR + barW + 8}" y="${(yCalc + hCalc * 0.42 + 13).toFixed(1)}" font-size="9.2" font-weight="700" fill="#e2e8f0" font-family="ui-monospace, monospace">${hb.calcPct.toFixed(1)}% · ${hb.calcMW.toFixed(1)} MW (${hb.calcKwh.toFixed(0)} kWh/t)</text>
+
+    <rect x="${xR}" y="${yExh.toFixed(1)}" width="${barW}" height="${hExh.toFixed(1)}" rx="3" fill="#f59e0b" />
+    <text x="${xR + barW + 8}" y="${(yExh + hExh * 0.42).toFixed(1)}" font-size="10" font-weight="800" fill="#fcd34d">2. Preheater &amp; Baghouse Exhaust</text>
+    <text x="${xR + barW + 8}" y="${(yExh + hExh * 0.42 + 12).toFixed(1)}" font-size="9.1" font-weight="700" fill="#cbd5e1" font-family="ui-monospace, monospace">${hb.exhPct.toFixed(1)}% · ${hb.exhaustMW.toFixed(1)} MW (Air ${Math.round(rec.air)} m³/h)</text>
+
+    <rect x="${xR}" y="${yShell.toFixed(1)}" width="${barW}" height="${hShell.toFixed(1)}" rx="3" fill="#fb7185" />
+    <text x="${xR + barW + 8}" y="${(yShell + hShell * 0.42).toFixed(1)}" font-size="10" font-weight="800" fill="#fda4af">3. Kiln Shell Rad. &amp; Conv. Loss</text>
+    <text x="${xR + barW + 8}" y="${(yShell + hShell * 0.42 + 12).toFixed(1)}" font-size="9.1" font-weight="700" fill="#cbd5e1" font-family="ui-monospace, monospace">${hb.shellPct.toFixed(1)}% · ${hb.shellMW.toFixed(1)} MW (${hb.shellKwh.toFixed(0)} kWh/t @ ${rec.temp.toFixed(1)}°C)</text>
+
+    <rect x="${xR}" y="${yCool.toFixed(1)}" width="${barW}" height="${hCool.toFixed(1)}" rx="3" fill="#94a3b8" />
+    <text x="${xR + barW + 8}" y="${(yCool + hCool * 0.45).toFixed(1)}" font-size="9.8" font-weight="800" fill="#cbd5e1">4. Planetary Cooler &amp; Unacct.</text>
+    <text x="${xR + barW + 8}" y="${(yCool + hCool * 0.45 + 12).toFixed(1)}" font-size="9.0" font-weight="700" fill="#94a3b8" font-family="ui-monospace, monospace">${hb.coolPct.toFixed(1)}% · ${hb.coolerMW.toFixed(1)} MW (${hb.coolKwh.toFixed(0)} kWh/t)</text>
+
+    <!-- Mid-flow Annotation -->
+    <rect x="308" y="272" width="204" height="22" rx="4" fill="rgba(15, 23, 42, 0.9)" stroke="rgba(148, 163, 184, 0.25)" />
+    <text x="410" y="286.5" font-size="9.2" font-weight="700" fill="#e2e8f0" text-anchor="middle" font-family="ui-monospace, monospace">1st-Law Closure: Σ In = Σ Out = ${hb.totalMW.toFixed(2)} MW</text>
+  `;
+}
+
+function renderHeatRoiModal(liveSnap = null) {
+  const backdrop = document.getElementById("heat-roi-modal-backdrop");
+  const body = document.getElementById("heat-roi-modal-body");
+  if (!backdrop || !body) return;
+
+  backdrop.classList.toggle("hidden", !heatRoiModalOpen);
+  if (!heatRoiModalOpen) return;
+
+  document.querySelectorAll("#heat-roi-regime-bar [data-heat-regime]").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-heat-regime") === heatRoiRegimeFilter);
+  });
+
+  if (body.dataset.initialized !== "1") {
+    body.dataset.initialized = "1";
+    body.innerHTML = `
+      <div class="heat-roi-grid">
+        <div class="sankey-card">
+          <div class="sub-head" style="margin:0;">
+            <h4 class="sub-title" style="color:#fdba74;">1. Live Dynamic Kiln Thermal Sankey Diagram (First-Principles Heat Balance)</h4>
+            <span class="badge" id="heat-sankey-badge" style="color:#34d399;">Thermal Closure: 100.0%</span>
+          </div>
+          <svg class="sankey-svg" id="heat-sankey-svg" viewBox="0 0 820 304" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="closure-grid" id="heat-closure-grid">
+            <div class="closure-cell">
+              <div class="closure-lbl">Specific Thermal Efficiency</div>
+              <div class="closure-val" id="cl-eff-val" style="color:#34d399;">--%</div>
+              <div class="closure-sub" id="cl-eff-sub">--</div>
+            </div>
+            <div class="closure-cell">
+              <div class="closure-lbl">Kiln Shell Loss &amp; Dilution</div>
+              <div class="closure-val" id="cl-shell-val" style="color:#fda4af;">--%</div>
+              <div class="closure-sub" id="cl-shell-sub">--</div>
+            </div>
+            <div class="closure-cell">
+              <div class="closure-lbl">Excess Air Heat Penalty</div>
+              <div class="closure-val" id="cl-air-val" style="color:#fcd34d;">-- MW</div>
+              <div class="closure-sub" id="cl-air-sub">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ets-card">
+          <div class="sub-head" style="margin:0;">
+            <h4 class="sub-title" style="color:#7dd3fc;">2. Annualized Plant Economics &amp; EU ETS / CBAM Carbon Ledger</h4>
+            <span class="badge" id="ets-mode-badge" style="color:#7dd3fc;">vs Ashaka Baseline</span>
+          </div>
+
+          <div class="ets-controls-row">
+            <div class="ets-ctrl-box">
+              <div class="ets-ctrl-head"><span>Operating Horizon</span><strong id="roi-hours-val">8,000 h/yr</strong></div>
+              <input type="range" id="roi-hours-slider" min="4000" max="8760" step="100" value="${roiOperatingHours}" />
+            </div>
+            <div class="ets-ctrl-box">
+              <div class="ets-ctrl-head"><span>EU ETS / CBAM Price</span><strong id="roi-ets-val">€85 / tCO₂</strong></div>
+              <input type="range" id="roi-ets-slider" min="50" max="150" step="1" value="${roiEtsPriceEur}" />
+            </div>
+            <div class="ets-ctrl-box">
+              <div class="ets-ctrl-head"><span>Industrial Tariff</span><strong id="roi-tariff-val">€0.090 / kWh</strong></div>
+              <input type="range" id="roi-tariff-slider" min="0.04" max="0.20" step="0.005" value="${roiEnergyTariffEur}" />
+            </div>
+          </div>
+
+          <div class="ets-kpi-stack" id="ets-kpi-stack">
+            <div class="ets-kpi-box">
+              <div class="acad-kpi-lbl">Annual Energy Saved</div>
+              <div class="acad-kpi-val" id="ets-mwh-val" style="font-size:16px;">-- MWh/yr</div>
+              <div class="acad-kpi-sub" id="ets-eur-val" style="color:#6ee7b7;font-weight:700;">-- €/yr OPEX</div>
+            </div>
+            <div class="ets-kpi-box">
+              <div class="acad-kpi-lbl">Annual Carbon Abated</div>
+              <div class="acad-kpi-val" id="ets-co2-val" style="font-size:16px;color:#38bdf8;">-- tCO₂/yr</div>
+              <div class="acad-kpi-sub" id="ets-cbam-val" style="color:#7dd3fc;font-weight:700;">-- €/yr ETS Credit</div>
+            </div>
+            <div class="ets-kpi-box full">
+              <div class="acad-kpi-lbl">Total Annualized Financial + EU ETS / CBAM Value</div>
+              <div class="acad-kpi-val" id="ets-total-val" style="font-size:19px;color:#fbbf24;">€-- / year</div>
+              <div class="acad-kpi-sub" id="ets-total-sub">--</div>
+            </div>
+          </div>
+
+          <div class="ets-bench-box" id="ets-bench-box">
+            <div class="acad-kpi-lbl" style="margin-bottom:2px;">Stack Carbon Intensity Benchmark (kg CO₂ / tonne clinker)</div>
+            <div class="bench-bar-row">
+              <div class="bench-bar-meta"><span>Global Legacy Cement Reference</span><span>11.85 kg/t (stack channel)</span></div>
+              <div class="bench-bar-track"><div class="bench-bar-fill" style="width:100%;background:#64748b;"></div></div>
+            </div>
+            <div class="bench-bar-row">
+              <div class="bench-bar-meta"><span>Ashaka Plant Baseline (Median)</span><span id="bench-base-lbl">10.60 kg/t</span></div>
+              <div class="bench-bar-track"><div class="bench-bar-fill" id="bench-base-bar" style="width:89.5%;background:#f59e0b;"></div></div>
+            </div>
+            <div class="bench-bar-row">
+              <div class="bench-bar-meta"><span id="bench-opt-name">Active NSGA-II Kiln</span><span id="bench-opt-lbl" style="color:#34d399;font-weight:800;">10.00 kg/t</span></div>
+              <div class="bench-bar-track"><div class="bench-bar-fill" id="bench-opt-bar" style="width:84.4%;background:#10b981;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="zero-capex-callout" id="heat-zero-capex">
+        <span>⚡ Zero-CAPEX Payback: 100% software-driven supervisory APC optimization via 13 existing DCS historian tags — €0 hardware retrofit · Instant Day-1 ROI.</span>
+        <span id="heat-roi-payback-tag" style="font-family:ui-monospace,monospace;color:#fde68a;">Payback Period: &lt; 1 Day (Zero CAPEX)</span>
+      </div>
+    `;
+
+    const hSlider = document.getElementById("roi-hours-slider");
+    const eSlider = document.getElementById("roi-ets-slider");
+    const tSlider = document.getElementById("roi-tariff-slider");
+    if (hSlider) {
+      hSlider.addEventListener("input", e => {
+        roiOperatingHours = parseInt(e.target.value, 10) || 8000;
+        renderHeatRoiModal();
+      });
+    }
+    if (eSlider) {
+      eSlider.addEventListener("input", e => {
+        roiEtsPriceEur = parseInt(e.target.value, 10) || 85;
+        renderHeatRoiModal();
+      });
+    }
+    if (tSlider) {
+      tSlider.addEventListener("input", e => {
+        roiEnergyTariffEur = parseFloat(e.target.value) || 0.09;
+        renderHeatRoiModal();
+      });
+    }
+  }
+
+  const rec = getHeatRoiRecord(liveSnap);
+  const hb = computeKilnHeatBalance(rec);
+  const base = ARCH_DATA.baseline;
+  const baseHb = computeKilnHeatBalance(getHeatRoiRecord({ ...liveSnap, ...base, energy: base.energy, co2: base.co2, production: base.production, temp: base.temp, fuel_rate: base.fuel_rate, limestone: base.limestone, o2: base.o2, o2Dev: base.o2_dev, air: base.air, power_cons: base.knobs["Power Consumed (KWt/h)"], rotary: base.knobs["Power (rotary drive) Kw"], heatEff: base.heat_eff, theoEnergy: base.theoretical_energy }));
+
+  const badgeEl = document.getElementById("heat-roi-active-badge");
+  if (badgeEl) badgeEl.textContent = rec.label;
+
+  const sankeySvg = document.getElementById("heat-sankey-svg");
+  if (sankeySvg) sankeySvg.innerHTML = renderSankeySvg(rec, hb);
+
+  const clEffVal = document.getElementById("cl-eff-val");
+  const clEffSub = document.getElementById("cl-eff-sub");
+  const clShellVal = document.getElementById("cl-shell-val");
+  const clShellSub = document.getElementById("cl-shell-sub");
+  const clAirVal = document.getElementById("cl-air-val");
+  const clAirSub = document.getElementById("cl-air-sub");
+
+  const effGainPp = hb.calcPct - baseHb.calcPct;
+  if (clEffVal) clEffVal.textContent = `${hb.calcPct.toFixed(1)}% Calcination Fraction`;
+  if (clEffSub) clEffSub.textContent = `${effGainPp >= 0 ? "+" : ""}${effGainPp.toFixed(1)} pp vs Ashaka Baseline (${baseHb.calcPct.toFixed(1)}%) · Heat Eff ${rec.heatEff.toFixed(1)}`;
+  if (clShellVal) clShellVal.textContent = `${hb.shellPct.toFixed(1)}% · ${hb.shellKwh.toFixed(1)} kWh/t`;
+  if (clShellSub) {
+    clShellSub.textContent = rec.regime === "Low CO2" || rec.temp <= 1355.0
+      ? `Thermal Dilution Active (${rec.temp.toFixed(1)}°C, −12°C shell gradient)`
+      : `Fixed shell loss at ${rec.temp.toFixed(1)}°C (${hb.shellMW.toFixed(2)} MW)`;
+  }
+  if (clAirVal) clAirVal.textContent = `${hb.excessAirPenaltyMW.toFixed(2)} MW`;
+  if (clAirSub) clAirSub.textContent = `O₂=${rec.o2.toFixed(2)}% (|O₂−4.0%|=${rec.o2Dev.toFixed(2)}%) · Air ${Math.round(rec.air)} m³/h`;
+
+  // Annualized Economics & EU ETS Ledger
+  const hValEl = document.getElementById("roi-hours-val");
+  const eValEl = document.getElementById("roi-ets-val");
+  const tValEl = document.getElementById("roi-tariff-val");
+  if (hValEl) hValEl.textContent = `${roiOperatingHours.toLocaleString()} h/yr`;
+  if (eValEl) eValEl.textContent = `€${roiEtsPriceEur} / tCO₂`;
+  if (tValEl) tValEl.textContent = `€${roiEnergyTariffEur.toFixed(3)} / kWh`;
+
+  const deltaKwhPerT = base.energy - rec.energy;
+  const annualEnergyMWh = (deltaKwhPerT * rec.production * roiOperatingHours) / 1000.0;
+  const annualEnergyEur = annualEnergyMWh * 1000.0 * roiEnergyTariffEur;
+
+  const deltaCo2KgH = base.co2 - rec.co2;
+  const annualCo2Tonnes = (deltaCo2KgH * roiOperatingHours) / 1000.0;
+  const annualEtsEur = annualCo2Tonnes * roiEtsPriceEur;
+  const totalAnnualEur = annualEnergyEur + annualEtsEur;
+
+  const fmtEur = v => {
+    const abs = Math.abs(v);
+    const sign = v < 0 ? "−" : "";
+    if (abs >= 1e6) return `${sign}€${(abs / 1e6).toFixed(2)}M`;
+    if (abs >= 1e3) return `${sign}€${Math.round(abs).toLocaleString()}`;
+    return `${sign}€${abs.toFixed(0)}`;
+  };
+
+  const mwhEl = document.getElementById("ets-mwh-val");
+  const eurEl = document.getElementById("ets-eur-val");
+  const co2El = document.getElementById("ets-co2-val");
+  const cbamEl = document.getElementById("ets-cbam-val");
+  const totEl = document.getElementById("ets-total-val");
+  const totSubEl = document.getElementById("ets-total-sub");
+
+  if (mwhEl) {
+    mwhEl.textContent = `${annualEnergyMWh >= 0 ? "" : "−"}${Math.round(Math.abs(annualEnergyMWh)).toLocaleString()} MWh/yr`;
+    mwhEl.style.color = annualEnergyMWh >= 0 ? "#34d399" : "#f87171";
+  }
+  if (eurEl) eurEl.textContent = `${fmtEur(annualEnergyEur)} / yr OPEX Saved (${deltaKwhPerT >= 0 ? "−" : "+"}${Math.abs(deltaKwhPerT).toFixed(1)} kWh/t)`;
+  if (co2El) {
+    co2El.textContent = `${annualCo2Tonnes >= 0 ? "" : "−"}${Math.round(Math.abs(annualCo2Tonnes)).toLocaleString()} tCO₂/yr`;
+    co2El.style.color = annualCo2Tonnes >= 0 ? "#38bdf8" : "#f87171";
+  }
+  if (cbamEl) cbamEl.textContent = `${fmtEur(annualEtsEur)} / yr EU ETS / CBAM Value`;
+  if (totEl) {
+    totEl.textContent = `${fmtEur(totalAnnualEur)} / year`;
+    totEl.style.color = totalAnnualEur >= 0 ? "#fbbf24" : "#f87171";
+  }
+  if (totSubEl) {
+    totSubEl.textContent = `${rec.label}: ${roiOperatingHours.toLocaleString()} hrs/yr · ${rec.production.toFixed(2)} tph clinker · €${roiEtsPriceEur}/tCO₂ · €${roiEnergyTariffEur.toFixed(3)}/kWh`;
+  }
+
+  // Carbon Intensity Benchmark
+  const globalRefIntensity = 11.85;
+  const baseIntensity = base.co2 / Math.max(1, base.production);
+  const curIntensity = rec.co2 / Math.max(1, rec.production);
+  const intDeltaPct = ((curIntensity - baseIntensity) / baseIntensity) * 100.0;
+
+  const bBaseLbl = document.getElementById("bench-base-lbl");
+  const bBaseBar = document.getElementById("bench-base-bar");
+  const bOptName = document.getElementById("bench-opt-name");
+  const bOptLbl = document.getElementById("bench-opt-lbl");
+  const bOptBar = document.getElementById("bench-opt-bar");
+  if (bBaseLbl) bBaseLbl.textContent = `${baseIntensity.toFixed(2)} kg CO₂/t`;
+  if (bBaseBar) bBaseBar.style.width = `${Math.min(100, (baseIntensity / globalRefIntensity) * 100).toFixed(1)}%`;
+  if (bOptName) bOptName.textContent = rec.label;
+  if (bOptLbl) {
+    bOptLbl.textContent = `${curIntensity.toFixed(2)} kg CO₂/t (${intDeltaPct >= 0 ? "+" : ""}${intDeltaPct.toFixed(2)}% vs Ashaka)`;
+    bOptLbl.style.color = curIntensity <= baseIntensity ? "#34d399" : "#f87171";
+  }
+  if (bOptBar) {
+    bOptBar.style.width = `${Math.min(100, (curIntensity / globalRefIntensity) * 100).toFixed(1)}%`;
+    bOptBar.style.background = curIntensity <= baseIntensity ? "#10b981" : "#ef4444";
+  }
+}
+
+function openHeatRoiModal() {
+  closeAcademicModal();
+  heatRoiModalOpen = true;
+  updateControls();
+  renderHeatRoiModal();
+}
+
+function closeHeatRoiModal() {
+  if (!heatRoiModalOpen) return;
+  heatRoiModalOpen = false;
+  updateControls();
+  renderHeatRoiModal();
 }
 
 // EVENT LISTENERS
@@ -6810,9 +7542,61 @@ document.querySelectorAll(".acad-tab-btn").forEach(btn => {
     renderAcademicModal();
   });
 });
+
+const heatRoiBtn = document.getElementById("heat-roi-btn");
+if (heatRoiBtn) {
+  heatRoiBtn.addEventListener("click", () => {
+    if (heatRoiModalOpen) {
+      closeHeatRoiModal();
+    } else {
+      openHeatRoiModal();
+    }
+  });
+}
+const heatModalClose = document.getElementById("heat-roi-modal-close");
+if (heatModalClose) {
+  heatModalClose.addEventListener("click", () => closeHeatRoiModal());
+}
+const heatBackdrop = document.getElementById("heat-roi-modal-backdrop");
+if (heatBackdrop) {
+  heatBackdrop.addEventListener("click", e => {
+    if (e.target === heatBackdrop) closeHeatRoiModal();
+  });
+}
+document.querySelectorAll("#heat-roi-regime-bar [data-heat-regime]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const r = btn.getAttribute("data-heat-regime") || "live";
+    heatRoiRegimeFilter = r;
+    if (!oodFaultActive) {
+      if (r === "baseline") {
+        stopAutonomousLoop();
+        autonomousMode = false;
+        compareBaseline = true;
+        manualMode = false;
+        syncManualFromRecord(ARCH_DATA.baseline);
+        updateAll();
+        return;
+      }
+      if (r !== "live" && ARCH_DATA.regimes && ARCH_DATA.regimes[r]) {
+        stopAutonomousLoop();
+        autonomousMode = false;
+        compareBaseline = false;
+        manualMode = false;
+        customParetoIdx = null;
+        activeRegime = r;
+        syncManualFromRecord(ARCH_DATA.regimes[r]);
+        updateAll();
+        return;
+      }
+    }
+    renderHeatRoiModal();
+  });
+});
+
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && academicModalOpen) {
-    closeAcademicModal();
+  if (e.key === "Escape") {
+    if (academicModalOpen) closeAcademicModal();
+    if (heatRoiModalOpen) closeHeatRoiModal();
   }
 });
 

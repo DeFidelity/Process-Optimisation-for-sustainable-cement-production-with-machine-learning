@@ -158,5 +158,11 @@ def test_extended_visualizations_and_dashboard(tmp_path: Path) -> None:
     assert "renderAcademicModal" in arch_text
     assert "openAcademicModal" in arch_text
     assert "closeAcademicModal" in arch_text
+    assert "heat-roi-btn" in arch_text
+    assert "heat-roi-modal-backdrop" in arch_text
+    assert "computeKilnHeatBalance" in arch_text
+    assert "renderHeatRoiModal" in arch_text
+    assert "openHeatRoiModal" in arch_text
+    assert "closeHeatRoiModal" in arch_text
     assert "Guided Tour" in arch_text
     assert "<svg" in arch_svg.read_text(encoding="utf-8")
