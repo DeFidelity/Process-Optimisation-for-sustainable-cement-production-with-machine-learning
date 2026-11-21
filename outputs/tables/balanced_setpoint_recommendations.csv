@@ -1,14 +1,14 @@
 Parameter,Plant_Median,Recommended_Balanced,Delta,Change_%
-Power (Kw),5176.4,4200.57,-975.83,-18.85
-Power Consumption (MWH),379900.42,343088.25,-36812.18,-9.69
-Power Consumed (KWt/h),4692.82,4063.74,-629.08,-13.41
-Absorbed Power (Kw),4375.62,4085.4,-290.22,-6.63
-Power Consumption (Kw) Max,7217.07,6910.2,-306.87,-4.25
-Power (rotary drive) Kw,657.03,561.38,-95.65,-14.56
-Kiln Temperature (°C),1354.51,1374.88,20.37,1.5
-Fuel Consumption (kg/h),199.24,183.08,-16.16,-8.11
-Raw Meal Composition (% Limestone),85.14,85.45,0.31,0.36
-Clinker Production Rate (tons/h),91.8,92.81,1.01,1.1
-Oxygen Levels (%),3.67,4.06,0.4,10.79
-Kiln Pressure (bar),14.51,13.73,-0.78,-5.37
-Air Flow Rate (m³/h),2031.74,2201.59,169.85,8.36
+Power (Kw),5176.4,4094.26,-1082.14,-20.91
+Power Consumption (MWH),379900.42,335515.45,-44384.97,-11.68
+Power Consumed (KWt/h),4692.82,4062.85,-629.97,-13.42
+Absorbed Power (Kw),4375.62,4068.73,-306.89,-7.01
+Power Consumption (Kw) Max,7217.07,6540.07,-677.0,-9.38
+Power (rotary drive) Kw,657.03,555.94,-101.09,-15.39
+Kiln Temperature (°C),1354.51,1374.96,20.45,1.51
+Fuel Consumption (kg/h),199.24,193.52,-5.72,-2.87
+Raw Meal Composition (% Limestone),85.14,85.45,0.31,0.37
+Clinker Production Rate (tons/h),91.8,92.8,1.0,1.09
+Oxygen Levels (%),3.67,4.05,0.39,10.53
+Kiln Pressure (bar),14.51,13.73,-0.78,-5.35
+Air Flow Rate (m³/h),2031.74,2097.33,65.59,3.23
